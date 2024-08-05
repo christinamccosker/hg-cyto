@@ -1,3 +1,5 @@
-#!/usr/bin/env Rscript
+#!/bin/sh
 
-bookdown::render_book("index.Rmd", "bookdown::gitbook")
+set -ev
+
+Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook')"
