@@ -543,10 +543,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##  x-sample:  40  values        y-sample:  76  values
 ## 
-## critical value for confidence level  95 % :  3.009464 
+## critical value for confidence level  95 % :  3.143833 
 ## observed statistic  3.646416 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  REJECTED .
-## estimated p-value =  0.01298701 
+## estimated p-value =  0.02097902 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="iav-cytokines.html#cb110-1" tabindex="-1"></a><span class="fu">cramer.test</span>(control, acute)</span></code></pre></div>
@@ -556,10 +556,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##  x-sample:  52  values        y-sample:  34  values
 ## 
-## critical value for confidence level  95 % :  3.328142 
+## critical value for confidence level  95 % :  3.32454 
 ## observed statistic  3.209723 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.06093906 
+## estimated p-value =  0.05994006 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="iav-cytokines.html#cb112-1" tabindex="-1"></a><span class="fu">cramer.test</span>(control, peak)</span></code></pre></div>
@@ -569,10 +569,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##  x-sample:  52  values        y-sample:  6  values
 ## 
-## critical value for confidence level  95 % :  3.405535 
+## critical value for confidence level  95 % :  3.534974 
 ## observed statistic  1.664969 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.6613387 
+## estimated p-value =  0.6543457 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="iav-cytokines.html#cb114-1" tabindex="-1"></a><span class="fu">cramer.test</span>(control, late)</span></code></pre></div>
@@ -582,10 +582,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##  x-sample:  52  values        y-sample:  24  values
 ## 
-## critical value for confidence level  95 % :  3.252069 
+## critical value for confidence level  95 % :  3.472702 
 ## observed statistic  2.948217 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.08291708 
+## estimated p-value =  0.1058941 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 </div>
@@ -653,12 +653,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb118-23"><a href="iav-cytokines.html#cb118-23" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb118-24"><a href="iav-cytokines.html#cb118-24" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
 <span id="cb118-25"><a href="iav-cytokines.html#cb118-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>))</span></code></pre></div>
-<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in
-## ggplot2 3.4.0.
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2
+## 3.4.0.
 ## ℹ Please use `linewidth` instead.
 ## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see
-## where this warning was generated.</code></pre>
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="iav-cytokines.html#cb120-1" tabindex="-1"></a><span class="co"># Separating out IL-6 (proinflammatory), IL-10 (antiinflammatory), and KC-like</span></span>
 <span id="cb120-2"><a href="iav-cytokines.html#cb120-2" tabindex="-1"></a>databin <span class="ot">&lt;-</span></span>
 <span id="cb120-3"><a href="iav-cytokines.html#cb120-3" tabindex="-1"></a>  databin <span class="sc">%&gt;%</span> </span>
@@ -772,26 +772,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb120-111"><a href="iav-cytokines.html#cb120-111" tabindex="-1"></a><span class="do">#################</span></span>
 <span id="cb120-112"><a href="iav-cytokines.html#cb120-112" tabindex="-1"></a></span>
 <span id="cb120-113"><a href="iav-cytokines.html#cb120-113" tabindex="-1"></a>il6_grid <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(il6_prop, il6, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>## Warning: The `scale_name` argument of `continuous_scale()`
-## is deprecated as of ggplot2 3.5.0.
+<pre><code>## Warning: The `scale_name` argument of `continuous_scale()` is deprecated
+## as of ggplot2 3.5.0.
 ## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see
-## where this warning was generated.</code></pre>
-<pre><code>## Warning: The `trans` argument of `continuous_scale()` is
-## deprecated as of ggplot2 3.5.0.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
+<pre><code>## Warning: The `trans` argument of `continuous_scale()` is deprecated as
+## of ggplot2 3.5.0.
 ## ℹ Please use the `transform` argument instead.
 ## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see
-## where this warning was generated.</code></pre>
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
 <pre><code>## Warning: `unite_()` was deprecated in tidyr 1.2.0.
 ## ℹ Please use `unite()` instead.
-## ℹ The deprecated feature was likely used in the
-##   ggmosaic package.
+## ℹ The deprecated feature was likely used in the ggmosaic
+##   package.
 ##   Please report the issue at
 ##   &lt;https://github.com/haleyjeppson/ggmosaic&gt;.
 ## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see
-## where this warning was generated.</code></pre>
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
 <div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="iav-cytokines.html#cb124-1" tabindex="-1"></a>il10_grid <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(il10_prop, il10, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-45-2.png" width="672" /></p>
@@ -903,7 +903,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Fasano-Franceschini Test
 ## 
 ## data:  plsda_pos and plsda_neg
-## D = 2496, p-value = 0.001656</code></pre>
+## D = 2496, p-value = 0.007233</code></pre>
 
 </div>
 </div>

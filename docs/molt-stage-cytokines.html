@@ -316,12 +316,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb44-30"><a href="molt-stage-cytokines.html#cb44-30" tabindex="-1"></a>         <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
 <span id="cb44-31"><a href="molt-stage-cytokines.html#cb44-31" tabindex="-1"></a>               <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
 <span id="cb44-32"><a href="molt-stage-cytokines.html#cb44-32" tabindex="-1"></a>               <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning: The `size` argument of `element_rect()` is
-## deprecated as of ggplot2 3.4.0.
+<pre><code>## Warning: The `size` argument of `element_rect()` is deprecated as of
+## ggplot2 3.4.0.
 ## ℹ Please use the `linewidth` argument instead.
 ## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see
-## where this warning was generated.</code></pre>
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="molt-stage-cytokines.html#cb46-1" tabindex="-1"></a>PCA_scaled_molt_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>PCA_scaled_molt<span class="sc">$</span>x[,<span class="dv">1</span>],</span>
 <span id="cb46-2"><a href="molt-stage-cytokines.html#cb46-2" tabindex="-1"></a>                                 <span class="at">y=</span>PCA_scaled_molt<span class="sc">$</span>x[,<span class="dv">2</span>],</span>
@@ -406,10 +406,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##  x-sample:  7  values        y-sample:  27  values
 ## 
-## critical value for confidence level  95 % :  3.516098 
+## critical value for confidence level  95 % :  3.653665 
 ## observed statistic  2.751229 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.1638362 
+## estimated p-value =  0.1578422 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="molt-stage-cytokines.html#cb51-1" tabindex="-1"></a><span class="fu">cramer.test</span>(four, five)</span></code></pre></div>
@@ -419,10 +419,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##  x-sample:  27  values        y-sample:  67  values
 ## 
-## critical value for confidence level  95 % :  3.110989 
+## critical value for confidence level  95 % :  3.052099 
 ## observed statistic  2.365338 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.1808192 
+## estimated p-value =  0.1878122 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="molt-stage-cytokines.html#cb53-1" tabindex="-1"></a><span class="fu">cramer.test</span>(three, five) <span class="do">###</span></span></code></pre></div>
@@ -432,10 +432,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##  x-sample:  7  values        y-sample:  67  values
 ## 
-## critical value for confidence level  95 % :  3.108812 
+## critical value for confidence level  95 % :  3.064741 
 ## observed statistic  4.311041 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  REJECTED .
-## estimated p-value =  0.004995005 
+## estimated p-value =  0.01298701 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 </div>
@@ -595,13 +595,13 @@ One advantage of PLS is that it has fewer assumptions and hence it can use predi
 <span id="cb62-19"><a href="molt-stage-cytokines.html#cb62-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb62-20"><a href="molt-stage-cytokines.html#cb62-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
 <span id="cb62-21"><a href="molt-stage-cytokines.html#cb62-21" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>))</span></code></pre></div>
-<pre><code>## Warning: A numeric `legend.position` argument in `theme()`
-## was deprecated in ggplot2 3.5.0.
-## ℹ Please use the `legend.position.inside` argument
-##   of `theme()` instead.
+<pre><code>## Warning: A numeric `legend.position` argument in `theme()` was
+## deprecated in ggplot2 3.5.0.
+## ℹ Please use the `legend.position.inside` argument of `theme()`
+##   instead.
 ## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see
-## where this warning was generated.</code></pre>
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="molt-stage-cytokines.html#cb64-1" tabindex="-1"></a>molt_plsda_ggplot</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-22-5.png" width="672" /></p>
 
