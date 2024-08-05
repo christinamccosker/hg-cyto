@@ -1,21 +1,21 @@
 --- 
-title: "Characterization of gray seal pup cytokine response to influenza A Virus"
-author: "Christina McCosker^1, Milton Levin^2, Wendy Puryear^3, Jon Runstadler^3, Kimberly Murray^4, Kristina M. Cammen^1"
-author: "^1School of Marine Sciences, University of Maine, Orono, ME, USA
-         ^2 Department of Pathobiology and Veterinary Science, University of Connecticut, Storrs, CT, USA
-         ^3 Cummings School of Veterinary Medicine, Tufts University, North Grafton, MA, USA
-         ^4 NOAA Northeast Fisheries Science Center, Woods Hole, MA, USA"
-date: "Last Updated: `r Sys.Date()`"
-description: "McCosker Dissertation Chapter 2.1 Statistical Analyses"
+title: "Characterization of gray seal pup cytokine response to influenza A virus"
+date: 'Last Updated: `r Sys.Date()`'
+description: McCosker Dissertation Chapter 2.1 Statistical Analyses
 site: bookdown::bookdown_site
 documentclass: book
 suppresss-bibliography: true
-# url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
-# github-repo: christinamccosker/hg-cyto
 ---
 
-# Abstract
+# Publication Information
 
+## Authors 
+Christina McCosker^1^, Milton Levin^2^, Wendy Puryear^3^, Jon Runstadler^3^, Kimberly Murray^4^, Kristina M. Cammen^1^  
+*^1^School of Marine Sciences, University of Maine, Orono, ME, USA*  
+*^2^ Department of Pathobiology and Veterinary Science, University of Connecticut, Storrs, CT, USA*  
+*^3^ Cummings School of Veterinary Medicine, Tufts University, North Grafton, MA, USA*  
+*^4^ NOAA Northeast Fisheries Science Center, Woods Hole, MA, USA*  
+
+## Abstract
 Infectious disease is a naturally occurring phenomenon in healthy ecosystems, but anthropogenic pressures have led to an increase in the spread and intensity of disease outbreaks in recent decades. Ecosystem health and functioning can be monitored through the use of sentinel organisms, such as marine mammals for coastal environments. In the Northwest Atlantic Ocean, grey and harbor seals are exposed to influenza A virus (IAV) but exhibit apparent differences in susceptibility as grey seals remain asymptomatic while harbor seals experience IAV-associated morbidity and mortality. This study aimed to investigate grey seal response to IAV through cytokines, which are responsible for initiating and regulating the immune response. Blood collected from wild grey seal pups (n = 116) were used to measure thirteen serum cytokines and assess how patterns of cytokine concentrations vary across molt stage (as a proxy for age), body condition (as a proxy for overall health), and IAV infection status. There was preliminary evidence of an association between molt stage and cytokines, but no detectable influence of body condition on cytokine patterns. Cytokine patterns were found to differ between IAV+ and IAV- pups, with IL-6, KC-like, and IL-10 driving most of the differences between groups. In general, IAV+ pups were less likely to have cytokines circulating in their blood, suggesting a lack of cytokine storm during IAV infections. Understanding pinniped immune response in general is important for predicting how the increased spread and emergence of infectious disease will shape the future of global pinniped populations and coastal marine environments.
 

@@ -6,7 +6,7 @@ merge-cytokine-data-tidy
 create-cytokine-01-dataset
 tidy-metadata
 body-mass-index
-test-for-confounding-factors
+test-for-confounding-variables
 load-required-libraries-1
 initial-data-processing
 import-data-merge
@@ -60,3 +60,5 @@ load-required-libraries-5
 read-in-data-3
 replace-0-with-half-mindc-log-center-scale
 plot
+authors
+publication-information
