@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Test for confounding factors
+# Test for confounding variables
 
 ## Load required libraries
 ```{r, warning=FALSE, message=FALSE}
