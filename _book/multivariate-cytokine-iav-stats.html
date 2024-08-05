@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Multivariate Cytokine ~ IAV Stats | Characterization of gray seal pup cytokine response to Influenza A Virus</title>
+  <meta name="description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Multivariate Cytokine ~ IAV Stats | Characterization of gray seal pup cytokine response to Influenza A Virus" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Multivariate Cytokine ~ IAV Stats | Characterization of gray seal pup cytokine response to Influenza A Virus" />
+  
+  <meta name="twitter:description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
+  
+
+<meta name="author" content="Christina McCosker" />
+
+
+<meta name="date" content="2024-06-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="multivariate-cytokine-body-condition-stats.html"/>
+<link rel="next" href="create-panel-figure-for-pls-da-plots.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Hg-Cyto Stats</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html"><i class="fa fa-check"></i><b>1</b> Tidy Cytokine Data Metadata</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#load-required-libraries"><i class="fa fa-check"></i><b>1.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="1.2" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#raw-file-import-cleaning"><i class="fa fa-check"></i><b>1.2</b> Raw file import &amp; cleaning</a></li>
+<li class="chapter" data-level="1.3" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#merge-cytokine-data-tidy"><i class="fa fa-check"></i><b>1.3</b> Merge cytokine data &amp; tidy</a></li>
+<li class="chapter" data-level="1.4" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#create-cytokine-01-dataset"><i class="fa fa-check"></i><b>1.4</b> Create Cytokine (0/1) Dataset</a></li>
+<li class="chapter" data-level="1.5" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#tidy-metadata"><i class="fa fa-check"></i><b>1.5</b> Tidy Metadata</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cytokines-variables.html"><a href="cytokines-variables.html"><i class="fa fa-check"></i><b>2</b> Cytokines ~ variables</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="cytokines-variables.html"><a href="cytokines-variables.html#load-required-libraries-1"><i class="fa fa-check"></i><b>2.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="2.2" data-path="cytokines-variables.html"><a href="cytokines-variables.html#initial-data-processing"><i class="fa fa-check"></i><b>2.2</b> Initial Data Processing</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="cytokines-variables.html"><a href="cytokines-variables.html#import-data-merge"><i class="fa fa-check"></i><b>2.2.1</b> Import data &amp; merge</a></li>
+<li class="chapter" data-level="2.2.2" data-path="cytokines-variables.html"><a href="cytokines-variables.html#ensure-variables-are-correct-format"><i class="fa fa-check"></i><b>2.2.2</b> Ensure variables are correct format</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="cytokines-variables.html"><a href="cytokines-variables.html#exploratory"><i class="fa fa-check"></i><b>2.3</b> Exploratory</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="cytokines-variables.html"><a href="cytokines-variables.html#sample-descriptive-stats"><i class="fa fa-check"></i><b>2.3.1</b> Sample Descriptive Stats</a></li>
+<li class="chapter" data-level="2.3.2" data-path="cytokines-variables.html"><a href="cytokines-variables.html#how-many-samples-is-each-cytokine-detected-in"><i class="fa fa-check"></i><b>2.3.2</b> How many samples is each cytokine detected in?</a></li>
+<li class="chapter" data-level="2.3.3" data-path="cytokines-variables.html"><a href="cytokines-variables.html#cytokine-ranges"><i class="fa fa-check"></i><b>2.3.3</b> Cytokine Ranges</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="cytokines-variables.html"><a href="cytokines-variables.html#is-proportion-of-iaviav--similar-across-variables"><i class="fa fa-check"></i><b>2.4</b> Is proportion of IAV+/IAV- similar across variables?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html"><i class="fa fa-check"></i><b>3</b> Multivariate Cytokine ~ Molt Stage Stats</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#load-required-libraries-2"><i class="fa fa-check"></i><b>3.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="3.2" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#read-in-data"><i class="fa fa-check"></i><b>3.2</b> Read in data</a></li>
+<li class="chapter" data-level="3.3" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#pca-on-log-transformed-scaled-centered-cytokine-data"><i class="fa fa-check"></i><b>3.3</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
+<li class="chapter" data-level="3.4" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#test-for-normality"><i class="fa fa-check"></i><b>3.4</b> Test for normality</a></li>
+<li class="chapter" data-level="3.5" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#cramer-test"><i class="fa fa-check"></i><b>3.5</b> Cramer Test</a></li>
+<li class="chapter" data-level="3.6" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#cytokine-importance"><i class="fa fa-check"></i><b>3.6</b> Cytokine Importance</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#cross-validation"><i class="fa fa-check"></i><b>3.6.1</b> Cross Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#how-different-groups-are"><i class="fa fa-check"></i><b>3.7</b> How different groups are</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="multivariate-cytokine-molt-stage-stats.html"><a href="multivariate-cytokine-molt-stage-stats.html#plsda"><i class="fa fa-check"></i><b>3.7.1</b> PLSDA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html"><i class="fa fa-check"></i><b>4</b> Multivariate Cytokine ~ Body Condition Stats</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#load-required-libraries-3"><i class="fa fa-check"></i><b>4.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="4.2" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#read-in-data-1"><i class="fa fa-check"></i><b>4.2</b> Read in data</a></li>
+<li class="chapter" data-level="4.3" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#pca-on-log-transformed-scaled-centered-cytokine-data-1"><i class="fa fa-check"></i><b>4.3</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
+<li class="chapter" data-level="4.4" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#test-for-normality-1"><i class="fa fa-check"></i><b>4.4</b> Test for normality</a></li>
+<li class="chapter" data-level="4.5" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#cramer-test-1"><i class="fa fa-check"></i><b>4.5</b> Cramer Test</a></li>
+<li class="chapter" data-level="4.6" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#cytokine-importance-1"><i class="fa fa-check"></i><b>4.6</b> Cytokine Importance</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#cross-validation-1"><i class="fa fa-check"></i><b>4.6.1</b> Cross Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#how-different-groups-are-1"><i class="fa fa-check"></i><b>4.7</b> How different groups are</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="multivariate-cytokine-body-condition-stats.html"><a href="multivariate-cytokine-body-condition-stats.html#plsda-1"><i class="fa fa-check"></i><b>4.7.1</b> PLSDA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html"><i class="fa fa-check"></i><b>5</b> Multivariate Cytokine ~ IAV Stats</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#load-required-libraries-4"><i class="fa fa-check"></i><b>5.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="5.2" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#read-in-data-2"><i class="fa fa-check"></i><b>5.2</b> Read in data</a></li>
+<li class="chapter" data-level="5.3" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#pca-on-raw-cytokine-data"><i class="fa fa-check"></i><b>5.3</b> PCA on raw cytokine data</a></li>
+<li class="chapter" data-level="5.4" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#pca-on-log-transformed-scaled-centered-cytokine-data-2"><i class="fa fa-check"></i><b>5.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
+<li class="chapter" data-level="5.5" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#test-for-normality-2"><i class="fa fa-check"></i><b>5.5</b> Test for normality</a></li>
+<li class="chapter" data-level="5.6" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#cramer-test-2"><i class="fa fa-check"></i><b>5.6</b> Cramer Test</a></li>
+<li class="chapter" data-level="5.7" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#cytokine-importance-2"><i class="fa fa-check"></i><b>5.7</b> Cytokine Importance</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#cross-validation-2"><i class="fa fa-check"></i><b>5.7.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="5.7.2" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#variable-importance-plot"><i class="fa fa-check"></i><b>5.7.2</b> Variable Importance Plot</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#how-different-iav-and-iav--groups-are"><i class="fa fa-check"></i><b>5.8</b> How different IAV+ and IAV- groups are</a>
+<ul>
+<li class="chapter" data-level="5.8.1" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#plsda-2"><i class="fa fa-check"></i><b>5.8.1</b> PLSDA</a></li>
+<li class="chapter" data-level="5.8.2" data-path="multivariate-cytokine-iav-stats.html"><a href="multivariate-cytokine-iav-stats.html#d-kolmogorov-smirnov-test"><i class="fa fa-check"></i><b>5.8.2</b> 2-D Kolmogorov-Smirnov test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html"><i class="fa fa-check"></i><b>6</b> Create panel figure for PLS-DA plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#load-required-libraries-5"><i class="fa fa-check"></i><b>6.1</b> Load required Libraries</a></li>
+<li class="chapter" data-level="6.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#read-in-data-3"><i class="fa fa-check"></i><b>6.2</b> Read in data</a></li>
+<li class="chapter" data-level="6.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#replace-0-with-half-mindc-log-center-scale"><i class="fa fa-check"></i><b>6.3</b> Replace 0 with half mindc, log, center, scale</a></li>
+<li class="chapter" data-level="6.4" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#plot"><i class="fa fa-check"></i><b>6.4</b> Plot!</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Characterization of gray seal pup cytokine response to Influenza A Virus</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multivariate-cytokine-iav-stats" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Multivariate Cytokine ~ IAV Stats<a href="multivariate-cytokine-iav-stats.html#multivariate-cytokine-iav-stats" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="load-required-libraries-4" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Load required libraries<a href="multivariate-cytokine-iav-stats.html#load-required-libraries-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="multivariate-cytokine-iav-stats.html#cb77-1" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb77-2"><a href="multivariate-cytokine-iav-stats.html#cb77-2" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb77-3"><a href="multivariate-cytokine-iav-stats.html#cb77-3" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb77-4"><a href="multivariate-cytokine-iav-stats.html#cb77-4" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb77-5"><a href="multivariate-cytokine-iav-stats.html#cb77-5" tabindex="-1"></a><span class="fu">library</span>(cramer)</span>
+<span id="cb77-6"><a href="multivariate-cytokine-iav-stats.html#cb77-6" tabindex="-1"></a><span class="fu">library</span>(mlr3)</span>
+<span id="cb77-7"><a href="multivariate-cytokine-iav-stats.html#cb77-7" tabindex="-1"></a><span class="fu">library</span>(paradox)</span>
+<span id="cb77-8"><a href="multivariate-cytokine-iav-stats.html#cb77-8" tabindex="-1"></a><span class="fu">library</span>(mlr3tuning)</span>
+<span id="cb77-9"><a href="multivariate-cytokine-iav-stats.html#cb77-9" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb77-10"><a href="multivariate-cytokine-iav-stats.html#cb77-10" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb77-11"><a href="multivariate-cytokine-iav-stats.html#cb77-11" tabindex="-1"></a><span class="fu">library</span>(mixOmics)</span>
+<span id="cb77-12"><a href="multivariate-cytokine-iav-stats.html#cb77-12" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb77-13"><a href="multivariate-cytokine-iav-stats.html#cb77-13" tabindex="-1"></a><span class="fu">library</span>(fasano.franceschini.test)</span>
+<span id="cb77-14"><a href="multivariate-cytokine-iav-stats.html#cb77-14" tabindex="-1"></a><span class="fu">library</span>(EnvStats)</span>
+<span id="cb77-15"><a href="multivariate-cytokine-iav-stats.html#cb77-15" tabindex="-1"></a><span class="fu">library</span>(grid)</span></code></pre></div>
+</div>
+<div id="read-in-data-2" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Read in data<a href="multivariate-cytokine-iav-stats.html#read-in-data-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="multivariate-cytokine-iav-stats.html#cb78-1" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine.csv&quot;</span>)</span>
+<span id="cb78-2"><a href="multivariate-cytokine-iav-stats.html#cb78-2" tabindex="-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/metadata_cyto.csv&quot;</span>)</span>
+<span id="cb78-3"><a href="multivariate-cytokine-iav-stats.html#cb78-3" tabindex="-1"></a>mindc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Input Files/mindc.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb78-4"><a href="multivariate-cytokine-iav-stats.html#cb78-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">half=</span>value<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb78-5"><a href="multivariate-cytokine-iav-stats.html#cb78-5" tabindex="-1"></a>cytobin <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_bin.csv&quot;</span>)</span>
+<span id="cb78-6"><a href="multivariate-cytokine-iav-stats.html#cb78-6" tabindex="-1"></a></span>
+<span id="cb78-7"><a href="multivariate-cytokine-iav-stats.html#cb78-7" tabindex="-1"></a><span class="co"># Merge cytokine &amp; metadata </span></span>
+<span id="cb78-8"><a href="multivariate-cytokine-iav-stats.html#cb78-8" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">merge</span>(cyto, meta, <span class="at">by=</span><span class="st">&quot;Sample&quot;</span>)</span>
+<span id="cb78-9"><a href="multivariate-cytokine-iav-stats.html#cb78-9" tabindex="-1"></a>databin <span class="ot">&lt;-</span> <span class="fu">merge</span>(cytobin, meta, <span class="at">by=</span><span class="st">&quot;Sample&quot;</span>)</span>
+<span id="cb78-10"><a href="multivariate-cytokine-iav-stats.html#cb78-10" tabindex="-1"></a></span>
+<span id="cb78-11"><a href="multivariate-cytokine-iav-stats.html#cb78-11" tabindex="-1"></a><span class="co"># Get rid of variables that are not of interest &amp; cytokines with &lt; 10% (11) detections</span></span>
+<span id="cb78-12"><a href="multivariate-cytokine-iav-stats.html#cb78-12" tabindex="-1"></a>data_tidy <span class="ot">&lt;-</span></span>
+<span id="cb78-13"><a href="multivariate-cytokine-iav-stats.html#cb78-13" tabindex="-1"></a>  data <span class="sc">%&gt;%</span></span>
+<span id="cb78-14"><a href="multivariate-cytokine-iav-stats.html#cb78-14" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb78-15"><a href="multivariate-cytokine-iav-stats.html#cb78-15" tabindex="-1"></a>  <span class="fu">select_if</span>(<span class="cf">function</span>(x) <span class="fu">sum</span>(x<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">&gt;</span> <span class="dv">11</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb78-16"><a href="multivariate-cytokine-iav-stats.html#cb78-16" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iav=</span>data<span class="sc">$</span>iav, </span>
+<span id="cb78-17"><a href="multivariate-cytokine-iav-stats.html#cb78-17" tabindex="-1"></a>         <span class="at">molt.stage=</span>data<span class="sc">$</span>molt.stage,</span>
+<span id="cb78-18"><a href="multivariate-cytokine-iav-stats.html#cb78-18" tabindex="-1"></a>         <span class="at">bc_bin=</span>data<span class="sc">$</span>bc_bin,</span>
+<span id="cb78-19"><a href="multivariate-cytokine-iav-stats.html#cb78-19" tabindex="-1"></a>         <span class="at">location=</span>data<span class="sc">$</span>location,</span>
+<span id="cb78-20"><a href="multivariate-cytokine-iav-stats.html#cb78-20" tabindex="-1"></a>         <span class="at">stage=</span><span class="fu">factor</span>(data<span class="sc">$</span>stage, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;acute&quot;</span>, <span class="st">&quot;peak&quot;</span>, <span class="st">&quot;late&quot;</span>)),</span>
+<span id="cb78-21"><a href="multivariate-cytokine-iav-stats.html#cb78-21" tabindex="-1"></a>         <span class="at">sample=</span>data<span class="sc">$</span>Sample)</span></code></pre></div>
+</div>
+<div id="pca-on-raw-cytokine-data" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> PCA on raw cytokine data<a href="multivariate-cytokine-iav-stats.html#pca-on-raw-cytokine-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="multivariate-cytokine-iav-stats.html#cb79-1" tabindex="-1"></a><span class="co"># Infection </span></span>
+<span id="cb79-2"><a href="multivariate-cytokine-iav-stats.html#cb79-2" tabindex="-1"></a>PCA_iav <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_tidy[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb79-3"><a href="multivariate-cytokine-iav-stats.html#cb79-3" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="multivariate-cytokine-iav-stats.html#cb79-4" tabindex="-1"></a>raw_iav <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_iav, <span class="at">data=</span>data_tidy, <span class="at">shape=</span><span class="st">&quot;iav&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-5"><a href="multivariate-cytokine-iav-stats.html#cb79-5" tabindex="-1"></a>           <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">19</span>), <span class="at">name=</span><span class="st">&quot;Influenza A Virus&quot;</span>, </span>
+<span id="cb79-6"><a href="multivariate-cytokine-iav-stats.html#cb79-6" tabindex="-1"></a>                              <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Negative&quot;</span>, <span class="st">&quot;Positive&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb79-7"><a href="multivariate-cytokine-iav-stats.html#cb79-7" tabindex="-1"></a>           <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb79-8"><a href="multivariate-cytokine-iav-stats.html#cb79-8" tabindex="-1"></a>           <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb79-9"><a href="multivariate-cytokine-iav-stats.html#cb79-9" tabindex="-1"></a>                <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb79-10"><a href="multivariate-cytokine-iav-stats.html#cb79-10" tabindex="-1"></a>                 <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb79-11"><a href="multivariate-cytokine-iav-stats.html#cb79-11" tabindex="-1"></a></span>
+<span id="cb79-12"><a href="multivariate-cytokine-iav-stats.html#cb79-12" tabindex="-1"></a>iav_legend<span class="ot">&lt;-</span><span class="fu">get_legend</span>(raw_iav)</span>
+<span id="cb79-13"><a href="multivariate-cytokine-iav-stats.html#cb79-13" tabindex="-1"></a>legend<span class="ot">&lt;-</span><span class="fu">as_ggplot</span>(iav_legend)</span>
+<span id="cb79-14"><a href="multivariate-cytokine-iav-stats.html#cb79-14" tabindex="-1"></a></span>
+<span id="cb79-15"><a href="multivariate-cytokine-iav-stats.html#cb79-15" tabindex="-1"></a>raw_iav <span class="ot">&lt;-</span> </span>
+<span id="cb79-16"><a href="multivariate-cytokine-iav-stats.html#cb79-16" tabindex="-1"></a>  raw_iav <span class="sc">+</span> </span>
+<span id="cb79-17"><a href="multivariate-cytokine-iav-stats.html#cb79-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb79-18"><a href="multivariate-cytokine-iav-stats.html#cb79-18" tabindex="-1"></a></span>
+<span id="cb79-19"><a href="multivariate-cytokine-iav-stats.html#cb79-19" tabindex="-1"></a><span class="co"># Molt Stage</span></span>
+<span id="cb79-20"><a href="multivariate-cytokine-iav-stats.html#cb79-20" tabindex="-1"></a>data_raw_molt <span class="ot">&lt;-</span> </span>
+<span id="cb79-21"><a href="multivariate-cytokine-iav-stats.html#cb79-21" tabindex="-1"></a>  data_tidy <span class="sc">%&gt;%</span> </span>
+<span id="cb79-22"><a href="multivariate-cytokine-iav-stats.html#cb79-22" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(molt.stage))</span>
+<span id="cb79-23"><a href="multivariate-cytokine-iav-stats.html#cb79-23" tabindex="-1"></a></span>
+<span id="cb79-24"><a href="multivariate-cytokine-iav-stats.html#cb79-24" tabindex="-1"></a>PCA_molt <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_raw_molt[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb79-25"><a href="multivariate-cytokine-iav-stats.html#cb79-25" tabindex="-1"></a></span>
+<span id="cb79-26"><a href="multivariate-cytokine-iav-stats.html#cb79-26" tabindex="-1"></a>raw_molt <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_molt, <span class="at">data=</span>data_raw_molt, <span class="at">shape=</span><span class="st">&quot;molt.stage&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-27"><a href="multivariate-cytokine-iav-stats.html#cb79-27" tabindex="-1"></a>          <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">16</span>,<span class="dv">8</span>,<span class="dv">2</span>), <span class="at">name=</span><span class="st">&quot;Molt Stage&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-28"><a href="multivariate-cytokine-iav-stats.html#cb79-28" tabindex="-1"></a>          <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb79-29"><a href="multivariate-cytokine-iav-stats.html#cb79-29" tabindex="-1"></a>          <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb79-30"><a href="multivariate-cytokine-iav-stats.html#cb79-30" tabindex="-1"></a>                <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb79-31"><a href="multivariate-cytokine-iav-stats.html#cb79-31" tabindex="-1"></a>                <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb79-32"><a href="multivariate-cytokine-iav-stats.html#cb79-32" tabindex="-1"></a></span>
+<span id="cb79-33"><a href="multivariate-cytokine-iav-stats.html#cb79-33" tabindex="-1"></a>molt_legend<span class="ot">&lt;-</span><span class="fu">get_legend</span>(raw_molt)</span>
+<span id="cb79-34"><a href="multivariate-cytokine-iav-stats.html#cb79-34" tabindex="-1"></a>legend<span class="ot">&lt;-</span><span class="fu">as_ggplot</span>(molt_legend)</span>
+<span id="cb79-35"><a href="multivariate-cytokine-iav-stats.html#cb79-35" tabindex="-1"></a></span>
+<span id="cb79-36"><a href="multivariate-cytokine-iav-stats.html#cb79-36" tabindex="-1"></a>raw_molt <span class="ot">&lt;-</span> </span>
+<span id="cb79-37"><a href="multivariate-cytokine-iav-stats.html#cb79-37" tabindex="-1"></a>  raw_molt <span class="sc">+</span> </span>
+<span id="cb79-38"><a href="multivariate-cytokine-iav-stats.html#cb79-38" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb79-39"><a href="multivariate-cytokine-iav-stats.html#cb79-39" tabindex="-1"></a></span>
+<span id="cb79-40"><a href="multivariate-cytokine-iav-stats.html#cb79-40" tabindex="-1"></a></span>
+<span id="cb79-41"><a href="multivariate-cytokine-iav-stats.html#cb79-41" tabindex="-1"></a><span class="co"># Body Condition</span></span>
+<span id="cb79-42"><a href="multivariate-cytokine-iav-stats.html#cb79-42" tabindex="-1"></a>data_raw_bc <span class="ot">&lt;-</span> </span>
+<span id="cb79-43"><a href="multivariate-cytokine-iav-stats.html#cb79-43" tabindex="-1"></a>  data_tidy <span class="sc">%&gt;%</span> </span>
+<span id="cb79-44"><a href="multivariate-cytokine-iav-stats.html#cb79-44" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(bc_bin))</span>
+<span id="cb79-45"><a href="multivariate-cytokine-iav-stats.html#cb79-45" tabindex="-1"></a></span>
+<span id="cb79-46"><a href="multivariate-cytokine-iav-stats.html#cb79-46" tabindex="-1"></a>PCA_bc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_raw_bc[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb79-47"><a href="multivariate-cytokine-iav-stats.html#cb79-47" tabindex="-1"></a></span>
+<span id="cb79-48"><a href="multivariate-cytokine-iav-stats.html#cb79-48" tabindex="-1"></a>raw_bc <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_bc, <span class="at">data=</span>data_raw_bc, <span class="at">shape=</span><span class="st">&quot;bc_bin&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-49"><a href="multivariate-cytokine-iav-stats.html#cb79-49" tabindex="-1"></a>          <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">16</span>,<span class="dv">8</span>), <span class="at">name=</span><span class="st">&quot;Body Condition&quot;</span>,</span>
+<span id="cb79-50"><a href="multivariate-cytokine-iav-stats.html#cb79-50" tabindex="-1"></a>                             <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;Mid&quot;</span>, <span class="st">&quot;High&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb79-51"><a href="multivariate-cytokine-iav-stats.html#cb79-51" tabindex="-1"></a>          <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb79-52"><a href="multivariate-cytokine-iav-stats.html#cb79-52" tabindex="-1"></a>          <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb79-53"><a href="multivariate-cytokine-iav-stats.html#cb79-53" tabindex="-1"></a>                <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb79-54"><a href="multivariate-cytokine-iav-stats.html#cb79-54" tabindex="-1"></a>                <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb79-55"><a href="multivariate-cytokine-iav-stats.html#cb79-55" tabindex="-1"></a></span>
+<span id="cb79-56"><a href="multivariate-cytokine-iav-stats.html#cb79-56" tabindex="-1"></a>bc_legend<span class="ot">&lt;-</span><span class="fu">get_legend</span>(raw_bc)</span>
+<span id="cb79-57"><a href="multivariate-cytokine-iav-stats.html#cb79-57" tabindex="-1"></a>legend<span class="ot">&lt;-</span><span class="fu">as_ggplot</span>(bc_legend)</span>
+<span id="cb79-58"><a href="multivariate-cytokine-iav-stats.html#cb79-58" tabindex="-1"></a></span>
+<span id="cb79-59"><a href="multivariate-cytokine-iav-stats.html#cb79-59" tabindex="-1"></a>raw_bc <span class="ot">&lt;-</span> </span>
+<span id="cb79-60"><a href="multivariate-cytokine-iav-stats.html#cb79-60" tabindex="-1"></a>  raw_bc <span class="sc">+</span> </span>
+<span id="cb79-61"><a href="multivariate-cytokine-iav-stats.html#cb79-61" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb79-62"><a href="multivariate-cytokine-iav-stats.html#cb79-62" tabindex="-1"></a></span>
+<span id="cb79-63"><a href="multivariate-cytokine-iav-stats.html#cb79-63" tabindex="-1"></a></span>
+<span id="cb79-64"><a href="multivariate-cytokine-iav-stats.html#cb79-64" tabindex="-1"></a><span class="co"># Location</span></span>
+<span id="cb79-65"><a href="multivariate-cytokine-iav-stats.html#cb79-65" tabindex="-1"></a>PCA_loc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_tidy[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb79-66"><a href="multivariate-cytokine-iav-stats.html#cb79-66" tabindex="-1"></a></span>
+<span id="cb79-67"><a href="multivariate-cytokine-iav-stats.html#cb79-67" tabindex="-1"></a>raw_loc <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_loc, <span class="at">data=</span>data_tidy, <span class="at">shape=</span><span class="st">&quot;location&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb79-68"><a href="multivariate-cytokine-iav-stats.html#cb79-68" tabindex="-1"></a>          <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">16</span>,<span class="dv">8</span>), <span class="at">name=</span><span class="st">&quot;Location&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-69"><a href="multivariate-cytokine-iav-stats.html#cb79-69" tabindex="-1"></a>          <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb79-70"><a href="multivariate-cytokine-iav-stats.html#cb79-70" tabindex="-1"></a>          <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb79-71"><a href="multivariate-cytokine-iav-stats.html#cb79-71" tabindex="-1"></a>                <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb79-72"><a href="multivariate-cytokine-iav-stats.html#cb79-72" tabindex="-1"></a>                <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb79-73"><a href="multivariate-cytokine-iav-stats.html#cb79-73" tabindex="-1"></a></span>
+<span id="cb79-74"><a href="multivariate-cytokine-iav-stats.html#cb79-74" tabindex="-1"></a>loc_legend<span class="ot">&lt;-</span><span class="fu">get_legend</span>(raw_loc)</span>
+<span id="cb79-75"><a href="multivariate-cytokine-iav-stats.html#cb79-75" tabindex="-1"></a>legend<span class="ot">&lt;-</span><span class="fu">as_ggplot</span>(loc_legend)</span>
+<span id="cb79-76"><a href="multivariate-cytokine-iav-stats.html#cb79-76" tabindex="-1"></a></span>
+<span id="cb79-77"><a href="multivariate-cytokine-iav-stats.html#cb79-77" tabindex="-1"></a>raw_loc <span class="ot">&lt;-</span> </span>
+<span id="cb79-78"><a href="multivariate-cytokine-iav-stats.html#cb79-78" tabindex="-1"></a>  raw_loc <span class="sc">+</span> </span>
+<span id="cb79-79"><a href="multivariate-cytokine-iav-stats.html#cb79-79" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+</div>
+<div id="pca-on-log-transformed-scaled-centered-cytokine-data-2" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> PCA on log-transformed, scaled, centered cytokine data<a href="multivariate-cytokine-iav-stats.html#pca-on-log-transformed-scaled-centered-cytokine-data-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="multivariate-cytokine-iav-stats.html#cb80-1" tabindex="-1"></a><span class="co"># Make all non-detects half the limit of detection</span></span>
+<span id="cb80-2"><a href="multivariate-cytokine-iav-stats.html#cb80-2" tabindex="-1"></a>data_half <span class="ot">&lt;-</span> data_tidy</span>
+<span id="cb80-3"><a href="multivariate-cytokine-iav-stats.html#cb80-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data_half)) {</span>
+<span id="cb80-4"><a href="multivariate-cytokine-iav-stats.html#cb80-4" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb80-5"><a href="multivariate-cytokine-iav-stats.html#cb80-5" tabindex="-1"></a>     {<span class="cf">if</span> (data_half[i,j]<span class="sc">==</span><span class="dv">0</span>) {</span>
+<span id="cb80-6"><a href="multivariate-cytokine-iav-stats.html#cb80-6" tabindex="-1"></a>       k <span class="ot">&lt;-</span> <span class="fu">which</span>(mindc<span class="sc">==</span><span class="fu">colnames</span>(data_half)[j])</span>
+<span id="cb80-7"><a href="multivariate-cytokine-iav-stats.html#cb80-7" tabindex="-1"></a>       data_half[i,j] <span class="ot">&lt;-</span> mindc[k,<span class="dv">3</span>]</span>
+<span id="cb80-8"><a href="multivariate-cytokine-iav-stats.html#cb80-8" tabindex="-1"></a>     }</span>
+<span id="cb80-9"><a href="multivariate-cytokine-iav-stats.html#cb80-9" tabindex="-1"></a>       <span class="cf">else</span>{<span class="cf">next</span>}</span>
+<span id="cb80-10"><a href="multivariate-cytokine-iav-stats.html#cb80-10" tabindex="-1"></a>       }</span>
+<span id="cb80-11"><a href="multivariate-cytokine-iav-stats.html#cb80-11" tabindex="-1"></a>  }</span>
+<span id="cb80-12"><a href="multivariate-cytokine-iav-stats.html#cb80-12" tabindex="-1"></a>}</span>
+<span id="cb80-13"><a href="multivariate-cytokine-iav-stats.html#cb80-13" tabindex="-1"></a></span>
+<span id="cb80-14"><a href="multivariate-cytokine-iav-stats.html#cb80-14" tabindex="-1"></a><span class="co"># Log transform, scale, and center data</span></span>
+<span id="cb80-15"><a href="multivariate-cytokine-iav-stats.html#cb80-15" tabindex="-1"></a>data_log <span class="ot">&lt;-</span> </span>
+<span id="cb80-16"><a href="multivariate-cytokine-iav-stats.html#cb80-16" tabindex="-1"></a>  data_half <span class="sc">%&gt;%</span> </span>
+<span id="cb80-17"><a href="multivariate-cytokine-iav-stats.html#cb80-17" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, log)</span>
+<span id="cb80-18"><a href="multivariate-cytokine-iav-stats.html#cb80-18" tabindex="-1"></a></span>
+<span id="cb80-19"><a href="multivariate-cytokine-iav-stats.html#cb80-19" tabindex="-1"></a>data_scaled <span class="ot">&lt;-</span> </span>
+<span id="cb80-20"><a href="multivariate-cytokine-iav-stats.html#cb80-20" tabindex="-1"></a>  data_half <span class="sc">%&gt;%</span> </span>
+<span id="cb80-21"><a href="multivariate-cytokine-iav-stats.html#cb80-21" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, log) <span class="sc">%&gt;%</span> </span>
+<span id="cb80-22"><a href="multivariate-cytokine-iav-stats.html#cb80-22" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="cf">function</span>(x) <span class="fu">scale</span>(x, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>))</span>
+<span id="cb80-23"><a href="multivariate-cytokine-iav-stats.html#cb80-23" tabindex="-1"></a></span>
+<span id="cb80-24"><a href="multivariate-cytokine-iav-stats.html#cb80-24" tabindex="-1"></a><span class="co"># Infection Stage</span></span>
+<span id="cb80-25"><a href="multivariate-cytokine-iav-stats.html#cb80-25" tabindex="-1"></a>PCA_scaled_iav <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_scaled[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb80-26"><a href="multivariate-cytokine-iav-stats.html#cb80-26" tabindex="-1"></a></span>
+<span id="cb80-27"><a href="multivariate-cytokine-iav-stats.html#cb80-27" tabindex="-1"></a>scaled_iav <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_scaled_iav, <span class="at">data=</span>data_scaled, <span class="at">shape=</span><span class="st">&quot;iav&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-28"><a href="multivariate-cytokine-iav-stats.html#cb80-28" tabindex="-1"></a>              <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), <span class="at">name=</span><span class="st">&quot;Influenza A Virus&quot;</span>, </span>
+<span id="cb80-29"><a href="multivariate-cytokine-iav-stats.html#cb80-29" tabindex="-1"></a>                                 <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Negative&quot;</span>, <span class="st">&quot;Positive&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb80-30"><a href="multivariate-cytokine-iav-stats.html#cb80-30" tabindex="-1"></a>              <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb80-31"><a href="multivariate-cytokine-iav-stats.html#cb80-31" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb80-32"><a href="multivariate-cytokine-iav-stats.html#cb80-32" tabindex="-1"></a>                    <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb80-33"><a href="multivariate-cytokine-iav-stats.html#cb80-33" tabindex="-1"></a>                    <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb80-34"><a href="multivariate-cytokine-iav-stats.html#cb80-34" tabindex="-1"></a></span>
+<span id="cb80-35"><a href="multivariate-cytokine-iav-stats.html#cb80-35" tabindex="-1"></a><span class="co"># Molt Stage</span></span>
+<span id="cb80-36"><a href="multivariate-cytokine-iav-stats.html#cb80-36" tabindex="-1"></a>data_scaled_molt <span class="ot">&lt;-</span> </span>
+<span id="cb80-37"><a href="multivariate-cytokine-iav-stats.html#cb80-37" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb80-38"><a href="multivariate-cytokine-iav-stats.html#cb80-38" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(molt.stage))</span>
+<span id="cb80-39"><a href="multivariate-cytokine-iav-stats.html#cb80-39" tabindex="-1"></a></span>
+<span id="cb80-40"><a href="multivariate-cytokine-iav-stats.html#cb80-40" tabindex="-1"></a>PCA_scaled_molt <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_scaled_molt[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb80-41"><a href="multivariate-cytokine-iav-stats.html#cb80-41" tabindex="-1"></a></span>
+<span id="cb80-42"><a href="multivariate-cytokine-iav-stats.html#cb80-42" tabindex="-1"></a>scaled_molt <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_scaled_molt, <span class="at">data=</span>data_scaled_molt, <span class="at">shape=</span><span class="st">&quot;molt.stage&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-43"><a href="multivariate-cytokine-iav-stats.html#cb80-43" tabindex="-1"></a>              <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">16</span>,<span class="dv">8</span>,<span class="dv">2</span>), <span class="at">name=</span><span class="st">&quot;Molt Stage&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-44"><a href="multivariate-cytokine-iav-stats.html#cb80-44" tabindex="-1"></a>              <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb80-45"><a href="multivariate-cytokine-iav-stats.html#cb80-45" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb80-46"><a href="multivariate-cytokine-iav-stats.html#cb80-46" tabindex="-1"></a>                    <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb80-47"><a href="multivariate-cytokine-iav-stats.html#cb80-47" tabindex="-1"></a>                    <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb80-48"><a href="multivariate-cytokine-iav-stats.html#cb80-48" tabindex="-1"></a></span>
+<span id="cb80-49"><a href="multivariate-cytokine-iav-stats.html#cb80-49" tabindex="-1"></a><span class="co"># Body Condition</span></span>
+<span id="cb80-50"><a href="multivariate-cytokine-iav-stats.html#cb80-50" tabindex="-1"></a>data_scaled_bc <span class="ot">&lt;-</span> </span>
+<span id="cb80-51"><a href="multivariate-cytokine-iav-stats.html#cb80-51" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb80-52"><a href="multivariate-cytokine-iav-stats.html#cb80-52" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(bc_bin))</span>
+<span id="cb80-53"><a href="multivariate-cytokine-iav-stats.html#cb80-53" tabindex="-1"></a></span>
+<span id="cb80-54"><a href="multivariate-cytokine-iav-stats.html#cb80-54" tabindex="-1"></a>PCA_scaled_bc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_scaled_bc[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb80-55"><a href="multivariate-cytokine-iav-stats.html#cb80-55" tabindex="-1"></a></span>
+<span id="cb80-56"><a href="multivariate-cytokine-iav-stats.html#cb80-56" tabindex="-1"></a>scaled_bc <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_scaled_bc, <span class="at">data=</span>data_scaled_bc, <span class="at">shape=</span><span class="st">&quot;bc_bin&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-57"><a href="multivariate-cytokine-iav-stats.html#cb80-57" tabindex="-1"></a>             <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">16</span>,<span class="dv">8</span>), <span class="at">name=</span><span class="st">&quot;Body Condition&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-58"><a href="multivariate-cytokine-iav-stats.html#cb80-58" tabindex="-1"></a>             <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb80-59"><a href="multivariate-cytokine-iav-stats.html#cb80-59" tabindex="-1"></a>             <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb80-60"><a href="multivariate-cytokine-iav-stats.html#cb80-60" tabindex="-1"></a>                   <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb80-61"><a href="multivariate-cytokine-iav-stats.html#cb80-61" tabindex="-1"></a>                   <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb80-62"><a href="multivariate-cytokine-iav-stats.html#cb80-62" tabindex="-1"></a></span>
+<span id="cb80-63"><a href="multivariate-cytokine-iav-stats.html#cb80-63" tabindex="-1"></a><span class="co"># Location</span></span>
+<span id="cb80-64"><a href="multivariate-cytokine-iav-stats.html#cb80-64" tabindex="-1"></a>PCA_scaled_loc <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data_scaled[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb80-65"><a href="multivariate-cytokine-iav-stats.html#cb80-65" tabindex="-1"></a></span>
+<span id="cb80-66"><a href="multivariate-cytokine-iav-stats.html#cb80-66" tabindex="-1"></a>scaled_loc <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(PCA_scaled_loc, <span class="at">data=</span>data_scaled, <span class="at">shape=</span><span class="st">&quot;location&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-67"><a href="multivariate-cytokine-iav-stats.html#cb80-67" tabindex="-1"></a>          <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">16</span>,<span class="dv">8</span>), <span class="at">name=</span><span class="st">&quot;Location&quot;</span>) <span class="sc">+</span></span>
+<span id="cb80-68"><a href="multivariate-cytokine-iav-stats.html#cb80-68" tabindex="-1"></a>          <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb80-69"><a href="multivariate-cytokine-iav-stats.html#cb80-69" tabindex="-1"></a>          <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb80-70"><a href="multivariate-cytokine-iav-stats.html#cb80-70" tabindex="-1"></a>                <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb80-71"><a href="multivariate-cytokine-iav-stats.html#cb80-71" tabindex="-1"></a>                <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb80-72"><a href="multivariate-cytokine-iav-stats.html#cb80-72" tabindex="-1"></a></span>
+<span id="cb80-73"><a href="multivariate-cytokine-iav-stats.html#cb80-73" tabindex="-1"></a>cyto_pca_iav <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(raw_iav, scaled_iav, <span class="at">ncol=</span><span class="dv">2</span>),</span>
+<span id="cb80-74"><a href="multivariate-cytokine-iav-stats.html#cb80-74" tabindex="-1"></a>                             <span class="fu">arrangeGrob</span>(iav_legend, <span class="at">ncol=</span><span class="dv">1</span>),</span>
+<span id="cb80-75"><a href="multivariate-cytokine-iav-stats.html#cb80-75" tabindex="-1"></a>                             <span class="at">heights=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="multivariate-cytokine-iav-stats.html#cb81-1" tabindex="-1"></a>cyto_pcas <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(scaled_iav, scaled_molt, <span class="at">ncol=</span><span class="dv">2</span>), </span>
+<span id="cb81-2"><a href="multivariate-cytokine-iav-stats.html#cb81-2" tabindex="-1"></a>                          <span class="fu">arrangeGrob</span>(iav_legend, molt_legend, <span class="at">ncol=</span><span class="dv">2</span>), </span>
+<span id="cb81-3"><a href="multivariate-cytokine-iav-stats.html#cb81-3" tabindex="-1"></a>                          <span class="fu">arrangeGrob</span>(scaled_bc, scaled_loc, <span class="at">ncol=</span><span class="dv">2</span>),</span>
+<span id="cb81-4"><a href="multivariate-cytokine-iav-stats.html#cb81-4" tabindex="-1"></a>                          <span class="fu">arrangeGrob</span>(bc_legend, loc_legend, <span class="at">ncol=</span><span class="dv">2</span>),</span>
+<span id="cb81-5"><a href="multivariate-cytokine-iav-stats.html#cb81-5" tabindex="-1"></a>                          <span class="at">heights=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-32-2.png" width="672" /></p>
+</div>
+<div id="test-for-normality-2" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Test for normality<a href="multivariate-cytokine-iav-stats.html#test-for-normality-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="multivariate-cytokine-iav-stats.html#cb82-1" tabindex="-1"></a><span class="co"># Create dataframe for results</span></span>
+<span id="cb82-2"><a href="multivariate-cytokine-iav-stats.html#cb82-2" tabindex="-1"></a>norm_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">0</span>, <span class="at">nrow=</span><span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb82-3"><a href="multivariate-cytokine-iav-stats.html#cb82-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cyto=</span><span class="fu">colnames</span>(data_scaled)[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>],</span>
+<span id="cb82-4"><a href="multivariate-cytokine-iav-stats.html#cb82-4" tabindex="-1"></a>         <span class="at">W=</span><span class="cn">NA</span>, </span>
+<span id="cb82-5"><a href="multivariate-cytokine-iav-stats.html#cb82-5" tabindex="-1"></a>         <span class="at">pvalue=</span><span class="cn">NA</span>)</span>
+<span id="cb82-6"><a href="multivariate-cytokine-iav-stats.html#cb82-6" tabindex="-1"></a></span>
+<span id="cb82-7"><a href="multivariate-cytokine-iav-stats.html#cb82-7" tabindex="-1"></a><span class="co"># Truncate data</span></span>
+<span id="cb82-8"><a href="multivariate-cytokine-iav-stats.html#cb82-8" tabindex="-1"></a>data_norm <span class="ot">&lt;-</span></span>
+<span id="cb82-9"><a href="multivariate-cytokine-iav-stats.html#cb82-9" tabindex="-1"></a>  data_scaled[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb82-10"><a href="multivariate-cytokine-iav-stats.html#cb82-10" tabindex="-1"></a></span>
+<span id="cb82-11"><a href="multivariate-cytokine-iav-stats.html#cb82-11" tabindex="-1"></a><span class="co"># Test!</span></span>
+<span id="cb82-12"><a href="multivariate-cytokine-iav-stats.html#cb82-12" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb82-13"><a href="multivariate-cytokine-iav-stats.html#cb82-13" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(data_norm[,i])</span>
+<span id="cb82-14"><a href="multivariate-cytokine-iav-stats.html#cb82-14" tabindex="-1"></a>  norm_results[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">round</span>(test<span class="sc">$</span>statistic, <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb82-15"><a href="multivariate-cytokine-iav-stats.html#cb82-15" tabindex="-1"></a>  norm_results[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> test<span class="sc">$</span>p.value</span>
+<span id="cb82-16"><a href="multivariate-cytokine-iav-stats.html#cb82-16" tabindex="-1"></a>}</span>
+<span id="cb82-17"><a href="multivariate-cytokine-iav-stats.html#cb82-17" tabindex="-1"></a></span>
+<span id="cb82-18"><a href="multivariate-cytokine-iav-stats.html#cb82-18" tabindex="-1"></a>norm_results <span class="co"># all not normally distributed</span></span></code></pre></div>
+<pre><code>##      cyto     W       pvalue
+## 1    IFNg 0.921 3.985298e-06
+## 2    IL.2 0.824 1.894239e-10
+## 3    IL.6 0.620 7.082195e-16
+## 4    IL.7 0.886 5.803970e-08
+## 5    IL.8 0.364 3.175029e-20
+## 6   IL.10 0.612 4.869702e-16
+## 7   IL.15 0.408 1.413657e-19
+## 8   IL.18 0.972 1.555482e-02
+## 9 KC.like 0.571 7.627507e-17</code></pre>
+</div>
+<div id="cramer-test-2" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Cramer Test<a href="multivariate-cytokine-iav-stats.html#cramer-test-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Multivariate composition of the cytokine pattern between each infection stage group with its control. It can handle multiple variables, potentially complex interactions and correlations.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="multivariate-cytokine-iav-stats.html#cb84-1" tabindex="-1"></a><span class="co"># Separate data by infection stage</span></span>
+<span id="cb84-2"><a href="multivariate-cytokine-iav-stats.html#cb84-2" tabindex="-1"></a>infected <span class="ot">&lt;-</span> </span>
+<span id="cb84-3"><a href="multivariate-cytokine-iav-stats.html#cb84-3" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb84-4"><a href="multivariate-cytokine-iav-stats.html#cb84-4" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;pos&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-5"><a href="multivariate-cytokine-iav-stats.html#cb84-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-6"><a href="multivariate-cytokine-iav-stats.html#cb84-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb84-7"><a href="multivariate-cytokine-iav-stats.html#cb84-7" tabindex="-1"></a></span>
+<span id="cb84-8"><a href="multivariate-cytokine-iav-stats.html#cb84-8" tabindex="-1"></a>uninfected <span class="ot">&lt;-</span> </span>
+<span id="cb84-9"><a href="multivariate-cytokine-iav-stats.html#cb84-9" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb84-10"><a href="multivariate-cytokine-iav-stats.html#cb84-10" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-11"><a href="multivariate-cytokine-iav-stats.html#cb84-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-12"><a href="multivariate-cytokine-iav-stats.html#cb84-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb84-13"><a href="multivariate-cytokine-iav-stats.html#cb84-13" tabindex="-1"></a></span>
+<span id="cb84-14"><a href="multivariate-cytokine-iav-stats.html#cb84-14" tabindex="-1"></a>control <span class="ot">&lt;-</span> </span>
+<span id="cb84-15"><a href="multivariate-cytokine-iav-stats.html#cb84-15" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb84-16"><a href="multivariate-cytokine-iav-stats.html#cb84-16" tabindex="-1"></a>  <span class="fu">filter</span>(stage<span class="sc">==</span><span class="st">&quot;control&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-17"><a href="multivariate-cytokine-iav-stats.html#cb84-17" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-18"><a href="multivariate-cytokine-iav-stats.html#cb84-18" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, as.numeric) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-19"><a href="multivariate-cytokine-iav-stats.html#cb84-19" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb84-20"><a href="multivariate-cytokine-iav-stats.html#cb84-20" tabindex="-1"></a></span>
+<span id="cb84-21"><a href="multivariate-cytokine-iav-stats.html#cb84-21" tabindex="-1"></a>acute <span class="ot">&lt;-</span> </span>
+<span id="cb84-22"><a href="multivariate-cytokine-iav-stats.html#cb84-22" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb84-23"><a href="multivariate-cytokine-iav-stats.html#cb84-23" tabindex="-1"></a>  <span class="fu">filter</span>(stage<span class="sc">==</span><span class="st">&quot;acute&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-24"><a href="multivariate-cytokine-iav-stats.html#cb84-24" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-25"><a href="multivariate-cytokine-iav-stats.html#cb84-25" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, as.numeric) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-26"><a href="multivariate-cytokine-iav-stats.html#cb84-26" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb84-27"><a href="multivariate-cytokine-iav-stats.html#cb84-27" tabindex="-1"></a></span>
+<span id="cb84-28"><a href="multivariate-cytokine-iav-stats.html#cb84-28" tabindex="-1"></a>peak <span class="ot">&lt;-</span></span>
+<span id="cb84-29"><a href="multivariate-cytokine-iav-stats.html#cb84-29" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb84-30"><a href="multivariate-cytokine-iav-stats.html#cb84-30" tabindex="-1"></a>  <span class="fu">filter</span>(stage<span class="sc">==</span><span class="st">&quot;peak&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-31"><a href="multivariate-cytokine-iav-stats.html#cb84-31" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-32"><a href="multivariate-cytokine-iav-stats.html#cb84-32" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, as.numeric) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-33"><a href="multivariate-cytokine-iav-stats.html#cb84-33" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb84-34"><a href="multivariate-cytokine-iav-stats.html#cb84-34" tabindex="-1"></a></span>
+<span id="cb84-35"><a href="multivariate-cytokine-iav-stats.html#cb84-35" tabindex="-1"></a>late <span class="ot">&lt;-</span> </span>
+<span id="cb84-36"><a href="multivariate-cytokine-iav-stats.html#cb84-36" tabindex="-1"></a>  data_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb84-37"><a href="multivariate-cytokine-iav-stats.html#cb84-37" tabindex="-1"></a>  <span class="fu">filter</span>(stage<span class="sc">==</span><span class="st">&quot;late&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-38"><a href="multivariate-cytokine-iav-stats.html#cb84-38" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-39"><a href="multivariate-cytokine-iav-stats.html#cb84-39" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, as.numeric) <span class="sc">%&gt;%</span> </span>
+<span id="cb84-40"><a href="multivariate-cytokine-iav-stats.html#cb84-40" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb84-41"><a href="multivariate-cytokine-iav-stats.html#cb84-41" tabindex="-1"></a></span>
+<span id="cb84-42"><a href="multivariate-cytokine-iav-stats.html#cb84-42" tabindex="-1"></a><span class="co"># Run Cramer Tests!</span></span>
+<span id="cb84-43"><a href="multivariate-cytokine-iav-stats.html#cb84-43" tabindex="-1"></a><span class="fu">cramer.test</span>(infected, uninfected)</span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  40  values        y-sample:  76  values
+## 
+## critical value for confidence level  95 % :  3.066126 
+## observed statistic  3.646416 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  REJECTED .
+## estimated p-value =  0.01298701 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="multivariate-cytokine-iav-stats.html#cb86-1" tabindex="-1"></a><span class="fu">cramer.test</span>(control, acute)</span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  52  values        y-sample:  34  values
+## 
+## critical value for confidence level  95 % :  3.316593 
+## observed statistic  3.209723 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.06593407 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="multivariate-cytokine-iav-stats.html#cb88-1" tabindex="-1"></a><span class="fu">cramer.test</span>(control, peak)</span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  52  values        y-sample:  6  values
+## 
+## critical value for confidence level  95 % :  3.538807 
+## observed statistic  1.664969 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.6753247 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="multivariate-cytokine-iav-stats.html#cb90-1" tabindex="-1"></a><span class="fu">cramer.test</span>(control, late)</span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  52  values        y-sample:  24  values
+## 
+## critical value for confidence level  95 % :  3.30359 
+## observed statistic  2.948217 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.0979021 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+</div>
+<div id="cytokine-importance-2" class="section level2 hasAnchor" number="5.7">
+<h2><span class="header-section-number">5.7</span> Cytokine Importance<a href="multivariate-cytokine-iav-stats.html#cytokine-importance-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="multivariate-cytokine-iav-stats.html#cb92-1" tabindex="-1"></a><span class="co"># Prepare data for CART</span></span>
+<span id="cb92-2"><a href="multivariate-cytokine-iav-stats.html#cb92-2" tabindex="-1"></a>data_cart <span class="ot">&lt;-</span> </span>
+<span id="cb92-3"><a href="multivariate-cytokine-iav-stats.html#cb92-3" tabindex="-1"></a>  <span class="fu">lapply</span>(data_scaled, c) <span class="sc">%&gt;%</span> </span>
+<span id="cb92-4"><a href="multivariate-cytokine-iav-stats.html#cb92-4" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb92-5"><a href="multivariate-cytokine-iav-stats.html#cb92-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>location <span class="sc">&amp;</span> <span class="sc">!</span>molt.stage <span class="sc">&amp;</span> <span class="sc">!</span>bc_bin <span class="sc">&amp;</span> <span class="sc">!</span>stage <span class="sc">&amp;</span> <span class="sc">!</span>sample) <span class="sc">%&gt;%</span> </span>
+<span id="cb92-6"><a href="multivariate-cytokine-iav-stats.html#cb92-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iav=</span><span class="fu">factor</span>(iav))</span></code></pre></div>
+<div id="cross-validation-2" class="section level3 hasAnchor" number="5.7.1">
+<h3><span class="header-section-number">5.7.1</span> Cross Validation<a href="multivariate-cytokine-iav-stats.html#cross-validation-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="multivariate-cytokine-iav-stats.html#cb93-1" tabindex="-1"></a><span class="co"># Creating task and learner</span></span>
+<span id="cb93-2"><a href="multivariate-cytokine-iav-stats.html#cb93-2" tabindex="-1"></a>task <span class="ot">&lt;-</span> <span class="fu">as_task_classif</span>(iav <span class="sc">~</span> ., </span>
+<span id="cb93-3"><a href="multivariate-cytokine-iav-stats.html#cb93-3" tabindex="-1"></a>                        <span class="at">data =</span> data_cart)</span>
+<span id="cb93-4"><a href="multivariate-cytokine-iav-stats.html#cb93-4" tabindex="-1"></a>        </span>
+<span id="cb93-5"><a href="multivariate-cytokine-iav-stats.html#cb93-5" tabindex="-1"></a>task <span class="ot">&lt;-</span> task<span class="sc">$</span><span class="fu">set_col_roles</span>(<span class="at">cols=</span><span class="st">&quot;iav&quot;</span>,</span>
+<span id="cb93-6"><a href="multivariate-cytokine-iav-stats.html#cb93-6" tabindex="-1"></a>                           <span class="at">add_to=</span><span class="st">&quot;stratum&quot;</span>)</span>
+<span id="cb93-7"><a href="multivariate-cytokine-iav-stats.html#cb93-7" tabindex="-1"></a></span>
+<span id="cb93-8"><a href="multivariate-cytokine-iav-stats.html#cb93-8" tabindex="-1"></a>learner <span class="ot">&lt;-</span> <span class="fu">lrn</span>(<span class="st">&quot;classif.rpart&quot;</span>,</span>
+<span id="cb93-9"><a href="multivariate-cytokine-iav-stats.html#cb93-9" tabindex="-1"></a>               <span class="at">predict_type =</span> <span class="st">&quot;prob&quot;</span>,</span>
+<span id="cb93-10"><a href="multivariate-cytokine-iav-stats.html#cb93-10" tabindex="-1"></a>               <span class="at">maxdepth =</span> <span class="fu">to_tune</span>(<span class="dv">2</span>, <span class="dv">5</span>),</span>
+<span id="cb93-11"><a href="multivariate-cytokine-iav-stats.html#cb93-11" tabindex="-1"></a>               <span class="at">minbucket =</span> <span class="fu">to_tune</span>(<span class="dv">1</span>, <span class="dv">30</span>),</span>
+<span id="cb93-12"><a href="multivariate-cytokine-iav-stats.html#cb93-12" tabindex="-1"></a>               <span class="at">minsplit =</span> <span class="fu">to_tune</span>(<span class="dv">1</span>, <span class="dv">30</span>)</span>
+<span id="cb93-13"><a href="multivariate-cytokine-iav-stats.html#cb93-13" tabindex="-1"></a>               )</span>
+<span id="cb93-14"><a href="multivariate-cytokine-iav-stats.html#cb93-14" tabindex="-1"></a></span>
+<span id="cb93-15"><a href="multivariate-cytokine-iav-stats.html#cb93-15" tabindex="-1"></a><span class="co"># Define tuning instance - info ~ tuning process</span></span>
+<span id="cb93-16"><a href="multivariate-cytokine-iav-stats.html#cb93-16" tabindex="-1"></a>instance <span class="ot">&lt;-</span> <span class="fu">ti</span>(<span class="at">task =</span> task,</span>
+<span id="cb93-17"><a href="multivariate-cytokine-iav-stats.html#cb93-17" tabindex="-1"></a>               <span class="at">learner =</span> learner,</span>
+<span id="cb93-18"><a href="multivariate-cytokine-iav-stats.html#cb93-18" tabindex="-1"></a>               <span class="at">resampling =</span> <span class="fu">rsmp</span>(<span class="st">&quot;cv&quot;</span>, <span class="at">folds =</span> <span class="dv">10</span>),</span>
+<span id="cb93-19"><a href="multivariate-cytokine-iav-stats.html#cb93-19" tabindex="-1"></a>               <span class="at">measures =</span> <span class="fu">msr</span>(<span class="st">&quot;classif.auc&quot;</span>),</span>
+<span id="cb93-20"><a href="multivariate-cytokine-iav-stats.html#cb93-20" tabindex="-1"></a>               <span class="at">terminator =</span> <span class="fu">trm</span>(<span class="st">&quot;none&quot;</span>)</span>
+<span id="cb93-21"><a href="multivariate-cytokine-iav-stats.html#cb93-21" tabindex="-1"></a>               )</span>
+<span id="cb93-22"><a href="multivariate-cytokine-iav-stats.html#cb93-22" tabindex="-1"></a></span>
+<span id="cb93-23"><a href="multivariate-cytokine-iav-stats.html#cb93-23" tabindex="-1"></a><span class="co"># Define how to tune the model</span></span>
+<span id="cb93-24"><a href="multivariate-cytokine-iav-stats.html#cb93-24" tabindex="-1"></a>tuner <span class="ot">&lt;-</span> <span class="fu">tnr</span>(<span class="st">&quot;grid_search&quot;</span>, </span>
+<span id="cb93-25"><a href="multivariate-cytokine-iav-stats.html#cb93-25" tabindex="-1"></a>             <span class="at">batch_size =</span> <span class="dv">10</span></span>
+<span id="cb93-26"><a href="multivariate-cytokine-iav-stats.html#cb93-26" tabindex="-1"></a>             )</span></code></pre></div>
+</div>
+<div id="variable-importance-plot" class="section level3 hasAnchor" number="5.7.2">
+<h3><span class="header-section-number">5.7.2</span> Variable Importance Plot<a href="multivariate-cytokine-iav-stats.html#variable-importance-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="multivariate-cytokine-iav-stats.html#cb94-1" tabindex="-1"></a>varimp <span class="ot">&lt;-</span> </span>
+<span id="cb94-2"><a href="multivariate-cytokine-iav-stats.html#cb94-2" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">imp=</span>cart_model<span class="sc">$</span>variable.importance) <span class="sc">%&gt;%</span> </span>
+<span id="cb94-3"><a href="multivariate-cytokine-iav-stats.html#cb94-3" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb94-4"><a href="multivariate-cytokine-iav-stats.html#cb94-4" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;variable&quot;</span> <span class="ot">=</span> rowname) <span class="sc">%&gt;%</span> </span>
+<span id="cb94-5"><a href="multivariate-cytokine-iav-stats.html#cb94-5" tabindex="-1"></a>  <span class="fu">arrange</span>(imp) <span class="sc">%&gt;%</span></span>
+<span id="cb94-6"><a href="multivariate-cytokine-iav-stats.html#cb94-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable=</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>,<span class="st">&quot;-&quot;</span>,variable),</span>
+<span id="cb94-7"><a href="multivariate-cytokine-iav-stats.html#cb94-7" tabindex="-1"></a>         <span class="at">variable =</span> forcats<span class="sc">::</span><span class="fu">fct_inorder</span>(variable))</span>
+<span id="cb94-8"><a href="multivariate-cytokine-iav-stats.html#cb94-8" tabindex="-1"></a></span>
+<span id="cb94-9"><a href="multivariate-cytokine-iav-stats.html#cb94-9" tabindex="-1"></a>varimp_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(varimp) <span class="sc">+</span> </span>
+<span id="cb94-10"><a href="multivariate-cytokine-iav-stats.html#cb94-10" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable, </span>
+<span id="cb94-11"><a href="multivariate-cytokine-iav-stats.html#cb94-11" tabindex="-1"></a>                   <span class="at">y =</span> <span class="dv">0</span>, </span>
+<span id="cb94-12"><a href="multivariate-cytokine-iav-stats.html#cb94-12" tabindex="-1"></a>                   <span class="at">xend =</span> variable, </span>
+<span id="cb94-13"><a href="multivariate-cytokine-iav-stats.html#cb94-13" tabindex="-1"></a>                   <span class="at">yend =</span> imp), </span>
+<span id="cb94-14"><a href="multivariate-cytokine-iav-stats.html#cb94-14" tabindex="-1"></a>               <span class="at">size =</span> <span class="fl">1.5</span>, </span>
+<span id="cb94-15"><a href="multivariate-cytokine-iav-stats.html#cb94-15" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb94-16"><a href="multivariate-cytokine-iav-stats.html#cb94-16" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable, </span>
+<span id="cb94-17"><a href="multivariate-cytokine-iav-stats.html#cb94-17" tabindex="-1"></a>                 <span class="at">y =</span> imp), </span>
+<span id="cb94-18"><a href="multivariate-cytokine-iav-stats.html#cb94-18" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">4</span>, </span>
+<span id="cb94-19"><a href="multivariate-cytokine-iav-stats.html#cb94-19" tabindex="-1"></a>             <span class="at">show.legend =</span> F,</span>
+<span id="cb94-20"><a href="multivariate-cytokine-iav-stats.html#cb94-20" tabindex="-1"></a>             <span class="at">col=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb94-21"><a href="multivariate-cytokine-iav-stats.html#cb94-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Cytokine&quot;</span>, </span>
+<span id="cb94-22"><a href="multivariate-cytokine-iav-stats.html#cb94-22" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;Variable Importance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb94-23"><a href="multivariate-cytokine-iav-stats.html#cb94-23" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb94-24"><a href="multivariate-cytokine-iav-stats.html#cb94-24" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb94-25"><a href="multivariate-cytokine-iav-stats.html#cb94-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>))</span></code></pre></div>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2
+## 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="multivariate-cytokine-iav-stats.html#cb96-1" tabindex="-1"></a><span class="co"># Separating out IL-6 (proinflammatory), IL-10 (antiinflammatory), and KC-like</span></span>
+<span id="cb96-2"><a href="multivariate-cytokine-iav-stats.html#cb96-2" tabindex="-1"></a>databin <span class="ot">&lt;-</span></span>
+<span id="cb96-3"><a href="multivariate-cytokine-iav-stats.html#cb96-3" tabindex="-1"></a>  databin <span class="sc">%&gt;%</span> </span>
+<span id="cb96-4"><a href="multivariate-cytokine-iav-stats.html#cb96-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;neg&quot;</span>, <span class="st">&quot;Negative&quot;</span>, iav),</span>
+<span id="cb96-5"><a href="multivariate-cytokine-iav-stats.html#cb96-5" tabindex="-1"></a>         <span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;Positive&quot;</span>, iav))</span>
+<span id="cb96-6"><a href="multivariate-cytokine-iav-stats.html#cb96-6" tabindex="-1"></a></span>
+<span id="cb96-7"><a href="multivariate-cytokine-iav-stats.html#cb96-7" tabindex="-1"></a>data <span class="ot">&lt;-</span></span>
+<span id="cb96-8"><a href="multivariate-cytokine-iav-stats.html#cb96-8" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb96-9"><a href="multivariate-cytokine-iav-stats.html#cb96-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;neg&quot;</span>, <span class="st">&quot;Negative&quot;</span>, iav),</span>
+<span id="cb96-10"><a href="multivariate-cytokine-iav-stats.html#cb96-10" tabindex="-1"></a>         <span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;Positive&quot;</span>, iav))</span>
+<span id="cb96-11"><a href="multivariate-cytokine-iav-stats.html#cb96-11" tabindex="-1"></a></span>
+<span id="cb96-12"><a href="multivariate-cytokine-iav-stats.html#cb96-12" tabindex="-1"></a>  </span>
+<span id="cb96-13"><a href="multivariate-cytokine-iav-stats.html#cb96-13" tabindex="-1"></a><span class="do">## Proportions</span></span>
+<span id="cb96-14"><a href="multivariate-cytokine-iav-stats.html#cb96-14" tabindex="-1"></a>il6_prop <span class="ot">&lt;-</span> </span>
+<span id="cb96-15"><a href="multivariate-cytokine-iav-stats.html#cb96-15" tabindex="-1"></a>  databin <span class="sc">%&gt;%</span></span>
+<span id="cb96-16"><a href="multivariate-cytokine-iav-stats.html#cb96-16" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IL.6=</span><span class="fu">gsub</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;P&quot;</span>, IL<span class="fl">.6</span>),</span>
+<span id="cb96-17"><a href="multivariate-cytokine-iav-stats.html#cb96-17" tabindex="-1"></a>         <span class="at">IL.6=</span><span class="fu">gsub</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;A&quot;</span>, IL<span class="fl">.6</span>),</span>
+<span id="cb96-18"><a href="multivariate-cytokine-iav-stats.html#cb96-18" tabindex="-1"></a>         <span class="at">IL.6=</span><span class="fu">factor</span>(IL<span class="fl">.6</span>, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;P&quot;</span>, <span class="st">&quot;A&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb96-19"><a href="multivariate-cytokine-iav-stats.html#cb96-19" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data=</span>.) <span class="sc">+</span></span>
+<span id="cb96-20"><a href="multivariate-cytokine-iav-stats.html#cb96-20" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">product</span>(IL<span class="fl">.6</span>,iav), <span class="at">fill=</span>IL<span class="fl">.6</span>)) <span class="sc">+</span></span>
+<span id="cb96-21"><a href="multivariate-cytokine-iav-stats.html#cb96-21" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;P&quot;</span><span class="ot">=</span><span class="st">&quot;#717171&quot;</span>, <span class="st">&quot;A&quot;</span><span class="ot">=</span><span class="st">&quot;lightgray&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb96-22"><a href="multivariate-cytokine-iav-stats.html#cb96-22" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;IL-6&quot;</span>) <span class="sc">+</span></span>
+<span id="cb96-23"><a href="multivariate-cytokine-iav-stats.html#cb96-23" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb96-24"><a href="multivariate-cytokine-iav-stats.html#cb96-24" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb96-25"><a href="multivariate-cytokine-iav-stats.html#cb96-25" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb96-26"><a href="multivariate-cytokine-iav-stats.html#cb96-26" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb96-27"><a href="multivariate-cytokine-iav-stats.html#cb96-27" tabindex="-1"></a>        <span class="at">axis.text.x=</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb96-28"><a href="multivariate-cytokine-iav-stats.html#cb96-28" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb96-29"><a href="multivariate-cytokine-iav-stats.html#cb96-29" tabindex="-1"></a></span>
+<span id="cb96-30"><a href="multivariate-cytokine-iav-stats.html#cb96-30" tabindex="-1"></a>il10_prop <span class="ot">&lt;-</span> </span>
+<span id="cb96-31"><a href="multivariate-cytokine-iav-stats.html#cb96-31" tabindex="-1"></a>  databin <span class="sc">%&gt;%</span></span>
+<span id="cb96-32"><a href="multivariate-cytokine-iav-stats.html#cb96-32" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IL.10=</span><span class="fu">gsub</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;P&quot;</span>, IL<span class="fl">.10</span>),</span>
+<span id="cb96-33"><a href="multivariate-cytokine-iav-stats.html#cb96-33" tabindex="-1"></a>         <span class="at">IL.10=</span><span class="fu">gsub</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;A&quot;</span>, IL<span class="fl">.10</span>),</span>
+<span id="cb96-34"><a href="multivariate-cytokine-iav-stats.html#cb96-34" tabindex="-1"></a>         <span class="at">IL.10=</span><span class="fu">factor</span>(IL<span class="fl">.10</span>, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;P&quot;</span>, <span class="st">&quot;A&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb96-35"><a href="multivariate-cytokine-iav-stats.html#cb96-35" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data=</span>.) <span class="sc">+</span></span>
+<span id="cb96-36"><a href="multivariate-cytokine-iav-stats.html#cb96-36" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">product</span>(IL<span class="fl">.10</span>,iav), <span class="at">fill=</span>IL<span class="fl">.10</span>)) <span class="sc">+</span></span>
+<span id="cb96-37"><a href="multivariate-cytokine-iav-stats.html#cb96-37" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;P&quot;</span><span class="ot">=</span><span class="st">&quot;#717171&quot;</span>, <span class="st">&quot;A&quot;</span><span class="ot">=</span><span class="st">&quot;lightgray&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb96-38"><a href="multivariate-cytokine-iav-stats.html#cb96-38" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;IL-10&quot;</span>) <span class="sc">+</span></span>
+<span id="cb96-39"><a href="multivariate-cytokine-iav-stats.html#cb96-39" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb96-40"><a href="multivariate-cytokine-iav-stats.html#cb96-40" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb96-41"><a href="multivariate-cytokine-iav-stats.html#cb96-41" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb96-42"><a href="multivariate-cytokine-iav-stats.html#cb96-42" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb96-43"><a href="multivariate-cytokine-iav-stats.html#cb96-43" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb96-44"><a href="multivariate-cytokine-iav-stats.html#cb96-44" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb96-45"><a href="multivariate-cytokine-iav-stats.html#cb96-45" tabindex="-1"></a></span>
+<span id="cb96-46"><a href="multivariate-cytokine-iav-stats.html#cb96-46" tabindex="-1"></a>kc_prop <span class="ot">&lt;-</span> </span>
+<span id="cb96-47"><a href="multivariate-cytokine-iav-stats.html#cb96-47" tabindex="-1"></a>  databin <span class="sc">%&gt;%</span></span>
+<span id="cb96-48"><a href="multivariate-cytokine-iav-stats.html#cb96-48" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">KC.like=</span><span class="fu">gsub</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;P&quot;</span>, KC.like),</span>
+<span id="cb96-49"><a href="multivariate-cytokine-iav-stats.html#cb96-49" tabindex="-1"></a>         <span class="at">KC.like=</span><span class="fu">gsub</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;A&quot;</span>, KC.like),</span>
+<span id="cb96-50"><a href="multivariate-cytokine-iav-stats.html#cb96-50" tabindex="-1"></a>         <span class="at">KC.like=</span><span class="fu">factor</span>(KC.like, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;P&quot;</span>, <span class="st">&quot;A&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb96-51"><a href="multivariate-cytokine-iav-stats.html#cb96-51" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data=</span>.) <span class="sc">+</span></span>
+<span id="cb96-52"><a href="multivariate-cytokine-iav-stats.html#cb96-52" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">product</span>(KC.like,iav), <span class="at">fill=</span>KC.like)) <span class="sc">+</span></span>
+<span id="cb96-53"><a href="multivariate-cytokine-iav-stats.html#cb96-53" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;P&quot;</span><span class="ot">=</span><span class="st">&quot;#717171&quot;</span>, <span class="st">&quot;A&quot;</span><span class="ot">=</span><span class="st">&quot;lightgray&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb96-54"><a href="multivariate-cytokine-iav-stats.html#cb96-54" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;KC-like&quot;</span>) <span class="sc">+</span></span>
+<span id="cb96-55"><a href="multivariate-cytokine-iav-stats.html#cb96-55" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb96-56"><a href="multivariate-cytokine-iav-stats.html#cb96-56" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb96-57"><a href="multivariate-cytokine-iav-stats.html#cb96-57" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb96-58"><a href="multivariate-cytokine-iav-stats.html#cb96-58" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb96-59"><a href="multivariate-cytokine-iav-stats.html#cb96-59" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb96-60"><a href="multivariate-cytokine-iav-stats.html#cb96-60" tabindex="-1"></a></span>
+<span id="cb96-61"><a href="multivariate-cytokine-iav-stats.html#cb96-61" tabindex="-1"></a></span>
+<span id="cb96-62"><a href="multivariate-cytokine-iav-stats.html#cb96-62" tabindex="-1"></a><span class="do">## Concentrations</span></span>
+<span id="cb96-63"><a href="multivariate-cytokine-iav-stats.html#cb96-63" tabindex="-1"></a>il6 <span class="ot">&lt;-</span> </span>
+<span id="cb96-64"><a href="multivariate-cytokine-iav-stats.html#cb96-64" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb96-65"><a href="multivariate-cytokine-iav-stats.html#cb96-65" tabindex="-1"></a>  <span class="fu">select</span>(iav, IL<span class="fl">.6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-66"><a href="multivariate-cytokine-iav-stats.html#cb96-66" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>IL<span class="fl">.6</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-67"><a href="multivariate-cytokine-iav-stats.html#cb96-67" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>iav, <span class="at">y=</span><span class="fu">log</span>(IL<span class="fl">.6</span>))) <span class="sc">+</span></span>
+<span id="cb96-68"><a href="multivariate-cytokine-iav-stats.html#cb96-68" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#878787&quot;</span>, <span class="at">lwd=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb96-69"><a href="multivariate-cytokine-iav-stats.html#cb96-69" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb96-70"><a href="multivariate-cytokine-iav-stats.html#cb96-70" tabindex="-1"></a>  <span class="fu">stat_n_text</span>(<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb96-71"><a href="multivariate-cytokine-iav-stats.html#cb96-71" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb96-72"><a href="multivariate-cytokine-iav-stats.html#cb96-72" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_blank</span>())</span>
+<span id="cb96-73"><a href="multivariate-cytokine-iav-stats.html#cb96-73" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">ggplot_build</span>(il6)<span class="sc">$</span>data[[<span class="dv">1</span>]]</span>
+<span id="cb96-74"><a href="multivariate-cytokine-iav-stats.html#cb96-74" tabindex="-1"></a>il6 <span class="ot">&lt;-</span> </span>
+<span id="cb96-75"><a href="multivariate-cytokine-iav-stats.html#cb96-75" tabindex="-1"></a>  il6 <span class="sc">+</span></span>
+<span id="cb96-76"><a href="multivariate-cytokine-iav-stats.html#cb96-76" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data=</span>dat, <span class="fu">aes</span>(<span class="at">x=</span>xmin, <span class="at">xend=</span>xmax, </span>
+<span id="cb96-77"><a href="multivariate-cytokine-iav-stats.html#cb96-77" tabindex="-1"></a>                             <span class="at">y=</span>middle, <span class="at">yend=</span>middle), <span class="at">colour=</span><span class="st">&quot;lightgray&quot;</span>)</span>
+<span id="cb96-78"><a href="multivariate-cytokine-iav-stats.html#cb96-78" tabindex="-1"></a></span>
+<span id="cb96-79"><a href="multivariate-cytokine-iav-stats.html#cb96-79" tabindex="-1"></a>il10 <span class="ot">&lt;-</span> </span>
+<span id="cb96-80"><a href="multivariate-cytokine-iav-stats.html#cb96-80" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb96-81"><a href="multivariate-cytokine-iav-stats.html#cb96-81" tabindex="-1"></a>  <span class="fu">select</span>(iav, IL<span class="fl">.10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-82"><a href="multivariate-cytokine-iav-stats.html#cb96-82" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>IL<span class="fl">.10</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-83"><a href="multivariate-cytokine-iav-stats.html#cb96-83" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>iav, <span class="at">y=</span><span class="fu">log</span>(IL<span class="fl">.10</span>))) <span class="sc">+</span></span>
+<span id="cb96-84"><a href="multivariate-cytokine-iav-stats.html#cb96-84" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#878787&quot;</span>, <span class="at">lwd=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb96-85"><a href="multivariate-cytokine-iav-stats.html#cb96-85" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb96-86"><a href="multivariate-cytokine-iav-stats.html#cb96-86" tabindex="-1"></a>  <span class="fu">stat_n_text</span>(<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb96-87"><a href="multivariate-cytokine-iav-stats.html#cb96-87" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb96-88"><a href="multivariate-cytokine-iav-stats.html#cb96-88" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_blank</span>())</span>
+<span id="cb96-89"><a href="multivariate-cytokine-iav-stats.html#cb96-89" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">ggplot_build</span>(il10)<span class="sc">$</span>data[[<span class="dv">1</span>]]</span>
+<span id="cb96-90"><a href="multivariate-cytokine-iav-stats.html#cb96-90" tabindex="-1"></a>il10 <span class="ot">&lt;-</span></span>
+<span id="cb96-91"><a href="multivariate-cytokine-iav-stats.html#cb96-91" tabindex="-1"></a>  il10 <span class="sc">+</span></span>
+<span id="cb96-92"><a href="multivariate-cytokine-iav-stats.html#cb96-92" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data=</span>dat, <span class="fu">aes</span>(<span class="at">x=</span>xmin, <span class="at">xend=</span>xmax, </span>
+<span id="cb96-93"><a href="multivariate-cytokine-iav-stats.html#cb96-93" tabindex="-1"></a>                             <span class="at">y=</span>middle, <span class="at">yend=</span>middle), <span class="at">colour=</span><span class="st">&quot;lightgray&quot;</span>)</span>
+<span id="cb96-94"><a href="multivariate-cytokine-iav-stats.html#cb96-94" tabindex="-1"></a></span>
+<span id="cb96-95"><a href="multivariate-cytokine-iav-stats.html#cb96-95" tabindex="-1"></a>kclike <span class="ot">&lt;-</span> </span>
+<span id="cb96-96"><a href="multivariate-cytokine-iav-stats.html#cb96-96" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb96-97"><a href="multivariate-cytokine-iav-stats.html#cb96-97" tabindex="-1"></a>  <span class="fu">select</span>(iav, KC.like) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-98"><a href="multivariate-cytokine-iav-stats.html#cb96-98" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>KC.like<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-99"><a href="multivariate-cytokine-iav-stats.html#cb96-99" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>iav, <span class="at">y=</span>KC.like)) <span class="sc">+</span></span>
+<span id="cb96-100"><a href="multivariate-cytokine-iav-stats.html#cb96-100" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#878787&quot;</span>, <span class="at">lwd=</span><span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb96-101"><a href="multivariate-cytokine-iav-stats.html#cb96-101" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb96-102"><a href="multivariate-cytokine-iav-stats.html#cb96-102" tabindex="-1"></a>  <span class="fu">stat_n_text</span>(<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb96-103"><a href="multivariate-cytokine-iav-stats.html#cb96-103" tabindex="-1"></a>  <span class="fu">theme_classic</span>() </span>
+<span id="cb96-104"><a href="multivariate-cytokine-iav-stats.html#cb96-104" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">ggplot_build</span>(kclike)<span class="sc">$</span>data[[<span class="dv">1</span>]]</span>
+<span id="cb96-105"><a href="multivariate-cytokine-iav-stats.html#cb96-105" tabindex="-1"></a>kclike <span class="ot">&lt;-</span> </span>
+<span id="cb96-106"><a href="multivariate-cytokine-iav-stats.html#cb96-106" tabindex="-1"></a>  kclike <span class="sc">+</span></span>
+<span id="cb96-107"><a href="multivariate-cytokine-iav-stats.html#cb96-107" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data=</span>dat, <span class="fu">aes</span>(<span class="at">x=</span>xmin, <span class="at">xend=</span>xmax, </span>
+<span id="cb96-108"><a href="multivariate-cytokine-iav-stats.html#cb96-108" tabindex="-1"></a>                             <span class="at">y=</span>middle, <span class="at">yend=</span>middle), <span class="at">colour=</span><span class="st">&quot;lightgray&quot;</span>)</span>
+<span id="cb96-109"><a href="multivariate-cytokine-iav-stats.html#cb96-109" tabindex="-1"></a></span>
+<span id="cb96-110"><a href="multivariate-cytokine-iav-stats.html#cb96-110" tabindex="-1"></a></span>
+<span id="cb96-111"><a href="multivariate-cytokine-iav-stats.html#cb96-111" tabindex="-1"></a><span class="do">#################</span></span>
+<span id="cb96-112"><a href="multivariate-cytokine-iav-stats.html#cb96-112" tabindex="-1"></a></span>
+<span id="cb96-113"><a href="multivariate-cytokine-iav-stats.html#cb96-113" tabindex="-1"></a>il6_grid <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(il6_prop, il6, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## Warning: The `scale_name` argument of `continuous_scale()` is deprecated
+## as of ggplot2 3.5.0.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
+<pre><code>## Warning: The `trans` argument of `continuous_scale()` is deprecated as of
+## ggplot2 3.5.0.
+## ℹ Please use the `transform` argument instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
+<pre><code>## Warning: `unite_()` was deprecated in tidyr 1.2.0.
+## ℹ Please use `unite()` instead.
+## ℹ The deprecated feature was likely used in the ggmosaic
+##   package.
+##   Please report the issue at
+##   &lt;https://github.com/haleyjeppson/ggmosaic&gt;.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="multivariate-cytokine-iav-stats.html#cb100-1" tabindex="-1"></a>il10_grid <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(il10_prop, il10, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-2.png" width="672" /></p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="multivariate-cytokine-iav-stats.html#cb101-1" tabindex="-1"></a>kc_grid <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(kc_prop, kclike, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-3.png" width="672" /></p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="multivariate-cytokine-iav-stats.html#cb102-1" tabindex="-1"></a>cyto_grid <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(il6_grid, il10_grid, kc_grid,</span>
+<span id="cb102-2"><a href="multivariate-cytokine-iav-stats.html#cb102-2" tabindex="-1"></a>                          <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">heights=</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="fl">3.2</span>),</span>
+<span id="cb102-3"><a href="multivariate-cytokine-iav-stats.html#cb102-3" tabindex="-1"></a>                          <span class="at">bottom=</span><span class="fu">textGrob</span>(<span class="st">&quot;IAV Status&quot;</span>, <span class="at">gp=</span><span class="fu">gpar</span>(<span class="at">fontsize=</span><span class="dv">10</span>)))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-4.png" width="672" /></p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="multivariate-cytokine-iav-stats.html#cb103-1" tabindex="-1"></a>final_grid <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(varimp_plot, cyto_grid, </span>
+<span id="cb103-2"><a href="multivariate-cytokine-iav-stats.html#cb103-2" tabindex="-1"></a>                           <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">widths=</span><span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">4.5</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-38-5.png" width="672" /></p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="multivariate-cytokine-iav-stats.html#cb104-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename=</span><span class="st">&quot;Figures/cytoimportance.jpg&quot;</span>, final_grid, <span class="at">height=</span><span class="dv">5</span>, <span class="at">width=</span><span class="dv">8</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="how-different-iav-and-iav--groups-are" class="section level2 hasAnchor" number="5.8">
+<h2><span class="header-section-number">5.8</span> How different IAV+ and IAV- groups are<a href="multivariate-cytokine-iav-stats.html#how-different-iav-and-iav--groups-are" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="plsda-2" class="section level3 hasAnchor" number="5.8.1">
+<h3><span class="header-section-number">5.8.1</span> PLSDA<a href="multivariate-cytokine-iav-stats.html#plsda-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="multivariate-cytokine-iav-stats.html#cb105-1" tabindex="-1"></a>pls_x <span class="ot">&lt;-</span></span>
+<span id="cb105-2"><a href="multivariate-cytokine-iav-stats.html#cb105-2" tabindex="-1"></a> data_cart[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] </span>
+<span id="cb105-3"><a href="multivariate-cytokine-iav-stats.html#cb105-3" tabindex="-1"></a></span>
+<span id="cb105-4"><a href="multivariate-cytokine-iav-stats.html#cb105-4" tabindex="-1"></a>pls_y <span class="ot">&lt;-</span> </span>
+<span id="cb105-5"><a href="multivariate-cytokine-iav-stats.html#cb105-5" tabindex="-1"></a>  data_cart <span class="sc">%&gt;%</span> </span>
+<span id="cb105-6"><a href="multivariate-cytokine-iav-stats.html#cb105-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;neg&quot;</span>, <span class="st">&quot;IAV-&quot;</span>, iav),</span>
+<span id="cb105-7"><a href="multivariate-cytokine-iav-stats.html#cb105-7" tabindex="-1"></a>         <span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;IAV+&quot;</span>, iav),</span>
+<span id="cb105-8"><a href="multivariate-cytokine-iav-stats.html#cb105-8" tabindex="-1"></a>         <span class="at">iav=</span><span class="fu">as.factor</span>(iav)) <span class="sc">%&gt;%</span> </span>
+<span id="cb105-9"><a href="multivariate-cytokine-iav-stats.html#cb105-9" tabindex="-1"></a>  <span class="fu">select</span>(iav)</span>
+<span id="cb105-10"><a href="multivariate-cytokine-iav-stats.html#cb105-10" tabindex="-1"></a></span>
+<span id="cb105-11"><a href="multivariate-cytokine-iav-stats.html#cb105-11" tabindex="-1"></a><span class="co"># PCA Model (to compare)</span></span>
+<span id="cb105-12"><a href="multivariate-cytokine-iav-stats.html#cb105-12" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">pca</span>(pls_x, </span>
+<span id="cb105-13"><a href="multivariate-cytokine-iav-stats.html#cb105-13" tabindex="-1"></a>           <span class="at">ncomp=</span><span class="dv">9</span>,</span>
+<span id="cb105-14"><a href="multivariate-cytokine-iav-stats.html#cb105-14" tabindex="-1"></a>           <span class="at">center=</span><span class="cn">FALSE</span>, </span>
+<span id="cb105-15"><a href="multivariate-cytokine-iav-stats.html#cb105-15" tabindex="-1"></a>           <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb105-16"><a href="multivariate-cytokine-iav-stats.html#cb105-16" tabindex="-1"></a></span>
+<span id="cb105-17"><a href="multivariate-cytokine-iav-stats.html#cb105-17" tabindex="-1"></a><span class="fu">plotIndiv</span>(pca, </span>
+<span id="cb105-18"><a href="multivariate-cytokine-iav-stats.html#cb105-18" tabindex="-1"></a>          <span class="at">group=</span>pls_y<span class="sc">$</span>iav,</span>
+<span id="cb105-19"><a href="multivariate-cytokine-iav-stats.html#cb105-19" tabindex="-1"></a>          <span class="at">ind.names=</span><span class="cn">FALSE</span>,</span>
+<span id="cb105-20"><a href="multivariate-cytokine-iav-stats.html#cb105-20" tabindex="-1"></a>          <span class="at">ellipse=</span><span class="cn">TRUE</span>, </span>
+<span id="cb105-21"><a href="multivariate-cytokine-iav-stats.html#cb105-21" tabindex="-1"></a>          <span class="at">legend=</span><span class="cn">TRUE</span>, </span>
+<span id="cb105-22"><a href="multivariate-cytokine-iav-stats.html#cb105-22" tabindex="-1"></a>          <span class="at">legend.title=</span><span class="st">&quot;IAV Status&quot;</span>,</span>
+<span id="cb105-23"><a href="multivariate-cytokine-iav-stats.html#cb105-23" tabindex="-1"></a>          <span class="at">title=</span><span class="st">&quot;PCA&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="multivariate-cytokine-iav-stats.html#cb106-1" tabindex="-1"></a><span class="fu">plot</span>(pca)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-2.png" width="672" /></p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="multivariate-cytokine-iav-stats.html#cb107-1" tabindex="-1"></a><span class="co"># PLSDA Model</span></span>
+<span id="cb107-2"><a href="multivariate-cytokine-iav-stats.html#cb107-2" tabindex="-1"></a>plsda_model <span class="ot">&lt;-</span> mixOmics<span class="sc">::</span><span class="fu">plsda</span>(pls_x,</span>
+<span id="cb107-3"><a href="multivariate-cytokine-iav-stats.html#cb107-3" tabindex="-1"></a>                               pls_y<span class="sc">$</span>iav,</span>
+<span id="cb107-4"><a href="multivariate-cytokine-iav-stats.html#cb107-4" tabindex="-1"></a>                               <span class="at">scale=</span><span class="cn">FALSE</span>,</span>
+<span id="cb107-5"><a href="multivariate-cytokine-iav-stats.html#cb107-5" tabindex="-1"></a>                               <span class="at">ncomp=</span><span class="dv">9</span>)</span>
+<span id="cb107-6"><a href="multivariate-cytokine-iav-stats.html#cb107-6" tabindex="-1"></a><span class="fu">plotIndiv</span>(plsda_model,</span>
+<span id="cb107-7"><a href="multivariate-cytokine-iav-stats.html#cb107-7" tabindex="-1"></a>          <span class="at">ellipse=</span><span class="cn">TRUE</span>, </span>
+<span id="cb107-8"><a href="multivariate-cytokine-iav-stats.html#cb107-8" tabindex="-1"></a>          <span class="at">ind.names=</span><span class="cn">FALSE</span>,</span>
+<span id="cb107-9"><a href="multivariate-cytokine-iav-stats.html#cb107-9" tabindex="-1"></a>          <span class="at">col.per.group=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>),</span>
+<span id="cb107-10"><a href="multivariate-cytokine-iav-stats.html#cb107-10" tabindex="-1"></a>          <span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb107-11"><a href="multivariate-cytokine-iav-stats.html#cb107-11" tabindex="-1"></a>          <span class="at">legend=</span><span class="cn">TRUE</span>, </span>
+<span id="cb107-12"><a href="multivariate-cytokine-iav-stats.html#cb107-12" tabindex="-1"></a>          <span class="at">legend.title=</span><span class="st">&quot;IAV Status&quot;</span>,</span>
+<span id="cb107-13"><a href="multivariate-cytokine-iav-stats.html#cb107-13" tabindex="-1"></a>          <span class="at">style=</span><span class="st">&quot;lattice&quot;</span>,</span>
+<span id="cb107-14"><a href="multivariate-cytokine-iav-stats.html#cb107-14" tabindex="-1"></a>          <span class="at">title=</span><span class="st">&quot;PLS-DA Comp 1 - 2&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-3.png" width="672" /></p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="multivariate-cytokine-iav-stats.html#cb108-1" tabindex="-1"></a><span class="fu">biplot</span>(plsda_model, <span class="at">ind.names=</span><span class="cn">FALSE</span>, <span class="at">legend.title=</span><span class="st">&quot;IAV Status&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in biplot.mixo_pls(plsda_model, ind.names = FALSE, legend.title = &quot;IAV
+## Status&quot;): The &#39;tune.spca&#39; algorithm has used scale=FALSE. We recommend scaling
+## the data to improve orthogonality in the sparse components.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-4.png" width="672" /></p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="multivariate-cytokine-iav-stats.html#cb110-1" tabindex="-1"></a><span class="co"># ggplot2</span></span>
+<span id="cb110-2"><a href="multivariate-cytokine-iav-stats.html#cb110-2" tabindex="-1"></a>plsda_ggplot <span class="ot">&lt;-</span> </span>
+<span id="cb110-3"><a href="multivariate-cytokine-iav-stats.html#cb110-3" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> plsda_model<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
+<span id="cb110-4"><a href="multivariate-cytokine-iav-stats.html#cb110-4" tabindex="-1"></a>             <span class="at">y =</span> plsda_model<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
+<span id="cb110-5"><a href="multivariate-cytokine-iav-stats.html#cb110-5" tabindex="-1"></a>             <span class="at">iav =</span> plsda_model<span class="sc">$</span>Y)</span>
+<span id="cb110-6"><a href="multivariate-cytokine-iav-stats.html#cb110-6" tabindex="-1"></a></span>
+<span id="cb110-7"><a href="multivariate-cytokine-iav-stats.html#cb110-7" tabindex="-1"></a>iav_plsda_ggplot <span class="ot">&lt;-</span> </span>
+<span id="cb110-8"><a href="multivariate-cytokine-iav-stats.html#cb110-8" tabindex="-1"></a>  <span class="fu">ggplot</span>(plsda_ggplot, </span>
+<span id="cb110-9"><a href="multivariate-cytokine-iav-stats.html#cb110-9" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, </span>
+<span id="cb110-10"><a href="multivariate-cytokine-iav-stats.html#cb110-10" tabindex="-1"></a>             <span class="at">y=</span>y,</span>
+<span id="cb110-11"><a href="multivariate-cytokine-iav-stats.html#cb110-11" tabindex="-1"></a>             <span class="at">col=</span>iav)) <span class="sc">+</span></span>
+<span id="cb110-12"><a href="multivariate-cytokine-iav-stats.html#cb110-12" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb110-13"><a href="multivariate-cytokine-iav-stats.html#cb110-13" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
+<span id="cb110-14"><a href="multivariate-cytokine-iav-stats.html#cb110-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;x-variate 1 (14%)&quot;</span>,</span>
+<span id="cb110-15"><a href="multivariate-cytokine-iav-stats.html#cb110-15" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;x-variate 2 (19%)&quot;</span>,</span>
+<span id="cb110-16"><a href="multivariate-cytokine-iav-stats.html#cb110-16" tabindex="-1"></a>       <span class="at">name=</span><span class="st">&quot;IAV Status&quot;</span>) <span class="sc">+</span></span>
+<span id="cb110-17"><a href="multivariate-cytokine-iav-stats.html#cb110-17" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;IAV Status&quot;</span>,</span>
+<span id="cb110-18"><a href="multivariate-cytokine-iav-stats.html#cb110-18" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb110-19"><a href="multivariate-cytokine-iav-stats.html#cb110-19" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb110-20"><a href="multivariate-cytokine-iav-stats.html#cb110-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb110-21"><a href="multivariate-cytokine-iav-stats.html#cb110-21" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>))</span>
+<span id="cb110-22"><a href="multivariate-cytokine-iav-stats.html#cb110-22" tabindex="-1"></a></span>
+<span id="cb110-23"><a href="multivariate-cytokine-iav-stats.html#cb110-23" tabindex="-1"></a>iav_plsda_ggplot</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-5.png" width="672" /></p>
+</div>
+<div id="d-kolmogorov-smirnov-test" class="section level3 hasAnchor" number="5.8.2">
+<h3><span class="header-section-number">5.8.2</span> 2-D Kolmogorov-Smirnov test<a href="multivariate-cytokine-iav-stats.html#d-kolmogorov-smirnov-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="multivariate-cytokine-iav-stats.html#cb111-1" tabindex="-1"></a>ks_data <span class="ot">&lt;-</span> </span>
+<span id="cb111-2"><a href="multivariate-cytokine-iav-stats.html#cb111-2" tabindex="-1"></a>  <span class="fu">data.frame</span>(plsda_model<span class="sc">$</span>variates<span class="sc">$</span>X,</span>
+<span id="cb111-3"><a href="multivariate-cytokine-iav-stats.html#cb111-3" tabindex="-1"></a>             <span class="at">iav=</span>plsda_model<span class="sc">$</span>Y)</span>
+<span id="cb111-4"><a href="multivariate-cytokine-iav-stats.html#cb111-4" tabindex="-1"></a></span>
+<span id="cb111-5"><a href="multivariate-cytokine-iav-stats.html#cb111-5" tabindex="-1"></a>plsda_pos <span class="ot">&lt;-</span> </span>
+<span id="cb111-6"><a href="multivariate-cytokine-iav-stats.html#cb111-6" tabindex="-1"></a>  ks_data <span class="sc">%&gt;%</span> </span>
+<span id="cb111-7"><a href="multivariate-cytokine-iav-stats.html#cb111-7" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;IAV+&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-8"><a href="multivariate-cytokine-iav-stats.html#cb111-8" tabindex="-1"></a>  <span class="fu">select</span>(comp1, comp2)</span>
+<span id="cb111-9"><a href="multivariate-cytokine-iav-stats.html#cb111-9" tabindex="-1"></a></span>
+<span id="cb111-10"><a href="multivariate-cytokine-iav-stats.html#cb111-10" tabindex="-1"></a>plsda_neg <span class="ot">&lt;-</span> </span>
+<span id="cb111-11"><a href="multivariate-cytokine-iav-stats.html#cb111-11" tabindex="-1"></a>  ks_data <span class="sc">%&gt;%</span> </span>
+<span id="cb111-12"><a href="multivariate-cytokine-iav-stats.html#cb111-12" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;IAV-&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb111-13"><a href="multivariate-cytokine-iav-stats.html#cb111-13" tabindex="-1"></a>  <span class="fu">select</span>(comp1, comp2)</span>
+<span id="cb111-14"><a href="multivariate-cytokine-iav-stats.html#cb111-14" tabindex="-1"></a></span>
+<span id="cb111-15"><a href="multivariate-cytokine-iav-stats.html#cb111-15" tabindex="-1"></a><span class="fu">fasano.franceschini.test</span>(plsda_pos, plsda_neg)</span></code></pre></div>
+<pre><code>## 
+##  Fasano-Franceschini Test
+## 
+## data:  plsda_pos and plsda_neg
+## D = 2496, p-value = 0.009795</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="multivariate-cytokine-body-condition-stats.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="create-panel-figure-for-pls-da-plots.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"info": false
+});
+});
+</script>
+
+</body>
+
+</html>

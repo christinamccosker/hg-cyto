@@ -1,0 +1,142 @@
+---
+author: "Christina McCosker"
+date: "`r Sys.Date()`"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Test for confounding factors
+
+## Load required libraries
+```{r, warning=FALSE, message=FALSE}
+library(mixOmics) # so tidyverse re-writes over select
+library(tidyverse)
+library(rstatix)
+```
+
+## Initial Data Processing 
+
+### Import data & merge
+```{r, warning=FALSE, message=FALSE}
+cyto <- read.csv("Output Files/cleaned_cytokine.csv")
+meta <- read.csv("Output Files/metadata_cyto.csv")
+cytobin <-  read.csv("Output Files/cleaned_cytokine_bin.csv")
+
+# Merge cytokine & meta data
+data <- 
+  merge(cyto, meta) %>% 
+  select(-c(21:23))
+
+databin <- 
+  merge(cytobin, meta) %>% 
+  select(-c(21:23))
+```
+
+### Ensure variables are correct format
+```{r}
+data$iav <- as.factor(data$iav)
+data$location <- as.factor(data$location)
+data$year <- as.factor(data$year)
+data$sex <- as.factor(data$sex)
+data$molt.stage <- factor(data$molt.stage, levels=c("III", "IV", "V"), ordered=TRUE)
+data$bc_bin <- factor(data$bc_bin, levels=c("Poor", "Average", "Robust"))
+data$bmi_bin <- factor(data$bmi_bin, levels=c("Poor", "Robust"))
+```
+
+## Exploratory 
+
+### Sample Descriptive Stats
+```{r}
+# Metadata Supplementary Table
+supplmeta <- 
+  data %>% 
+  select(Sample, iav, iavser, location, year, sex, molt.stage, 
+         bodcond, bc_bin, bmi, bmi_bin) %>% 
+  arrange(., year) %>% 
+  mutate(bodcond=paste(round(bodcond, digits=2), " (", bc_bin, ")", sep="")) %>% 
+  select(-bc_bin)
+write.csv(supplmeta, "Output Files/supplemental_metadata.csv", row.names=FALSE)
+
+# Sample sizes across variables
+table(supplmeta$iav)
+table(supplmeta$iavser)
+table(supplmeta$location)
+table(supplmeta$year)
+table(supplmeta$sex)
+table(supplmeta$molt.stage)
+table(data$bc_bin)
+table(data$bmi_bin)
+```
+
+### How many samples is each cytokine detected in?
+```{r}
+num_samples <- apply(cyto[,2:14], 2, function(x) sum(x>0)) %>%
+  data.frame() %>%
+  mutate(perc=round((./116)*100, digits=2))
+num_samples
+```
+
+### Cytokine Ranges
+```{r, warning=FALSE}
+cyto_pos <- 
+  data %>% 
+  filter(iav=="pos") %>% 
+  select(2:14)
+  
+cyto_neg <- 
+  data %>% 
+  filter(iav=="neg") %>% 
+  select(2:14)
+
+pos_range <- 
+  data.frame(row.names=names(cyto_pos)) %>% 
+  mutate(sampsize=sapply(cyto_pos, function(x) length(x[x>0])),
+         mean=sapply(cyto_pos, function(x) {mean(x[x>0])}),
+         se=sapply(cyto_pos, function(x) sd(x)/(sqrt(length(x[x>0])))),
+         median=sapply(cyto_pos, function(x) {median(x[x>0])}),
+         min=sapply(cyto_pos, function(x) {min(x[x>0])}),
+         max=sapply(cyto_pos, max)) %>% 
+  sapply(., function(x) round(x, digits=2)) %>% 
+  data.frame()
+pos_range
+
+neg_range <- 
+  data.frame(row.names=names(cyto_neg)) %>% 
+  mutate(sampsize=sapply(cyto_neg, function(x) length(x[x>0])),
+         mean=sapply(cyto_neg, function(x) {mean(x[x>0])}),
+         se=sapply(cyto_neg, function(x) sd(x)/(sqrt(length(x[x>0])))),
+         median=sapply(cyto_neg, function(x) {median(x[x>0])}),
+         min=sapply(cyto_neg, function(x) {min(x[x>0])}),
+         max=sapply(cyto_neg, max)) %>% 
+  sapply(., function(x) round(x, digits=2)) %>% 
+  data.frame()
+neg_range
+```
+
+## Is proportion of IAV+/IAV- similar across variables?
+```{r}
+# Molt Stage
+tryCatch({
+  chisq.test(table(data$molt.stage, data$iav))
+}, warning = function(w) {
+  fisher.test(table(data$molt.stage, data$iav))
+})
+
+# Pairwise post-hoc
+pairwise_fisher_test(table(data$molt.stage, data$iav), p.adjust.method="holm")
+
+# Body Condition
+tryCatch({
+  chisq.test(table(data$bc_bin, data$iav))
+}, warning = function(w) {
+  fisher.test(table(data$bc_bin, data$iav))
+})
+
+# BMI
+tryCatch({
+  chisq.test(table(data$bmi_bin, data$iav))
+}, warning = function(w) {
+  fisher.test(table(data$bmi_bin, data$iav))
+})
+```

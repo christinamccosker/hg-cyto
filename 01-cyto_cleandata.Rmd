@@ -1,0 +1,158 @@
+---
+author: "Christina McCosker"
+date: "`r Sys.Date()`"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Tidy Cytokine Data Metadata
+
+## Load required libraries
+```{r, message=FALSE, warning=FALSE} 
+library(dplyr)
+```
+
+## Raw file import & cleaning
+
+```{r, message=FALSE, warning=FALSE}
+cyto1 <- read.csv("Input Files/Grey seal cytokine 200_300_800_900.csv")
+cyto1 <- cyto1[-c(1:6, 8:18, 37:56),-c(1:2)]
+colnames(cyto1) <- cyto1[1,]
+colnames(cyto1)[1] <- "Sample"
+cyto1 <- cyto1[-1,]
+
+cyto2 <- read.csv("Input Files/Results #1349 plate 1 grey seal millipore canine kit.csv")
+cyto2 <- cyto2[, -c(2:3, 5:6, 8:10)]
+cyto2 <- reshape(cyto2, idvar="Description", timevar="Analyte", direction="wide")
+colnames(cyto2) <- colnames(cyto1)
+cyto2 <- cyto2[-c(1:3),]
+# these samples quantified twice. kept samples from first run (ML - cyto1)
+cyto2 <- filter(cyto2, !Sample=="853" 
+                     & !Sample=="869"
+                     & !Sample=="896"
+                     & !Sample=="900") 
+
+cyto3 <- read.csv("Input Files/Results #1350 plate 2 grey seal millipore canine kit.csv")
+cyto3 <- cyto3[-1,-c(2:3, 5:6, 8:10)]
+cyto3 <- reshape(cyto3, idvar="Description", timevar="Analyte", direction="wide")
+colnames(cyto3) <- colnames(cyto1)
+cyto3 <- cyto3[-c(1:3),]
+
+cyto4 <- read.csv("Input Files/Results #1359 4-13-23 2023 Monomoy_Muskeget_GP cytokines.csv")
+cyto4 <- cyto4[-c(1:12), -c(1:2,17)]
+colnames(cyto4) <- colnames(cyto1)
+for (i in 1:nrow(cyto4)) {
+  str <- cyto4[i,1]
+  new_str <- gsub('Hg ','',str)
+  cyto4[i,1] <- new_str
+}
+```
+
+## Merge cytokine data & tidy
+
+```{r}
+cyto <- bind_rows(cyto1, cyto2, cyto3, cyto4)
+colnames(cyto)[1] <- "Sample"
+
+# human error while typing in sample names to computer 1505 -> 1507
+cyto$Sample[74] <- "1507" 
+
+# Remove () from cytokine names
+cytokines <- as.data.frame(colnames(cyto[-1]))
+for (i in 1:13) {
+  str <- cytokines[i,]
+  new_str <- gsub("\\s*\\([^\\)]+\\)","",str)
+  cytokines[i,] <- new_str
+}
+colnames(cyto)[2:14] <- cytokines$`colnames(cyto[-1])`
+
+# Change OOR < to 0 & remove *
+for (i in 1:nrow(cyto)) {
+  for (j in 1:ncol(cyto)) {
+    str <- cyto[i,j]
+    new_str <- (gsub("\\*","",str))
+    cyto[i,j] <- new_str
+    {if (cyto[i,j] == "OOR <") {
+      cyto[i,j] <- 0
+    }
+      else{next}
+    }
+  }
+}
+
+# Set cyto conc to as numeric 
+cyto[,2:14] <- sapply(cyto[,2:14], as.numeric)
+
+# Order cytokines alphabetically
+cyto <- 
+  cyto %>% 
+  select(Sample, `GM-CSF`, IFNg, `IL-2`, `IL-6`, `IL-7`, `IL-8`, `IL-10`, 
+          `IL-15`, `IL-18`, `IP-10`, `KC-like`, `MCP-1`, TNFa)
+
+# Write out cleaned cytokine data
+write.csv(cyto, file="Output Files/cleaned_cytokine.csv", row.names=FALSE)
+```
+
+## Create Cytokine (0/1) Dataset
+
+```{r}
+databin <- cyto
+for (i in 1:nrow(databin)) {
+  for (j in 2:14) {
+  databin[i,j] <- ifelse(databin[i,j] > 0, 1, 0)
+  }
+}
+
+# Write out binary cytokine dataset
+write.csv(databin, file="Output Files/cleaned_cytokine_bin.csv", row.names=FALSE)
+```
+
+## Tidy Metadata
+```{r}
+metadata <- 
+  read.csv("Input Files/metadata.csv") %>% 
+  mutate(bodcond = (ax.girth*100)/st.length,
+         bc_bin = ifelse(bodcond < quantile(bodcond, probs=0.25, na.rm=TRUE), "Poor",
+                         ifelse(bodcond > quantile(bodcond, probs=0.25, na.rm=TRUE) & 
+                                  bodcond < quantile(bodcond, probs=0.75, na.rm=TRUE), "Average",
+                          ifelse(bodcond > quantile(bodcond, probs=0.75, na.rm=TRUE), "Robust", NA))),
+         stage = ifelse(iav=="neg" & iavser=="neg","control",
+                        ifelse(iav=="pos" & iavser=="neg", "acute",
+                               ifelse(iav=="pos" & iavser=="pos", "peak", "late")))) %>% 
+  filter(Sample %in% cyto$Sample)
+
+```
+
+## Body Mass Index 
+Grecian et al. 2022: estimated body condition by calculating a volume index using the residuals of a linear regression of weight as a function of length × girth^2 (Hammill et al. 1995)  
+
+- Code: 
+  - vi_m <- lm(weight_kg ~ length_cm * I(girth_cm^2), dat = dat)
+  - summary(vi_m) # adj R squared = 0.487
+  - dat$bmi = residuals(vi_m)
+
+Hammill et al. 1995: weight = length X axil1ary girth squared  
+
+```{r}
+bmi_model <- lm(weight ~ st.length * I(ax.girth^2), data = metadata)
+summary(bmi_model)  # adj R sq = 0.69
+bmi <- 
+  metadata %>% 
+  filter(!weight=="NA" &
+         !st.length=="NA" & 
+         !ax.girth=="NA") %>% 
+  select(Sample) %>% 
+  mutate(bmi = bmi_model$residuals)
+
+meta <- 
+  metadata %>% 
+  left_join(., bmi, by="Sample") %>% 
+  mutate(bmi_bin = ifelse(bmi>0, "Robust", "Poor"),
+         bmi_bin2 = ifelse(bmi < quantile(bmi, probs=0.25, na.rm=TRUE), "Poor",
+                       ifelse(bmi > quantile(bmi, probs=0.25, na.rm=TRUE) & 
+                              bmi < quantile(bmi, probs=0.75, na.rm=TRUE),"Average",
+                          ifelse(bmi > quantile(bmi, probs=0.75, na.rm=TRUE), "Robust", NA))))
+
+write.csv(x=meta, file="Output Files/metadata_cyto.csv", row.names=FALSE)
+```
