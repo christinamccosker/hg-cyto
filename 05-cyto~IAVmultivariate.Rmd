@@ -373,29 +373,29 @@ varimp_plot <- ggplot(varimp) +
                    y = 0, 
                    xend = variable, 
                    yend = imp), 
-               size = 1.5, 
+               size = 0.5, 
                alpha = 0.7) +
   geom_point(aes(x = variable, 
                  y = imp), 
-             size = 4, 
+             size = 1, 
              show.legend = F,
              col="black") +
   labs(x="Cytokine", 
        y="Variable Importance") +
   coord_flip() +
   theme_classic() +
-  theme(text=element_text(size=10, color="black"))
+  theme(text=element_text(size=6, color="black"))
 
 # Separating out IL-6 (proinflammatory), IL-10 (antiinflammatory), and KC-like
 databin <-
   databin %>% 
-  mutate(iav=gsub("neg", "Negative", iav),
-         iav=gsub("pos", "Positive", iav))
+  mutate(iav=gsub("neg", "Neg", iav),
+         iav=gsub("pos", "Pos", iav))
 
 data <-
   data %>% 
-  mutate(iav=gsub("neg", "Negative", iav),
-         iav=gsub("pos", "Positive", iav))
+  mutate(iav=gsub("neg", "Neg", iav),
+         iav=gsub("pos", "Pos", iav))
 
   
 ## Proportions
@@ -413,7 +413,8 @@ il6_prop <-
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(), 
         axis.text.x= element_blank(),
-        legend.position="none")
+        legend.position="none",
+        text = element_text(size = 6))
 
 il10_prop <- 
   databin %>%
@@ -429,7 +430,8 @@ il10_prop <-
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
-        legend.position="none")
+        legend.position="none",
+        text = element_text(size = 6))
 
 kc_prop <- 
   databin %>%
@@ -444,7 +446,8 @@ kc_prop <-
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        legend.position="none")
+        legend.position="none",
+        text = element_text(size = 6))
 
 
 ## Concentrations
@@ -455,9 +458,10 @@ il6 <-
   ggplot(., aes(x=iav, y=log(IL.6))) +
   geom_boxplot(color="black", fill="#878787", lwd=0.25) +
   labs(x=NULL, y=NULL) +
-  stat_n_text(size=3) +
+  stat_n_text(size=1.5) +
   theme_classic() +
-  theme(axis.text.x=element_blank())
+  theme(axis.text.x=element_blank(),
+        text = element_text(size = 6))
 dat <- ggplot_build(il6)$data[[1]]
 il6 <- 
   il6 +
@@ -471,9 +475,10 @@ il10 <-
   ggplot(., aes(x=iav, y=log(IL.10))) +
   geom_boxplot(color="black", fill="#878787", lwd=0.25) +
   labs(x=NULL, y=NULL) +
-  stat_n_text(size=3) +
+  stat_n_text(size=1.5) +
   theme_classic() +
-  theme(axis.text.x=element_blank())
+  theme(axis.text.x=element_blank(),
+        text = element_text(size = 6))
 dat <- ggplot_build(il10)$data[[1]]
 il10 <-
   il10 +
@@ -487,8 +492,9 @@ kclike <-
   ggplot(., aes(x=iav, y=KC.like)) +
   geom_boxplot(color="black", fill="#878787", lwd=0.25) +
   labs(x=NULL, y=NULL) +
-  stat_n_text(size=3) +
-  theme_classic() 
+  stat_n_text(size=1.5) +
+  theme_classic() +
+  theme(text = element_text(size = 6))
 dat <- ggplot_build(kclike)$data[[1]]
 kclike <- 
   kclike +
@@ -504,11 +510,11 @@ kc_grid <- grid.arrange(kc_prop, kclike, ncol=2)
 
 cyto_grid <- grid.arrange(il6_grid, il10_grid, kc_grid,
                           ncol=1, heights=c(3, 3, 3.2),
-                          bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
+                          bottom=textGrob("IAV Status", gp=gpar(fontsize=6)))
 final_grid <- grid.arrange(varimp_plot, cyto_grid, 
                            ncol=2, widths=c(5.5, 4.5))
 
-ggsave(filename="Figures/cytoimportance.jpg", final_grid, height=5, width=8, units="in")
+ggsave(filename="Figures/cytoimportance.jpg", final_grid, height=2.5, width=4, units="in")
 ```
 
 ## How different IAV+ and IAV- groups are

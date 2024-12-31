@@ -42,7 +42,7 @@ data_tidy <-
          sample=data$Sample)
 ```
 
-## Log-transforme scaled,center cytokine data
+## Log-transformed scaled, center cytokine data
 ```{r}
 # Make all non-detects half the limit of detection
 data_half <- data_tidy

@@ -135,8 +135,9 @@ Grecian et al. 2022: estimated body condition by calculating a volume index usin
 Hammill et al. 1995: weight = length X axil1ary girth squared  
 
 ```{r}
-bmi_model <- lm(weight ~ st.length * I(ax.girth^2), data = metadata)
+bmi_model <- lm(weight ~ I(st.length * I(ax.girth^2)), data = metadata)
 summary(bmi_model)  # adj R sq = 0.69
+
 bmi <- 
   metadata %>% 
   filter(!weight=="NA" &

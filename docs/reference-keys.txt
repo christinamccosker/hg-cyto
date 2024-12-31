@@ -1,3 +1,5 @@
+publication-information
+authors
 abstract
 tidy-cytokine-data-metadata
 load-required-libraries
@@ -29,7 +31,7 @@ plsda
 body-condition-cytokines
 load-required-libraries-3
 read-in-data-1
-log-transforme-scaledcenter-cytokine-data
+log-transformed-scaled-center-cytokine-data
 pcas
 body-condition
 body-mass-index-1
@@ -55,10 +57,16 @@ variable-importance-plot
 how-different-iav-and-iav--groups-are
 plsda-1
 d-kolmogorov-smirnov-test
-create-panel-figure-for-pls-da-plots
+iav-cytokines-1
 load-required-libraries-5
 read-in-data-3
+tidy-merge-data
+pca-on-log-transformed-scaled-centered-cytokine-data-2
+test-for-normality-3
+cramer-test-3
+cytokine-exploratory-plots-swabs
+create-panel-figure-for-pls-da-plots
+load-required-libraries-6
+read-in-data-4
 replace-0-with-half-mindc-log-center-scale
 plot
-authors
-publication-information
