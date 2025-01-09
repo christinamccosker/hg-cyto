@@ -53,8 +53,8 @@ data_tidy <-
 ```
 
 ## PCA on raw cytokine data
+### Infection
 ```{r, warning=FALSE}
-# Infection 
 PCA_iav <- prcomp(data_tidy[,1:9], center=FALSE, scale=FALSE)
 
 raw_iav <- autoplot(PCA_iav, data=data_tidy, shape="iav") +
@@ -71,8 +71,10 @@ legend<-as_ggplot(iav_legend)
 raw_iav <- 
   raw_iav + 
   theme(legend.position="none")
+```
 
-# Molt Stage
+### Molt Stage
+```{r}
 data_raw_molt <- 
   data_tidy %>% 
   filter(!is.na(molt.stage))
@@ -92,9 +94,10 @@ legend<-as_ggplot(molt_legend)
 raw_molt <- 
   raw_molt + 
   theme(legend.position="none")
+```
 
-
-# Body Condition
+### Body Condition
+```{r}
 data_raw_bc <- 
   data_tidy %>% 
   filter(!is.na(bc_bin))
@@ -115,9 +118,10 @@ legend<-as_ggplot(bc_legend)
 raw_bc <- 
   raw_bc + 
   theme(legend.position="none")
+```
 
-
-# Location
+### Location
+```{r}
 PCA_loc <- prcomp(data_tidy[,1:9], center=FALSE, scale=FALSE)
 
 raw_loc <- autoplot(PCA_loc, data=data_tidy, shape="location") + 
@@ -136,6 +140,7 @@ raw_loc <-
 ```
 
 ## PCA on log-transformed, scaled, centered cytokine data
+### Prepare data
 ```{r}
 # Make all non-detects half the limit of detection
 data_half <- data_tidy
@@ -159,8 +164,10 @@ data_scaled <-
   data_half %>% 
   mutate_at(1:9, log) %>% 
   mutate_at(1:9, function(x) scale(x, center=TRUE, scale=TRUE))
+```
 
-# Infection Stage
+### Infection Stage
+```{r}
 PCA_scaled_iav <- prcomp(data_scaled[,1:9], center=FALSE, scale=FALSE)
 
 scaled_iav <- autoplot(PCA_scaled_iav, data=data_scaled, shape="iav") +
@@ -168,10 +175,13 @@ scaled_iav <- autoplot(PCA_scaled_iav, data=data_scaled, shape="iav") +
                                  labels=c("Negative", "Positive")) +
               theme_bw() +
               theme(panel.grid=element_blank(), text=element_text(size=8),
-                    legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
+                    legend.background=element_rect(size=0.5, linetype="solid", 
+                                                   colour ="black"),
                     legend.position="none")
+```
 
-# Molt Stage
+### Molt Stage
+```{r}
 data_scaled_molt <- 
   data_scaled %>% 
   filter(!is.na(molt.stage))
@@ -182,10 +192,13 @@ scaled_molt <- autoplot(PCA_scaled_molt, data=data_scaled_molt, shape="molt.stag
               scale_shape_manual(values=c(0,16,8,2), name="Molt Stage") +
               theme_bw() +
               theme(panel.grid=element_blank(), text=element_text(size=8),
-                    legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
+                    legend.background=element_rect(size=0.5, linetype="solid", 
+                                                   colour ="black"),
                     legend.position="none")
+```
 
-# Body Condition
+### Body Condition
+```{r}
 data_scaled_bc <- 
   data_scaled %>% 
   filter(!is.na(bc_bin))
@@ -198,17 +211,23 @@ scaled_bc <- autoplot(PCA_scaled_bc, data=data_scaled_bc, shape="bc_bin") +
              theme(panel.grid=element_blank(), text=element_text(size=8),
                    legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
                    legend.position="none")
+```
 
-# Location
+#### Location
+```{r}
 PCA_scaled_loc <- prcomp(data_scaled[,1:9], center=FALSE, scale=FALSE)
 
 scaled_loc <- autoplot(PCA_scaled_loc, data=data_scaled, shape="location") +
           scale_shape_manual(values=c(0,16,8), name="Location") +
           theme_bw() +
           theme(panel.grid=element_blank(), text=element_text(size=8),
-                legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
+                legend.background=element_rect(size=0.5, linetype="solid", 
+                                               colour ="black"),
                 legend.position="none")
+```
 
+### Combine
+```{r}
 cyto_pca_iav <- grid.arrange(arrangeGrob(raw_iav, scaled_iav, ncol=2),
                              arrangeGrob(iav_legend, ncol=1),
                              heights=c(5,1))
