@@ -8,7 +8,7 @@ editor_options:
 
 # Body condition ~ cytokines
 
-## Load required libraries
+## Libraries
 ```{r, warning=FALSE, message=FALSE}
 library(mixOmics)
 library(tidyverse)
@@ -21,7 +21,7 @@ library(rpart)
 library(rpart.plot)
 ```
 
-## Read in data 
+## Data
 ```{r, message=FALSE, warning=FALSE}
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
 meta <- read.csv("Output Files/metadata_cyto.csv")

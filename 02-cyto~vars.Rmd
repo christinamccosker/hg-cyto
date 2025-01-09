@@ -8,7 +8,7 @@ editor_options:
 
 # Test for confounding variables
 
-## Load required libraries
+## Libraries
 ```{r, warning=FALSE, message=FALSE}
 library(mixOmics) # so tidyverse re-writes over select
 library(tidyverse)
@@ -82,36 +82,52 @@ num_samples
 cyto_pos <- 
   data %>% 
   filter(iav=="pos") %>% 
-  select(2:14)
-  
-cyto_neg <- 
-  data %>% 
-  filter(iav=="neg") %>% 
-  select(2:14)
+  select(1:14)
+
+std.error <- function(x) sd(x)/sqrt(length(x))
 
 pos_range <- 
-  data.frame(row.names=names(cyto_pos)) %>% 
-  mutate(sampsize=sapply(cyto_pos, function(x) length(x[x>0])),
-         mean=sapply(cyto_pos, function(x) {mean(x[x>0])}),
-         se=sapply(cyto_pos, function(x) sd(x)/(sqrt(length(x[x>0])))),
-         median=sapply(cyto_pos, function(x) {median(x[x>0])}),
-         min=sapply(cyto_pos, function(x) {min(x[x>0])}),
-         max=sapply(cyto_pos, max)) %>% 
-  sapply(., function(x) round(x, digits=2)) %>% 
-  data.frame()
-pos_range
+  meta %>% 
+  select(Sample, iav) %>% 
+  filter(iav=="pos") %>% 
+  merge(., cyto, by="Sample") %>% 
+  pivot_longer(!c(iav, Sample), names_to="cytokine", values_to="concentration") %>% 
+  filter(!concentration==0) %>% 
+  group_by(cytokine) %>% 
+  reframe(pos_sampsize=n(),
+          mean=mean(concentration),
+          se=std.error(concentration),
+          median=median(concentration),
+          min=min(concentration),
+          max=max(concentration)) %>% 
+  filter(!duplicated(.)) %>% 
+  mutate(across(where(is.numeric), \(x) round(x, 2))) %>% 
+  mutate(pos_meanse=paste(mean, "+", se),
+         pos_medrange=paste(median, " (", min, " - ", max, ")", sep="")) %>% 
+  select(cytokine, pos_sampsize, pos_meanse, pos_medrange)
 
 neg_range <- 
-  data.frame(row.names=names(cyto_neg)) %>% 
-  mutate(sampsize=sapply(cyto_neg, function(x) length(x[x>0])),
-         mean=sapply(cyto_neg, function(x) {mean(x[x>0])}),
-         se=sapply(cyto_neg, function(x) sd(x)/(sqrt(length(x[x>0])))),
-         median=sapply(cyto_neg, function(x) {median(x[x>0])}),
-         min=sapply(cyto_neg, function(x) {min(x[x>0])}),
-         max=sapply(cyto_neg, max)) %>% 
-  sapply(., function(x) round(x, digits=2)) %>% 
-  data.frame()
-neg_range
+  meta %>% 
+  select(Sample, iav) %>% 
+  filter(iav=="neg") %>% 
+  merge(., cyto, by="Sample") %>% 
+  pivot_longer(!c(iav, Sample), names_to="cytokine", values_to="concentration") %>% 
+  filter(!concentration==0) %>% 
+  group_by(cytokine) %>% 
+  reframe(neg_sampsize=n(),
+          mean=mean(concentration),
+          se=std.error(concentration),
+          median=median(concentration),
+          min=min(concentration),
+          max=max(concentration)) %>% 
+  filter(!duplicated(.)) %>% 
+  mutate(across(where(is.numeric), \(x) round(x, 2))) %>% 
+  mutate(neg_meanse=paste(mean, "+", se),
+         neg_medrange=paste(median, " (", min, " - ", max, ")", sep="")) %>% 
+  select(cytokine, neg_sampsize, neg_meanse, neg_medrange)
+
+table <- merge(neg_range, pos_range, by="cytokine", all.x=TRUE)
+write.csv(table, "Output Files/manuscript_cytokinetable.csv", row.names=FALSE)  
 ```
 
 ## Is proportion of IAV+/IAV- similar across variables?

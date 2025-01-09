@@ -8,7 +8,7 @@ editor_options:
 
 # Create panel figure for PLS-DA plots
 
-## Load required Libraries
+## Libraries
 ```{r}
 library(mixOmics)
 library(tidyverse)
@@ -16,7 +16,7 @@ library(gridExtra)
 library(reshape2)
 ```
 
-## Read in data 
+## Data 
 ```{r, message=FALSE, warning=FALSE}
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
 meta <- read.csv("Output Files/metadata_cyto.csv")
@@ -176,8 +176,8 @@ iavneg_scaled <-
 ```
 
 ## Plot!
+### Molt Stage
 ```{r}
-# Molt Stage
 molt_plsda <- mixOmics::plsda(molt_scaled[,1:9],
                               molt_scaled$molt.stage,
                               scale=FALSE,
@@ -201,8 +201,10 @@ molt_plsda_ggplot <-
   theme_bw() +
   theme(panel.grid=element_blank(),
         legend.position=c(0.14, 0.17))
+```
 
-# Body Condition
+### Body Condition
+```{r}
 bc_plsda <- mixOmics::plsda(bc_scaled[,1:9],
                             bc_scaled$bc,
                             scale=FALSE,
@@ -227,9 +229,10 @@ bc_plsda_ggplot <-
   theme_bw() +
   theme(panel.grid=element_blank(),
         legend.position=c(0.83, 0.82))
+```
 
-
-# IAV
+### IAV
+```{r}
 iav_plsda <- mixOmics::plsda(iav_scaled[,1:9],
                              iav_scaled$iav,
                              scale=FALSE,
@@ -254,15 +257,19 @@ iav_plsda_ggplot <-
   theme_bw() +
   theme(panel.grid=element_blank(),
         legend.position=c(0.14, 0.13))
+```
 
+### Combine all plots
+```{r}
 plsda_plots <- grid.arrange(molt_plsda_ggplot, bc_plsda_ggplot, iav_plsda_ggplot,
                             ncol=2, nrow=2, 
                             layout_matrix=(rbind(c(1,1,2,2), c(NA,3,3,NA))))
 
 ggsave("Figures/plsda_manuscript.jpeg", plsda_plots, width=10, height=8, units="in")
-
+```
 
 # IAV Negative Animals
+```{r}
 iavneg_plsda <- mixOmics::plsda(iavneg_scaled[,1:9],
                              iavneg_scaled$iavser,
                              scale=FALSE,

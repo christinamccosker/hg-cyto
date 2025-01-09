@@ -8,7 +8,7 @@ editor_options:
 
 # IAV ~ cytokines
 
-## Load required libraries
+## Libraries
 ```{r, warning=FALSE, message=FALSE}
 library(ggfortify)
 library(ggpubr)
@@ -27,7 +27,7 @@ library(EnvStats)
 library(grid)
 ```
 
-## Read in data 
+## Data
 ```{r, message=FALSE, warning=FALSE}
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
 meta <- read.csv("Output Files/metadata_cyto.csv")
@@ -359,6 +359,8 @@ cart_model$variable.importance
 ```
 
 ### Variable Importance Plot
+Variable importance: the sum of the goodness of split measures for each split for which it was the primary variable, plus goodness * (adjusted agreement) for all splits in which it was a surrogate. In the printout these are scaled to sum to 100 and the rounded values are shown, omitting any variable whose proportion is less than 1%. (https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf)
+
 ```{r}
 varimp <- 
   data.frame(imp=cart_model$variable.importance) %>% 
@@ -368,12 +370,13 @@ varimp <-
   mutate(variable=gsub("\\.","-",variable),
          variable = forcats::fct_inorder(variable))
 
-varimp_plot <- ggplot(varimp) + 
+varimp_plot <- 
+  ggplot(varimp) + 
   geom_segment(aes(x = variable, 
                    y = 0, 
                    xend = variable, 
                    yend = imp), 
-               size = 0.5, 
+               linewidth = 0.5, 
                alpha = 0.7) +
   geom_point(aes(x = variable, 
                  y = imp), 
@@ -384,7 +387,7 @@ varimp_plot <- ggplot(varimp) +
        y="Variable Importance") +
   coord_flip() +
   theme_classic() +
-  theme(text=element_text(size=6, color="black"))
+  theme(text=element_text(size=10, color="black"))
 
 # Separating out IL-6 (proinflammatory), IL-10 (antiinflammatory), and KC-like
 databin <-
@@ -406,7 +409,7 @@ il6_prop <-
          IL.6=factor(IL.6, levels=c("P", "A"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.6,iav), fill=IL.6)) +
-  scale_fill_manual(values=c("P"="#717171", "A"="lightgray")) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
   labs(y="IL-6") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -414,7 +417,7 @@ il6_prop <-
         axis.title.x = element_blank(), 
         axis.text.x= element_blank(),
         legend.position="none",
-        text = element_text(size = 6))
+        text = element_text(size = 10))
 
 il10_prop <- 
   databin %>%
@@ -423,7 +426,7 @@ il10_prop <-
          IL.10=factor(IL.10, levels=c("P", "A"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.10,iav), fill=IL.10)) +
-  scale_fill_manual(values=c("P"="#717171", "A"="lightgray")) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
   labs(y="IL-10") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -431,7 +434,7 @@ il10_prop <-
         axis.title.x = element_blank(),
         axis.text.x = element_blank(),
         legend.position="none",
-        text = element_text(size = 6))
+        text = element_text(size = 10))
 
 kc_prop <- 
   databin %>%
@@ -440,14 +443,14 @@ kc_prop <-
          KC.like=factor(KC.like, levels=c("P", "A"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(KC.like,iav), fill=KC.like)) +
-  scale_fill_manual(values=c("P"="#717171", "A"="lightgray")) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
   labs(y="KC-like") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
         legend.position="none",
-        text = element_text(size = 6))
+        text = element_text(size = 10))
 
 
 ## Concentrations
@@ -456,12 +459,13 @@ il6 <-
   select(iav, IL.6) %>% 
   filter(!IL.6 == 0) %>% 
   ggplot(., aes(x=iav, y=log(IL.6))) +
-  geom_boxplot(color="black", fill="#878787", lwd=0.25) +
+  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
+  geom_point(size=0.5) +
   labs(x=NULL, y=NULL) +
   stat_n_text(size=1.5) +
   theme_classic() +
   theme(axis.text.x=element_blank(),
-        text = element_text(size = 6))
+        text = element_text(size = 10))
 dat <- ggplot_build(il6)$data[[1]]
 il6 <- 
   il6 +
@@ -473,12 +477,13 @@ il10 <-
   select(iav, IL.10) %>% 
   filter(!IL.10 == 0) %>% 
   ggplot(., aes(x=iav, y=log(IL.10))) +
-  geom_boxplot(color="black", fill="#878787", lwd=0.25) +
+  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
+  geom_point(size=0.5) +
   labs(x=NULL, y=NULL) +
   stat_n_text(size=1.5) +
   theme_classic() +
   theme(axis.text.x=element_blank(),
-        text = element_text(size = 6))
+        text = element_text(size = 10))
 dat <- ggplot_build(il10)$data[[1]]
 il10 <-
   il10 +
@@ -490,11 +495,12 @@ kclike <-
   select(iav, KC.like) %>% 
   filter(!KC.like==0) %>% 
   ggplot(., aes(x=iav, y=KC.like)) +
-  geom_boxplot(color="black", fill="#878787", lwd=0.25) +
+  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
+  geom_point(size=0.5) +
   labs(x=NULL, y=NULL) +
   stat_n_text(size=1.5) +
   theme_classic() +
-  theme(text = element_text(size = 6))
+  theme(text = element_text(size = 10))
 dat <- ggplot_build(kclike)$data[[1]]
 kclike <- 
   kclike +
@@ -504,17 +510,19 @@ kclike <-
 
 #################
 
-il6_grid <- grid.arrange(il6_prop, il6, ncol=2)
-il10_grid <- grid.arrange(il10_prop, il10, ncol=2)
-kc_grid <- grid.arrange(kc_prop, kclike, ncol=2)
+prop_grid <- grid.arrange(il6_prop, il10_prop, kc_prop, ncol=1)
+conc_grid <- grid.arrange(il6, il10, kclike, ncol=1, 
+                          left=textGrob("log(Concentration (pg/mL))", 
+                                        rot=90, gp=gpar(fontsize=10)))
 
-cyto_grid <- grid.arrange(il6_grid, il10_grid, kc_grid,
-                          ncol=1, heights=c(3, 3, 3.2),
-                          bottom=textGrob("IAV Status", gp=gpar(fontsize=6)))
+cyto_grid <- grid.arrange(prop_grid, conc_grid,
+                           ncol=2, 
+                           bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
+
 final_grid <- grid.arrange(varimp_plot, cyto_grid, 
                            ncol=2, widths=c(5.5, 4.5))
 
-ggsave(filename="Figures/cytoimportance.jpg", final_grid, height=2.5, width=4, units="in")
+ggsave(filename="Figures/cytoimportance.jpg", final_grid, height=5, width=8, units="in")
 ```
 
 ## How different IAV+ and IAV- groups are

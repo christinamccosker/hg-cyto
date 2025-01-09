@@ -8,13 +8,12 @@ editor_options:
 
 # Tidy Cytokine Data Metadata
 
-## Load required libraries
+## Libraries
 ```{r, message=FALSE, warning=FALSE} 
 library(dplyr)
 ```
 
 ## Raw file import & cleaning
-
 ```{r, message=FALSE, warning=FALSE}
 cyto1 <- read.csv("Input Files/Grey seal cytokine 200_300_800_900.csv")
 cyto1 <- cyto1[-c(1:6, 8:18, 37:56),-c(1:2)]
@@ -50,7 +49,6 @@ for (i in 1:nrow(cyto4)) {
 ```
 
 ## Merge cytokine data & tidy
-
 ```{r}
 cyto <- bind_rows(cyto1, cyto2, cyto3, cyto4)
 colnames(cyto)[1] <- "Sample"
@@ -95,7 +93,6 @@ write.csv(cyto, file="Output Files/cleaned_cytokine.csv", row.names=FALSE)
 ```
 
 ## Create Cytokine (0/1) Dataset
-
 ```{r}
 databin <- cyto
 for (i in 1:nrow(databin)) {
