@@ -127,11 +127,18 @@ neg_range <-
   select(cytokine, neg_sampsize, neg_meanse, neg_medrange)
 
 table <- merge(neg_range, pos_range, by="cytokine", all.x=TRUE)
-write.csv(table, "Output Files/manuscript_cytokinetable.csv", row.names=FALSE)  
+write.csv(table, "Output Files/manuscript_cytokinetable.csv", row.names=FALSE)
 ```
 
 ## Is proportion of IAV+/IAV- similar across variables?
 ```{r}
+# Location
+tryCatch({
+  chisq.test(table(data$location, data$iav))
+}, warning = function(w) {
+  fisher.test(table(data$location, data$iav))
+})
+
 # Molt Stage
 tryCatch({
   chisq.test(table(data$molt.stage, data$iav))

@@ -76,6 +76,19 @@ data_scaled_bmi <-
   filter(!bmi=="NA")
 ```
 
+## Body Condition Range & Bins
+```{r}
+hist(meta$bodcond)
+
+ggplot(meta, aes(x=bodcond)) +
+  geom_histogram(bins=10, color="black", fill="gray80") +
+  labs(x="Body Condition Index", y="Frequency") +
+  geom_vline(xintercept=c(83, 90, 96), colour="red", size=1) +
+  theme_classic()
+
+```
+
+
 ## PCAs
 ```{r, warning=FALSE}
 PCA_scaled_bc <- 
@@ -279,14 +292,14 @@ cramer.test(bmi2_poor, bmi2_robust)
 ```
 
 ## Cytokine Importance
-Not doing because no sig difference among body condition groups. 
 ```{r, message=FALSE}
 # Prepare data for CART
 data_cart <- 
   lapply(data_scaled, c) %>% 
   data.frame() %>% 
-  select(!sample) %>% 
-  mutate(bc=factor(bc, levels=c("Poor", "Average", "Robust"))) 
+  select(!sample & !bmi & !bmi2) %>% 
+  mutate(bc=factor(bc, levels=c("Poor", "Average", "Robust"))) %>%
+  na.omit(bc)
 
 data_cart_bmi <-
   lapply(data_scaled, c) %>% 
@@ -302,7 +315,60 @@ data_cart_bmi2 <-
 ```
 
 ### Cross Validation
-Not doing because no sig difference among body condition groups. 
+See reference: https://mlr3book.mlr-org.com/
+```{r}
+# Creating task and learner
+task <- as_task_classif(bc ~ ., 
+                        data = data_cart)
+
+task <- task$set_col_roles(cols="bc",
+                           add_to="stratum")
+
+learner <- lrn("classif.rpart",
+               predict_type = "prob",
+               maxdepth = to_tune(2, 5),
+               minbucket = to_tune(1, 30),
+               minsplit = to_tune(1, 30)
+               )
+
+# Define tuning instance - info ~ tuning process
+instance <- ti(task = task,
+               learner = learner,
+               resampling = rsmp("cv", folds = 10),
+               measures = msr("classif.ce"),
+               terminator = trm("none")
+               )
+
+# Define how to tune the model
+tuner <- tnr("grid_search", 
+             batch_size = 10
+             )
+
+# Trigger the tuning process
+set.seed(3)
+ tuner$optimize(instance)
+ 
+# optimal values: 
+  # maxdepth = 5
+  # minbucket = 7
+  # minsplit = 24
+  # auc = ?????
+
+# Model with optimized parameters
+cart_model <- rpart(formula=bc ~ .,
+                    data=data_cart,
+                    method="class",
+                    maxdepth=5,
+                    minbucket=7,
+                    minsplit=24)
+
+# plot optimized tree
+rpart.plot(cart_model)
+printcp(cart_model)
+cart_model$variable.importance 
+  # IL-6 and IL-7 are two most important cytokines
+```
+
 
 ## How different groups are
 
