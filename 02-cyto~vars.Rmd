@@ -146,6 +146,10 @@ tryCatch({
   fisher.test(table(data$molt.stage, data$iav))
 })
 
+data.frame(table(data$iav, data$molt.stage)) %>% 
+  pivot_wider(names_from="Var1", values_from="Freq") %>% 
+  mutate(proppos = (pos/(pos+neg))*100)
+
 # Pairwise post-hoc
 pairwise_fisher_test(table(data$molt.stage, data$iav), p.adjust.method="holm")
 

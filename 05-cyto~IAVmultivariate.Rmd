@@ -343,7 +343,7 @@ learner <- lrn("classif.rpart",
 instance <- ti(task = task,
                learner = learner,
                resampling = rsmp("cv", folds = 10),
-               measures = msr("classif.auc"),
+               measures = msr("classif.ce"),
                terminator = trm("none")
                )
 
@@ -351,24 +351,24 @@ instance <- ti(task = task,
 tuner <- tnr("grid_search", 
              batch_size = 10
              )
-```
-```{r, include=FALSE}
+
 # Trigger the tuning process
+set.seed(7)
 # tuner$optimize(instance)
 
 # optimal values: 
-  # maxdepth = 4
+  # maxdepth = 5
   # minbucket = 20
-  # minsplit = 7
-  # auc = 0.68
+  # minsplit = 20
+  # classif.ce = 0.2757576
 
 # Model with optimized parameters
 cart_model <- rpart(formula=iav ~ .,
                     data=data_cart,
                     method="class",
-                    maxdepth=4,
+                    maxdepth=5,
                     minbucket=20,
-                    minsplit=7)
+                    minsplit=20)
 
 # plot optimized tree
 rpart.plot(cart_model)
@@ -377,9 +377,10 @@ cart_model$variable.importance
   # IL-6 and IL-10 are top two cytokines
 ```
 
-### Variable Importance Plot
+### Manuscript Plot
 Variable importance: the sum of the goodness of split measures for each split for which it was the primary variable, plus goodness * (adjusted agreement) for all splits in which it was a surrogate. In the printout these are scaled to sum to 100 and the rounded values are shown, omitting any variable whose proportion is less than 1%. (https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf)
 
+#### Variable Importance
 ```{r}
 varimp <- 
   data.frame(imp=cart_model$variable.importance) %>% 
@@ -407,8 +408,10 @@ varimp_plot <-
   coord_flip() +
   theme_classic() +
   theme(text=element_text(size=10, color="black"))
+```
 
-# Separating out IL-6 (proinflammatory), IL-10 (antiinflammatory), and KC-like
+#### Data Prep
+```{r}
 databin <-
   databin %>% 
   mutate(iav=gsub("neg", "Neg", iav),
@@ -418,9 +421,10 @@ data <-
   data %>% 
   mutate(iav=gsub("neg", "Neg", iav),
          iav=gsub("pos", "Pos", iav))
+```
 
-  
-## Proportions
+#### Proportions
+```{r}
 il6_prop <- 
   databin %>%
   mutate(IL.6=gsub("1", "P", IL.6),
@@ -470,9 +474,11 @@ kc_prop <-
         axis.title.x = element_blank(),
         legend.position="none",
         text = element_text(size = 10))
+```
 
 
-## Concentrations
+#### Concentrations - Raw
+```{r}
 il6 <- 
   data %>% 
   select(iav, IL.6) %>% 
@@ -490,6 +496,8 @@ il6 <-
   il6 +
   geom_segment(data=dat, aes(x=xmin, xend=xmax, 
                              y=middle, yend=middle), colour="lightgray")
+
+il6
 
 il10 <- 
   data %>% 
@@ -525,10 +533,10 @@ kclike <-
   kclike +
   geom_segment(data=dat, aes(x=xmin, xend=xmax, 
                              y=middle, yend=middle), colour="lightgray")
+```
 
-
-#################
-
+#### Combine together - Raw
+```{r}
 prop_grid <- grid.arrange(il6_prop, il10_prop, kc_prop, ncol=1)
 conc_grid <- grid.arrange(il6, il10, kclike, ncol=1, 
                           left=textGrob("log(Concentration (pg/mL))", 
@@ -544,10 +552,87 @@ final_grid <- grid.arrange(varimp_plot, cyto_grid,
 ggsave(filename="Figures/cytoimportance.jpg", final_grid, height=5, width=8, units="in")
 ```
 
+
+#### Concentrations - Scaled
+```{r}
+il6_scaled <- 
+  data_cart %>% 
+  select(iav, IL.6) %>% 
+  ggplot(., aes(x=iav, y=IL.6)) +
+  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
+  geom_point(size=0.5) +
+  labs(x=NULL, y=NULL) +
+  stat_n_text(size=1.5) +
+  theme_classic() +
+  theme(axis.text.x=element_blank(),
+        text = element_text(size = 10))
+dat <- ggplot_build(il6_scaled)$data[[1]]
+il6_scaled <- 
+  il6_scaled +
+  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
+                             y=middle, yend=middle), colour="lightgray")
+
+il6_scaled
+
+il10_scaled <- 
+  data_cart %>% 
+  select(iav, IL.10) %>% 
+  ggplot(., aes(x=iav, y=IL.10)) +
+  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
+  geom_point(size=0.5) +
+  labs(x=NULL, y=NULL) +
+  stat_n_text(size=1.5) +
+  theme_classic() +
+  theme(axis.text.x=element_blank(),
+        text = element_text(size = 10))
+dat <- ggplot_build(il10_scaled)$data[[1]]
+il10_scaled <-
+  il10_scaled +
+  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
+                             y=middle, yend=middle), colour="lightgray")
+il10_scaled
+
+kclike_scaled <- 
+  data_cart %>% 
+  select(iav, KC.like) %>% 
+  ggplot(., aes(x=iav, y=KC.like)) +
+  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
+  geom_point(size=0.5) +
+  labs(x=NULL, y=NULL) +
+  stat_n_text(size=1.5) +
+  theme_classic() +
+  theme(text = element_text(size = 10))
+dat <- ggplot_build(kclike_scaled)$data[[1]]
+kclike_scaled <- 
+  kclike_scaled +
+  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
+                             y=middle, yend=middle), colour="lightgray")
+kclike_scaled
+```
+
+#### Combine together - Scaled
+```{r}
+prop_grid <- grid.arrange(il6_prop, il10_prop, kc_prop, ncol=1)
+conc_grid <- grid.arrange(il6_scaled, il10_scaled, kclike_scaled, ncol=1, 
+                          left=textGrob("Concentration", 
+                                        rot=90, gp=gpar(fontsize=10)))
+
+cyto_grid <- grid.arrange(prop_grid, conc_grid,
+                           ncol=2, 
+                           bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
+
+final_grid <- grid.arrange(varimp_plot, cyto_grid, 
+                           ncol=2, widths=c(5.5, 4.5))
+
+ggsave(filename="Figures/cytoimportance_scaled.jpg", final_grid, height=5, width=8, units="in")
+```
+
+
 ## How different IAV+ and IAV- groups are
 
 ### PLSDA 
 
+#### Prepare data
 ```{r}
 pls_x <-
  data_cart[,1:9] 
@@ -558,27 +643,18 @@ pls_y <-
          iav=gsub("pos", "IAV+", iav),
          iav=as.factor(iav)) %>% 
   select(iav)
+```
 
-# PCA Model (to compare)
-pca <- pca(pls_x, 
-           ncomp=9,
-           center=FALSE, 
-           scale=FALSE)
-
-plotIndiv(pca, 
-          group=pls_y$iav,
-          ind.names=FALSE,
-          ellipse=TRUE, 
-          legend=TRUE, 
-          legend.title="IAV Status",
-          title="PCA")
-plot(pca)
-
-# PLSDA Model
+#### PLSDA Model
+```{r}
 plsda_model <- mixOmics::plsda(pls_x,
                                pls_y$iav,
                                scale=FALSE,
                                ncomp=9)
+```
+
+#### Visualizations
+```{r}
 plotIndiv(plsda_model,
           ellipse=TRUE, 
           ind.names=FALSE,
@@ -589,7 +665,16 @@ plotIndiv(plsda_model,
           style="lattice",
           title="PLS-DA Comp 1 - 2")
 
-biplot(plsda_model, ind.names=FALSE, legend.title="IAV Status")
+# Set x and y axis labels based on model loadings
+labelx <- paste("X-variate 1: ", 
+                round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+                "% expl. var",
+                sep="")
+
+labely <- paste("X-variate 2: ", 
+                round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+                "% expl. var",
+                sep="")
 
 # ggplot2
 plsda_ggplot <- 
@@ -604,8 +689,8 @@ iav_plsda_ggplot <-
              col=iav)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="x-variate 1 (14%)",
-       y = "x-variate 2 (19%)",
+  labs(x=labelx,
+       y = labely,
        name="IAV Status") +
   scale_color_manual("IAV Status",
                      values=c("#9d9d9d","#008ba2")) +
@@ -615,6 +700,21 @@ iav_plsda_ggplot <-
 
 iav_plsda_ggplot
 ```
+
+#### Cytokine Contributions
+```{r}
+plsda_loadings <- 
+  plsda_model$loadings$X %>% 
+  data.frame() %>% 
+  select(1:2) %>% 
+  arrange(comp1)
+plsda_loadings
+
+biplot(plsda_model, ind.names=FALSE, legend.title="IAV Status")
+
+plotVar(plsda_model)
+```
+
 
 ### 2-D Kolmogorov-Smirnov test
 ```{r}

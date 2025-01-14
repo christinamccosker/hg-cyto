@@ -292,8 +292,9 @@ cramer.test(bmi2_poor, bmi2_robust)
 ```
 
 ## Cytokine Importance
+
+### Prepare data for CART
 ```{r, message=FALSE}
-# Prepare data for CART
 data_cart <- 
   lapply(data_scaled, c) %>% 
   data.frame() %>% 
@@ -346,21 +347,22 @@ tuner <- tnr("grid_search",
 
 # Trigger the tuning process
 set.seed(3)
- tuner$optimize(instance)
+# tuner$optimize(instance)
  
 # optimal values: 
-  # maxdepth = 5
-  # minbucket = 7
-  # minsplit = 24
-  # auc = ?????
+  # maxdepth = 4
+  # minbucket = 10
+  # minsplit = 20
+  # classif.ce = 0.5344172
+ 
 
 # Model with optimized parameters
 cart_model <- rpart(formula=bc ~ .,
                     data=data_cart,
                     method="class",
-                    maxdepth=5,
-                    minbucket=7,
-                    minsplit=24)
+                    maxdepth=4,
+                    minbucket=10,
+                    minsplit=20)
 
 # plot optimized tree
 rpart.plot(cart_model)
@@ -373,6 +375,7 @@ cart_model$variable.importance
 ## How different groups are
 
 ### PLSDA - Body Condition
+#### Prepare data
 ```{r, warning=FALSE}
 pls_x <-
   data_cart %>% 
@@ -383,13 +386,18 @@ pls_y <-
   data_cart %>% 
   select(bc) %>% 
   filter(!bc=="NA")
+```
 
-# PLSDA Model
+#### PLSDA Model
+```{r}
 plsda_model <- mixOmics::plsda(pls_x,
                                pls_y$bc,
-                               scale=FALSE,
+                               scale=TRUE,
                                ncomp=9)
+```
 
+#### Visualizations
+```{r}
 plotIndiv(plsda_model,
           ellipse=TRUE, 
           ind.names=FALSE,
@@ -400,7 +408,16 @@ plotIndiv(plsda_model,
           style="lattice",
           title="PLS-DA Comp 1 - 2")
 
-biplot(plsda_model, ind.names=FALSE, legend.title="Body Condition")
+# Set x and y axis labels based on model loadings
+labelx <- paste("X-variate 1: ", 
+                round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+                "% expl. var",
+                sep="")
+
+labely <- paste("X-variate 2: ", 
+                round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+                "% expl. var",
+                sep="")
 
 # ggplot2
 plsda_ggplot <- 
@@ -415,8 +432,8 @@ bc_plsda_ggplot <-
              col=bc)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="x-variate 1 (21%)",
-       y = "x-variate 2 (9%)",
+  labs(x=labelx,
+       y = labely,
        name="Body Condition") +
   scale_color_manual("Body Condition",
                      values=c("#9d9d9d","#008ba2", "black")) +
@@ -425,6 +442,20 @@ bc_plsda_ggplot <-
         legend.position=c(0.1, 0.1))
 
 bc_plsda_ggplot
+```
+
+#### Cytokine Contributions
+```{r}
+plsda_loadings <- 
+  plsda_model$loadings$X %>% 
+  data.frame() %>% 
+  select(1:2) %>% 
+  arrange(comp1)
+plsda_loadings
+
+biplot(plsda_model, ind.names=FALSE, legend.title="Body Condition")
+
+plotVar(plsda_model)
 ```
 
 ### PLSDA - Body Mass Index
@@ -442,7 +473,7 @@ pls_y_bmi <-
 # PLSDA Model
 plsda_model_bmi <- mixOmics::plsda(pls_x_bmi,
                                pls_y_bmi$bmi,
-                               scale=FALSE,
+                               scale=TRUE,
                                ncomp=9)
 
 plotIndiv(plsda_model_bmi,
@@ -457,6 +488,18 @@ plotIndiv(plsda_model_bmi,
 
 biplot(plsda_model_bmi, ind.names=FALSE, legend.title="Body Mass Index")
 
+# Set x and y axis labels based on model loadings
+labelx_bmi <- paste("X-variate 1: ", 
+                round(abs(plsda_model_bmi$prop_expl_var$X[1]*100), digits=0),
+                "% expl. var",
+                sep="")
+
+labely_bmi <- paste("X-variate 2: ", 
+                round(abs(plsda_model_bmi$prop_expl_var$X[2]*100), digits=0),
+                "% expl. var",
+                sep="")
+
+
 # ggplot2
 plsda_ggplot_bmi <- 
   data.frame(x = plsda_model_bmi$variates$X[,1], 
@@ -470,8 +513,8 @@ bmi_plsda_ggplot <-
              col=bmi)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="x-variate 1 (22%)",
-       y = "x-variate 2 (15%)",
+  labs(x=labelx_bmi,
+       y = labely_bmi,
        name="Body Mass Index") +
   scale_color_manual("Body Mass Index",
                      values=c("#9d9d9d","#008ba2")) +
@@ -497,7 +540,7 @@ pls_y_bmi2 <-
 # PLSDA Model
 plsda_model_bmi2 <- mixOmics::plsda(pls_x_bmi2,
                                     pls_y_bmi2$bmi2,
-                                    scale=FALSE,
+                                    scale=TRUE,
                                     ncomp=9)
 
 plotIndiv(plsda_model_bmi2,
@@ -512,6 +555,17 @@ plotIndiv(plsda_model_bmi2,
 
 biplot(plsda_model_bmi2, ind.names=FALSE, legend.title="Body Mass Index 2")
 
+# Set x and y axis labels based on model loadings
+labelx_bmi2 <- paste("X-variate 1: ", 
+                round(abs(plsda_model_bmi2$prop_expl_var$X[1]*100), digits=0),
+                "% expl. var",
+                sep="")
+
+labely_bmi2 <- paste("X-variate 2: ", 
+                round(abs(plsda_model_bmi2$prop_expl_var$X[2]*100), digits=0),
+                "% expl. var",
+                sep="")
+
 # ggplot2
 plsda_ggplot_bmi2 <- 
   data.frame(x = plsda_model_bmi2$variates$X[,1], 
@@ -525,8 +579,8 @@ bmi2_plsda_ggplot <-
              col=bmi2)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="x-variate 1 (20%)",
-       y = "x-variate 2 (9%)",
+  labs(x=labelx_bmi2,
+       y = labely_bmi2,
        name="Body Mass Index 2") +
   scale_color_manual("Body Mass Index 2",
                      values=c("#9d9d9d","#008ba2", "black")) +

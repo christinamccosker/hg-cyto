@@ -10,6 +10,7 @@ editor_options:
 
 ## Libraries
 ```{r, warning=FALSE, message=FALSE}
+library(vegan)
 library(mixOmics)
 library(tidyverse)
 library(ggfortify)
@@ -24,12 +25,14 @@ library(rpart.plot)
 ## Data
 ```{r, message=FALSE, warning=FALSE}
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
+cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
 meta <- read.csv("Output Files/metadata_cyto.csv")
 mindc <- read.csv("Input Files/mindc.csv") %>% 
   mutate(half=value/2)
 
 # Merge cytokine & metadata 
 data <- merge(cyto, meta, by="Sample")
+databin <- merge(cytobin, meta, by="Sample")
 
 # Tidy data, remove cytokines with < 10% (11) detections, remove pups with NA molt stage
 data_tidy <-
@@ -38,6 +41,14 @@ data_tidy <-
   select_if(function(x) sum(x>0) > 11) %>% 
   mutate(molt.stage=data$molt.stage,
          sample=data$Sample) %>% 
+  filter(!is.na(molt.stage))
+
+databin_tidy <-
+  databin %>% 
+  select(2:14) %>% 
+  select_if(function(x) sum(x>0) > 11) %>% 
+    mutate(molt.stage=databin$molt.stage,
+         sample=databin$Sample) %>% 
   filter(!is.na(molt.stage))
 ```
 
@@ -120,6 +131,29 @@ for (i in 1:9) {
 norm_results # all not normally distributed except IL-18
 ```
 
+## PERMANOVA
+
+### Cytokine Presence/Absence
+```{r}
+databin_perm <- 
+  databin_tidy %>% 
+  select(1:9)
+
+databin_dist <- 
+  betadiver(databin_perm, method=11)
+
+databin_ado <- 
+  adonis2((1-databin_dist) ~ molt.stage, data=databin_tidy, permutations=4999)
+databin_ado
+
+databin_ado2 <-
+  adonis2(databin_tidy[,1:9] ~ molt.stage, data=databin_tidy, method="euc", permutations=4999)
+databin_ado2
+```
+
+### Cytokine Concentration
+
+
 ## Cramer Test 
 Multivariate composition of the cytokine pattern between each molt stage pairwise comparison It can handle multiple variables, potentially complex interactions and correlations.  
 ```{r}
@@ -167,7 +201,12 @@ Classification Ability
 - ROC AUC (range 0-1)  
   - 0.5 = random guessing  
   - 1 = indicates perfect performance  
-  - A score slightly above 0.5 shows that a model has at least "some" (albeit small) predictive power. This is generally inadequate for any real applications.
+  - A score slightly above 0.5 shows that a model has at least "some" (albeit small) predictive power. This is generally inadequate for any real applications.  
+
+- Classification Error  
+
+  - compares observed to predicted classifications  
+  - range from 0-1, with smaller numbers = less error, better model  
 
 - Resources:  
   - https://mlr3book.mlr-org.com/chapters/chapter4/hyperparameter_optimization.html#sec-tuning-instance  
@@ -184,7 +223,6 @@ data_cart <-
 
 
 ### Cross Validation
-***Not sure if this is worth doing with n=7 for molt stage III?
 ```{r}
 # Creating task and learner
 task <- as_task_classif(molt.stage ~ ., 
@@ -215,13 +253,15 @@ tuner <- tnr("grid_search",
 ```
 ```{r, include=FALSE}
 # Trigger the tuning process
+set.seed(4)
 # tuner$optimize(instance)
+ 
 
 # optimal values: 
   # maxdepth = 2
   # minbucket = 7
-  # minsplit = 20
-  # auc = ???
+  # minsplit = 27
+  # classif.ce = 0.3079545
 
 # Model with optimized parameters
 cart_model <- rpart(formula=molt.stage ~ .,
@@ -229,12 +269,13 @@ cart_model <- rpart(formula=molt.stage ~ .,
                     method="class",
                     maxdepth=2,
                     minbucket=7,
-                    minsplit=20)
+                    minsplit=27)
 
 # plot optimized tree
 rpart.plot(cart_model)
+summary(cart_model)
 
-# n=7 vs n=67 not useful for CART algorithm!
+# n=7 for molt stage III not useful for CART algorithm!
 ```
 
 
@@ -247,7 +288,10 @@ Methods:
 
 ### PLSDA 
 PLSDA is a supervised dimensionality reduction method that is similar to PCA but incorporates class labels to maximize the separation between groups.  
-One advantage of PLS is that it has fewer assumptions and hence it can use predictor variables that are collinear and not independent.
+One advantage of PLS is that it has fewer assumptions and hence it can use predictor variables that are collinear and not independent.  
+The aim of PLS-DA is to discriminate the sample groups, rather than maximizing the variance. When the maximization of the variance corresponds to a discrimination of the classes, then this is awesome, but otherwise, it means that the major source of variation is probably not mainly due to the sample group differences.
+
+#### Prepare data
 ```{r}
 pls_x <-
  data_cart[,1:9] 
@@ -255,28 +299,18 @@ pls_x <-
 pls_y <- 
   data_cart %>% 
   select(molt.stage)
+```
 
-# PCA Model (to compare)
-pca <- pca(pls_x, 
-           ncomp=9,
-           center=FALSE, 
-           scale=FALSE)
-
-plotIndiv(pca, 
-          group=pls_y$molt.stage,
-          ind.names=FALSE,
-          ellipse=TRUE, 
-          legend=TRUE, 
-          legend.title="Molt Stage",
-          title="PCA")
-plot(pca)
-
-# PLSDA Model
+#### PLSDA Model
+```{r}
 plsda_model <- mixOmics::plsda(pls_x,
                                pls_y$molt.stage,
-                               scale=FALSE,
+                               scale=TRUE,
                                ncomp=9)
+```
 
+#### Visualizations
+```{r}
 plotIndiv(plsda_model,
           ellipse=TRUE, 
           ind.names=FALSE,
@@ -287,7 +321,16 @@ plotIndiv(plsda_model,
           style="lattice",
           title="PLS-DA Comp 1 - 2")
 
-biplot(plsda_model, ind.names=FALSE, legend.title="Molt Stage")
+# Set x and y axis labels based on model loadings
+labelx <- paste("X-variate 1: ", 
+                round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+                "% expl. var",
+                sep="")
+
+labely <- paste("X-variate 2: ", 
+                round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+                "% expl. var",
+                sep="")
 
 # ggplot2
 plsda_ggplot <- 
@@ -302,15 +345,28 @@ molt_plsda_ggplot <-
              col=molt.stage)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="x-variate 1 (26%)",
-       y = "x-variate 2 (13%)",
+  labs(x=labelx,
+       y = labely,
        name="Molt Stage") +
   scale_color_manual("Molt Stage",
                      values=c("#9d9d9d","#008ba2","black")) +
   theme_bw() +
   theme(panel.grid=element_blank(),
         legend.position=c(0.1, 0.1))
-
 molt_plsda_ggplot
+```
+
+#### Cytokine Contributions
+```{r}
+plsda_loadings <- 
+  plsda_model$loadings$X %>% 
+  data.frame() %>% 
+  select(1:2) %>% 
+  arrange(comp1)
+plsda_loadings
+
+biplot(plsda_model, ind.names=FALSE, legend.title="Molt Stage")
+
+plotVar(plsda_model)
 ```
 
