@@ -478,6 +478,8 @@ kc_prop <-
 
 
 #### Concentrations - Raw
+jitter points??
+make gray dots smaller so there isn't a shadow
 ```{r}
 il6 <- 
   data %>% 
@@ -485,7 +487,7 @@ il6 <-
   filter(!IL.6 == 0) %>% 
   ggplot(., aes(x=iav, y=log(IL.6))) +
   geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
-  geom_point(size=0.5) +
+#  geom_point(size=2) +
   labs(x=NULL, y=NULL) +
   stat_n_text(size=1.5) +
   theme_classic() +
@@ -498,6 +500,7 @@ il6 <-
                              y=middle, yend=middle), colour="lightgray")
 
 il6
+
 
 il10 <- 
   data %>% 
@@ -549,7 +552,7 @@ cyto_grid <- grid.arrange(prop_grid, conc_grid,
 final_grid <- grid.arrange(varimp_plot, cyto_grid, 
                            ncol=2, widths=c(5.5, 4.5))
 
-ggsave(filename="Figures/cytoimportance.jpg", final_grid, height=5, width=8, units="in")
+ggsave(filename="Figures/cytoimportance_0s.jpg", final_grid, height=5, width=8, units="in")
 ```
 
 

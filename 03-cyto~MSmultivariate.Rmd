@@ -109,31 +109,15 @@ PCA_scaled_molt_ggplot <-
 PCA_scaled_molt_ggplot
 ```
 
-## Test for normality
-```{r}
-# Create dataframe for results
-norm_results <- data.frame(matrix(ncol=0, nrow=9)) %>%
-  mutate(cyto=colnames(data_scaled)[1:9],
-         W=NA, 
-         pvalue=NA)
-
-# Truncate data
-data_norm <-
-  data_scaled[,1:9]
-
-# Test!
-for (i in 1:9) {
-  test <- shapiro.test(data_norm[,i])
-  norm_results[i,2] <- round(test$statistic, digits=3)
-  norm_results[i,3] <- test$p.value
-}
-
-norm_results # all not normally distributed except IL-18
-```
-
 ## PERMANOVA
 
 ### Cytokine Presence/Absence
+From McCosker et al. 2024:  
+
+- A dissimilarity matrix was then created using betadiver from package vegan (v. 2.5-4; Oksanen et al.
+2018) with dissimilarity deﬁned as 1 – Sørensen’s index (Sørensen 1948).
+
+#### Create similarity matrix (Sorensen)
 ```{r}
 databin_perm <- 
   databin_tidy %>% 
@@ -142,16 +126,47 @@ databin_perm <-
 databin_dist <- 
   betadiver(databin_perm, method=11)
 
-databin_ado <- 
-  adonis2((1-databin_dist) ~ molt.stage, data=databin_tidy, permutations=4999)
-databin_ado
+plot(databin_dist)
 
-databin_ado2 <-
-  adonis2(databin_tidy[,1:9] ~ molt.stage, data=databin_tidy, method="euc", permutations=4999)
-databin_ado2
+# Dissimilarity summary stats
+mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin_dist)
 ```
 
+#### PERMANOVA with dissimilarity (1-Sorensen)
+R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
+```{r}
+databin_adonis <- 
+  adonis2((1-databin_dist) ~ molt.stage, data=databin_tidy, permutations=4999)
+databin_adonis
+```
+
+#### Visualizing multivariate groups
+Spider plot illustrating group dissimilarity and group centroid locations (molt stage) using presence/absence data to compare cytokine detections across molt stages.
+```{r, warning=FALSE}
+# Conduct a principle coordiantes analysis using 1 - Sorensen's for dissimilarity 
+databin_pco <- cmdscale(1-databin_dist)
+
+plot(databin_pco, type="n", xlab="PCO 1", ylab="PCO 2", #xlim=c(-.5,.7), ylim=c(-.7,.4), 
+       cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+ordispider(jitter(databin_pco, factor=1), factor(databin_tidy$molt.stage), show.groups="III", 
+           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(databin_pco, factor=1), factor(databin_tidy$molt.stage), show.groups="IV", 
+           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(databin_pco, factor=1), factor(databin_tidy$molt.stage), show.groups="V", 
+           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+
+betadisper(databin_dist, group=databin_tidy$molt.stage, type="centroid")
+```
+
+
 ### Cytokine Concentration
+From McCosker et al. 2024:  
+
+- The adonis function was used to conduct a permutational multivariate analysis of variance (PERMANOVA) on group (method) dissimilarity. Group dispersions weremodeled with betadisper to determine whether the assumption of equal dispersions had been met under adonis and principal coordinate analysis was used relative to PERMANOVA results to visualize group dispersions around the centroid.
+```{r}
+
+```
+
 
 
 ## Cramer Test 

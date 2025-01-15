@@ -187,15 +187,25 @@ molt_plsda_data <-
              y = molt_plsda$variates$X[,2],
              molt.stage = molt_plsda$Y)
 
-molt_plsda$prop_expl_var$X[1:2]
+# Set x and y axis labels based on prop of variation explained
+labelx_molt <- paste("LV1 (", 
+                round(abs(molt_plsda$prop_expl_var$X[1]*100), digits=0),
+                "%)",
+                sep="")
+
+labely_molt <- paste("LV2 (", 
+                round(abs(molt_plsda$prop_expl_var$X[2]*100), digits=0),
+                "%)",
+                sep="")
+
 
 molt_plsda_ggplot <- 
   ggplot(molt_plsda_data, 
          aes(x=x, y=y, col=molt.stage)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="LV1 (25%)",
-       y = "LV2 (12%)") +
+  labs(x=labelx_molt,
+       y =labely_molt) +
   scale_color_manual("A. Molt Stage", 
                      values=c("#9d9d9d","#008ba2", "black")) +
   theme_bw() +
@@ -215,15 +225,24 @@ bc_plsda_data <-
              y = bc_plsda$variates$X[,2],
              bc = bc_plsda$Y)
 
-bc_plsda$prop_expl_var$X[1:2]
+# Set x and y axis labels based on prop of variation explained
+labelx_bc <- paste("LV1 (", 
+                round(abs(bc_plsda$prop_expl_var$X[1]*100), digits=0),
+                "%)",
+                sep="")
+
+labely_bc <- paste("LV2 (", 
+                round(abs(bc_plsda$prop_expl_var$X[2]*100), digits=0),
+                "%)",
+                sep="")
 
 bc_plsda_ggplot <- 
   ggplot(bc_plsda_data, 
          aes(x=x, y=y, col=bc)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="LV1 (21%)",
-       y = "LV2 (9%)") +
+  labs(x=labelx_bc,
+       y = labely_bc) +
   scale_color_manual("B. Body Condition", 
                      values=c("#9d9d9d","#008ba2", "black")) +
   theme_bw() +
@@ -243,15 +262,24 @@ iav_plsda_data <-
              y = iav_plsda$variates$X[,2],
              iav = iav_plsda$Y)
 
-iav_plsda$prop_expl_var$X[1:2]
+# Set x and y axis labels based on prop of variation explained
+labelx_iav <- paste("LV1 (", 
+                round(abs(iav_plsda$prop_expl_var$X[1]*100), digits=0),
+                "%)",
+                sep="")
+
+labely_iav <- paste("LV2 (", 
+                round(abs(iav_plsda$prop_expl_var$X[2]*100), digits=0),
+                "%)",
+                sep="")
 
 iav_plsda_ggplot <- 
   ggplot(iav_plsda_data, 
          aes(x=x, y=y, col=iav)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="LV1 (14%)",
-       y = "LV2 (19%)") +
+  labs(x=labelx_iav,
+       y =labely_iav) +
   scale_color_manual("C. IAV Status", 
                      values=c("#9d9d9d", "black")) +
   theme_bw() +
@@ -280,21 +308,30 @@ iavneg_plsda_data <-
              y = iavneg_plsda$variates$X[,2],
              iav = iavneg_plsda$Y)
 
-iavneg_plsda$prop_expl_var$X[1:2]
+# Set x and y axis labels based on prop of variation explained
+labelx_iavneg <- paste("LV1 (", 
+                round(abs(iavneg_plsda$prop_expl_var$X[1]*100), digits=0),
+                "%)",
+                sep="")
+
+labely_iavneg <- paste("LV2 (", 
+                round(abs(iavneg_plsda$prop_expl_var$X[2]*100), digits=0),
+                "%)",
+                sep="")
 
 iavneg_plsda_ggplot <- 
   ggplot(iavneg_plsda_data, 
          aes(x=x, y=y, col=iav)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="LV1 (27%)",
-       y = "LV2 (11%)") +
+  labs(x=labelx_iavneg,
+       y =labely_iavneg) +
   scale_color_manual("C. IAV Serology Status", 
                      values=c("#9d9d9d", "black")) +
   theme_bw() +
   theme(panel.grid=element_blank(),
         legend.position=c(0.14, 0.13))
-
+iavneg_plsda_ggplot
 
 # Location
 loc_plsda <- mixOmics::plsda(loc_scaled[,1:9],
@@ -306,18 +343,28 @@ loc_plsda_data <-
              y = loc_plsda$variates$X[,2],
              location = loc_plsda$Y)
 
-loc_plsda$prop_expl_var$X[1:2]
+# Set x and y axis labels based on prop of variation explained
+labelx_loc <- paste("LV1 (", 
+                round(abs(loc_plsda$prop_expl_var$X[1]*100), digits=0),
+                "%)",
+                sep="")
+
+labely_loc <- paste("LV2 (", 
+                round(abs(loc_plsda$prop_expl_var$X[2]*100), digits=0),
+                "%)",
+                sep="")
 
 loc_plsda_ggplot <- 
   ggplot(loc_plsda_data, 
          aes(x=x, y=y, col=location)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="LV1 (19%)",
-       y = "LV2 (15%)") +
+  labs(x=labelx_loc,
+       y =labelx_loc) +
   scale_color_manual("Location", 
                      values=c("#9d9d9d","#008ba2", "black")) +
   theme_bw() +
   theme(panel.grid=element_blank(),
         legend.position=c(0.12, 0.17))
+loc_plsda_ggplot
 ```
