@@ -10,7 +10,7 @@ editor_options:
 
 ## Libraries
 ```{r, message=FALSE, warning=FALSE} 
-library(dplyr)
+library(tidyverse)
 ```
 
 ## Raw file import & cleaning
@@ -50,8 +50,8 @@ for (i in 1:nrow(cyto4)) {
 
 ## Merge cytokine data & tidy
 ```{r}
-cyto <- bind_rows(cyto1, cyto2, cyto3, cyto4)
-colnames(cyto)[1] <- "Sample"
+cyto <- 
+  bind_rows(cyto1, cyto2, cyto3, cyto4) 
 
 # human error while typing in sample names to computer 1505 -> 1507
 cyto$Sample[74] <- "1507" 
@@ -82,14 +82,24 @@ for (i in 1:nrow(cyto)) {
 # Set cyto conc to as numeric 
 cyto[,2:14] <- sapply(cyto[,2:14], as.numeric)
 
-# Order cytokines alphabetically
+# Order cytokines alphabetically 
 cyto <- 
   cyto %>% 
   select(Sample, `GM-CSF`, IFNg, `IL-2`, `IL-6`, `IL-7`, `IL-8`, `IL-10`, 
           `IL-15`, `IL-18`, `IP-10`, `KC-like`, `MCP-1`, TNFa)
 
-# Write out cleaned cytokine data
-write.csv(cyto, file="Output Files/cleaned_cytokine.csv", row.names=FALSE)
+# Write out data for all cytokines
+write.csv(cyto, "Output Files/cleaned_cytokine_all.csv", row.names=FALSE)
+
+# Remove cytokines with <10% (11) detections
+cyto_10 <- 
+  cyto %>% 
+  select_if(function(x) sum(x>0) > 11) %>% 
+  mutate(Sample = cyto$Sample)
+  
+
+# Write out reduced cytokine data
+write.csv(cyto_10, file="Output Files/cleaned_cytokine.csv", row.names=FALSE)
 ```
 
 ## Create Cytokine (0/1) Dataset
@@ -101,8 +111,18 @@ for (i in 1:nrow(databin)) {
   }
 }
 
+# Write out binary cytokine data for all
+write.csv(databin, "Output Files/cleaned_cytokine_bin_all.csv", row.names=FALSE)
+
+
+# Remove cytokines with <10% (11) detections
+databin_10 <- 
+  databin %>% 
+  select_if(function(x) sum(x>0) > 11) 
+
+
 # Write out binary cytokine dataset
-write.csv(databin, file="Output Files/cleaned_cytokine_bin.csv", row.names=FALSE)
+write.csv(databin_10, file="Output Files/cleaned_cytokine_bin.csv", row.names=FALSE)
 ```
 
 ## Tidy Metadata
@@ -118,7 +138,6 @@ metadata <-
                         ifelse(iav=="pos" & iavser=="neg", "acute",
                                ifelse(iav=="pos" & iavser=="pos", "peak", "late")))) %>% 
   filter(Sample %in% cyto$Sample)
-
 ```
 
 ## Body Mass Index 
@@ -154,3 +173,43 @@ meta <-
 
 write.csv(x=meta, file="Output Files/metadata_cyto.csv", row.names=FALSE)
 ```
+
+## Create log, center, scaled data for molt stage, body condition, iav analyses
+
+### Make all non-detects half the minimum concentration detected, or half the limit of detecion (whatever is smallest)
+```{r}
+minvalue <- 
+  cyto_10 %>% 
+  pivot_longer(!Sample, names_to="cytokine", values_to="conc") %>% 
+  filter(!conc==0) %>% 
+  group_by(cytokine) %>% 
+  summarize(min=min(conc))
+
+mindc <- 
+  read.csv("Input Files/mindc.csv") %>% 
+  mutate(cytokine=gsub("[.]", "-", cytokine)) %>% 
+  filter(cytokine %in% colnames(cyto_10)) %>% 
+  merge(., minvalue) %>% 
+  mutate(absmin = pmin(value, min),
+         absmin_half = absmin/2)
+
+cyto_scaled <- cyto_10
+for (i in 1:nrow(cyto_scaled)) {
+  for (j in 1:ncol(cyto_scaled)) {
+    {if (cyto_scaled[i,j]==0) {
+      k <- which(mindc$cytokine==colnames(cyto_scaled)[j])
+      cyto_scaled[i,j] <- mindc$absmin_half[k]
+    }
+      else{next}
+      }
+  }
+}
+
+cyto_scaled <-
+  cyto_scaled %>% 
+  mutate_at(2:10, log) %>% 
+  mutate_at(2:10, function(x) scale(x, center=TRUE, scale=TRUE))
+
+write.csv(x=cyto_scaled, file="Output Files/cleaned_cytokine_scaled.csv", row.names=FALSE)
+```
+

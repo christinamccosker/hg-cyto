@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 IAV ~ swabs | Characterization of gray seal pup cytokine response to influenza A virus</title>
+  <meta name="description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 IAV ~ swabs | Characterization of gray seal pup cytokine response to influenza A virus" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 IAV ~ swabs | Characterization of gray seal pup cytokine response to influenza A virus" />
+  
+  <meta name="twitter:description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
+  
+
+<meta name="author" content="Christina McCosker" />
+
+
+<meta name="date" content="2025-01-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="iav-cytokines.html"/>
+<link rel="next" href="create-panel-figure-for-pls-da-plots.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Hg-Cyto Stats</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Publication Information</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#authors"><i class="fa fa-check"></i><b>1.1</b> Authors</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#abstract"><i class="fa fa-check"></i><b>1.2</b> Abstract</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html"><i class="fa fa-check"></i><b>2</b> Tidy Cytokine Data Metadata</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#libraries"><i class="fa fa-check"></i><b>2.1</b> Libraries</a></li>
+<li class="chapter" data-level="2.2" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#raw-file-import-cleaning"><i class="fa fa-check"></i><b>2.2</b> Raw file import &amp; cleaning</a></li>
+<li class="chapter" data-level="2.3" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#merge-cytokine-data-tidy"><i class="fa fa-check"></i><b>2.3</b> Merge cytokine data &amp; tidy</a></li>
+<li class="chapter" data-level="2.4" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#create-cytokine-01-dataset"><i class="fa fa-check"></i><b>2.4</b> Create Cytokine (0/1) Dataset</a></li>
+<li class="chapter" data-level="2.5" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#tidy-metadata"><i class="fa fa-check"></i><b>2.5</b> Tidy Metadata</a></li>
+<li class="chapter" data-level="2.6" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#body-mass-index"><i class="fa fa-check"></i><b>2.6</b> Body Mass Index</a></li>
+<li class="chapter" data-level="2.7" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#create-log-center-scaled-data-for-molt-stage-body-condition-iav-analyses"><i class="fa fa-check"></i><b>2.7</b> Create log, center, scaled data for molt stage, body condition, iav analyses</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#make-all-non-detects-half-the-minimum-concentration-detected-or-half-the-limit-of-detecion-whatever-is-smallest"><i class="fa fa-check"></i><b>2.7.1</b> Make all non-detects half the minimum concentration detected, or half the limit of detecion (whatever is smallest)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html"><i class="fa fa-check"></i><b>3</b> Test for confounding variables</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#libraries-1"><i class="fa fa-check"></i><b>3.1</b> Libraries</a></li>
+<li class="chapter" data-level="3.2" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#initial-data-processing"><i class="fa fa-check"></i><b>3.2</b> Initial Data Processing</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#import-data-merge"><i class="fa fa-check"></i><b>3.2.1</b> Import data &amp; merge</a></li>
+<li class="chapter" data-level="3.2.2" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#ensure-variables-are-correct-format"><i class="fa fa-check"></i><b>3.2.2</b> Ensure variables are correct format</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#exploratory"><i class="fa fa-check"></i><b>3.3</b> Exploratory</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#sample-descriptive-stats"><i class="fa fa-check"></i><b>3.3.1</b> Sample Descriptive Stats</a></li>
+<li class="chapter" data-level="3.3.2" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#how-many-samples-is-each-cytokine-detected-in"><i class="fa fa-check"></i><b>3.3.2</b> How many samples is each cytokine detected in?</a></li>
+<li class="chapter" data-level="3.3.3" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#cytokine-ranges"><i class="fa fa-check"></i><b>3.3.3</b> Cytokine Ranges</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#is-proportion-of-iaviav--similar-across-variables"><i class="fa fa-check"></i><b>3.4</b> Is proportion of IAV+/IAV- similar across variables?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html"><i class="fa fa-check"></i><b>4</b> Molt stage ~ cytokines</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#libraries-2"><i class="fa fa-check"></i><b>4.1</b> Libraries</a></li>
+<li class="chapter" data-level="4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#data"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#pca"><i class="fa fa-check"></i><b>4.3</b> PCA</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#visualize"><i class="fa fa-check"></i><b>4.3.1</b> Visualize</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#permanova"><i class="fa fa-check"></i><b>4.4</b> PERMANOVA</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-presenceabsence"><i class="fa fa-check"></i><b>4.4.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="4.4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-concentration"><i class="fa fa-check"></i><b>4.4.2</b> Cytokine Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cramer-test"><i class="fa fa-check"></i><b>4.5</b> Cramer Test</a></li>
+<li class="chapter" data-level="4.6" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-importance"><i class="fa fa-check"></i><b>4.6</b> Cytokine Importance</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cross-validation"><i class="fa fa-check"></i><b>4.6.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#run-model-with-optimized-parameteres"><i class="fa fa-check"></i><b>4.6.2</b> Run model with optimized parameteres</a></li>
+<li class="chapter" data-level="4.6.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#plot-important-cytokines"><i class="fa fa-check"></i><b>4.6.3</b> Plot important cytokines</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#how-different-groups-are"><i class="fa fa-check"></i><b>4.7</b> How different groups are</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#plsda"><i class="fa fa-check"></i><b>4.7.1</b> PLSDA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html"><i class="fa fa-check"></i><b>5</b> Body condition ~ cytokines</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#libraries-3"><i class="fa fa-check"></i><b>5.1</b> Libraries</a></li>
+<li class="chapter" data-level="5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#data-1"><i class="fa fa-check"></i><b>5.2</b> Data</a></li>
+<li class="chapter" data-level="5.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-condition-range-bins"><i class="fa fa-check"></i><b>5.3</b> Body Condition Range &amp; Bins</a></li>
+<li class="chapter" data-level="5.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#pca-1"><i class="fa fa-check"></i><b>5.4</b> PCA</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#visualize-1"><i class="fa fa-check"></i><b>5.4.1</b> Visualize</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#permanova-1"><i class="fa fa-check"></i><b>5.5</b> PERMANOVA</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-presenceabsence-1"><i class="fa fa-check"></i><b>5.5.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="5.5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-concentration-1"><i class="fa fa-check"></i><b>5.5.2</b> Cytokine Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cramer-test-1"><i class="fa fa-check"></i><b>5.6</b> Cramer Test</a></li>
+<li class="chapter" data-level="5.7" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-importance-1"><i class="fa fa-check"></i><b>5.7</b> Cytokine Importance</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#prepare-data-for-cart"><i class="fa fa-check"></i><b>5.7.1</b> Prepare data for CART</a></li>
+<li class="chapter" data-level="5.7.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cross-validation-1"><i class="fa fa-check"></i><b>5.7.2</b> Cross Validation</a></li>
+<li class="chapter" data-level="5.7.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#run-model-with-optimized-parameters"><i class="fa fa-check"></i><b>5.7.3</b> Run model with optimized parameters</a></li>
+<li class="chapter" data-level="5.7.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plot-important-cytokines-1"><i class="fa fa-check"></i><b>5.7.4</b> Plot important cytokines</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#how-different-groups-are-1"><i class="fa fa-check"></i><b>5.8</b> How different groups are</a>
+<ul>
+<li class="chapter" data-level="5.8.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plsda---body-condition"><i class="fa fa-check"></i><b>5.8.1</b> PLSDA - Body Condition</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="iav-cytokines.html"><a href="iav-cytokines.html"><i class="fa fa-check"></i><b>6</b> IAV ~ cytokines</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#libraries-4"><i class="fa fa-check"></i><b>6.1</b> Libraries</a></li>
+<li class="chapter" data-level="6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#data-2"><i class="fa fa-check"></i><b>6.2</b> Data</a></li>
+<li class="chapter" data-level="6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#pca-2"><i class="fa fa-check"></i><b>6.3</b> PCA</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#visualize-2"><i class="fa fa-check"></i><b>6.3.1</b> Visualize</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="iav-cytokines.html"><a href="iav-cytokines.html#permanova-2"><i class="fa fa-check"></i><b>6.4</b> PERMANOVA</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-presenceabsence-2"><i class="fa fa-check"></i><b>6.4.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="6.4.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-concentration-2"><i class="fa fa-check"></i><b>6.4.2</b> Cytokine Concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cramer-test-2"><i class="fa fa-check"></i><b>6.5</b> Cramer Test</a></li>
+<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-importance-2"><i class="fa fa-check"></i><b>6.6</b> Cytokine Importance</a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cross-validation-2"><i class="fa fa-check"></i><b>6.6.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="6.6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#run-model-with-optimized-parameters-1"><i class="fa fa-check"></i><b>6.6.2</b> Run model with optimized parameters</a></li>
+<li class="chapter" data-level="6.6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#manuscript-plot"><i class="fa fa-check"></i><b>6.6.3</b> Manuscript Plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="iav-cytokines.html"><a href="iav-cytokines.html#how-different-iav-and-iav--groups-are"><i class="fa fa-check"></i><b>6.7</b> How different IAV+ and IAV- groups are</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#plsda-1"><i class="fa fa-check"></i><b>6.7.1</b> PLSDA</a></li>
+<li class="chapter" data-level="6.7.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#d-kolmogorov-smirnov-test"><i class="fa fa-check"></i><b>6.7.2</b> 2-D Kolmogorov-Smirnov test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="iav-swabs.html"><a href="iav-swabs.html"><i class="fa fa-check"></i><b>7</b> IAV ~ swabs</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="iav-swabs.html"><a href="iav-swabs.html#load-required-libraries"><i class="fa fa-check"></i><b>7.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="7.2" data-path="iav-swabs.html"><a href="iav-swabs.html#read-in-data"><i class="fa fa-check"></i><b>7.2</b> Read in data</a></li>
+<li class="chapter" data-level="7.3" data-path="iav-swabs.html"><a href="iav-swabs.html#tidy-merge-data"><i class="fa fa-check"></i><b>7.3</b> Tidy &amp; Merge Data</a></li>
+<li class="chapter" data-level="7.4" data-path="iav-swabs.html"><a href="iav-swabs.html#pca-on-log-transformed-scaled-centered-cytokine-data"><i class="fa fa-check"></i><b>7.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
+<li class="chapter" data-level="7.5" data-path="iav-swabs.html"><a href="iav-swabs.html#test-for-normality"><i class="fa fa-check"></i><b>7.5</b> Test for normality</a></li>
+<li class="chapter" data-level="7.6" data-path="iav-swabs.html"><a href="iav-swabs.html#cramer-test-3"><i class="fa fa-check"></i><b>7.6</b> Cramer Test</a></li>
+<li class="chapter" data-level="7.7" data-path="iav-swabs.html"><a href="iav-swabs.html#cytokine-exploratory-plots-swabs"><i class="fa fa-check"></i><b>7.7</b> Cytokine Exploratory Plots ~ Swabs</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html"><i class="fa fa-check"></i><b>8</b> Create panel figure for PLS-DA plots</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#libraries-5"><i class="fa fa-check"></i><b>8.1</b> Libraries</a></li>
+<li class="chapter" data-level="8.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#data-3"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#plot-6"><i class="fa fa-check"></i><b>8.3</b> Plot!</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#molt-stage"><i class="fa fa-check"></i><b>8.3.1</b> Molt Stage</a></li>
+<li class="chapter" data-level="8.3.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#body-condition"><i class="fa fa-check"></i><b>8.3.2</b> Body Condition</a></li>
+<li class="chapter" data-level="8.3.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#iav"><i class="fa fa-check"></i><b>8.3.3</b> IAV</a></li>
+<li class="chapter" data-level="8.3.4" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#combine-all-plots"><i class="fa fa-check"></i><b>8.3.4</b> Combine all plots</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="iav-negative-animals.html"><a href="iav-negative-animals.html"><i class="fa fa-check"></i><b>9</b> IAV Negative Animals</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Characterization of gray seal pup cytokine response to influenza A virus</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="iav-swabs" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> IAV ~ swabs<a href="iav-swabs.html#iav-swabs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="load-required-libraries" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Load required libraries<a href="iav-swabs.html#load-required-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="iav-swabs.html#cb259-1" tabindex="-1"></a><span class="fu">library</span>(mixOmics)</span>
+<span id="cb259-2"><a href="iav-swabs.html#cb259-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb259-3"><a href="iav-swabs.html#cb259-3" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb259-4"><a href="iav-swabs.html#cb259-4" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb259-5"><a href="iav-swabs.html#cb259-5" tabindex="-1"></a><span class="fu">library</span>(cramer)</span></code></pre></div>
+</div>
+<div id="read-in-data" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Read in data<a href="iav-swabs.html#read-in-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="iav-swabs.html#cb260-1" tabindex="-1"></a><span class="co"># Cytokines</span></span>
+<span id="cb260-2"><a href="iav-swabs.html#cb260-2" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> </span>
+<span id="cb260-3"><a href="iav-swabs.html#cb260-3" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine.csv&quot;</span>)</span>
+<span id="cb260-4"><a href="iav-swabs.html#cb260-4" tabindex="-1"></a>cytobin <span class="ot">&lt;-</span> </span>
+<span id="cb260-5"><a href="iav-swabs.html#cb260-5" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_bin.csv&quot;</span>)</span>
+<span id="cb260-6"><a href="iav-swabs.html#cb260-6" tabindex="-1"></a>cytoscale <span class="ot">&lt;-</span> </span>
+<span id="cb260-7"><a href="iav-swabs.html#cb260-7" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_scaled.csv&quot;</span>)</span>
+<span id="cb260-8"><a href="iav-swabs.html#cb260-8" tabindex="-1"></a></span>
+<span id="cb260-9"><a href="iav-swabs.html#cb260-9" tabindex="-1"></a><span class="co"># Metadata</span></span>
+<span id="cb260-10"><a href="iav-swabs.html#cb260-10" tabindex="-1"></a>meta <span class="ot">&lt;-</span> </span>
+<span id="cb260-11"><a href="iav-swabs.html#cb260-11" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/metadata_cyto.csv&quot;</span>)</span>
+<span id="cb260-12"><a href="iav-swabs.html#cb260-12" tabindex="-1"></a></span>
+<span id="cb260-13"><a href="iav-swabs.html#cb260-13" tabindex="-1"></a><span class="co"># Swab/virology data</span></span>
+<span id="cb260-14"><a href="iav-swabs.html#cb260-14" tabindex="-1"></a>viro <span class="ot">&lt;-</span> </span>
+<span id="cb260-15"><a href="iav-swabs.html#cb260-15" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Input Files/Hg_virology_2023.csv&quot;</span>, <span class="at">sep=</span><span class="st">&#39;,&#39;</span>, <span class="at">strip.white=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb260-16"><a href="iav-swabs.html#cb260-16" tabindex="-1"></a>  <span class="fu">select</span>(Tag.ID., year, IAV, IAV.Nasal, IAV.Conj, IAV.Rectal) <span class="sc">%&gt;%</span> </span>
+<span id="cb260-17"><a href="iav-swabs.html#cb260-17" tabindex="-1"></a>  <span class="fu">filter</span>(Tag.ID. <span class="sc">%in%</span> meta<span class="sc">$</span>Sample)</span></code></pre></div>
+</div>
+<div id="tidy-merge-data" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Tidy &amp; Merge Data<a href="iav-swabs.html#tidy-merge-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="iav-swabs.html#cb261-1" tabindex="-1"></a><span class="co"># Clean up swab data</span></span>
+<span id="cb261-2"><a href="iav-swabs.html#cb261-2" tabindex="-1"></a>viro_tidy <span class="ot">&lt;-</span></span>
+<span id="cb261-3"><a href="iav-swabs.html#cb261-3" tabindex="-1"></a>  viro <span class="sc">%&gt;%</span> </span>
+<span id="cb261-4"><a href="iav-swabs.html#cb261-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Nasal),</span>
+<span id="cb261-5"><a href="iav-swabs.html#cb261-5" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Nasal),</span>
+<span id="cb261-6"><a href="iav-swabs.html#cb261-6" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Nasal),</span>
+<span id="cb261-7"><a href="iav-swabs.html#cb261-7" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">ifelse</span>(IAV.Nasal <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Nasal),</span>
+<span id="cb261-8"><a href="iav-swabs.html#cb261-8" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Rectal),</span>
+<span id="cb261-9"><a href="iav-swabs.html#cb261-9" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Rectal),</span>
+<span id="cb261-10"><a href="iav-swabs.html#cb261-10" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;ND|</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Rectal),</span>
+<span id="cb261-11"><a href="iav-swabs.html#cb261-11" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">ifelse</span>(IAV.Rectal <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Rectal),</span>
+<span id="cb261-12"><a href="iav-swabs.html#cb261-12" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Conj),</span>
+<span id="cb261-13"><a href="iav-swabs.html#cb261-13" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Conj),</span>
+<span id="cb261-14"><a href="iav-swabs.html#cb261-14" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Conj),</span>
+<span id="cb261-15"><a href="iav-swabs.html#cb261-15" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">ifelse</span>(IAV.Conj <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Conj))</span>
+<span id="cb261-16"><a href="iav-swabs.html#cb261-16" tabindex="-1"></a></span>
+<span id="cb261-17"><a href="iav-swabs.html#cb261-17" tabindex="-1"></a></span>
+<span id="cb261-18"><a href="iav-swabs.html#cb261-18" tabindex="-1"></a><span class="co"># Merge cytokine, meta, virology data</span></span>
+<span id="cb261-19"><a href="iav-swabs.html#cb261-19" tabindex="-1"></a>data <span class="ot">&lt;-</span></span>
+<span id="cb261-20"><a href="iav-swabs.html#cb261-20" tabindex="-1"></a>  cyto <span class="sc">%&gt;%</span> </span>
+<span id="cb261-21"><a href="iav-swabs.html#cb261-21" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb261-22"><a href="iav-swabs.html#cb261-22" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>iav)</span>
+<span id="cb261-23"><a href="iav-swabs.html#cb261-23" tabindex="-1"></a></span>
+<span id="cb261-24"><a href="iav-swabs.html#cb261-24" tabindex="-1"></a>databin <span class="ot">&lt;-</span></span>
+<span id="cb261-25"><a href="iav-swabs.html#cb261-25" tabindex="-1"></a>  cytobin <span class="sc">%&gt;%</span> </span>
+<span id="cb261-26"><a href="iav-swabs.html#cb261-26" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb261-27"><a href="iav-swabs.html#cb261-27" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>IAV)</span>
+<span id="cb261-28"><a href="iav-swabs.html#cb261-28" tabindex="-1"></a></span>
+<span id="cb261-29"><a href="iav-swabs.html#cb261-29" tabindex="-1"></a>datascale <span class="ot">&lt;-</span> </span>
+<span id="cb261-30"><a href="iav-swabs.html#cb261-30" tabindex="-1"></a>  cytoscale <span class="sc">%&gt;%</span> </span>
+<span id="cb261-31"><a href="iav-swabs.html#cb261-31" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb261-32"><a href="iav-swabs.html#cb261-32" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>iav)</span></code></pre></div>
+</div>
+<div id="pca-on-log-transformed-scaled-centered-cytokine-data" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> PCA on log-transformed, scaled, centered cytokine data<a href="iav-swabs.html#pca-on-log-transformed-scaled-centered-cytokine-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="iav-swabs.html#cb262-1" tabindex="-1"></a><span class="co"># Conj</span></span>
+<span id="cb262-2"><a href="iav-swabs.html#cb262-2" tabindex="-1"></a>data_conj <span class="ot">&lt;-</span> </span>
+<span id="cb262-3"><a href="iav-swabs.html#cb262-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb262-4"><a href="iav-swabs.html#cb262-4" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Conj))</span>
+<span id="cb262-5"><a href="iav-swabs.html#cb262-5" tabindex="-1"></a></span>
+<span id="cb262-6"><a href="iav-swabs.html#cb262-6" tabindex="-1"></a>pca_conj <span class="ot">&lt;-</span> </span>
+<span id="cb262-7"><a href="iav-swabs.html#cb262-7" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_conj[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb262-8"><a href="iav-swabs.html#cb262-8" tabindex="-1"></a></span>
+<span id="cb262-9"><a href="iav-swabs.html#cb262-9" tabindex="-1"></a>plot_pca_conj <span class="ot">&lt;-</span> </span>
+<span id="cb262-10"><a href="iav-swabs.html#cb262-10" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_conj, <span class="at">data=</span>data_conj, <span class="at">shape=</span><span class="st">&quot;IAV.Conj&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb262-11"><a href="iav-swabs.html#cb262-11" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
+<span id="cb262-12"><a href="iav-swabs.html#cb262-12" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Conj Swab&quot;</span>) <span class="sc">+</span></span>
+<span id="cb262-13"><a href="iav-swabs.html#cb262-13" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb262-14"><a href="iav-swabs.html#cb262-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb262-15"><a href="iav-swabs.html#cb262-15" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb262-16"><a href="iav-swabs.html#cb262-16" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: The `size` argument of `element_rect()` is deprecated as of
+## ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where
+## this warning was generated.</code></pre>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="iav-swabs.html#cb264-1" tabindex="-1"></a><span class="co"># Nasal</span></span>
+<span id="cb264-2"><a href="iav-swabs.html#cb264-2" tabindex="-1"></a>data_nasal <span class="ot">&lt;-</span> </span>
+<span id="cb264-3"><a href="iav-swabs.html#cb264-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb264-4"><a href="iav-swabs.html#cb264-4" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Nasal))</span>
+<span id="cb264-5"><a href="iav-swabs.html#cb264-5" tabindex="-1"></a></span>
+<span id="cb264-6"><a href="iav-swabs.html#cb264-6" tabindex="-1"></a>pca_nasal <span class="ot">&lt;-</span> </span>
+<span id="cb264-7"><a href="iav-swabs.html#cb264-7" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_nasal[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb264-8"><a href="iav-swabs.html#cb264-8" tabindex="-1"></a></span>
+<span id="cb264-9"><a href="iav-swabs.html#cb264-9" tabindex="-1"></a>plot_pca_nasal <span class="ot">&lt;-</span> </span>
+<span id="cb264-10"><a href="iav-swabs.html#cb264-10" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_nasal, <span class="at">data=</span>data_nasal, <span class="at">shape=</span><span class="st">&quot;IAV.Nasal&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb264-11"><a href="iav-swabs.html#cb264-11" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
+<span id="cb264-12"><a href="iav-swabs.html#cb264-12" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Nasal Swab&quot;</span>) <span class="sc">+</span></span>
+<span id="cb264-13"><a href="iav-swabs.html#cb264-13" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb264-14"><a href="iav-swabs.html#cb264-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb264-15"><a href="iav-swabs.html#cb264-15" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb264-16"><a href="iav-swabs.html#cb264-16" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb264-17"><a href="iav-swabs.html#cb264-17" tabindex="-1"></a></span>
+<span id="cb264-18"><a href="iav-swabs.html#cb264-18" tabindex="-1"></a><span class="co"># Rectal</span></span>
+<span id="cb264-19"><a href="iav-swabs.html#cb264-19" tabindex="-1"></a>data_rectal <span class="ot">&lt;-</span> </span>
+<span id="cb264-20"><a href="iav-swabs.html#cb264-20" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb264-21"><a href="iav-swabs.html#cb264-21" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Rectal))</span>
+<span id="cb264-22"><a href="iav-swabs.html#cb264-22" tabindex="-1"></a></span>
+<span id="cb264-23"><a href="iav-swabs.html#cb264-23" tabindex="-1"></a>pca_rectal <span class="ot">&lt;-</span> </span>
+<span id="cb264-24"><a href="iav-swabs.html#cb264-24" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_rectal[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb264-25"><a href="iav-swabs.html#cb264-25" tabindex="-1"></a></span>
+<span id="cb264-26"><a href="iav-swabs.html#cb264-26" tabindex="-1"></a>plot_pca_rectal <span class="ot">&lt;-</span> </span>
+<span id="cb264-27"><a href="iav-swabs.html#cb264-27" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_rectal, <span class="at">data=</span>data_rectal, <span class="at">shape=</span><span class="st">&quot;IAV.Rectal&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb264-28"><a href="iav-swabs.html#cb264-28" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
+<span id="cb264-29"><a href="iav-swabs.html#cb264-29" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Rectal Swab&quot;</span>) <span class="sc">+</span></span>
+<span id="cb264-30"><a href="iav-swabs.html#cb264-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb264-31"><a href="iav-swabs.html#cb264-31" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb264-32"><a href="iav-swabs.html#cb264-32" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb264-33"><a href="iav-swabs.html#cb264-33" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb264-34"><a href="iav-swabs.html#cb264-34" tabindex="-1"></a></span>
+<span id="cb264-35"><a href="iav-swabs.html#cb264-35" tabindex="-1"></a><span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(plot_pca_conj, plot_pca_nasal, plot_pca_rectal, <span class="at">ncol=</span><span class="dv">3</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+</div>
+<div id="test-for-normality" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Test for normality<a href="iav-swabs.html#test-for-normality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="iav-swabs.html#cb265-1" tabindex="-1"></a><span class="co"># Create dataframe for results</span></span>
+<span id="cb265-2"><a href="iav-swabs.html#cb265-2" tabindex="-1"></a>norm_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">0</span>, <span class="at">nrow=</span><span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb265-3"><a href="iav-swabs.html#cb265-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cyto=</span><span class="fu">colnames</span>(datascale)[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb265-4"><a href="iav-swabs.html#cb265-4" tabindex="-1"></a>         <span class="at">W=</span><span class="cn">NA</span>, </span>
+<span id="cb265-5"><a href="iav-swabs.html#cb265-5" tabindex="-1"></a>         <span class="at">pvalue=</span><span class="cn">NA</span>)</span>
+<span id="cb265-6"><a href="iav-swabs.html#cb265-6" tabindex="-1"></a></span>
+<span id="cb265-7"><a href="iav-swabs.html#cb265-7" tabindex="-1"></a><span class="co"># Truncate data</span></span>
+<span id="cb265-8"><a href="iav-swabs.html#cb265-8" tabindex="-1"></a>data_norm <span class="ot">&lt;-</span></span>
+<span id="cb265-9"><a href="iav-swabs.html#cb265-9" tabindex="-1"></a>  datascale[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb265-10"><a href="iav-swabs.html#cb265-10" tabindex="-1"></a></span>
+<span id="cb265-11"><a href="iav-swabs.html#cb265-11" tabindex="-1"></a><span class="co"># Test!</span></span>
+<span id="cb265-12"><a href="iav-swabs.html#cb265-12" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb265-13"><a href="iav-swabs.html#cb265-13" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(data_norm[,i])</span>
+<span id="cb265-14"><a href="iav-swabs.html#cb265-14" tabindex="-1"></a>  norm_results[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">round</span>(test<span class="sc">$</span>statistic, <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb265-15"><a href="iav-swabs.html#cb265-15" tabindex="-1"></a>  norm_results[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> test<span class="sc">$</span>p.value</span>
+<span id="cb265-16"><a href="iav-swabs.html#cb265-16" tabindex="-1"></a>}</span>
+<span id="cb265-17"><a href="iav-swabs.html#cb265-17" tabindex="-1"></a></span>
+<span id="cb265-18"><a href="iav-swabs.html#cb265-18" tabindex="-1"></a>norm_results <span class="co"># all not normally distributed</span></span></code></pre></div>
+<pre><code>##      cyto     W       pvalue
+## 1    IFNg 0.863 5.962382e-09
+## 2    IL.2 0.752 1.023169e-12
+## 3    IL.6 0.623 8.194377e-16
+## 4    IL.7 0.887 6.870283e-08
+## 5    IL.8 0.364 3.175029e-20
+## 6   IL.10 0.587 1.506211e-16
+## 7   IL.15 0.436 3.732445e-19
+## 8   IL.18 0.972 1.555482e-02
+## 9 KC.like 0.712 9.054308e-14</code></pre>
+</div>
+<div id="cramer-test-3" class="section level2 hasAnchor" number="7.6">
+<h2><span class="header-section-number">7.6</span> Cramer Test<a href="iav-swabs.html#cramer-test-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Multivariate composition of the cytokine pattern between each infection stage group with its control. It can handle multiple variables, potentially complex interactions and correlations.</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="iav-swabs.html#cb267-1" tabindex="-1"></a><span class="co"># Conj Swabs</span></span>
+<span id="cb267-2"><a href="iav-swabs.html#cb267-2" tabindex="-1"></a>con_pos <span class="ot">&lt;-</span></span>
+<span id="cb267-3"><a href="iav-swabs.html#cb267-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb267-4"><a href="iav-swabs.html#cb267-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Conj<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb267-5"><a href="iav-swabs.html#cb267-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb267-6"><a href="iav-swabs.html#cb267-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb267-7"><a href="iav-swabs.html#cb267-7" tabindex="-1"></a>  </span>
+<span id="cb267-8"><a href="iav-swabs.html#cb267-8" tabindex="-1"></a>con_neg <span class="ot">&lt;-</span> </span>
+<span id="cb267-9"><a href="iav-swabs.html#cb267-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb267-10"><a href="iav-swabs.html#cb267-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Conj<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb267-11"><a href="iav-swabs.html#cb267-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb267-12"><a href="iav-swabs.html#cb267-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
+<span id="cb267-13"><a href="iav-swabs.html#cb267-13" tabindex="-1"></a></span>
+<span id="cb267-14"><a href="iav-swabs.html#cb267-14" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, con_neg)</span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  22  values        y-sample:  91  values
+## 
+## critical value for confidence level  95 % :  714.8853 
+## observed statistic  617.0192 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.08791209 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="iav-swabs.html#cb269-1" tabindex="-1"></a><span class="co"># Nasal Swabs</span></span>
+<span id="cb269-2"><a href="iav-swabs.html#cb269-2" tabindex="-1"></a>nas_pos <span class="ot">&lt;-</span></span>
+<span id="cb269-3"><a href="iav-swabs.html#cb269-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb269-4"><a href="iav-swabs.html#cb269-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Nasal<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb269-5"><a href="iav-swabs.html#cb269-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb269-6"><a href="iav-swabs.html#cb269-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb269-7"><a href="iav-swabs.html#cb269-7" tabindex="-1"></a>  </span>
+<span id="cb269-8"><a href="iav-swabs.html#cb269-8" tabindex="-1"></a>nas_neg <span class="ot">&lt;-</span> </span>
+<span id="cb269-9"><a href="iav-swabs.html#cb269-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb269-10"><a href="iav-swabs.html#cb269-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Nasal<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb269-11"><a href="iav-swabs.html#cb269-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb269-12"><a href="iav-swabs.html#cb269-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
+<span id="cb269-13"><a href="iav-swabs.html#cb269-13" tabindex="-1"></a></span>
+<span id="cb269-14"><a href="iav-swabs.html#cb269-14" tabindex="-1"></a><span class="fu">cramer.test</span>(nas_pos, nas_neg)</span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  9  values        y-sample:  106  values
+## 
+## critical value for confidence level  95 % :  822.0239 
+## observed statistic  304.1772 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.3216783 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="iav-swabs.html#cb271-1" tabindex="-1"></a><span class="co"># Rectal Swabs</span></span>
+<span id="cb271-2"><a href="iav-swabs.html#cb271-2" tabindex="-1"></a>rec_pos <span class="ot">&lt;-</span></span>
+<span id="cb271-3"><a href="iav-swabs.html#cb271-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb271-4"><a href="iav-swabs.html#cb271-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Rectal<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb271-5"><a href="iav-swabs.html#cb271-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb271-6"><a href="iav-swabs.html#cb271-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb271-7"><a href="iav-swabs.html#cb271-7" tabindex="-1"></a>  </span>
+<span id="cb271-8"><a href="iav-swabs.html#cb271-8" tabindex="-1"></a>rec_neg <span class="ot">&lt;-</span> </span>
+<span id="cb271-9"><a href="iav-swabs.html#cb271-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb271-10"><a href="iav-swabs.html#cb271-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Rectal<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb271-11"><a href="iav-swabs.html#cb271-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb271-12"><a href="iav-swabs.html#cb271-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
+<span id="cb271-13"><a href="iav-swabs.html#cb271-13" tabindex="-1"></a></span>
+<span id="cb271-14"><a href="iav-swabs.html#cb271-14" tabindex="-1"></a><span class="fu">cramer.test</span>(rec_pos, rec_neg)</span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  17  values        y-sample:  97  values
+## 
+## critical value for confidence level  95 % :  743.348 
+## observed statistic  983.8619 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  REJECTED .
+## estimated p-value =  0.02197802 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="iav-swabs.html#cb273-1" tabindex="-1"></a><span class="co"># Between positive swabs?</span></span>
+<span id="cb273-2"><a href="iav-swabs.html#cb273-2" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, nas_pos) <span class="co"># early vs mid infection</span></span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  22  values        y-sample:  9  values
+## 
+## critical value for confidence level  95 % :  501.1306 
+## observed statistic  160.5266 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.4375624 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="iav-swabs.html#cb275-1" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, rec_pos) <span class="co"># early vs late infection</span></span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  22  values        y-sample:  17  values
+## 
+## critical value for confidence level  95 % :  359.5375 
+## observed statistic  101.7637 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.5554446 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="iav-swabs.html#cb277-1" tabindex="-1"></a><span class="fu">cramer.test</span>(nas_pos, rec_pos) <span class="co"># mid vs late infection</span></span></code></pre></div>
+<pre><code>## 
+##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
+## (on equality of two distributions) 
+## 
+##  x-sample:  9  values        y-sample:  17  values
+## 
+## critical value for confidence level  95 % :  448.4222 
+## observed statistic  244.5893 , so that
+##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
+## estimated p-value =  0.1678322 
+## 
+##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
+</div>
+<div id="cytokine-exploratory-plots-swabs" class="section level2 hasAnchor" number="7.7">
+<h2><span class="header-section-number">7.7</span> Cytokine Exploratory Plots ~ Swabs<a href="iav-swabs.html#cytokine-exploratory-plots-swabs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="iav-swabs.html#cb279-1" tabindex="-1"></a><span class="co"># Configure data</span></span>
+<span id="cb279-2"><a href="iav-swabs.html#cb279-2" tabindex="-1"></a>swabs <span class="ot">&lt;-</span></span>
+<span id="cb279-3"><a href="iav-swabs.html#cb279-3" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb279-4"><a href="iav-swabs.html#cb279-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>year <span class="sc">&amp;</span> <span class="sc">!</span>IAV) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-5"><a href="iav-swabs.html#cb279-5" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">names_to=</span><span class="st">&quot;cytokine&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;concentration&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-6"><a href="iav-swabs.html#cb279-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">names_to=</span><span class="st">&quot;swab&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;status&quot;</span>) </span>
+<span id="cb279-7"><a href="iav-swabs.html#cb279-7" tabindex="-1"></a></span>
+<span id="cb279-8"><a href="iav-swabs.html#cb279-8" tabindex="-1"></a>conj <span class="ot">&lt;-</span> </span>
+<span id="cb279-9"><a href="iav-swabs.html#cb279-9" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-10"><a href="iav-swabs.html#cb279-10" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Conj&quot;</span>, </span>
+<span id="cb279-11"><a href="iav-swabs.html#cb279-11" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>)</span>
+<span id="cb279-12"><a href="iav-swabs.html#cb279-12" tabindex="-1"></a>  </span>
+<span id="cb279-13"><a href="iav-swabs.html#cb279-13" tabindex="-1"></a>nasal <span class="ot">&lt;-</span> </span>
+<span id="cb279-14"><a href="iav-swabs.html#cb279-14" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-15"><a href="iav-swabs.html#cb279-15" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Nasal&quot;</span>,</span>
+<span id="cb279-16"><a href="iav-swabs.html#cb279-16" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) </span>
+<span id="cb279-17"><a href="iav-swabs.html#cb279-17" tabindex="-1"></a></span>
+<span id="cb279-18"><a href="iav-swabs.html#cb279-18" tabindex="-1"></a>rectal <span class="ot">&lt;-</span> </span>
+<span id="cb279-19"><a href="iav-swabs.html#cb279-19" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-20"><a href="iav-swabs.html#cb279-20" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Rectal&quot;</span>, </span>
+<span id="cb279-21"><a href="iav-swabs.html#cb279-21" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>)</span>
+<span id="cb279-22"><a href="iav-swabs.html#cb279-22" tabindex="-1"></a></span>
+<span id="cb279-23"><a href="iav-swabs.html#cb279-23" tabindex="-1"></a>pos_swabs <span class="ot">&lt;-</span></span>
+<span id="cb279-24"><a href="iav-swabs.html#cb279-24" tabindex="-1"></a>  <span class="fu">rbind</span>(conj, nasal, rectal)</span>
+<span id="cb279-25"><a href="iav-swabs.html#cb279-25" tabindex="-1"></a></span>
+<span id="cb279-26"><a href="iav-swabs.html#cb279-26" tabindex="-1"></a><span class="co"># Plots</span></span>
+<span id="cb279-27"><a href="iav-swabs.html#cb279-27" tabindex="-1"></a>ifn <span class="ot">&lt;-</span></span>
+<span id="cb279-28"><a href="iav-swabs.html#cb279-28" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-29"><a href="iav-swabs.html#cb279-29" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IFNg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-30"><a href="iav-swabs.html#cb279-30" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-31"><a href="iav-swabs.html#cb279-31" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-32"><a href="iav-swabs.html#cb279-32" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IFNg&quot;</span>)</span>
+<span id="cb279-33"><a href="iav-swabs.html#cb279-33" tabindex="-1"></a></span>
+<span id="cb279-34"><a href="iav-swabs.html#cb279-34" tabindex="-1"></a><span class="co"># Plots</span></span>
+<span id="cb279-35"><a href="iav-swabs.html#cb279-35" tabindex="-1"></a>il2 <span class="ot">&lt;-</span> </span>
+<span id="cb279-36"><a href="iav-swabs.html#cb279-36" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-37"><a href="iav-swabs.html#cb279-37" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.2&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-38"><a href="iav-swabs.html#cb279-38" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-39"><a href="iav-swabs.html#cb279-39" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-40"><a href="iav-swabs.html#cb279-40" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.2&quot;</span>)</span>
+<span id="cb279-41"><a href="iav-swabs.html#cb279-41" tabindex="-1"></a></span>
+<span id="cb279-42"><a href="iav-swabs.html#cb279-42" tabindex="-1"></a>il6 <span class="ot">&lt;-</span> </span>
+<span id="cb279-43"><a href="iav-swabs.html#cb279-43" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-44"><a href="iav-swabs.html#cb279-44" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.6&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-45"><a href="iav-swabs.html#cb279-45" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-46"><a href="iav-swabs.html#cb279-46" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-47"><a href="iav-swabs.html#cb279-47" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.6&quot;</span>)</span>
+<span id="cb279-48"><a href="iav-swabs.html#cb279-48" tabindex="-1"></a></span>
+<span id="cb279-49"><a href="iav-swabs.html#cb279-49" tabindex="-1"></a>il7 <span class="ot">&lt;-</span> </span>
+<span id="cb279-50"><a href="iav-swabs.html#cb279-50" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-51"><a href="iav-swabs.html#cb279-51" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.7&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-52"><a href="iav-swabs.html#cb279-52" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-53"><a href="iav-swabs.html#cb279-53" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-54"><a href="iav-swabs.html#cb279-54" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.7&quot;</span>)</span>
+<span id="cb279-55"><a href="iav-swabs.html#cb279-55" tabindex="-1"></a></span>
+<span id="cb279-56"><a href="iav-swabs.html#cb279-56" tabindex="-1"></a>il8 <span class="ot">&lt;-</span> </span>
+<span id="cb279-57"><a href="iav-swabs.html#cb279-57" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-58"><a href="iav-swabs.html#cb279-58" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.8&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-59"><a href="iav-swabs.html#cb279-59" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-60"><a href="iav-swabs.html#cb279-60" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-61"><a href="iav-swabs.html#cb279-61" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.8&quot;</span>)</span>
+<span id="cb279-62"><a href="iav-swabs.html#cb279-62" tabindex="-1"></a></span>
+<span id="cb279-63"><a href="iav-swabs.html#cb279-63" tabindex="-1"></a>il10 <span class="ot">&lt;-</span> </span>
+<span id="cb279-64"><a href="iav-swabs.html#cb279-64" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-65"><a href="iav-swabs.html#cb279-65" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.10&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-66"><a href="iav-swabs.html#cb279-66" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-67"><a href="iav-swabs.html#cb279-67" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-68"><a href="iav-swabs.html#cb279-68" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.10&quot;</span>)</span>
+<span id="cb279-69"><a href="iav-swabs.html#cb279-69" tabindex="-1"></a></span>
+<span id="cb279-70"><a href="iav-swabs.html#cb279-70" tabindex="-1"></a>il15 <span class="ot">&lt;-</span> </span>
+<span id="cb279-71"><a href="iav-swabs.html#cb279-71" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-72"><a href="iav-swabs.html#cb279-72" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.15&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-73"><a href="iav-swabs.html#cb279-73" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-74"><a href="iav-swabs.html#cb279-74" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-75"><a href="iav-swabs.html#cb279-75" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.15&quot;</span>)</span>
+<span id="cb279-76"><a href="iav-swabs.html#cb279-76" tabindex="-1"></a></span>
+<span id="cb279-77"><a href="iav-swabs.html#cb279-77" tabindex="-1"></a>il18 <span class="ot">&lt;-</span> </span>
+<span id="cb279-78"><a href="iav-swabs.html#cb279-78" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-79"><a href="iav-swabs.html#cb279-79" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.18&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-80"><a href="iav-swabs.html#cb279-80" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-81"><a href="iav-swabs.html#cb279-81" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-82"><a href="iav-swabs.html#cb279-82" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.18&quot;</span>)</span>
+<span id="cb279-83"><a href="iav-swabs.html#cb279-83" tabindex="-1"></a></span>
+<span id="cb279-84"><a href="iav-swabs.html#cb279-84" tabindex="-1"></a>kc <span class="ot">&lt;-</span> </span>
+<span id="cb279-85"><a href="iav-swabs.html#cb279-85" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb279-86"><a href="iav-swabs.html#cb279-86" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;KC.like&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb279-87"><a href="iav-swabs.html#cb279-87" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb279-88"><a href="iav-swabs.html#cb279-88" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb279-89"><a href="iav-swabs.html#cb279-89" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;KC.like&quot;</span>)</span>
+<span id="cb279-90"><a href="iav-swabs.html#cb279-90" tabindex="-1"></a></span>
+<span id="cb279-91"><a href="iav-swabs.html#cb279-91" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(il6, il10, kc))</span></code></pre></div>
+<pre><code>## Warning: Removed 44 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 39 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-1.png" width="672" /></p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="iav-swabs.html#cb283-1" tabindex="-1"></a>nonimp1 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(ifn, il2, il7))</span></code></pre></div>
+<pre><code>## Warning: Removed 24 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 25 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 18 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-2.png" width="672" /></p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="iav-swabs.html#cb287-1" tabindex="-1"></a>nonimp2 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(il8, il15, il18))</span></code></pre></div>
+<pre><code>## Warning: Removed 43 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 42 rows containing non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-3.png" width="672" /></p>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="iav-swabs.html#cb290-1" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(imp, nonimp1, nonimp2, <span class="at">ncol=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-101-4.png" width="672" /></p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="iav-swabs.html#cb291-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename=</span><span class="st">&quot;Figures/cyto_swab.jpeg&quot;</span>, all, <span class="at">width=</span><span class="dv">8</span>, <span class="at">height=</span><span class="dv">6</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="iav-cytokines.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="create-panel-figure-for-pls-da-plots.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"info": false
+});
+});
+</script>
+
+</body>
+
+</html>

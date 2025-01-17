@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Test for confounding variables | Characterization of gray seal pup cytokine response to influenza A virus</title>
   <meta name="description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Test for confounding variables | Characterization of gray seal pup cytokine response to influenza A virus" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2024-10-22" />
+<meta name="date" content="2025-01-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -66,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -147,16 +147,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html"><i class="fa fa-check"></i><b>2</b> Tidy Cytokine Data Metadata</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#load-required-libraries"><i class="fa fa-check"></i><b>2.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="2.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#libraries"><i class="fa fa-check"></i><b>2.1</b> Libraries</a></li>
 <li class="chapter" data-level="2.2" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#raw-file-import-cleaning"><i class="fa fa-check"></i><b>2.2</b> Raw file import &amp; cleaning</a></li>
 <li class="chapter" data-level="2.3" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#merge-cytokine-data-tidy"><i class="fa fa-check"></i><b>2.3</b> Merge cytokine data &amp; tidy</a></li>
 <li class="chapter" data-level="2.4" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#create-cytokine-01-dataset"><i class="fa fa-check"></i><b>2.4</b> Create Cytokine (0/1) Dataset</a></li>
 <li class="chapter" data-level="2.5" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#tidy-metadata"><i class="fa fa-check"></i><b>2.5</b> Tidy Metadata</a></li>
 <li class="chapter" data-level="2.6" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#body-mass-index"><i class="fa fa-check"></i><b>2.6</b> Body Mass Index</a></li>
+<li class="chapter" data-level="2.7" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#create-log-center-scaled-data-for-molt-stage-body-condition-iav-analyses"><i class="fa fa-check"></i><b>2.7</b> Create log, center, scaled data for molt stage, body condition, iav analyses</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#make-all-non-detects-half-the-minimum-concentration-detected-or-half-the-limit-of-detecion-whatever-is-smallest"><i class="fa fa-check"></i><b>2.7.1</b> Make all non-detects half the minimum concentration detected, or half the limit of detecion (whatever is smallest)</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html"><i class="fa fa-check"></i><b>3</b> Test for confounding variables</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#load-required-libraries-1"><i class="fa fa-check"></i><b>3.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="3.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#libraries-1"><i class="fa fa-check"></i><b>3.1</b> Libraries</a></li>
 <li class="chapter" data-level="3.2" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#initial-data-processing"><i class="fa fa-check"></i><b>3.2</b> Initial Data Processing</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#import-data-merge"><i class="fa fa-check"></i><b>3.2.1</b> Import data &amp; merge</a></li>
@@ -172,14 +176,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html"><i class="fa fa-check"></i><b>4</b> Molt stage ~ cytokines</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#load-required-libraries-2"><i class="fa fa-check"></i><b>4.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#read-in-data"><i class="fa fa-check"></i><b>4.2</b> Read in data</a></li>
-<li class="chapter" data-level="4.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#pca-on-log-transformed-scaled-centered-cytokine-data"><i class="fa fa-check"></i><b>4.3</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
-<li class="chapter" data-level="4.4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#test-for-normality"><i class="fa fa-check"></i><b>4.4</b> Test for normality</a></li>
+<li class="chapter" data-level="4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#libraries-2"><i class="fa fa-check"></i><b>4.1</b> Libraries</a></li>
+<li class="chapter" data-level="4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#data"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#pca"><i class="fa fa-check"></i><b>4.3</b> PCA</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#visualize"><i class="fa fa-check"></i><b>4.3.1</b> Visualize</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#permanova"><i class="fa fa-check"></i><b>4.4</b> PERMANOVA</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-presenceabsence"><i class="fa fa-check"></i><b>4.4.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="4.4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-concentration"><i class="fa fa-check"></i><b>4.4.2</b> Cytokine Concentration</a></li>
+</ul></li>
 <li class="chapter" data-level="4.5" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cramer-test"><i class="fa fa-check"></i><b>4.5</b> Cramer Test</a></li>
 <li class="chapter" data-level="4.6" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-importance"><i class="fa fa-check"></i><b>4.6</b> Cytokine Importance</a>
 <ul>
 <li class="chapter" data-level="4.6.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cross-validation"><i class="fa fa-check"></i><b>4.6.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#run-model-with-optimized-parameteres"><i class="fa fa-check"></i><b>4.6.2</b> Run model with optimized parameteres</a></li>
+<li class="chapter" data-level="4.6.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#plot-important-cytokines"><i class="fa fa-check"></i><b>4.6.3</b> Plot important cytokines</a></li>
 </ul></li>
 <li class="chapter" data-level="4.7" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#how-different-groups-are"><i class="fa fa-check"></i><b>4.7</b> How different groups are</a>
 <ul>
@@ -188,64 +201,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html"><i class="fa fa-check"></i><b>5</b> Body condition ~ cytokines</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#load-required-libraries-3"><i class="fa fa-check"></i><b>5.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#read-in-data-1"><i class="fa fa-check"></i><b>5.2</b> Read in data</a></li>
-<li class="chapter" data-level="5.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#log-transformed-scaled-center-cytokine-data"><i class="fa fa-check"></i><b>5.3</b> Log-transformed scaled, center cytokine data</a></li>
-<li class="chapter" data-level="5.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#pcas"><i class="fa fa-check"></i><b>5.4</b> PCAs</a>
+<li class="chapter" data-level="5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#libraries-3"><i class="fa fa-check"></i><b>5.1</b> Libraries</a></li>
+<li class="chapter" data-level="5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#data-1"><i class="fa fa-check"></i><b>5.2</b> Data</a></li>
+<li class="chapter" data-level="5.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-condition-range-bins"><i class="fa fa-check"></i><b>5.3</b> Body Condition Range &amp; Bins</a></li>
+<li class="chapter" data-level="5.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#pca-1"><i class="fa fa-check"></i><b>5.4</b> PCA</a>
 <ul>
-<li class="chapter" data-level="5.4.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-condition"><i class="fa fa-check"></i><b>5.4.1</b> Body Condition</a></li>
-<li class="chapter" data-level="5.4.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-mass-index-1"><i class="fa fa-check"></i><b>5.4.2</b> Body Mass Index</a></li>
-<li class="chapter" data-level="5.4.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-mass-index-2"><i class="fa fa-check"></i><b>5.4.3</b> Body Mass Index 2</a></li>
+<li class="chapter" data-level="5.4.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#visualize-1"><i class="fa fa-check"></i><b>5.4.1</b> Visualize</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#test-for-normality-1"><i class="fa fa-check"></i><b>5.5</b> Test for normality</a></li>
+<li class="chapter" data-level="5.5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#permanova-1"><i class="fa fa-check"></i><b>5.5</b> PERMANOVA</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-presenceabsence-1"><i class="fa fa-check"></i><b>5.5.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="5.5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-concentration-1"><i class="fa fa-check"></i><b>5.5.2</b> Cytokine Concentration</a></li>
+</ul></li>
 <li class="chapter" data-level="5.6" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cramer-test-1"><i class="fa fa-check"></i><b>5.6</b> Cramer Test</a></li>
 <li class="chapter" data-level="5.7" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-importance-1"><i class="fa fa-check"></i><b>5.7</b> Cytokine Importance</a>
 <ul>
-<li class="chapter" data-level="5.7.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cross-validation-1"><i class="fa fa-check"></i><b>5.7.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="5.7.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#prepare-data-for-cart"><i class="fa fa-check"></i><b>5.7.1</b> Prepare data for CART</a></li>
+<li class="chapter" data-level="5.7.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cross-validation-1"><i class="fa fa-check"></i><b>5.7.2</b> Cross Validation</a></li>
+<li class="chapter" data-level="5.7.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#run-model-with-optimized-parameters"><i class="fa fa-check"></i><b>5.7.3</b> Run model with optimized parameters</a></li>
+<li class="chapter" data-level="5.7.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plot-important-cytokines-1"><i class="fa fa-check"></i><b>5.7.4</b> Plot important cytokines</a></li>
 </ul></li>
 <li class="chapter" data-level="5.8" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#how-different-groups-are-1"><i class="fa fa-check"></i><b>5.8</b> How different groups are</a>
 <ul>
 <li class="chapter" data-level="5.8.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plsda---body-condition"><i class="fa fa-check"></i><b>5.8.1</b> PLSDA - Body Condition</a></li>
-<li class="chapter" data-level="5.8.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plsda---body-mass-index"><i class="fa fa-check"></i><b>5.8.2</b> PLSDA - Body Mass Index</a></li>
-<li class="chapter" data-level="5.8.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plsda---body-mass-index-2"><i class="fa fa-check"></i><b>5.8.3</b> PLSDA - Body Mass Index 2</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="iav-cytokines.html"><a href="iav-cytokines.html"><i class="fa fa-check"></i><b>6</b> IAV ~ cytokines</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#load-required-libraries-4"><i class="fa fa-check"></i><b>6.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#read-in-data-2"><i class="fa fa-check"></i><b>6.2</b> Read in data</a></li>
-<li class="chapter" data-level="6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#pca-on-raw-cytokine-data"><i class="fa fa-check"></i><b>6.3</b> PCA on raw cytokine data</a></li>
-<li class="chapter" data-level="6.4" data-path="iav-cytokines.html"><a href="iav-cytokines.html#pca-on-log-transformed-scaled-centered-cytokine-data-1"><i class="fa fa-check"></i><b>6.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
-<li class="chapter" data-level="6.5" data-path="iav-cytokines.html"><a href="iav-cytokines.html#test-for-normality-2"><i class="fa fa-check"></i><b>6.5</b> Test for normality</a></li>
-<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cramer-test-2"><i class="fa fa-check"></i><b>6.6</b> Cramer Test</a></li>
-<li class="chapter" data-level="6.7" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-importance-2"><i class="fa fa-check"></i><b>6.7</b> Cytokine Importance</a>
+<li class="chapter" data-level="6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#libraries-4"><i class="fa fa-check"></i><b>6.1</b> Libraries</a></li>
+<li class="chapter" data-level="6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#data-2"><i class="fa fa-check"></i><b>6.2</b> Data</a></li>
+<li class="chapter" data-level="6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#pca-2"><i class="fa fa-check"></i><b>6.3</b> PCA</a>
 <ul>
-<li class="chapter" data-level="6.7.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cross-validation-2"><i class="fa fa-check"></i><b>6.7.1</b> Cross Validation</a></li>
-<li class="chapter" data-level="6.7.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#variable-importance-plot"><i class="fa fa-check"></i><b>6.7.2</b> Variable Importance Plot</a></li>
+<li class="chapter" data-level="6.3.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#visualize-2"><i class="fa fa-check"></i><b>6.3.1</b> Visualize</a></li>
 </ul></li>
-<li class="chapter" data-level="6.8" data-path="iav-cytokines.html"><a href="iav-cytokines.html#how-different-iav-and-iav--groups-are"><i class="fa fa-check"></i><b>6.8</b> How different IAV+ and IAV- groups are</a>
+<li class="chapter" data-level="6.4" data-path="iav-cytokines.html"><a href="iav-cytokines.html#permanova-2"><i class="fa fa-check"></i><b>6.4</b> PERMANOVA</a>
 <ul>
-<li class="chapter" data-level="6.8.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#plsda-1"><i class="fa fa-check"></i><b>6.8.1</b> PLSDA</a></li>
-<li class="chapter" data-level="6.8.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#d-kolmogorov-smirnov-test"><i class="fa fa-check"></i><b>6.8.2</b> 2-D Kolmogorov-Smirnov test</a></li>
+<li class="chapter" data-level="6.4.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-presenceabsence-2"><i class="fa fa-check"></i><b>6.4.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="6.4.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-concentration-2"><i class="fa fa-check"></i><b>6.4.2</b> Cytokine Concentration</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html"><i class="fa fa-check"></i><b>7</b> IAV ~ cytokines</a>
+<li class="chapter" data-level="6.5" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cramer-test-2"><i class="fa fa-check"></i><b>6.5</b> Cramer Test</a></li>
+<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-importance-2"><i class="fa fa-check"></i><b>6.6</b> Cytokine Importance</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#load-required-libraries-5"><i class="fa fa-check"></i><b>7.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="7.2" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#read-in-data-3"><i class="fa fa-check"></i><b>7.2</b> Read in data</a></li>
-<li class="chapter" data-level="7.3" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#tidy-merge-data"><i class="fa fa-check"></i><b>7.3</b> Tidy &amp; Merge Data</a></li>
-<li class="chapter" data-level="7.4" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#pca-on-log-transformed-scaled-centered-cytokine-data-2"><i class="fa fa-check"></i><b>7.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
-<li class="chapter" data-level="7.5" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#test-for-normality-3"><i class="fa fa-check"></i><b>7.5</b> Test for normality</a></li>
-<li class="chapter" data-level="7.6" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#cramer-test-3"><i class="fa fa-check"></i><b>7.6</b> Cramer Test</a></li>
-<li class="chapter" data-level="7.7" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#cytokine-exploratory-plots-swabs"><i class="fa fa-check"></i><b>7.7</b> Cytokine Exploratory Plots ~ Swabs</a></li>
+<li class="chapter" data-level="6.6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cross-validation-2"><i class="fa fa-check"></i><b>6.6.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="6.6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#run-model-with-optimized-parameters-1"><i class="fa fa-check"></i><b>6.6.2</b> Run model with optimized parameters</a></li>
+<li class="chapter" data-level="6.6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#manuscript-plot"><i class="fa fa-check"></i><b>6.6.3</b> Manuscript Plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="iav-cytokines.html"><a href="iav-cytokines.html#how-different-iav-and-iav--groups-are"><i class="fa fa-check"></i><b>6.7</b> How different IAV+ and IAV- groups are</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#plsda-1"><i class="fa fa-check"></i><b>6.7.1</b> PLSDA</a></li>
+<li class="chapter" data-level="6.7.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#d-kolmogorov-smirnov-test"><i class="fa fa-check"></i><b>6.7.2</b> 2-D Kolmogorov-Smirnov test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="iav-swabs.html"><a href="iav-swabs.html"><i class="fa fa-check"></i><b>7</b> IAV ~ swabs</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="iav-swabs.html"><a href="iav-swabs.html#load-required-libraries"><i class="fa fa-check"></i><b>7.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="7.2" data-path="iav-swabs.html"><a href="iav-swabs.html#read-in-data"><i class="fa fa-check"></i><b>7.2</b> Read in data</a></li>
+<li class="chapter" data-level="7.3" data-path="iav-swabs.html"><a href="iav-swabs.html#tidy-merge-data"><i class="fa fa-check"></i><b>7.3</b> Tidy &amp; Merge Data</a></li>
+<li class="chapter" data-level="7.4" data-path="iav-swabs.html"><a href="iav-swabs.html#pca-on-log-transformed-scaled-centered-cytokine-data"><i class="fa fa-check"></i><b>7.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
+<li class="chapter" data-level="7.5" data-path="iav-swabs.html"><a href="iav-swabs.html#test-for-normality"><i class="fa fa-check"></i><b>7.5</b> Test for normality</a></li>
+<li class="chapter" data-level="7.6" data-path="iav-swabs.html"><a href="iav-swabs.html#cramer-test-3"><i class="fa fa-check"></i><b>7.6</b> Cramer Test</a></li>
+<li class="chapter" data-level="7.7" data-path="iav-swabs.html"><a href="iav-swabs.html#cytokine-exploratory-plots-swabs"><i class="fa fa-check"></i><b>7.7</b> Cytokine Exploratory Plots ~ Swabs</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html"><i class="fa fa-check"></i><b>8</b> Create panel figure for PLS-DA plots</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#load-required-libraries-6"><i class="fa fa-check"></i><b>8.1</b> Load required Libraries</a></li>
-<li class="chapter" data-level="8.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#read-in-data-4"><i class="fa fa-check"></i><b>8.2</b> Read in data</a></li>
-<li class="chapter" data-level="8.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#replace-0-with-half-mindc-log-center-scale"><i class="fa fa-check"></i><b>8.3</b> Replace 0 with half mindc, log, center, scale</a></li>
-<li class="chapter" data-level="8.4" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#plot"><i class="fa fa-check"></i><b>8.4</b> Plot!</a></li>
+<li class="chapter" data-level="8.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#libraries-5"><i class="fa fa-check"></i><b>8.1</b> Libraries</a></li>
+<li class="chapter" data-level="8.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#data-3"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#plot-6"><i class="fa fa-check"></i><b>8.3</b> Plot!</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#molt-stage"><i class="fa fa-check"></i><b>8.3.1</b> Molt Stage</a></li>
+<li class="chapter" data-level="8.3.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#body-condition"><i class="fa fa-check"></i><b>8.3.2</b> Body Condition</a></li>
+<li class="chapter" data-level="8.3.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#iav"><i class="fa fa-check"></i><b>8.3.3</b> IAV</a></li>
+<li class="chapter" data-level="8.3.4" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#combine-all-plots"><i class="fa fa-check"></i><b>8.3.4</b> Combine all plots</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="iav-negative-animals.html"><a href="iav-negative-animals.html"><i class="fa fa-check"></i><b>9</b> IAV Negative Animals</a></li>
 </ul>
 
       </nav>
@@ -265,94 +294,88 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="test-for-confounding-variables" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">3</span> Test for confounding variables<a href="test-for-confounding-variables.html#test-for-confounding-variables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="load-required-libraries-1" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> Load required libraries<a href="test-for-confounding-variables.html#load-required-libraries-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="test-for-confounding-variables.html#cb9-1" tabindex="-1"></a><span class="fu">library</span>(mixOmics) <span class="co"># so tidyverse re-writes over select</span></span>
-<span id="cb9-2"><a href="test-for-confounding-variables.html#cb9-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb9-3"><a href="test-for-confounding-variables.html#cb9-3" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span></code></pre></div>
+<div id="libraries-1" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Libraries<a href="test-for-confounding-variables.html#libraries-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="test-for-confounding-variables.html#cb10-1" tabindex="-1"></a><span class="fu">library</span>(mixOmics) <span class="co"># so tidyverse re-writes over select</span></span>
+<span id="cb10-2"><a href="test-for-confounding-variables.html#cb10-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-3"><a href="test-for-confounding-variables.html#cb10-3" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span></code></pre></div>
 </div>
 <div id="initial-data-processing" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Initial Data Processing<a href="test-for-confounding-variables.html#initial-data-processing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="import-data-merge" class="section level3 hasAnchor" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Import data &amp; merge<a href="test-for-confounding-variables.html#import-data-merge" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="test-for-confounding-variables.html#cb10-1" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine.csv&quot;</span>)</span>
-<span id="cb10-2"><a href="test-for-confounding-variables.html#cb10-2" tabindex="-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/metadata_cyto.csv&quot;</span>)</span>
-<span id="cb10-3"><a href="test-for-confounding-variables.html#cb10-3" tabindex="-1"></a>cytobin <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_bin.csv&quot;</span>)</span>
-<span id="cb10-4"><a href="test-for-confounding-variables.html#cb10-4" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="test-for-confounding-variables.html#cb10-5" tabindex="-1"></a><span class="co"># Merge cytokine &amp; meta data</span></span>
-<span id="cb10-6"><a href="test-for-confounding-variables.html#cb10-6" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
-<span id="cb10-7"><a href="test-for-confounding-variables.html#cb10-7" tabindex="-1"></a>  <span class="fu">merge</span>(cyto, meta) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-8"><a href="test-for-confounding-variables.html#cb10-8" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">23</span>))</span>
-<span id="cb10-9"><a href="test-for-confounding-variables.html#cb10-9" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="test-for-confounding-variables.html#cb10-10" tabindex="-1"></a>databin <span class="ot">&lt;-</span> </span>
-<span id="cb10-11"><a href="test-for-confounding-variables.html#cb10-11" tabindex="-1"></a>  <span class="fu">merge</span>(cytobin, meta) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-12"><a href="test-for-confounding-variables.html#cb10-12" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">23</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="test-for-confounding-variables.html#cb11-1" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_all.csv&quot;</span>)</span>
+<span id="cb11-2"><a href="test-for-confounding-variables.html#cb11-2" tabindex="-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/metadata_cyto.csv&quot;</span>)</span>
+<span id="cb11-3"><a href="test-for-confounding-variables.html#cb11-3" tabindex="-1"></a>cytobin <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_bin_all.csv&quot;</span>)</span>
+<span id="cb11-4"><a href="test-for-confounding-variables.html#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="test-for-confounding-variables.html#cb11-5" tabindex="-1"></a><span class="co"># Merge cytokine &amp; meta data</span></span>
+<span id="cb11-6"><a href="test-for-confounding-variables.html#cb11-6" tabindex="-1"></a>data <span class="ot">&lt;-</span> </span>
+<span id="cb11-7"><a href="test-for-confounding-variables.html#cb11-7" tabindex="-1"></a>  <span class="fu">merge</span>(cyto, meta)</span>
+<span id="cb11-8"><a href="test-for-confounding-variables.html#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="test-for-confounding-variables.html#cb11-9" tabindex="-1"></a>databin <span class="ot">&lt;-</span> </span>
+<span id="cb11-10"><a href="test-for-confounding-variables.html#cb11-10" tabindex="-1"></a>  <span class="fu">merge</span>(cytobin, meta) </span></code></pre></div>
 </div>
 <div id="ensure-variables-are-correct-format" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Ensure variables are correct format<a href="test-for-confounding-variables.html#ensure-variables-are-correct-format" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="test-for-confounding-variables.html#cb11-1" tabindex="-1"></a>data<span class="sc">$</span>iav <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>iav)</span>
-<span id="cb11-2"><a href="test-for-confounding-variables.html#cb11-2" tabindex="-1"></a>data<span class="sc">$</span>location <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>location)</span>
-<span id="cb11-3"><a href="test-for-confounding-variables.html#cb11-3" tabindex="-1"></a>data<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>year)</span>
-<span id="cb11-4"><a href="test-for-confounding-variables.html#cb11-4" tabindex="-1"></a>data<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>sex)</span>
-<span id="cb11-5"><a href="test-for-confounding-variables.html#cb11-5" tabindex="-1"></a>data<span class="sc">$</span>molt.stage <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>molt.stage, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;III&quot;</span>, <span class="st">&quot;IV&quot;</span>, <span class="st">&quot;V&quot;</span>), <span class="at">ordered=</span><span class="cn">TRUE</span>)</span>
-<span id="cb11-6"><a href="test-for-confounding-variables.html#cb11-6" tabindex="-1"></a>data<span class="sc">$</span>bc_bin <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>bc_bin, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;Robust&quot;</span>))</span>
-<span id="cb11-7"><a href="test-for-confounding-variables.html#cb11-7" tabindex="-1"></a>data<span class="sc">$</span>bmi_bin <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>bmi_bin, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Robust&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="test-for-confounding-variables.html#cb12-1" tabindex="-1"></a>data<span class="sc">$</span>iav <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>iav)</span>
+<span id="cb12-2"><a href="test-for-confounding-variables.html#cb12-2" tabindex="-1"></a>data<span class="sc">$</span>location <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>location)</span>
+<span id="cb12-3"><a href="test-for-confounding-variables.html#cb12-3" tabindex="-1"></a>data<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>year)</span>
+<span id="cb12-4"><a href="test-for-confounding-variables.html#cb12-4" tabindex="-1"></a>data<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>sex)</span>
+<span id="cb12-5"><a href="test-for-confounding-variables.html#cb12-5" tabindex="-1"></a>data<span class="sc">$</span>molt.stage <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>molt.stage, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;III&quot;</span>, <span class="st">&quot;IV&quot;</span>, <span class="st">&quot;V&quot;</span>), <span class="at">ordered=</span><span class="cn">TRUE</span>)</span>
+<span id="cb12-6"><a href="test-for-confounding-variables.html#cb12-6" tabindex="-1"></a>data<span class="sc">$</span>bc_bin <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>bc_bin, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;Robust&quot;</span>))</span>
+<span id="cb12-7"><a href="test-for-confounding-variables.html#cb12-7" tabindex="-1"></a>data<span class="sc">$</span>bmi_bin <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>bmi_bin, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Robust&quot;</span>))</span></code></pre></div>
 </div>
 </div>
 <div id="exploratory" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Exploratory<a href="test-for-confounding-variables.html#exploratory" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="sample-descriptive-stats" class="section level3 hasAnchor" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Sample Descriptive Stats<a href="test-for-confounding-variables.html#sample-descriptive-stats" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="test-for-confounding-variables.html#cb12-1" tabindex="-1"></a><span class="co"># Metadata Supplementary Table</span></span>
-<span id="cb12-2"><a href="test-for-confounding-variables.html#cb12-2" tabindex="-1"></a>supplmeta <span class="ot">&lt;-</span> </span>
-<span id="cb12-3"><a href="test-for-confounding-variables.html#cb12-3" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
-<span id="cb12-4"><a href="test-for-confounding-variables.html#cb12-4" tabindex="-1"></a>  <span class="fu">select</span>(Sample, iav, iavser, location, year, sex, molt.stage, </span>
-<span id="cb12-5"><a href="test-for-confounding-variables.html#cb12-5" tabindex="-1"></a>         bodcond, bc_bin, bmi, bmi_bin) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-6"><a href="test-for-confounding-variables.html#cb12-6" tabindex="-1"></a>  <span class="fu">arrange</span>(., year) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-7"><a href="test-for-confounding-variables.html#cb12-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bodcond=</span><span class="fu">paste</span>(<span class="fu">round</span>(bodcond, <span class="at">digits=</span><span class="dv">2</span>), <span class="st">&quot; (&quot;</span>, bc_bin, <span class="st">&quot;)&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-8"><a href="test-for-confounding-variables.html#cb12-8" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>bc_bin)</span>
-<span id="cb12-9"><a href="test-for-confounding-variables.html#cb12-9" tabindex="-1"></a><span class="fu">write.csv</span>(supplmeta, <span class="st">&quot;Output Files/supplemental_metadata.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span>
-<span id="cb12-10"><a href="test-for-confounding-variables.html#cb12-10" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="test-for-confounding-variables.html#cb12-11" tabindex="-1"></a><span class="co"># Sample sizes across variables</span></span>
-<span id="cb12-12"><a href="test-for-confounding-variables.html#cb12-12" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>iav)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="test-for-confounding-variables.html#cb13-1" tabindex="-1"></a><span class="co"># Metadata Supplementary Table</span></span>
+<span id="cb13-2"><a href="test-for-confounding-variables.html#cb13-2" tabindex="-1"></a>supplmeta <span class="ot">&lt;-</span> </span>
+<span id="cb13-3"><a href="test-for-confounding-variables.html#cb13-3" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="test-for-confounding-variables.html#cb13-4" tabindex="-1"></a>  <span class="fu">select</span>(Sample, iav, iavser, location, year, sex, molt.stage, </span>
+<span id="cb13-5"><a href="test-for-confounding-variables.html#cb13-5" tabindex="-1"></a>         bodcond, bc_bin, bmi, bmi_bin) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-6"><a href="test-for-confounding-variables.html#cb13-6" tabindex="-1"></a>  <span class="fu">arrange</span>(., year) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="test-for-confounding-variables.html#cb13-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bodcond=</span><span class="fu">paste</span>(<span class="fu">round</span>(bodcond, <span class="at">digits=</span><span class="dv">2</span>), <span class="st">&quot; (&quot;</span>, bc_bin, <span class="st">&quot;)&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="test-for-confounding-variables.html#cb13-8" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>bc_bin)</span>
+<span id="cb13-9"><a href="test-for-confounding-variables.html#cb13-9" tabindex="-1"></a><span class="fu">write.csv</span>(supplmeta, <span class="st">&quot;Output Files/supplemental_metadata.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb13-10"><a href="test-for-confounding-variables.html#cb13-10" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="test-for-confounding-variables.html#cb13-11" tabindex="-1"></a><span class="co"># Sample sizes across variables</span></span>
+<span id="cb13-12"><a href="test-for-confounding-variables.html#cb13-12" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>iav)</span></code></pre></div>
 <pre><code>## 
 ## neg pos 
 ##  76  40</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="test-for-confounding-variables.html#cb14-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>iavser)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="test-for-confounding-variables.html#cb15-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>iavser)</span></code></pre></div>
 <pre><code>## 
 ## neg pos 
 ##  86  30</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="test-for-confounding-variables.html#cb16-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>location)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="test-for-confounding-variables.html#cb17-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>location)</span></code></pre></div>
 <pre><code>## 
 ## Great Point     Monomoy    Muskeget 
 ##          10          63          43</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="test-for-confounding-variables.html#cb18-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>year)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="test-for-confounding-variables.html#cb19-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>year)</span></code></pre></div>
 <pre><code>## 
 ## 2014 2015 2016 2017 2018 2019 2020 2023 
 ##    5    7    9   25   17   17   10   26</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="test-for-confounding-variables.html#cb20-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>sex)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="test-for-confounding-variables.html#cb21-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>sex)</span></code></pre></div>
 <pre><code>## 
 ##  F  M 
 ## 62 51</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="test-for-confounding-variables.html#cb22-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>molt.stage)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="test-for-confounding-variables.html#cb23-1" tabindex="-1"></a><span class="fu">table</span>(supplmeta<span class="sc">$</span>molt.stage)</span></code></pre></div>
 <pre><code>## 
 ## III  IV   V 
 ##   7  27  67</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="test-for-confounding-variables.html#cb24-1" tabindex="-1"></a><span class="fu">table</span>(data<span class="sc">$</span>bc_bin)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="test-for-confounding-variables.html#cb25-1" tabindex="-1"></a><span class="fu">table</span>(data<span class="sc">$</span>bc_bin)</span></code></pre></div>
 <pre><code>## 
 ##    Poor Average  Robust 
 ##      31      52      25</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="test-for-confounding-variables.html#cb26-1" tabindex="-1"></a><span class="fu">table</span>(data<span class="sc">$</span>bmi_bin)</span></code></pre></div>
-<pre><code>## 
-##   Poor Robust 
-##     55     51</code></pre>
 </div>
 <div id="how-many-samples-is-each-cytokine-detected-in" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> How many samples is each cytokine detected in?<a href="test-for-confounding-variables.html#how-many-samples-is-each-cytokine-detected-in" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="test-for-confounding-variables.html#cb28-1" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="fu">apply</span>(cyto[,<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>], <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">sum</span>(x<span class="sc">&gt;</span><span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="test-for-confounding-variables.html#cb28-2" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="test-for-confounding-variables.html#cb28-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc=</span><span class="fu">round</span>((.<span class="sc">/</span><span class="dv">116</span>)<span class="sc">*</span><span class="dv">100</span>, <span class="at">digits=</span><span class="dv">2</span>))</span>
-<span id="cb28-4"><a href="test-for-confounding-variables.html#cb28-4" tabindex="-1"></a>num_samples</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="test-for-confounding-variables.html#cb27-1" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="fu">apply</span>(cyto[,<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>], <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">sum</span>(x<span class="sc">&gt;</span><span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="test-for-confounding-variables.html#cb27-2" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="test-for-confounding-variables.html#cb27-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc=</span><span class="fu">round</span>((.<span class="sc">/</span><span class="dv">116</span>)<span class="sc">*</span><span class="dv">100</span>, <span class="at">digits=</span><span class="dv">2</span>))</span>
+<span id="cb27-4"><a href="test-for-confounding-variables.html#cb27-4" tabindex="-1"></a>num_samples</span></code></pre></div>
 <pre><code>##           .   perc
 ## GM.CSF    3   2.59
 ## IFNg     76  65.52
@@ -370,82 +393,92 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="cytokine-ranges" class="section level3 hasAnchor" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Cytokine Ranges<a href="test-for-confounding-variables.html#cytokine-ranges" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="test-for-confounding-variables.html#cb30-1" tabindex="-1"></a>cyto_pos <span class="ot">&lt;-</span> </span>
-<span id="cb30-2"><a href="test-for-confounding-variables.html#cb30-2" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
-<span id="cb30-3"><a href="test-for-confounding-variables.html#cb30-3" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;pos&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-4"><a href="test-for-confounding-variables.html#cb30-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>)</span>
-<span id="cb30-5"><a href="test-for-confounding-variables.html#cb30-5" tabindex="-1"></a>  </span>
-<span id="cb30-6"><a href="test-for-confounding-variables.html#cb30-6" tabindex="-1"></a>cyto_neg <span class="ot">&lt;-</span> </span>
-<span id="cb30-7"><a href="test-for-confounding-variables.html#cb30-7" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
-<span id="cb30-8"><a href="test-for-confounding-variables.html#cb30-8" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-9"><a href="test-for-confounding-variables.html#cb30-9" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>)</span>
-<span id="cb30-10"><a href="test-for-confounding-variables.html#cb30-10" tabindex="-1"></a></span>
-<span id="cb30-11"><a href="test-for-confounding-variables.html#cb30-11" tabindex="-1"></a>pos_range <span class="ot">&lt;-</span> </span>
-<span id="cb30-12"><a href="test-for-confounding-variables.html#cb30-12" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">row.names=</span><span class="fu">names</span>(cyto_pos)) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-13"><a href="test-for-confounding-variables.html#cb30-13" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sampsize=</span><span class="fu">sapply</span>(cyto_pos, <span class="cf">function</span>(x) <span class="fu">length</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])),</span>
-<span id="cb30-14"><a href="test-for-confounding-variables.html#cb30-14" tabindex="-1"></a>         <span class="at">mean=</span><span class="fu">sapply</span>(cyto_pos, <span class="cf">function</span>(x) {<span class="fu">mean</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])}),</span>
-<span id="cb30-15"><a href="test-for-confounding-variables.html#cb30-15" tabindex="-1"></a>         <span class="at">se=</span><span class="fu">sapply</span>(cyto_pos, <span class="cf">function</span>(x) <span class="fu">sd</span>(x)<span class="sc">/</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])))),</span>
-<span id="cb30-16"><a href="test-for-confounding-variables.html#cb30-16" tabindex="-1"></a>         <span class="at">median=</span><span class="fu">sapply</span>(cyto_pos, <span class="cf">function</span>(x) {<span class="fu">median</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])}),</span>
-<span id="cb30-17"><a href="test-for-confounding-variables.html#cb30-17" tabindex="-1"></a>         <span class="at">min=</span><span class="fu">sapply</span>(cyto_pos, <span class="cf">function</span>(x) {<span class="fu">min</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])}),</span>
-<span id="cb30-18"><a href="test-for-confounding-variables.html#cb30-18" tabindex="-1"></a>         <span class="at">max=</span><span class="fu">sapply</span>(cyto_pos, max)) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-19"><a href="test-for-confounding-variables.html#cb30-19" tabindex="-1"></a>  <span class="fu">sapply</span>(., <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="at">digits=</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-20"><a href="test-for-confounding-variables.html#cb30-20" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb30-21"><a href="test-for-confounding-variables.html#cb30-21" tabindex="-1"></a>pos_range</span></code></pre></div>
-<pre><code>##         sampsize   mean    se median    min    max
-## GM.CSF         0    NaN   NaN     NA    Inf   0.00
-## IFNg          20   3.22  0.73   2.00   0.28  14.78
-## IL.2          19  25.75  6.56  11.95   0.10 159.30
-## IL.6           4  37.46 10.26   9.46   1.29 129.63
-## IL.7          25  48.77 18.49   6.13   1.00 498.81
-## IL.8           3 166.33 33.33 126.40  26.93 345.65
-## IL.10          7  10.91  2.25   8.05   1.25  31.37
-## IL.15          4   9.09  1.94   6.54   0.31  22.97
-## IL.18         40  50.00  3.40  44.16  14.72 111.95
-## IP.10          1 122.02 19.29 122.02 122.02 122.02
-## KC.like       12   1.37  0.30   0.39   0.39   5.32
-## MCP.1          0    NaN   NaN     NA    Inf   0.00
-## TNFa           0    NaN   NaN     NA    Inf   0.00</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="test-for-confounding-variables.html#cb32-1" tabindex="-1"></a>neg_range <span class="ot">&lt;-</span> </span>
-<span id="cb32-2"><a href="test-for-confounding-variables.html#cb32-2" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">row.names=</span><span class="fu">names</span>(cyto_neg)) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-3"><a href="test-for-confounding-variables.html#cb32-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sampsize=</span><span class="fu">sapply</span>(cyto_neg, <span class="cf">function</span>(x) <span class="fu">length</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])),</span>
-<span id="cb32-4"><a href="test-for-confounding-variables.html#cb32-4" tabindex="-1"></a>         <span class="at">mean=</span><span class="fu">sapply</span>(cyto_neg, <span class="cf">function</span>(x) {<span class="fu">mean</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])}),</span>
-<span id="cb32-5"><a href="test-for-confounding-variables.html#cb32-5" tabindex="-1"></a>         <span class="at">se=</span><span class="fu">sapply</span>(cyto_neg, <span class="cf">function</span>(x) <span class="fu">sd</span>(x)<span class="sc">/</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])))),</span>
-<span id="cb32-6"><a href="test-for-confounding-variables.html#cb32-6" tabindex="-1"></a>         <span class="at">median=</span><span class="fu">sapply</span>(cyto_neg, <span class="cf">function</span>(x) {<span class="fu">median</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])}),</span>
-<span id="cb32-7"><a href="test-for-confounding-variables.html#cb32-7" tabindex="-1"></a>         <span class="at">min=</span><span class="fu">sapply</span>(cyto_neg, <span class="cf">function</span>(x) {<span class="fu">min</span>(x[x<span class="sc">&gt;</span><span class="dv">0</span>])}),</span>
-<span id="cb32-8"><a href="test-for-confounding-variables.html#cb32-8" tabindex="-1"></a>         <span class="at">max=</span><span class="fu">sapply</span>(cyto_neg, max)) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-9"><a href="test-for-confounding-variables.html#cb32-9" tabindex="-1"></a>  <span class="fu">sapply</span>(., <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="at">digits=</span><span class="dv">2</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-10"><a href="test-for-confounding-variables.html#cb32-10" tabindex="-1"></a>  <span class="fu">data.frame</span>()</span>
-<span id="cb32-11"><a href="test-for-confounding-variables.html#cb32-11" tabindex="-1"></a>neg_range</span></code></pre></div>
-<pre><code>##         sampsize   mean    se median   min     max
-## GM.CSF         3  18.54  2.60  21.90  0.80   32.91
-## IFNg          56   4.83  1.29   1.61  0.05   79.94
-## IL.2          32  59.58 23.20   9.27  0.10 1103.81
-## IL.6          30   6.83  0.69   6.95  1.29   11.38
-## IL.7          51  10.41  1.67   5.44  0.34   70.02
-## IL.8          10 361.21 68.60 151.42 44.62 1360.36
-## IL.10         22  17.05  2.45  14.31  2.12   77.42
-## IL.15         14  30.20  8.69   7.64  0.31  279.86
-## IL.18         76  52.39  4.62  41.94  7.60  236.70
-## IP.10          2  21.30  2.89  21.30  7.78   34.82
-## KC.like       37   2.32  0.23   2.71  0.11    3.65
-## MCP.1          1  69.73  8.00  69.73 69.73   69.73
-## TNFa           2  70.94  8.79  70.94 41.08  100.81</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="test-for-confounding-variables.html#cb29-1" tabindex="-1"></a>cyto_pos <span class="ot">&lt;-</span> </span>
+<span id="cb29-2"><a href="test-for-confounding-variables.html#cb29-2" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="test-for-confounding-variables.html#cb29-3" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;pos&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-4"><a href="test-for-confounding-variables.html#cb29-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb29-5"><a href="test-for-confounding-variables.html#cb29-5" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="test-for-confounding-variables.html#cb29-6" tabindex="-1"></a>std.error <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sd</span>(x)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb29-7"><a href="test-for-confounding-variables.html#cb29-7" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="test-for-confounding-variables.html#cb29-8" tabindex="-1"></a>pos_range <span class="ot">&lt;-</span> </span>
+<span id="cb29-9"><a href="test-for-confounding-variables.html#cb29-9" tabindex="-1"></a>  meta <span class="sc">%&gt;%</span> </span>
+<span id="cb29-10"><a href="test-for-confounding-variables.html#cb29-10" tabindex="-1"></a>  <span class="fu">select</span>(Sample, iav) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-11"><a href="test-for-confounding-variables.html#cb29-11" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;pos&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-12"><a href="test-for-confounding-variables.html#cb29-12" tabindex="-1"></a>  <span class="fu">merge</span>(., cyto, <span class="at">by=</span><span class="st">&quot;Sample&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-13"><a href="test-for-confounding-variables.html#cb29-13" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span><span class="fu">c</span>(iav, Sample), <span class="at">names_to=</span><span class="st">&quot;cytokine&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;concentration&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-14"><a href="test-for-confounding-variables.html#cb29-14" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>concentration<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-15"><a href="test-for-confounding-variables.html#cb29-15" tabindex="-1"></a>  <span class="fu">group_by</span>(cytokine) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-16"><a href="test-for-confounding-variables.html#cb29-16" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">pos_sampsize=</span><span class="fu">n</span>(),</span>
+<span id="cb29-17"><a href="test-for-confounding-variables.html#cb29-17" tabindex="-1"></a>          <span class="at">mean=</span><span class="fu">mean</span>(concentration),</span>
+<span id="cb29-18"><a href="test-for-confounding-variables.html#cb29-18" tabindex="-1"></a>          <span class="at">se=</span><span class="fu">std.error</span>(concentration),</span>
+<span id="cb29-19"><a href="test-for-confounding-variables.html#cb29-19" tabindex="-1"></a>          <span class="at">median=</span><span class="fu">median</span>(concentration),</span>
+<span id="cb29-20"><a href="test-for-confounding-variables.html#cb29-20" tabindex="-1"></a>          <span class="at">min=</span><span class="fu">min</span>(concentration),</span>
+<span id="cb29-21"><a href="test-for-confounding-variables.html#cb29-21" tabindex="-1"></a>          <span class="at">max=</span><span class="fu">max</span>(concentration)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-22"><a href="test-for-confounding-variables.html#cb29-22" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">duplicated</span>(.)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-23"><a href="test-for-confounding-variables.html#cb29-23" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">2</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-24"><a href="test-for-confounding-variables.html#cb29-24" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pos_meanse=</span><span class="fu">paste</span>(mean, <span class="st">&quot;+&quot;</span>, se),</span>
+<span id="cb29-25"><a href="test-for-confounding-variables.html#cb29-25" tabindex="-1"></a>         <span class="at">pos_medrange=</span><span class="fu">paste</span>(median, <span class="st">&quot; (&quot;</span>, min, <span class="st">&quot; - &quot;</span>, max, <span class="st">&quot;)&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-26"><a href="test-for-confounding-variables.html#cb29-26" tabindex="-1"></a>  <span class="fu">select</span>(cytokine, pos_sampsize, pos_meanse, pos_medrange)</span>
+<span id="cb29-27"><a href="test-for-confounding-variables.html#cb29-27" tabindex="-1"></a></span>
+<span id="cb29-28"><a href="test-for-confounding-variables.html#cb29-28" tabindex="-1"></a>neg_range <span class="ot">&lt;-</span> </span>
+<span id="cb29-29"><a href="test-for-confounding-variables.html#cb29-29" tabindex="-1"></a>  meta <span class="sc">%&gt;%</span> </span>
+<span id="cb29-30"><a href="test-for-confounding-variables.html#cb29-30" tabindex="-1"></a>  <span class="fu">select</span>(Sample, iav) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-31"><a href="test-for-confounding-variables.html#cb29-31" tabindex="-1"></a>  <span class="fu">filter</span>(iav<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-32"><a href="test-for-confounding-variables.html#cb29-32" tabindex="-1"></a>  <span class="fu">merge</span>(., cyto, <span class="at">by=</span><span class="st">&quot;Sample&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-33"><a href="test-for-confounding-variables.html#cb29-33" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span><span class="fu">c</span>(iav, Sample), <span class="at">names_to=</span><span class="st">&quot;cytokine&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;concentration&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-34"><a href="test-for-confounding-variables.html#cb29-34" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>concentration<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-35"><a href="test-for-confounding-variables.html#cb29-35" tabindex="-1"></a>  <span class="fu">group_by</span>(cytokine) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-36"><a href="test-for-confounding-variables.html#cb29-36" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">neg_sampsize=</span><span class="fu">n</span>(),</span>
+<span id="cb29-37"><a href="test-for-confounding-variables.html#cb29-37" tabindex="-1"></a>          <span class="at">mean=</span><span class="fu">mean</span>(concentration),</span>
+<span id="cb29-38"><a href="test-for-confounding-variables.html#cb29-38" tabindex="-1"></a>          <span class="at">se=</span><span class="fu">std.error</span>(concentration),</span>
+<span id="cb29-39"><a href="test-for-confounding-variables.html#cb29-39" tabindex="-1"></a>          <span class="at">median=</span><span class="fu">median</span>(concentration),</span>
+<span id="cb29-40"><a href="test-for-confounding-variables.html#cb29-40" tabindex="-1"></a>          <span class="at">min=</span><span class="fu">min</span>(concentration),</span>
+<span id="cb29-41"><a href="test-for-confounding-variables.html#cb29-41" tabindex="-1"></a>          <span class="at">max=</span><span class="fu">max</span>(concentration)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-42"><a href="test-for-confounding-variables.html#cb29-42" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">duplicated</span>(.)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-43"><a href="test-for-confounding-variables.html#cb29-43" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">2</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-44"><a href="test-for-confounding-variables.html#cb29-44" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">neg_meanse=</span><span class="fu">paste</span>(mean, <span class="st">&quot;+&quot;</span>, se),</span>
+<span id="cb29-45"><a href="test-for-confounding-variables.html#cb29-45" tabindex="-1"></a>         <span class="at">neg_medrange=</span><span class="fu">paste</span>(median, <span class="st">&quot; (&quot;</span>, min, <span class="st">&quot; - &quot;</span>, max, <span class="st">&quot;)&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-46"><a href="test-for-confounding-variables.html#cb29-46" tabindex="-1"></a>  <span class="fu">select</span>(cytokine, neg_sampsize, neg_meanse, neg_medrange)</span>
+<span id="cb29-47"><a href="test-for-confounding-variables.html#cb29-47" tabindex="-1"></a></span>
+<span id="cb29-48"><a href="test-for-confounding-variables.html#cb29-48" tabindex="-1"></a>table <span class="ot">&lt;-</span> <span class="fu">merge</span>(neg_range, pos_range, <span class="at">by=</span><span class="st">&quot;cytokine&quot;</span>, <span class="at">all.x=</span><span class="cn">TRUE</span>)</span>
+<span id="cb29-49"><a href="test-for-confounding-variables.html#cb29-49" tabindex="-1"></a><span class="fu">write.csv</span>(table, <span class="st">&quot;Output Files/manuscript_cytokinetable.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="is-proportion-of-iaviav--similar-across-variables" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Is proportion of IAV+/IAV- similar across variables?<a href="test-for-confounding-variables.html#is-proportion-of-iaviav--similar-across-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="test-for-confounding-variables.html#cb34-1" tabindex="-1"></a><span class="co"># Molt Stage</span></span>
-<span id="cb34-2"><a href="test-for-confounding-variables.html#cb34-2" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
-<span id="cb34-3"><a href="test-for-confounding-variables.html#cb34-3" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
-<span id="cb34-4"><a href="test-for-confounding-variables.html#cb34-4" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
-<span id="cb34-5"><a href="test-for-confounding-variables.html#cb34-5" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
-<span id="cb34-6"><a href="test-for-confounding-variables.html#cb34-6" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="test-for-confounding-variables.html#cb30-1" tabindex="-1"></a><span class="co"># Location</span></span>
+<span id="cb30-2"><a href="test-for-confounding-variables.html#cb30-2" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
+<span id="cb30-3"><a href="test-for-confounding-variables.html#cb30-3" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>location, data<span class="sc">$</span>iav))</span>
+<span id="cb30-4"><a href="test-for-confounding-variables.html#cb30-4" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
+<span id="cb30-5"><a href="test-for-confounding-variables.html#cb30-5" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>location, data<span class="sc">$</span>iav))</span>
+<span id="cb30-6"><a href="test-for-confounding-variables.html#cb30-6" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  table(data$location, data$iav)
+## p-value = 0.6994
+## alternative hypothesis: two.sided</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="test-for-confounding-variables.html#cb32-1" tabindex="-1"></a><span class="co"># Molt Stage</span></span>
+<span id="cb32-2"><a href="test-for-confounding-variables.html#cb32-2" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
+<span id="cb32-3"><a href="test-for-confounding-variables.html#cb32-3" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
+<span id="cb32-4"><a href="test-for-confounding-variables.html#cb32-4" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
+<span id="cb32-5"><a href="test-for-confounding-variables.html#cb32-5" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
+<span id="cb32-6"><a href="test-for-confounding-variables.html#cb32-6" tabindex="-1"></a>})</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
 ## data:  table(data$molt.stage, data$iav)
 ## p-value = 0.04071
 ## alternative hypothesis: two.sided</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="test-for-confounding-variables.html#cb34-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="fu">table</span>(data<span class="sc">$</span>iav, data<span class="sc">$</span>molt.stage)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="test-for-confounding-variables.html#cb34-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="st">&quot;Var1&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Freq&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="test-for-confounding-variables.html#cb34-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proppos =</span> (pos<span class="sc">/</span>(pos<span class="sc">+</span>neg))<span class="sc">*</span><span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 4
+##   Var2    neg   pos proppos
+##   &lt;fct&gt; &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 III       3     4    57.1
+## 2 IV       15    12    44.4
+## 3 V        51    16    23.9</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="test-for-confounding-variables.html#cb36-1" tabindex="-1"></a><span class="co"># Pairwise post-hoc</span></span>
 <span id="cb36-2"><a href="test-for-confounding-variables.html#cb36-2" tabindex="-1"></a><span class="fu">pairwise_fisher_test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav), <span class="at">p.adjust.method=</span><span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 6

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Tidy Cytokine Data Metadata | Characterization of gray seal pup cytokine response to influenza A virus</title>
   <meta name="description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Tidy Cytokine Data Metadata | Characterization of gray seal pup cytokine response to influenza A virus" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2024-10-22" />
+<meta name="date" content="2025-01-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -66,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -147,16 +147,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html"><i class="fa fa-check"></i><b>2</b> Tidy Cytokine Data Metadata</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#load-required-libraries"><i class="fa fa-check"></i><b>2.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="2.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#libraries"><i class="fa fa-check"></i><b>2.1</b> Libraries</a></li>
 <li class="chapter" data-level="2.2" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#raw-file-import-cleaning"><i class="fa fa-check"></i><b>2.2</b> Raw file import &amp; cleaning</a></li>
 <li class="chapter" data-level="2.3" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#merge-cytokine-data-tidy"><i class="fa fa-check"></i><b>2.3</b> Merge cytokine data &amp; tidy</a></li>
 <li class="chapter" data-level="2.4" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#create-cytokine-01-dataset"><i class="fa fa-check"></i><b>2.4</b> Create Cytokine (0/1) Dataset</a></li>
 <li class="chapter" data-level="2.5" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#tidy-metadata"><i class="fa fa-check"></i><b>2.5</b> Tidy Metadata</a></li>
 <li class="chapter" data-level="2.6" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#body-mass-index"><i class="fa fa-check"></i><b>2.6</b> Body Mass Index</a></li>
+<li class="chapter" data-level="2.7" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#create-log-center-scaled-data-for-molt-stage-body-condition-iav-analyses"><i class="fa fa-check"></i><b>2.7</b> Create log, center, scaled data for molt stage, body condition, iav analyses</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="tidy-cytokine-data-metadata.html"><a href="tidy-cytokine-data-metadata.html#make-all-non-detects-half-the-minimum-concentration-detected-or-half-the-limit-of-detecion-whatever-is-smallest"><i class="fa fa-check"></i><b>2.7.1</b> Make all non-detects half the minimum concentration detected, or half the limit of detecion (whatever is smallest)</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html"><i class="fa fa-check"></i><b>3</b> Test for confounding variables</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#load-required-libraries-1"><i class="fa fa-check"></i><b>3.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="3.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#libraries-1"><i class="fa fa-check"></i><b>3.1</b> Libraries</a></li>
 <li class="chapter" data-level="3.2" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#initial-data-processing"><i class="fa fa-check"></i><b>3.2</b> Initial Data Processing</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="test-for-confounding-variables.html"><a href="test-for-confounding-variables.html#import-data-merge"><i class="fa fa-check"></i><b>3.2.1</b> Import data &amp; merge</a></li>
@@ -172,14 +176,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html"><i class="fa fa-check"></i><b>4</b> Molt stage ~ cytokines</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#load-required-libraries-2"><i class="fa fa-check"></i><b>4.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#read-in-data"><i class="fa fa-check"></i><b>4.2</b> Read in data</a></li>
-<li class="chapter" data-level="4.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#pca-on-log-transformed-scaled-centered-cytokine-data"><i class="fa fa-check"></i><b>4.3</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
-<li class="chapter" data-level="4.4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#test-for-normality"><i class="fa fa-check"></i><b>4.4</b> Test for normality</a></li>
+<li class="chapter" data-level="4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#libraries-2"><i class="fa fa-check"></i><b>4.1</b> Libraries</a></li>
+<li class="chapter" data-level="4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#data"><i class="fa fa-check"></i><b>4.2</b> Data</a></li>
+<li class="chapter" data-level="4.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#pca"><i class="fa fa-check"></i><b>4.3</b> PCA</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#visualize"><i class="fa fa-check"></i><b>4.3.1</b> Visualize</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#permanova"><i class="fa fa-check"></i><b>4.4</b> PERMANOVA</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-presenceabsence"><i class="fa fa-check"></i><b>4.4.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="4.4.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-concentration"><i class="fa fa-check"></i><b>4.4.2</b> Cytokine Concentration</a></li>
+</ul></li>
 <li class="chapter" data-level="4.5" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cramer-test"><i class="fa fa-check"></i><b>4.5</b> Cramer Test</a></li>
 <li class="chapter" data-level="4.6" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cytokine-importance"><i class="fa fa-check"></i><b>4.6</b> Cytokine Importance</a>
 <ul>
 <li class="chapter" data-level="4.6.1" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cross-validation"><i class="fa fa-check"></i><b>4.6.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="4.6.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#run-model-with-optimized-parameteres"><i class="fa fa-check"></i><b>4.6.2</b> Run model with optimized parameteres</a></li>
+<li class="chapter" data-level="4.6.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#plot-important-cytokines"><i class="fa fa-check"></i><b>4.6.3</b> Plot important cytokines</a></li>
 </ul></li>
 <li class="chapter" data-level="4.7" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#how-different-groups-are"><i class="fa fa-check"></i><b>4.7</b> How different groups are</a>
 <ul>
@@ -188,64 +201,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html"><i class="fa fa-check"></i><b>5</b> Body condition ~ cytokines</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#load-required-libraries-3"><i class="fa fa-check"></i><b>5.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#read-in-data-1"><i class="fa fa-check"></i><b>5.2</b> Read in data</a></li>
-<li class="chapter" data-level="5.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#log-transformed-scaled-center-cytokine-data"><i class="fa fa-check"></i><b>5.3</b> Log-transformed scaled, center cytokine data</a></li>
-<li class="chapter" data-level="5.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#pcas"><i class="fa fa-check"></i><b>5.4</b> PCAs</a>
+<li class="chapter" data-level="5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#libraries-3"><i class="fa fa-check"></i><b>5.1</b> Libraries</a></li>
+<li class="chapter" data-level="5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#data-1"><i class="fa fa-check"></i><b>5.2</b> Data</a></li>
+<li class="chapter" data-level="5.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-condition-range-bins"><i class="fa fa-check"></i><b>5.3</b> Body Condition Range &amp; Bins</a></li>
+<li class="chapter" data-level="5.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#pca-1"><i class="fa fa-check"></i><b>5.4</b> PCA</a>
 <ul>
-<li class="chapter" data-level="5.4.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-condition"><i class="fa fa-check"></i><b>5.4.1</b> Body Condition</a></li>
-<li class="chapter" data-level="5.4.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-mass-index-1"><i class="fa fa-check"></i><b>5.4.2</b> Body Mass Index</a></li>
-<li class="chapter" data-level="5.4.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#body-mass-index-2"><i class="fa fa-check"></i><b>5.4.3</b> Body Mass Index 2</a></li>
+<li class="chapter" data-level="5.4.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#visualize-1"><i class="fa fa-check"></i><b>5.4.1</b> Visualize</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#test-for-normality-1"><i class="fa fa-check"></i><b>5.5</b> Test for normality</a></li>
+<li class="chapter" data-level="5.5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#permanova-1"><i class="fa fa-check"></i><b>5.5</b> PERMANOVA</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-presenceabsence-1"><i class="fa fa-check"></i><b>5.5.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="5.5.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-concentration-1"><i class="fa fa-check"></i><b>5.5.2</b> Cytokine Concentration</a></li>
+</ul></li>
 <li class="chapter" data-level="5.6" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cramer-test-1"><i class="fa fa-check"></i><b>5.6</b> Cramer Test</a></li>
 <li class="chapter" data-level="5.7" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cytokine-importance-1"><i class="fa fa-check"></i><b>5.7</b> Cytokine Importance</a>
 <ul>
-<li class="chapter" data-level="5.7.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cross-validation-1"><i class="fa fa-check"></i><b>5.7.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="5.7.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#prepare-data-for-cart"><i class="fa fa-check"></i><b>5.7.1</b> Prepare data for CART</a></li>
+<li class="chapter" data-level="5.7.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#cross-validation-1"><i class="fa fa-check"></i><b>5.7.2</b> Cross Validation</a></li>
+<li class="chapter" data-level="5.7.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#run-model-with-optimized-parameters"><i class="fa fa-check"></i><b>5.7.3</b> Run model with optimized parameters</a></li>
+<li class="chapter" data-level="5.7.4" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plot-important-cytokines-1"><i class="fa fa-check"></i><b>5.7.4</b> Plot important cytokines</a></li>
 </ul></li>
 <li class="chapter" data-level="5.8" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#how-different-groups-are-1"><i class="fa fa-check"></i><b>5.8</b> How different groups are</a>
 <ul>
 <li class="chapter" data-level="5.8.1" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plsda---body-condition"><i class="fa fa-check"></i><b>5.8.1</b> PLSDA - Body Condition</a></li>
-<li class="chapter" data-level="5.8.2" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plsda---body-mass-index"><i class="fa fa-check"></i><b>5.8.2</b> PLSDA - Body Mass Index</a></li>
-<li class="chapter" data-level="5.8.3" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html#plsda---body-mass-index-2"><i class="fa fa-check"></i><b>5.8.3</b> PLSDA - Body Mass Index 2</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="iav-cytokines.html"><a href="iav-cytokines.html"><i class="fa fa-check"></i><b>6</b> IAV ~ cytokines</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#load-required-libraries-4"><i class="fa fa-check"></i><b>6.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#read-in-data-2"><i class="fa fa-check"></i><b>6.2</b> Read in data</a></li>
-<li class="chapter" data-level="6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#pca-on-raw-cytokine-data"><i class="fa fa-check"></i><b>6.3</b> PCA on raw cytokine data</a></li>
-<li class="chapter" data-level="6.4" data-path="iav-cytokines.html"><a href="iav-cytokines.html#pca-on-log-transformed-scaled-centered-cytokine-data-1"><i class="fa fa-check"></i><b>6.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
-<li class="chapter" data-level="6.5" data-path="iav-cytokines.html"><a href="iav-cytokines.html#test-for-normality-2"><i class="fa fa-check"></i><b>6.5</b> Test for normality</a></li>
-<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cramer-test-2"><i class="fa fa-check"></i><b>6.6</b> Cramer Test</a></li>
-<li class="chapter" data-level="6.7" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-importance-2"><i class="fa fa-check"></i><b>6.7</b> Cytokine Importance</a>
+<li class="chapter" data-level="6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#libraries-4"><i class="fa fa-check"></i><b>6.1</b> Libraries</a></li>
+<li class="chapter" data-level="6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#data-2"><i class="fa fa-check"></i><b>6.2</b> Data</a></li>
+<li class="chapter" data-level="6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#pca-2"><i class="fa fa-check"></i><b>6.3</b> PCA</a>
 <ul>
-<li class="chapter" data-level="6.7.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cross-validation-2"><i class="fa fa-check"></i><b>6.7.1</b> Cross Validation</a></li>
-<li class="chapter" data-level="6.7.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#variable-importance-plot"><i class="fa fa-check"></i><b>6.7.2</b> Variable Importance Plot</a></li>
+<li class="chapter" data-level="6.3.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#visualize-2"><i class="fa fa-check"></i><b>6.3.1</b> Visualize</a></li>
 </ul></li>
-<li class="chapter" data-level="6.8" data-path="iav-cytokines.html"><a href="iav-cytokines.html#how-different-iav-and-iav--groups-are"><i class="fa fa-check"></i><b>6.8</b> How different IAV+ and IAV- groups are</a>
+<li class="chapter" data-level="6.4" data-path="iav-cytokines.html"><a href="iav-cytokines.html#permanova-2"><i class="fa fa-check"></i><b>6.4</b> PERMANOVA</a>
 <ul>
-<li class="chapter" data-level="6.8.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#plsda-1"><i class="fa fa-check"></i><b>6.8.1</b> PLSDA</a></li>
-<li class="chapter" data-level="6.8.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#d-kolmogorov-smirnov-test"><i class="fa fa-check"></i><b>6.8.2</b> 2-D Kolmogorov-Smirnov test</a></li>
+<li class="chapter" data-level="6.4.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-presenceabsence-2"><i class="fa fa-check"></i><b>6.4.1</b> Cytokine Presence/Absence</a></li>
+<li class="chapter" data-level="6.4.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-concentration-2"><i class="fa fa-check"></i><b>6.4.2</b> Cytokine Concentration</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html"><i class="fa fa-check"></i><b>7</b> IAV ~ cytokines</a>
+<li class="chapter" data-level="6.5" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cramer-test-2"><i class="fa fa-check"></i><b>6.5</b> Cramer Test</a></li>
+<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-importance-2"><i class="fa fa-check"></i><b>6.6</b> Cytokine Importance</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#load-required-libraries-5"><i class="fa fa-check"></i><b>7.1</b> Load required libraries</a></li>
-<li class="chapter" data-level="7.2" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#read-in-data-3"><i class="fa fa-check"></i><b>7.2</b> Read in data</a></li>
-<li class="chapter" data-level="7.3" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#tidy-merge-data"><i class="fa fa-check"></i><b>7.3</b> Tidy &amp; Merge Data</a></li>
-<li class="chapter" data-level="7.4" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#pca-on-log-transformed-scaled-centered-cytokine-data-2"><i class="fa fa-check"></i><b>7.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
-<li class="chapter" data-level="7.5" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#test-for-normality-3"><i class="fa fa-check"></i><b>7.5</b> Test for normality</a></li>
-<li class="chapter" data-level="7.6" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#cramer-test-3"><i class="fa fa-check"></i><b>7.6</b> Cramer Test</a></li>
-<li class="chapter" data-level="7.7" data-path="iav-cytokines-1.html"><a href="iav-cytokines-1.html#cytokine-exploratory-plots-swabs"><i class="fa fa-check"></i><b>7.7</b> Cytokine Exploratory Plots ~ Swabs</a></li>
+<li class="chapter" data-level="6.6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cross-validation-2"><i class="fa fa-check"></i><b>6.6.1</b> Cross Validation</a></li>
+<li class="chapter" data-level="6.6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#run-model-with-optimized-parameters-1"><i class="fa fa-check"></i><b>6.6.2</b> Run model with optimized parameters</a></li>
+<li class="chapter" data-level="6.6.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#manuscript-plot"><i class="fa fa-check"></i><b>6.6.3</b> Manuscript Plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="iav-cytokines.html"><a href="iav-cytokines.html#how-different-iav-and-iav--groups-are"><i class="fa fa-check"></i><b>6.7</b> How different IAV+ and IAV- groups are</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#plsda-1"><i class="fa fa-check"></i><b>6.7.1</b> PLSDA</a></li>
+<li class="chapter" data-level="6.7.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#d-kolmogorov-smirnov-test"><i class="fa fa-check"></i><b>6.7.2</b> 2-D Kolmogorov-Smirnov test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="iav-swabs.html"><a href="iav-swabs.html"><i class="fa fa-check"></i><b>7</b> IAV ~ swabs</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="iav-swabs.html"><a href="iav-swabs.html#load-required-libraries"><i class="fa fa-check"></i><b>7.1</b> Load required libraries</a></li>
+<li class="chapter" data-level="7.2" data-path="iav-swabs.html"><a href="iav-swabs.html#read-in-data"><i class="fa fa-check"></i><b>7.2</b> Read in data</a></li>
+<li class="chapter" data-level="7.3" data-path="iav-swabs.html"><a href="iav-swabs.html#tidy-merge-data"><i class="fa fa-check"></i><b>7.3</b> Tidy &amp; Merge Data</a></li>
+<li class="chapter" data-level="7.4" data-path="iav-swabs.html"><a href="iav-swabs.html#pca-on-log-transformed-scaled-centered-cytokine-data"><i class="fa fa-check"></i><b>7.4</b> PCA on log-transformed, scaled, centered cytokine data</a></li>
+<li class="chapter" data-level="7.5" data-path="iav-swabs.html"><a href="iav-swabs.html#test-for-normality"><i class="fa fa-check"></i><b>7.5</b> Test for normality</a></li>
+<li class="chapter" data-level="7.6" data-path="iav-swabs.html"><a href="iav-swabs.html#cramer-test-3"><i class="fa fa-check"></i><b>7.6</b> Cramer Test</a></li>
+<li class="chapter" data-level="7.7" data-path="iav-swabs.html"><a href="iav-swabs.html#cytokine-exploratory-plots-swabs"><i class="fa fa-check"></i><b>7.7</b> Cytokine Exploratory Plots ~ Swabs</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html"><i class="fa fa-check"></i><b>8</b> Create panel figure for PLS-DA plots</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#load-required-libraries-6"><i class="fa fa-check"></i><b>8.1</b> Load required Libraries</a></li>
-<li class="chapter" data-level="8.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#read-in-data-4"><i class="fa fa-check"></i><b>8.2</b> Read in data</a></li>
-<li class="chapter" data-level="8.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#replace-0-with-half-mindc-log-center-scale"><i class="fa fa-check"></i><b>8.3</b> Replace 0 with half mindc, log, center, scale</a></li>
-<li class="chapter" data-level="8.4" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#plot"><i class="fa fa-check"></i><b>8.4</b> Plot!</a></li>
+<li class="chapter" data-level="8.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#libraries-5"><i class="fa fa-check"></i><b>8.1</b> Libraries</a></li>
+<li class="chapter" data-level="8.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#data-3"><i class="fa fa-check"></i><b>8.2</b> Data</a></li>
+<li class="chapter" data-level="8.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#plot-6"><i class="fa fa-check"></i><b>8.3</b> Plot!</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#molt-stage"><i class="fa fa-check"></i><b>8.3.1</b> Molt Stage</a></li>
+<li class="chapter" data-level="8.3.2" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#body-condition"><i class="fa fa-check"></i><b>8.3.2</b> Body Condition</a></li>
+<li class="chapter" data-level="8.3.3" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#iav"><i class="fa fa-check"></i><b>8.3.3</b> IAV</a></li>
+<li class="chapter" data-level="8.3.4" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html#combine-all-plots"><i class="fa fa-check"></i><b>8.3.4</b> Combine all plots</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="iav-negative-animals.html"><a href="iav-negative-animals.html"><i class="fa fa-check"></i><b>9</b> IAV Negative Animals</a></li>
 </ul>
 
       </nav>
@@ -265,9 +294,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="tidy-cytokine-data-metadata" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">2</span> Tidy Cytokine Data Metadata<a href="tidy-cytokine-data-metadata.html#tidy-cytokine-data-metadata" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="load-required-libraries" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Load required libraries<a href="tidy-cytokine-data-metadata.html#load-required-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tidy-cytokine-data-metadata.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div id="libraries" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Libraries<a href="tidy-cytokine-data-metadata.html#libraries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tidy-cytokine-data-metadata.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 </div>
 <div id="raw-file-import-cleaning" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Raw file import &amp; cleaning<a href="tidy-cytokine-data-metadata.html#raw-file-import-cleaning" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -305,8 +334,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="merge-cytokine-data-tidy" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Merge cytokine data &amp; tidy<a href="tidy-cytokine-data-metadata.html#merge-cytokine-data-tidy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="tidy-cytokine-data-metadata.html#cb3-1" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cyto1, cyto2, cyto3, cyto4)</span>
-<span id="cb3-2"><a href="tidy-cytokine-data-metadata.html#cb3-2" tabindex="-1"></a><span class="fu">colnames</span>(cyto)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Sample&quot;</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="tidy-cytokine-data-metadata.html#cb3-1" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href="tidy-cytokine-data-metadata.html#cb3-2" tabindex="-1"></a>  <span class="fu">bind_rows</span>(cyto1, cyto2, cyto3, cyto4) </span>
 <span id="cb3-3"><a href="tidy-cytokine-data-metadata.html#cb3-3" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="tidy-cytokine-data-metadata.html#cb3-4" tabindex="-1"></a><span class="co"># human error while typing in sample names to computer 1505 -&gt; 1507</span></span>
 <span id="cb3-5"><a href="tidy-cytokine-data-metadata.html#cb3-5" tabindex="-1"></a>cyto<span class="sc">$</span>Sample[<span class="dv">74</span>] <span class="ot">&lt;-</span> <span class="st">&quot;1507&quot;</span> </span>
@@ -337,14 +366,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-30"><a href="tidy-cytokine-data-metadata.html#cb3-30" tabindex="-1"></a><span class="co"># Set cyto conc to as numeric </span></span>
 <span id="cb3-31"><a href="tidy-cytokine-data-metadata.html#cb3-31" tabindex="-1"></a>cyto[,<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>] <span class="ot">&lt;-</span> <span class="fu">sapply</span>(cyto[,<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>], as.numeric)</span>
 <span id="cb3-32"><a href="tidy-cytokine-data-metadata.html#cb3-32" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="tidy-cytokine-data-metadata.html#cb3-33" tabindex="-1"></a><span class="co"># Order cytokines alphabetically</span></span>
+<span id="cb3-33"><a href="tidy-cytokine-data-metadata.html#cb3-33" tabindex="-1"></a><span class="co"># Order cytokines alphabetically </span></span>
 <span id="cb3-34"><a href="tidy-cytokine-data-metadata.html#cb3-34" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> </span>
 <span id="cb3-35"><a href="tidy-cytokine-data-metadata.html#cb3-35" tabindex="-1"></a>  cyto <span class="sc">%&gt;%</span> </span>
 <span id="cb3-36"><a href="tidy-cytokine-data-metadata.html#cb3-36" tabindex="-1"></a>  <span class="fu">select</span>(Sample, <span class="st">`</span><span class="at">GM-CSF</span><span class="st">`</span>, IFNg, <span class="st">`</span><span class="at">IL-2</span><span class="st">`</span>, <span class="st">`</span><span class="at">IL-6</span><span class="st">`</span>, <span class="st">`</span><span class="at">IL-7</span><span class="st">`</span>, <span class="st">`</span><span class="at">IL-8</span><span class="st">`</span>, <span class="st">`</span><span class="at">IL-10</span><span class="st">`</span>, </span>
 <span id="cb3-37"><a href="tidy-cytokine-data-metadata.html#cb3-37" tabindex="-1"></a>          <span class="st">`</span><span class="at">IL-15</span><span class="st">`</span>, <span class="st">`</span><span class="at">IL-18</span><span class="st">`</span>, <span class="st">`</span><span class="at">IP-10</span><span class="st">`</span>, <span class="st">`</span><span class="at">KC-like</span><span class="st">`</span>, <span class="st">`</span><span class="at">MCP-1</span><span class="st">`</span>, TNFa)</span>
 <span id="cb3-38"><a href="tidy-cytokine-data-metadata.html#cb3-38" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="tidy-cytokine-data-metadata.html#cb3-39" tabindex="-1"></a><span class="co"># Write out cleaned cytokine data</span></span>
-<span id="cb3-40"><a href="tidy-cytokine-data-metadata.html#cb3-40" tabindex="-1"></a><span class="fu">write.csv</span>(cyto, <span class="at">file=</span><span class="st">&quot;Output Files/cleaned_cytokine.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb3-39"><a href="tidy-cytokine-data-metadata.html#cb3-39" tabindex="-1"></a><span class="co"># Write out data for all cytokines</span></span>
+<span id="cb3-40"><a href="tidy-cytokine-data-metadata.html#cb3-40" tabindex="-1"></a><span class="fu">write.csv</span>(cyto, <span class="st">&quot;Output Files/cleaned_cytokine_all.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb3-41"><a href="tidy-cytokine-data-metadata.html#cb3-41" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="tidy-cytokine-data-metadata.html#cb3-42" tabindex="-1"></a><span class="co"># Remove cytokines with &lt;10% (11) detections</span></span>
+<span id="cb3-43"><a href="tidy-cytokine-data-metadata.html#cb3-43" tabindex="-1"></a>cyto_10 <span class="ot">&lt;-</span> </span>
+<span id="cb3-44"><a href="tidy-cytokine-data-metadata.html#cb3-44" tabindex="-1"></a>  cyto <span class="sc">%&gt;%</span> </span>
+<span id="cb3-45"><a href="tidy-cytokine-data-metadata.html#cb3-45" tabindex="-1"></a>  <span class="fu">select_if</span>(<span class="cf">function</span>(x) <span class="fu">sum</span>(x<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">&gt;</span> <span class="dv">11</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-46"><a href="tidy-cytokine-data-metadata.html#cb3-46" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Sample =</span> cyto<span class="sc">$</span>Sample)</span>
+<span id="cb3-47"><a href="tidy-cytokine-data-metadata.html#cb3-47" tabindex="-1"></a>  </span>
+<span id="cb3-48"><a href="tidy-cytokine-data-metadata.html#cb3-48" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="tidy-cytokine-data-metadata.html#cb3-49" tabindex="-1"></a><span class="co"># Write out reduced cytokine data</span></span>
+<span id="cb3-50"><a href="tidy-cytokine-data-metadata.html#cb3-50" tabindex="-1"></a><span class="fu">write.csv</span>(cyto_10, <span class="at">file=</span><span class="st">&quot;Output Files/cleaned_cytokine.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 <div id="create-cytokine-01-dataset" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Create Cytokine (0/1) Dataset<a href="tidy-cytokine-data-metadata.html#create-cytokine-01-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -355,8 +394,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-5"><a href="tidy-cytokine-data-metadata.html#cb4-5" tabindex="-1"></a>  }</span>
 <span id="cb4-6"><a href="tidy-cytokine-data-metadata.html#cb4-6" tabindex="-1"></a>}</span>
 <span id="cb4-7"><a href="tidy-cytokine-data-metadata.html#cb4-7" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="tidy-cytokine-data-metadata.html#cb4-8" tabindex="-1"></a><span class="co"># Write out binary cytokine dataset</span></span>
-<span id="cb4-9"><a href="tidy-cytokine-data-metadata.html#cb4-9" tabindex="-1"></a><span class="fu">write.csv</span>(databin, <span class="at">file=</span><span class="st">&quot;Output Files/cleaned_cytokine_bin.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb4-8"><a href="tidy-cytokine-data-metadata.html#cb4-8" tabindex="-1"></a><span class="co"># Write out binary cytokine data for all</span></span>
+<span id="cb4-9"><a href="tidy-cytokine-data-metadata.html#cb4-9" tabindex="-1"></a><span class="fu">write.csv</span>(databin, <span class="st">&quot;Output Files/cleaned_cytokine_bin_all.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb4-10"><a href="tidy-cytokine-data-metadata.html#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="tidy-cytokine-data-metadata.html#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="tidy-cytokine-data-metadata.html#cb4-12" tabindex="-1"></a><span class="co"># Remove cytokines with &lt;10% (11) detections</span></span>
+<span id="cb4-13"><a href="tidy-cytokine-data-metadata.html#cb4-13" tabindex="-1"></a>databin_10 <span class="ot">&lt;-</span> </span>
+<span id="cb4-14"><a href="tidy-cytokine-data-metadata.html#cb4-14" tabindex="-1"></a>  databin <span class="sc">%&gt;%</span> </span>
+<span id="cb4-15"><a href="tidy-cytokine-data-metadata.html#cb4-15" tabindex="-1"></a>  <span class="fu">select_if</span>(<span class="cf">function</span>(x) <span class="fu">sum</span>(x<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">&gt;</span> <span class="dv">11</span>) </span>
+<span id="cb4-16"><a href="tidy-cytokine-data-metadata.html#cb4-16" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="tidy-cytokine-data-metadata.html#cb4-17" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="tidy-cytokine-data-metadata.html#cb4-18" tabindex="-1"></a><span class="co"># Write out binary cytokine dataset</span></span>
+<span id="cb4-19"><a href="tidy-cytokine-data-metadata.html#cb4-19" tabindex="-1"></a><span class="fu">write.csv</span>(databin_10, <span class="at">file=</span><span class="st">&quot;Output Files/cleaned_cytokine_bin.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 <div id="tidy-metadata" class="section level2 hasAnchor" number="2.5">
 <h2><span class="header-section-number">2.5</span> Tidy Metadata<a href="tidy-cytokine-data-metadata.html#tidy-metadata" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -423,7 +472,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-16"><a href="tidy-cytokine-data-metadata.html#cb8-16" tabindex="-1"></a>                          <span class="fu">ifelse</span>(bmi <span class="sc">&gt;</span> <span class="fu">quantile</span>(bmi, <span class="at">probs=</span><span class="fl">0.75</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="st">&quot;Robust&quot;</span>, <span class="cn">NA</span>))))</span>
 <span id="cb8-17"><a href="tidy-cytokine-data-metadata.html#cb8-17" tabindex="-1"></a></span>
 <span id="cb8-18"><a href="tidy-cytokine-data-metadata.html#cb8-18" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="at">x=</span>meta, <span class="at">file=</span><span class="st">&quot;Output Files/metadata_cyto.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+<div id="create-log-center-scaled-data-for-molt-stage-body-condition-iav-analyses" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Create log, center, scaled data for molt stage, body condition, iav analyses<a href="tidy-cytokine-data-metadata.html#create-log-center-scaled-data-for-molt-stage-body-condition-iav-analyses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="make-all-non-detects-half-the-minimum-concentration-detected-or-half-the-limit-of-detecion-whatever-is-smallest" class="section level3 hasAnchor" number="2.7.1">
+<h3><span class="header-section-number">2.7.1</span> Make all non-detects half the minimum concentration detected, or half the limit of detecion (whatever is smallest)<a href="tidy-cytokine-data-metadata.html#make-all-non-detects-half-the-minimum-concentration-detected-or-half-the-limit-of-detecion-whatever-is-smallest" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="tidy-cytokine-data-metadata.html#cb9-1" tabindex="-1"></a>minvalue <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="tidy-cytokine-data-metadata.html#cb9-2" tabindex="-1"></a>  cyto_10 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="tidy-cytokine-data-metadata.html#cb9-3" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span>Sample, <span class="at">names_to=</span><span class="st">&quot;cytokine&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;conc&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="tidy-cytokine-data-metadata.html#cb9-4" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>conc<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="tidy-cytokine-data-metadata.html#cb9-5" tabindex="-1"></a>  <span class="fu">group_by</span>(cytokine) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="tidy-cytokine-data-metadata.html#cb9-6" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">min=</span><span class="fu">min</span>(conc))</span>
+<span id="cb9-7"><a href="tidy-cytokine-data-metadata.html#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="tidy-cytokine-data-metadata.html#cb9-8" tabindex="-1"></a>mindc <span class="ot">&lt;-</span> </span>
+<span id="cb9-9"><a href="tidy-cytokine-data-metadata.html#cb9-9" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Input Files/mindc.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-10"><a href="tidy-cytokine-data-metadata.html#cb9-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cytokine=</span><span class="fu">gsub</span>(<span class="st">&quot;[.]&quot;</span>, <span class="st">&quot;-&quot;</span>, cytokine)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-11"><a href="tidy-cytokine-data-metadata.html#cb9-11" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine <span class="sc">%in%</span> <span class="fu">colnames</span>(cyto_10)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-12"><a href="tidy-cytokine-data-metadata.html#cb9-12" tabindex="-1"></a>  <span class="fu">merge</span>(., minvalue) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-13"><a href="tidy-cytokine-data-metadata.html#cb9-13" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">absmin =</span> <span class="fu">pmin</span>(value, min),</span>
+<span id="cb9-14"><a href="tidy-cytokine-data-metadata.html#cb9-14" tabindex="-1"></a>         <span class="at">absmin_half =</span> absmin<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb9-15"><a href="tidy-cytokine-data-metadata.html#cb9-15" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="tidy-cytokine-data-metadata.html#cb9-16" tabindex="-1"></a>cyto_scaled <span class="ot">&lt;-</span> cyto_10</span>
+<span id="cb9-17"><a href="tidy-cytokine-data-metadata.html#cb9-17" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(cyto_scaled)) {</span>
+<span id="cb9-18"><a href="tidy-cytokine-data-metadata.html#cb9-18" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(cyto_scaled)) {</span>
+<span id="cb9-19"><a href="tidy-cytokine-data-metadata.html#cb9-19" tabindex="-1"></a>    {<span class="cf">if</span> (cyto_scaled[i,j]<span class="sc">==</span><span class="dv">0</span>) {</span>
+<span id="cb9-20"><a href="tidy-cytokine-data-metadata.html#cb9-20" tabindex="-1"></a>      k <span class="ot">&lt;-</span> <span class="fu">which</span>(mindc<span class="sc">$</span>cytokine<span class="sc">==</span><span class="fu">colnames</span>(cyto_scaled)[j])</span>
+<span id="cb9-21"><a href="tidy-cytokine-data-metadata.html#cb9-21" tabindex="-1"></a>      cyto_scaled[i,j] <span class="ot">&lt;-</span> mindc<span class="sc">$</span>absmin_half[k]</span>
+<span id="cb9-22"><a href="tidy-cytokine-data-metadata.html#cb9-22" tabindex="-1"></a>    }</span>
+<span id="cb9-23"><a href="tidy-cytokine-data-metadata.html#cb9-23" tabindex="-1"></a>      <span class="cf">else</span>{<span class="cf">next</span>}</span>
+<span id="cb9-24"><a href="tidy-cytokine-data-metadata.html#cb9-24" tabindex="-1"></a>      }</span>
+<span id="cb9-25"><a href="tidy-cytokine-data-metadata.html#cb9-25" tabindex="-1"></a>  }</span>
+<span id="cb9-26"><a href="tidy-cytokine-data-metadata.html#cb9-26" tabindex="-1"></a>}</span>
+<span id="cb9-27"><a href="tidy-cytokine-data-metadata.html#cb9-27" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="tidy-cytokine-data-metadata.html#cb9-28" tabindex="-1"></a>cyto_scaled <span class="ot">&lt;-</span></span>
+<span id="cb9-29"><a href="tidy-cytokine-data-metadata.html#cb9-29" tabindex="-1"></a>  cyto_scaled <span class="sc">%&gt;%</span> </span>
+<span id="cb9-30"><a href="tidy-cytokine-data-metadata.html#cb9-30" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, log) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-31"><a href="tidy-cytokine-data-metadata.html#cb9-31" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(x) <span class="fu">scale</span>(x, <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">TRUE</span>))</span>
+<span id="cb9-32"><a href="tidy-cytokine-data-metadata.html#cb9-32" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="tidy-cytokine-data-metadata.html#cb9-33" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="at">x=</span>cyto_scaled, <span class="at">file=</span><span class="st">&quot;Output Files/cleaned_cytokine_scaled.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 
+</div>
 </div>
 </div>
             </section>

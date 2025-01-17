@@ -19,18 +19,16 @@ library(rstatix)
 
 ### Import data & merge
 ```{r, warning=FALSE, message=FALSE}
-cyto <- read.csv("Output Files/cleaned_cytokine.csv")
+cyto <- read.csv("Output Files/cleaned_cytokine_all.csv")
 meta <- read.csv("Output Files/metadata_cyto.csv")
-cytobin <-  read.csv("Output Files/cleaned_cytokine_bin.csv")
+cytobin <-  read.csv("Output Files/cleaned_cytokine_bin_all.csv")
 
 # Merge cytokine & meta data
 data <- 
-  merge(cyto, meta) %>% 
-  select(-c(21:23))
+  merge(cyto, meta)
 
 databin <- 
-  merge(cytobin, meta) %>% 
-  select(-c(21:23))
+  merge(cytobin, meta) 
 ```
 
 ### Ensure variables are correct format
@@ -66,7 +64,6 @@ table(supplmeta$year)
 table(supplmeta$sex)
 table(supplmeta$molt.stage)
 table(data$bc_bin)
-table(data$bmi_bin)
 ```
 
 ### How many samples is each cytokine detected in?

@@ -10,6 +10,7 @@ editor_options:
 
 ## Libraries
 ```{r, warning=FALSE, message=FALSE}
+library(vegan)
 library(mixOmics)
 library(tidyverse)
 library(ggfortify)
@@ -19,121 +20,67 @@ library(paradox)
 library(mlr3tuning)
 library(rpart)
 library(rpart.plot)
+library(pairwiseAdonis)
+library(ggmosaic)
 ```
 
 ## Data
 ```{r, message=FALSE, warning=FALSE}
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
+cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
+cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
 meta <- read.csv("Output Files/metadata_cyto.csv")
-mindc <- read.csv("Input Files/mindc.csv") %>% 
-  mutate(half=value/2)
 
 # Merge cytokine & metadata 
-data <- merge(cyto, meta, by="Sample")
+data <- merge(cyto, meta, by="Sample") %>% 
+  filter(!is.na(bc_bin))
 
-# Tidy data, remove cytokines with < 10% (11) detections, remove pups with NA bc
-data_tidy <-
-  data %>%
-  select(2:14) %>% 
-  select_if(function(x) sum(x>0) > 11) %>% 
-  mutate(bc=data$bc_bin,
-         bmi=data$bmi_bin,
-         bmi2=data$bmi_bin2,
-         sample=data$Sample)
+databin <- 
+  merge(cytobin, meta, by="Sample") %>% 
+  filter(!is.na(bc_bin))
+
+datascale <- 
+  merge(cytoscale, meta, by="Sample") %>% 
+  filter(!is.na(bc_bin))
 ```
 
-## Log-transformed scaled, center cytokine data
-```{r}
-# Make all non-detects half the limit of detection
-data_half <- data_tidy
-for (i in 1:nrow(data_half)) {
-  for (j in 1:9) {
-     {if (data_half[i,j]==0) {
-       k <- which(mindc==colnames(data_half)[j])
-       data_half[i,j] <- mindc[k,3]
-     }
-       else{next}
-       }
-  }
-}
-
-# Log transform, scale, and center data
-data_log <- 
-  data_half %>% 
-  mutate_at(1:9, log)
-
-data_scaled <- 
-  data_half %>% 
-  mutate_at(1:9, log) %>% 
-  mutate_at(1:9, function(x) scale(x, center=TRUE, scale=TRUE))
-
-data_scaled_bc <-
-  data_scaled %>% 
-  filter(!bc=="NA")
-
-data_scaled_bmi <-
-  data_scaled %>% 
-  filter(!bmi=="NA")
-```
 
 ## Body Condition Range & Bins
 ```{r}
-hist(meta$bodcond)
+quant <- quantile(meta$bodcond, na.rm=TRUE)
 
 ggplot(meta, aes(x=bodcond)) +
   geom_histogram(bins=10, color="black", fill="gray80") +
   labs(x="Body Condition Index", y="Frequency") +
-  geom_vline(xintercept=c(83, 90, 96), colour="red", size=1) +
+  geom_vline(xintercept=c(quant[2], quant[3], quant[4]), colour="red", size=1) +
   theme_classic()
-
 ```
 
-
-## PCAs
+## PCA
 ```{r, warning=FALSE}
 PCA_scaled_bc <- 
   prcomp(~IFNg+IL.2+IL.6+IL.7+IL.8+IL.10+IL.15+IL.18+KC.like, 
-         data=data_scaled_bc,
+         data=datascale,
          center=FALSE, 
          scale=FALSE)
-autoplot(PCA_scaled_bc, data=data_scaled_bc, shape="bc") +
-         scale_shape_manual(values=c(1,19,15), name="Body Condition") +
-         theme_bw() +
-         theme(panel.grid=element_blank(), text=element_text(size=8),
-               legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-               legend.position="bottom")
-
-PCA_scaled_bmi <-
-  prcomp(~IFNg+IL.2+IL.6+IL.7+IL.8+IL.10+IL.15+IL.18+KC.like, 
-         data=data_scaled_bmi,
-         center=FALSE, 
-         scale=FALSE)
-autoplot(PCA_scaled_bmi, data=data_scaled_bmi, shape="bmi") +
-         scale_shape_manual(values=c(1,19), name="Body Mass Index") +
-         theme_bw() +
-         theme(panel.grid=element_blank(), text=element_text(size=8),
-               legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-               legend.position="bottom")
-autoplot(PCA_scaled_bmi, data=data_scaled_bmi, shape="bmi2") +
-         scale_shape_manual(values=c(1,19,15), name="Body Mass Index 2") +
-         theme_bw() +
-         theme(panel.grid=element_blank(), text=element_text(size=8),
-               legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-               legend.position="bottom")
 ```
 
-### Body Condition 
+### Visualize
 ```{r}
-autoplot(PCA_scaled_bc, data=data_scaled_bc, shape="bc") +
-         scale_shape_manual(values=c(1,19,15), name="Body Condition") +
-         theme_bw() +
-         theme(panel.grid=element_blank(), text=element_text(size=8),
-               legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-               legend.position="bottom")
-
 PCA_scaled_bc_df <- data.frame(x=PCA_scaled_bc$x[,1],
                                y=PCA_scaled_bc$x[,2],
-                               bc=data_scaled_bc$bc)
+                               bc=datascale$bc)
+pca_labelx <-
+  paste("PC1 (", 
+                round(abs(summary(PCA_scaled_bc)$importance[2,1]*100), digits=2),
+                "%)",
+                sep="")
+pca_labely <-
+  paste("PC2 (", 
+                round(abs(summary(PCA_scaled_bc)$importance[2,2]*100), digits=2),
+                "%)",
+                sep="")
+
 PCA_scaled_bc_ggplot <- 
   ggplot(PCA_scaled_bc_df, 
          aes(x=x, 
@@ -141,8 +88,8 @@ PCA_scaled_bc_ggplot <-
              col=bc)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="PC1 (24.89%)",
-       y = "PC2 (15.08%)",
+  labs(x=pca_labelx,
+       y = pca_labely,
        name="Body Condition") +
   scale_color_manual("Body Condition",
                      values=c("#9d9d9d","#008ba2", "#000000")) +
@@ -153,142 +100,151 @@ PCA_scaled_bc_ggplot <-
 PCA_scaled_bc_ggplot
 ```
 
-### Body Mass Index
-```{r}
-PCA_scaled_bmi_df <- data.frame(x=PCA_scaled_bmi$x[,1],
-                               y=PCA_scaled_bmi$x[,2],
-                               bmi=data_scaled_bmi$bmi)
-PCA_scaled_bmi_ggplot <- 
-  ggplot(PCA_scaled_bmi_df, 
-         aes(x=x, 
-             y=y,
-             col=bmi)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x="PC1 (25.11%)",
-       y = "PC2 (14.78%)",
-       name="Body Mass Index") +
-  scale_color_manual("Body Mass Index",
-                     values=c("#9d9d9d","#008ba2")) +
-  theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position.inside=c(0.1, 0.1))
 
-PCA_scaled_bmi_ggplot
+## PERMANOVA
+
+### Cytokine Presence/Absence
+
+#### Create similarity matrix (Sorensen)
+```{r}
+databin_perm <- 
+  databin %>% 
+  select(2:10)
+
+databin_dist <- 
+  betadiver(databin_perm, method=11)
+
+plot(databin_dist)
+
+# Dissimilarity summary stats
+mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin_dist)
 ```
 
-### Body Mass Index 2
+#### PERMANOVA with dissimilarity (1-Sorensen)
+R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
 ```{r}
-PCA_scaled_bmi2_df <- data.frame(x=PCA_scaled_bmi$x[,1],
-                                 y=PCA_scaled_bmi$x[,2],
-                                 bmi2=data_scaled_bmi$bmi2)
-PCA_scaled_bmi2_ggplot <- 
-  ggplot(PCA_scaled_bmi2_df, 
-         aes(x=x, 
-             y=y,
-             col=bmi2)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x="PC1 (25.11%)",
-       y = "PC2 (14.78%)",
-       name="Body Mass Index") +
-  scale_color_manual("Body Mass Index",
-                     values=c("#9d9d9d","#008ba2", "black")) +
-  theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position.inside=c(0.1, 0.1))
+databin_adonis <- 
+  adonis2((1-databin_dist) ~ bc_bin, data=databin, permutations=4999)
+databin_adonis
 
-PCA_scaled_bmi2_ggplot
+# R2
+databin_adonis$R2[1]*100
 ```
 
+#### Visualizing multivariate groups
 
-## Test for normality
-```{r}
-# Create dataframe for results
-norm_results <- data.frame(matrix(ncol=0, nrow=9)) %>%
-  mutate(cyto=colnames(data_scaled)[1:9],
-         W=NA, 
-         pvalue=NA)
-
-# Truncate data
-data_norm <-
-  data_scaled[,1:9]
-
-# Test!
-for (i in 1:9) {
-  test <- shapiro.test(data_norm[,i])
-  norm_results[i,2] <- round(test$statistic, digits=3)
-  norm_results[i,3] <- test$p.value
-}
-
-norm_results # all not normally distributed
+##### Principal coordinates analysis 
+```{r, warning=FALSE}
+# Use 1 - Sorensen's for dissimilarity 
+databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
 ```
+
+##### Plot
+```{r}
+plot(databin_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$bc_bin), show.groups="Poor", 
+           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$bc_bin), show.groups="Average", 
+           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$bc_bin), show.groups="Robust", 
+           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+```
+
+#### Homogeneity of group dispersions
+```{r}
+disper <- 
+  betadisper(databin_dist, group=databin$bc_bin, type="centroid")
+anova(disper)
+TukeyHSD(disper)
+disper
+boxplot(disper)
+```
+
+#### Posthoc pairwise tests
+None - no sig difference in multivariate distributions
+
+
+### Cytokine Concentration
+```{r}
+data_perm <-
+  data %>% 
+  select(2:10)
+
+data_dist <- 
+  vegdist(data_perm, method="bray")
+
+data_adonis <- adonis2(data_dist ~ bc_bin, data=data, 
+                       permuations=4999)
+data_adonis
+
+# R2
+data_adonis$R2[1]*100
+```
+
+#### Visualizing multivariate groups
+
+##### Principal coordinates analysis 
+```{r, warning=FALSE}
+# Use Bray-Curtis dissimilarity matrix
+data_pco <- cmdscale(data_dist, eig=TRUE)
+```
+
+##### Plot
+```{r}
+plot(data_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+
+ordispider(jitter(data_pco$points, factor=1), factor(data$bc_bin), show.groups="Poor", 
+           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(data_pco$points, factor=1), factor(data$bc_bin), show.groups="Average", 
+           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(data_pco$points, factor=1), factor(data$bc_bin), show.groups="Robust", 
+           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+```
+
+#### Homogeneity of group dispersions
+```{r}
+betadisper(data_dist, group=data$bc, type="centroid")
+
+disper <- 
+  betadisper(data_dist, group=data$bc_bin, type="centroid")
+anova(disper)
+disper
+boxplot(disper)
+```
+
+#### Posthoc pairwise tests
+None - no sig difference in multivariate distributions
+
 
 ## Cramer Test 
 Multivariate composition of the cytokine pattern between each molt stage pairwise comparison It can handle multiple variables, potentially complex interactions and correlations.  
 ```{r}
 # Separate data by body condition
 poor <- 
-  data_scaled %>% 
-  filter(bc=="Poor") %>% 
-  select(1:9) %>% 
+  datascale %>% 
+  filter(bc_bin=="Poor") %>% 
+  select(2:10) %>% 
   data.matrix()
 
 average <- 
-  data_scaled %>% 
-  filter(bc=="Average") %>% 
-  select(1:9) %>% 
+  datascale %>% 
+  filter(bc_bin=="Average") %>% 
+  select(2:10) %>% 
   data.matrix()
 
 robust <- 
-  data_scaled %>% 
-  filter(bc=="Robust") %>% 
-  select(1:9) %>% 
+  datascale %>% 
+  filter(bc_bin=="Robust") %>% 
+  select(2:10) %>% 
   data.matrix()
 
 # Run Cramer Tests!
 cramer.test(poor, average)
 cramer.test(average, robust)
 cramer.test(poor, robust) 
-
-# Separate data by Body Mass Index
-bmi_poor <-
-  data_scaled %>% 
-  filter(bmi=="Poor") %>% 
-  select(1:9) %>% 
-  data.matrix()
-
-bmi_robust <- 
-  data_scaled %>% 
-  filter(bmi=="Robust") %>% 
-  select(1:9) %>% 
-  data.matrix()
-
-cramer.test(bmi_poor, bmi_robust) 
-
-# Separate data by Body Mass Index2
-bmi2_poor <-
-  data_scaled %>% 
-  filter(bmi2=="Poor") %>% 
-  select(1:9) %>% 
-  data.matrix()
-
-bmi2_avg <- 
-  data_scaled %>% 
-  filter(bmi2=="Average") %>% 
-  select(1:9) %>% 
-  data.matrix()
-
-bmi2_robust <- 
-  data_scaled %>% 
-  filter(bmi2=="Robust") %>% 
-  select(1:9) %>% 
-  data.matrix()
-
-# Cramer test
-cramer.test(bmi2_poor, bmi2_avg)
-cramer.test(bmi2_avg, bmi2_robust)
-cramer.test(bmi2_poor, bmi2_robust) 
 ```
 
 ## Cytokine Importance
@@ -296,39 +252,25 @@ cramer.test(bmi2_poor, bmi2_robust)
 ### Prepare data for CART
 ```{r, message=FALSE}
 data_cart <- 
-  lapply(data_scaled, c) %>% 
-  data.frame() %>% 
-  select(!sample & !bmi & !bmi2) %>% 
-  mutate(bc=factor(bc, levels=c("Poor", "Average", "Robust"))) %>%
-  na.omit(bc)
-
-data_cart_bmi <-
-  lapply(data_scaled, c) %>% 
-  data.frame() %>% 
-  select(!sample) %>% 
-  mutate(bmi=factor(bmi, levels=c("Poor", "Robust")))
-
-data_cart_bmi2 <-
-  lapply(data_scaled, c) %>% 
-  data.frame() %>% 
-  select(!sample) %>% 
-  mutate(bmi2=factor(bmi2, levels=c("Poor", "Average", "Robust")))
+  datascale %>% 
+  select(2:10, bc_bin) %>% 
+  mutate(bc_bin=factor(bc_bin, levels=c("Poor", "Average", "Robust")))
 ```
 
 ### Cross Validation
 See reference: https://mlr3book.mlr-org.com/
 ```{r}
 # Creating task and learner
-task <- as_task_classif(bc ~ ., 
+task <- as_task_classif(bc_bin ~ ., 
                         data = data_cart)
 
-task <- task$set_col_roles(cols="bc",
+task <- task$set_col_roles(cols="bc_bin",
                            add_to="stratum")
 
 learner <- lrn("classif.rpart",
                predict_type = "prob",
                maxdepth = to_tune(2, 5),
-               minbucket = to_tune(1, 30),
+               minbucket = to_tune(1, 25),
                minsplit = to_tune(1, 30)
                )
 
@@ -346,29 +288,156 @@ tuner <- tnr("grid_search",
              )
 
 # Trigger the tuning process
-set.seed(3)
-# tuner$optimize(instance)
+#tuner$optimize(instance)
  
 # optimal values: 
-  # maxdepth = 4
-  # minbucket = 10
-  # minsplit = 20
-  # classif.ce = 0.5344172
- 
+  # maxdepth = 5
+  # minbucket = 6
+  # minsplit = 10
+  # classif.ce = 0.5360839
+```
 
-# Model with optimized parameters
-cart_model <- rpart(formula=bc ~ .,
+### Run model with optimized parameters
+```{r}
+cart_model <- rpart(formula=bc_bin ~ .,
                     data=data_cart,
                     method="class",
-                    maxdepth=4,
-                    minbucket=10,
-                    minsplit=20)
+                    maxdepth=5,
+                    minbucket=6,
+                    minsplit=10)
 
 # plot optimized tree
 rpart.plot(cart_model)
-printcp(cart_model)
 cart_model$variable.importance 
-  # IL-6 and IL-7 are two most important cytokines
+  # IFNg, IL-18 are two most important cytokines
+```
+
+### Plot important cytokines
+#### Variable Importance
+```{r}
+varimp <- 
+  data.frame(imp=cart_model$variable.importance) %>% 
+  rownames_to_column() %>% 
+  rename("variable" = rowname) %>% 
+  arrange(imp) %>%
+  mutate(variable=gsub("\\.","-",variable),
+         variable = forcats::fct_inorder(variable))
+
+varimp_plot <- 
+  ggplot(varimp) + 
+  geom_segment(aes(x = variable, 
+                   y = 0, 
+                   xend = variable, 
+                   yend = imp), 
+               linewidth = 0.5, 
+               alpha = 0.7) +
+  geom_point(aes(x = variable, 
+                 y = imp), 
+             size = 1, 
+             show.legend = F,
+             col="black") +
+  labs(x="Cytokine", 
+       y="Variable Importance") +
+  coord_flip() +
+  theme_classic() +
+  theme(text=element_text(size=10, color="black"))
+varimp_plot
+```
+
+#### Proportions
+```{r}
+prop.table(table(databin$bc_bin, databin$IFNg), margin=1)*100
+
+ifng_prop <- 
+  databin %>% 
+  mutate(IFNg=gsub("1", "P", IFNg),
+         IFNg=gsub("0", "A", IFNg),
+         IFNg=factor(IFNg, levels=c("P", "A"))) %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IFNg, bc_bin), fill=IFNg)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(y="Presence/Absence") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+ifng_prop
+
+il18_prop <-
+  databin %>% 
+  mutate(IL.18=gsub("1", "P", IL.18),
+         IL.18=gsub("0", "A", IL.18),
+         IL.18=factor(IL.18, levels=c("P", "A"))) %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.18, bc_bin), fill=IL.18)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(y="Presence/Absence") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+il18_prop
+```
+
+#### Concentration
+```{r}
+ifng <-
+  data %>% 
+  select(bc_bin, IFNg) %>% 
+  filter(!IFNg==0) %>% 
+  ggplot(., aes(x=bc_bin, y=log(IFNg))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y="log(Concentration pg/mL)") +
+  stat_n_text(size=3) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
+ifng  
+
+il18 <-
+  data %>% 
+  select(bc_bin, IL.18) %>% 
+  filter(!IL.18==0) %>% 
+  ggplot(., aes(x=bc_bin, y=log(IL.18))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y="log(Concentration pg/mL)") +
+  stat_n_text(size=3) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
+il18
+```
+
+#### Combine
+```{r}
+left <- grid.arrange(ifng_prop, ifng, ncol=1,
+                     top = textGrob("IFNg", gp=gpar(fontsize=10)))
+right <- grid.arrange(il18_prop, il18, ncol=1,
+                      top = textGrob("IL-18", gp=gpar(fontsize=10)))
+
+jpeg("Figures/cytoimportance_bodycondition.jpeg", width=7, height=8, units="in", res=300)
+all <- grid.arrange(varimp_plot, left, right, 
+                    layout_matrix=rbind(c(1, 1),
+                                        c(2, 3)),
+                    heights=c(1,2),
+                    bottom=textGrob("Body Condition", gp=gpar(fontsize=10)))
+grid.polygon(x=c(0, 0, 1, 1),
+             y=c(0, 0.68, 0.68, 0),
+             gp=gpar(fill=NA))
+grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
+             y=c(0.93, 0.99, 0.99, 0.93),
+             gp=gpar(fill=NA))
+dev.off()
 ```
 
 
@@ -378,36 +447,23 @@ cart_model$variable.importance
 #### Prepare data
 ```{r, warning=FALSE}
 pls_x <-
-  data_cart %>% 
-  filter(!bc=="NA") %>% 
-  select(1:9)
+  data_cart[,1:9]
 
 pls_y <- 
   data_cart %>% 
-  select(bc) %>% 
-  filter(!bc=="NA")
+  select(bc_bin) 
 ```
 
 #### PLSDA Model
 ```{r}
 plsda_model <- mixOmics::plsda(pls_x,
-                               pls_y$bc,
+                               pls_y$bc_bin,
                                scale=TRUE,
                                ncomp=9)
 ```
 
 #### Visualizations
 ```{r}
-plotIndiv(plsda_model,
-          ellipse=TRUE, 
-          ind.names=FALSE,
-          col.per.group=c("#9d9d9d","#008ba2", "black"),
-          pch=16,
-          legend=TRUE, 
-          legend.title="Body Condition",
-          style="lattice",
-          title="PLS-DA Comp 1 - 2")
-
 # Set x and y axis labels based on model loadings
 labelx <- paste("X-variate 1: ", 
                 round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
@@ -423,13 +479,13 @@ labely <- paste("X-variate 2: ",
 plsda_ggplot <- 
   data.frame(x = plsda_model$variates$X[,1], 
              y = plsda_model$variates$X[,2],
-             bc = plsda_model$Y)
+             bc_bin = plsda_model$Y)
 
 bc_plsda_ggplot <- 
   ggplot(plsda_ggplot, 
          aes(x=x, 
              y=y,
-             col=bc)) +
+             col=bc_bin)) +
   geom_point() +
   stat_ellipse() +
   labs(x=labelx,
@@ -456,137 +512,4 @@ plsda_loadings
 biplot(plsda_model, ind.names=FALSE, legend.title="Body Condition")
 
 plotVar(plsda_model)
-```
-
-### PLSDA - Body Mass Index
-```{r, warning=FALSE}
-pls_x_bmi <-
-  data_cart_bmi %>% 
-  filter(!bmi=="NA") %>% 
-  select(1:9)
-
-pls_y_bmi <- 
-  data_cart_bmi %>% 
-  filter(!bmi=="NA") %>% 
-  select(bmi)
-
-# PLSDA Model
-plsda_model_bmi <- mixOmics::plsda(pls_x_bmi,
-                               pls_y_bmi$bmi,
-                               scale=TRUE,
-                               ncomp=9)
-
-plotIndiv(plsda_model_bmi,
-          ellipse=TRUE, 
-          ind.names=FALSE,
-          col.per.group=c("#9d9d9d","#008ba2"),
-          pch=16,
-          legend=TRUE, 
-          legend.title="Body Mass Index",
-          style="lattice",
-          title="PLS-DA Comp 1 - 2")
-
-biplot(plsda_model_bmi, ind.names=FALSE, legend.title="Body Mass Index")
-
-# Set x and y axis labels based on model loadings
-labelx_bmi <- paste("X-variate 1: ", 
-                round(abs(plsda_model_bmi$prop_expl_var$X[1]*100), digits=0),
-                "% expl. var",
-                sep="")
-
-labely_bmi <- paste("X-variate 2: ", 
-                round(abs(plsda_model_bmi$prop_expl_var$X[2]*100), digits=0),
-                "% expl. var",
-                sep="")
-
-
-# ggplot2
-plsda_ggplot_bmi <- 
-  data.frame(x = plsda_model_bmi$variates$X[,1], 
-             y = plsda_model_bmi$variates$X[,2],
-             bmi = plsda_model_bmi$Y)
-
-bmi_plsda_ggplot <- 
-  ggplot(plsda_ggplot_bmi, 
-         aes(x=x, 
-             y=y,
-             col=bmi)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=labelx_bmi,
-       y = labely_bmi,
-       name="Body Mass Index") +
-  scale_color_manual("Body Mass Index",
-                     values=c("#9d9d9d","#008ba2")) +
-  theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position=c(0.1, 0.1))
-
-bmi_plsda_ggplot
-```
-
-### PLSDA - Body Mass Index 2
-```{r, warning=FALSE}
-pls_x_bmi2 <-
-  data_cart_bmi %>% 
-  filter(!bmi2=="NA") %>% 
-  select(1:9)
-
-pls_y_bmi2 <- 
-  data_cart_bmi %>% 
-  filter(!bmi2=="NA") %>% 
-  select(bmi2)
-
-# PLSDA Model
-plsda_model_bmi2 <- mixOmics::plsda(pls_x_bmi2,
-                                    pls_y_bmi2$bmi2,
-                                    scale=TRUE,
-                                    ncomp=9)
-
-plotIndiv(plsda_model_bmi2,
-          ellipse=TRUE, 
-          ind.names=FALSE,
-          col.per.group=c("#9d9d9d","#008ba2", "black"),
-          pch=16,
-          legend=TRUE, 
-          legend.title="Body Mass Index 2",
-          style="lattice",
-          title="PLS-DA Comp 1 - 2")
-
-biplot(plsda_model_bmi2, ind.names=FALSE, legend.title="Body Mass Index 2")
-
-# Set x and y axis labels based on model loadings
-labelx_bmi2 <- paste("X-variate 1: ", 
-                round(abs(plsda_model_bmi2$prop_expl_var$X[1]*100), digits=0),
-                "% expl. var",
-                sep="")
-
-labely_bmi2 <- paste("X-variate 2: ", 
-                round(abs(plsda_model_bmi2$prop_expl_var$X[2]*100), digits=0),
-                "% expl. var",
-                sep="")
-
-# ggplot2
-plsda_ggplot_bmi2 <- 
-  data.frame(x = plsda_model_bmi2$variates$X[,1], 
-             y = plsda_model_bmi2$variates$X[,2],
-             bmi2 = plsda_model_bmi2$Y)
-
-bmi2_plsda_ggplot <- 
-  ggplot(plsda_ggplot_bmi2, 
-         aes(x=x, 
-             y=y,
-             col=bmi2)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=labelx_bmi2,
-       y = labely_bmi2,
-       name="Body Mass Index 2") +
-  scale_color_manual("Body Mass Index 2",
-                     values=c("#9d9d9d","#008ba2", "black")) +
-  theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position=c(0.1, 0.1))
-
-bmi2_plsda_ggplot
 ```

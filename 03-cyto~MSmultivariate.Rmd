@@ -20,76 +20,56 @@ library(paradox)
 library(mlr3tuning)
 library(rpart)
 library(rpart.plot)
+library(pairwiseAdonis)
+library(ggmosaic)
+library(EnvStats)
+library(gridExtra)
+library(grid)
 ```
 
 ## Data
 ```{r, message=FALSE, warning=FALSE}
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
 cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
+cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
 meta <- read.csv("Output Files/metadata_cyto.csv")
-mindc <- read.csv("Input Files/mindc.csv") %>% 
-  mutate(half=value/2)
 
 # Merge cytokine & metadata 
-data <- merge(cyto, meta, by="Sample")
-databin <- merge(cytobin, meta, by="Sample")
-
-# Tidy data, remove cytokines with < 10% (11) detections, remove pups with NA molt stage
-data_tidy <-
-  data %>%
-  select(2:14) %>% 
-  select_if(function(x) sum(x>0) > 11) %>% 
-  mutate(molt.stage=data$molt.stage,
-         sample=data$Sample) %>% 
+data <- merge(cyto, meta, by="Sample") %>% 
   filter(!is.na(molt.stage))
 
-databin_tidy <-
-  databin %>% 
-  select(2:14) %>% 
-  select_if(function(x) sum(x>0) > 11) %>% 
-    mutate(molt.stage=databin$molt.stage,
-         sample=databin$Sample) %>% 
+databin <- 
+  merge(cytobin, meta, by="Sample") %>% 
+  filter(!is.na(molt.stage))
+
+datascale <- 
+  merge(cytoscale, meta, by="Sample") %>% 
   filter(!is.na(molt.stage))
 ```
 
-## PCA on log-transformed, scaled, centered cytokine data
+
+## PCA
 ```{r}
-# Make all non-detects half the limit of detection
-data_half <- data_tidy
-for (i in 1:nrow(data_half)) {
-  for (j in 1:9) {
-     {if (data_half[i,j]==0) {
-       k <- which(mindc==colnames(data_half)[j])
-       data_half[i,j] <- mindc[k,3]
-     }
-       else{next}
-       }
-  }
-}
+PCA_scaled_molt <- prcomp(datascale[,2:10], center=FALSE, scale=FALSE)
+```
 
-# Log transform, scale, and center data
-data_log <- 
-  data_half %>% 
-  mutate_at(1:9, log)
-
-data_scaled <- 
-  data_half %>% 
-  mutate_at(1:9, log) %>% 
-  mutate_at(1:9, function(x) scale(x, center=TRUE, scale=TRUE))
-
-# Molt Stage
-PCA_scaled_molt <- prcomp(data_scaled[,1:9], center=FALSE, scale=FALSE)
-
-autoplot(PCA_scaled_molt, data=data_scaled, shape="molt.stage") +
-         scale_shape_manual(values=c(0,16,8), name="Molt Stage") +
-         theme_bw() +
-         theme(panel.grid=element_blank(), text=element_text(size=8),
-               legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-               legend.position="bottom")
-
+### Visualize
+```{r}
 PCA_scaled_molt_df <- data.frame(x=PCA_scaled_molt$x[,1],
                                  y=PCA_scaled_molt$x[,2],
-                                 molt.stage=data_scaled$molt.stage)
+                                 molt.stage=datascale$molt.stage)
+
+pca_labelx <-
+  paste("PC1 (", 
+                round(abs(summary(PCA_scaled_molt)$importance[2,1]*100), digits=2),
+                "%)",
+                sep="")
+pca_labely <-
+  paste("PC2 (", 
+                round(abs(summary(PCA_scaled_molt)$importance[2,2]*100), digits=2),
+                "%)",
+                sep="")
+
 PCA_scaled_molt_ggplot <- 
   ggplot(PCA_scaled_molt_df, 
          aes(x=x, 
@@ -97,8 +77,8 @@ PCA_scaled_molt_ggplot <-
              col=molt.stage)) +
   geom_point() +
   stat_ellipse() +
-  labs(x="PC1 (27.33%)",
-       y = "PC2 (15.03%)",
+  labs(x=pca_labelx,
+       y = pca_labely,
        name="Molt Stage") +
   scale_color_manual("Molt Stage",
                      values=c("#9d9d9d","#008ba2", "#000000")) +
@@ -120,8 +100,8 @@ From McCosker et al. 2024:
 #### Create similarity matrix (Sorensen)
 ```{r}
 databin_perm <- 
-  databin_tidy %>% 
-  select(1:9)
+  databin %>% 
+  select(2:10)
 
 databin_dist <- 
   betadiver(databin_perm, method=11)
@@ -136,37 +116,104 @@ mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin
 R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
 ```{r}
 databin_adonis <- 
-  adonis2((1-databin_dist) ~ molt.stage, data=databin_tidy, permutations=4999)
+  adonis2((1-databin_dist) ~ molt.stage, data=databin, permutations=4999)
 databin_adonis
+
+# R2
+databin_adonis$R2[1]*100
 ```
 
 #### Visualizing multivariate groups
 Spider plot illustrating group dissimilarity and group centroid locations (molt stage) using presence/absence data to compare cytokine detections across molt stages.
+
+##### Principal coordinates analysis 
 ```{r, warning=FALSE}
-# Conduct a principle coordiantes analysis using 1 - Sorensen's for dissimilarity 
-databin_pco <- cmdscale(1-databin_dist)
+# Use 1 - Sorensen's for dissimilarity 
+databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
+```
 
-plot(databin_pco, type="n", xlab="PCO 1", ylab="PCO 2", #xlim=c(-.5,.7), ylim=c(-.7,.4), 
-       cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
-ordispider(jitter(databin_pco, factor=1), factor(databin_tidy$molt.stage), show.groups="III", 
+##### Plot
+```{r}
+plot(databin_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$molt.stage), show.groups="III", 
            col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(databin_pco, factor=1), factor(databin_tidy$molt.stage), show.groups="IV", 
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$molt.stage), show.groups="IV", 
            col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(databin_pco, factor=1), factor(databin_tidy$molt.stage), show.groups="V", 
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$molt.stage), show.groups="V", 
            col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+```
 
-betadisper(databin_dist, group=databin_tidy$molt.stage, type="centroid")
+#### Homogeneity of group dispersions
+```{r}
+disper <- 
+  betadisper(databin_dist, group=databin$molt.stage, type="centroid")
+anova(disper)
+boxplot(disper)
+```
+
+#### Posthoc pairwise tests
+```{r}
+pairwise.adonis(databin_dist, databin$molt.stage)
 ```
 
 
 ### Cytokine Concentration
 From McCosker et al. 2024:  
 
-- The adonis function was used to conduct a permutational multivariate analysis of variance (PERMANOVA) on group (method) dissimilarity. Group dispersions weremodeled with betadisper to determine whether the assumption of equal dispersions had been met under adonis and principal coordinate analysis was used relative to PERMANOVA results to visualize group dispersions around the centroid.
+- The adonis function was used to conduct a permutational multivariate analysis of variance (PERMANOVA) on group (method) dissimilarity. Group dispersions weremodeled with betadisper to determine whether the assumption of equal dispersions had been met under adonis and principal coordinate analysis was used relative to PERMANOVA results to visualize group dispersions around the centroid.  
+- Bray-Curtis dissimilarity used  
+  - well-suited to species abundance because it ignores variables that have zeros for both objects (joint absences)
 ```{r}
+data_perm <-
+  data %>% 
+  select(2:10)
 
+data_dist <- 
+  vegdist(data_perm, method="bray")
+
+data_adonis <- adonis2(data_dist ~ molt.stage, data=data, 
+                       permuations=4999)
+data_adonis
+
+# R2
+data_adonis$R2[1]*100
 ```
 
+#### Visualizing multivariate groups
+
+##### Principal coordinates analysis 
+```{r, warning=FALSE}
+# Use Bray-Curtis dissimilarity matrix
+data_pco <- cmdscale(data_dist, eig=TRUE)
+```
+
+##### Plot
+```{r}
+plot(data_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+
+ordispider(jitter(data_pco$points, factor=1), factor(data$molt.stage), show.groups="III", 
+           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(data_pco$points, factor=1), factor(data$molt.stage), show.groups="IV", 
+           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(data_pco$points, factor=1), factor(data$molt.stage), show.groups="V", 
+           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+```
+
+#### Homogeneity of group dispersions
+```{r}
+disper <- 
+  betadisper(data_dist, group=data$molt.stage, type="centroid")
+anova(disper)
+boxplot(disper)
+```
+
+#### Posthoc pairwise tests
+```{r}
+pairwise.adonis(data_dist, data$molt.stage)
+```
 
 
 ## Cramer Test 
@@ -174,21 +221,21 @@ Multivariate composition of the cytokine pattern between each molt stage pairwis
 ```{r}
 # Separate data by molt stage
 three <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(molt.stage=="III") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   data.matrix()
 
 four <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(molt.stage=="IV") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   data.matrix()
 
 five <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(molt.stage=="V") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   data.matrix()
 
 # Run Cramer Tests!
@@ -230,9 +277,8 @@ Classification Ability
 ```{r, message=FALSE}
 # Prepare data for CART
 data_cart <- 
-  lapply(data_scaled, c) %>% 
-  data.frame() %>% 
-  select(!sample) %>% 
+  datascale %>% 
+  select(2:10, molt.stage) %>% 
   mutate(molt.stage=factor(molt.stage, levels=c("III", "IV", "V")))
 ```
 
@@ -249,7 +295,7 @@ task <- task$set_col_roles(cols="molt.stage",
 learner <- lrn("classif.rpart",
                predict_type = "prob",
                maxdepth = to_tune(2, 5),
-               minbucket = to_tune(1, 30),
+               minbucket = to_tune(1, 7),
                minsplit = to_tune(1, 30)
                )
 
@@ -265,32 +311,131 @@ instance <- ti(task = task,
 tuner <- tnr("grid_search", 
              batch_size = 10
              )
-```
-```{r, include=FALSE}
+
 # Trigger the tuning process
-set.seed(4)
-# tuner$optimize(instance)
+#tuner$optimize(instance)
  
 
 # optimal values: 
   # maxdepth = 2
-  # minbucket = 7
-  # minsplit = 27
-  # classif.ce = 0.3079545
+  # minbucket = 6
+  # minsplit = 30
+  # classif.ce = 0.3170455
+```
 
-# Model with optimized parameters
+### Run model with optimized parameteres
+Leaves out molt stage III - too few samples for CART alogrithm
+```{r}
 cart_model <- rpart(formula=molt.stage ~ .,
                     data=data_cart,
                     method="class",
                     maxdepth=2,
-                    minbucket=7,
-                    minsplit=27)
+                    minbucket=6,
+                    minsplit=30)
+
 
 # plot optimized tree
 rpart.plot(cart_model)
-summary(cart_model)
+cart_model$variable.importance
 
-# n=7 for molt stage III not useful for CART algorithm!
+# IL-8 most important cytokine
+```
+
+### Plot important cytokines
+#### Variable Importance
+```{r}
+varimp <- 
+  data.frame(imp=cart_model$variable.importance) %>% 
+  rownames_to_column() %>% 
+  rename("variable" = rowname) %>% 
+  arrange(imp) %>%
+  mutate(variable=gsub("\\.","-",variable),
+         variable = forcats::fct_inorder(variable))
+
+varimp_plot <- 
+  ggplot(varimp) + 
+  geom_segment(aes(x = variable, 
+                   y = 0, 
+                   xend = variable, 
+                   yend = imp), 
+               linewidth = 0.5, 
+               alpha = 0.7) +
+  geom_point(aes(x = variable, 
+                 y = imp), 
+             size = 1, 
+             show.legend = F,
+             col="black") +
+  labs(x="Cytokine", 
+       y="Variable Importance") +
+  coord_flip() +
+  theme_classic() +
+  theme(text=element_text(size=10, color="black"))
+```
+
+#### Proportions
+```{r}
+prop.table(table(databin$molt.stage, databin$IL.8), margin=1)*100
+
+il8_prop <- 
+  databin %>% 
+  mutate(IL.8=gsub("1", "P", IL.8),
+         IL.8=gsub("0", "A", IL.8),
+         IL.8=factor(IL.8, levels=c("P", "A"))) %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.8,molt.stage), fill=IL.8)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+
+il8_prop
+```
+
+#### Concentration
+```{r}
+il8 <-
+  data %>% 
+  select(molt.stage, IL.8) %>% 
+  filter(!IL.8==0) %>% 
+  ggplot(., aes(x=molt.stage, y=log(IL.8))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL) +
+  stat_n_text(size=3) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
+il8
+
+data %>% 
+  select(molt.stage, IL.8) %>% 
+  filter(!IL.8==0) %>% 
+  group_by(molt.stage) %>% 
+  summarize(median=median(IL.8))
+```
+
+#### Combine
+```{r}
+bottom <- grid.arrange(il8_prop, il8, ncol=2,
+                       left=textGrob("IL-8", rot=90, gp=gpar(fontsize=10)))
+
+jpeg("Figures/cytoimportance_molt.jpeg", width=7, height=6, units="in", res=300)
+all <- grid.arrange(varimp_plot, bottom, 
+                    ncol=1, heights=c(1,1.5),
+                    bottom=textGrob("Molt Stage", gp=gpar(fontsize=10)))
+grid.polygon(x=c(0, 0, 1, 1),
+             y=c(0, 0.62, 0.62, 0),
+             gp=gpar(fill=NA))
+grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
+             y=c(0.92, 0.97, 0.97, 0.92),
+             gp=gpar(fill=NA))
+dev.off()
 ```
 
 
@@ -326,16 +471,6 @@ plsda_model <- mixOmics::plsda(pls_x,
 
 #### Visualizations
 ```{r}
-plotIndiv(plsda_model,
-          ellipse=TRUE, 
-          ind.names=FALSE,
-          col.per.group=c("#9d9d9d","#008ba2","black"),
-          pch=16,
-          legend=TRUE, 
-          legend.title="Molt Stage",
-          style="lattice",
-          title="PLS-DA Comp 1 - 2")
-
 # Set x and y axis labels based on model loadings
 labelx <- paste("X-variate 1: ", 
                 round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
@@ -366,8 +501,7 @@ molt_plsda_ggplot <-
   scale_color_manual("Molt Stage",
                      values=c("#9d9d9d","#008ba2","black")) +
   theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position=c(0.1, 0.1))
+  theme(panel.grid=element_blank())
 molt_plsda_ggplot
 ```
 

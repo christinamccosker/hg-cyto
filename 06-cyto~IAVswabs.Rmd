@@ -1,0 +1,311 @@
+---
+author: "Christina McCosker"
+date: "`r Sys.Date()`"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# IAV ~ swabs
+
+## Load required libraries
+```{r, warning=FALSE, message=FALSE}
+library(mixOmics)
+library(tidyverse)
+library(ggfortify)
+library(gridExtra)
+library(cramer)
+```
+
+## Read in data 
+```{r, message=FALSE, warning=FALSE}
+# Cytokines
+cyto <- 
+  read.csv("Output Files/cleaned_cytokine.csv")
+cytobin <- 
+  read.csv("Output Files/cleaned_cytokine_bin.csv")
+cytoscale <- 
+  read.csv("Output Files/cleaned_cytokine_scaled.csv")
+
+# Metadata
+meta <- 
+  read.csv("Output Files/metadata_cyto.csv")
+
+# Swab/virology data
+viro <- 
+  read.csv("Input Files/Hg_virology_2023.csv", sep=',', strip.white=TRUE) %>% 
+  select(Tag.ID., year, IAV, IAV.Nasal, IAV.Conj, IAV.Rectal) %>% 
+  filter(Tag.ID. %in% meta$Sample)
+```
+
+## Tidy & Merge Data
+```{r}
+# Clean up swab data
+viro_tidy <-
+  viro %>% 
+  mutate(IAV.Nasal=gsub(">45|Undetermined","neg", IAV.Nasal),
+         IAV.Nasal=gsub("Pooled\\(POS\\)", "POS", IAV.Nasal),
+         IAV.Nasal=gsub("\\#N\\/A", NA, IAV.Nasal),
+         IAV.Nasal=ifelse(IAV.Nasal < 45, "POS", IAV.Nasal),
+         IAV.Rectal=gsub(">45|Undetermined","neg", IAV.Rectal),
+         IAV.Rectal=gsub("Pooled\\(POS\\)", "POS", IAV.Rectal),
+         IAV.Rectal=gsub("ND|\\#N\\/A", NA, IAV.Rectal),
+         IAV.Rectal=ifelse(IAV.Rectal < 45, "POS", IAV.Rectal),
+         IAV.Conj=gsub(">45|Undetermined","neg", IAV.Conj),
+         IAV.Conj=gsub("\\#N\\/A", NA, IAV.Conj),
+         IAV.Conj=gsub("Pooled\\(POS\\)", "POS", IAV.Conj),
+         IAV.Conj=ifelse(IAV.Conj < 45, "POS", IAV.Conj))
+
+
+# Merge cytokine, meta, virology data
+data <-
+  cyto %>% 
+  merge(., viro_tidy, by.x="Sample", by.y="Tag.ID.") %>% 
+  mutate(IAV=meta$iav)
+
+databin <-
+  cytobin %>% 
+  merge(., viro_tidy, by.x="Sample", by.y="Tag.ID.") %>% 
+  mutate(IAV=meta$IAV)
+
+datascale <- 
+  cytoscale %>% 
+  merge(., viro_tidy, by.x="Sample", by.y="Tag.ID.") %>% 
+  mutate(IAV=meta$iav)
+```
+
+## PCA on log-transformed, scaled, centered cytokine data
+```{r}
+# Conj
+data_conj <- 
+  datascale %>% 
+  filter(!is.na(IAV.Conj))
+
+pca_conj <- 
+  prcomp(data_conj[,2:10], center=FALSE, scale=FALSE)
+
+plot_pca_conj <- 
+  autoplot(pca_conj, data=data_conj, shape="IAV.Conj") + 
+  scale_shape_manual(values=c(1, 19), 
+                     name="Conj Swab") +
+  theme_bw() +
+  theme(panel.grid=element_blank(), text=element_text(size=8),
+        legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
+        legend.position="bottom")
+
+# Nasal
+data_nasal <- 
+  datascale %>% 
+  filter(!is.na(IAV.Nasal))
+
+pca_nasal <- 
+  prcomp(data_nasal[,2:10], center=FALSE, scale=FALSE)
+
+plot_pca_nasal <- 
+  autoplot(pca_nasal, data=data_nasal, shape="IAV.Nasal") + 
+  scale_shape_manual(values=c(1, 19), 
+                     name="Nasal Swab") +
+  theme_bw() +
+  theme(panel.grid=element_blank(), text=element_text(size=8),
+        legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
+        legend.position="bottom")
+
+# Rectal
+data_rectal <- 
+  datascale %>% 
+  filter(!is.na(IAV.Rectal))
+
+pca_rectal <- 
+  prcomp(data_rectal[,2:10], center=FALSE, scale=FALSE)
+
+plot_pca_rectal <- 
+  autoplot(pca_rectal, data=data_rectal, shape="IAV.Rectal") + 
+  scale_shape_manual(values=c(1, 19), 
+                     name="Rectal Swab") +
+  theme_bw() +
+  theme(panel.grid=element_blank(), text=element_text(size=8),
+        legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
+        legend.position="bottom")
+
+grid.arrange(arrangeGrob(plot_pca_conj, plot_pca_nasal, plot_pca_rectal, ncol=3))
+
+```
+
+## Test for normality
+```{r}
+# Create dataframe for results
+norm_results <- data.frame(matrix(ncol=0, nrow=9)) %>%
+  mutate(cyto=colnames(datascale)[2:10],
+         W=NA, 
+         pvalue=NA)
+
+# Truncate data
+data_norm <-
+  datascale[,2:10]
+
+# Test!
+for (i in 1:9) {
+  test <- shapiro.test(data_norm[,i])
+  norm_results[i,2] <- round(test$statistic, digits=3)
+  norm_results[i,3] <- test$p.value
+}
+
+norm_results # all not normally distributed
+```
+
+## Cramer Test 
+Multivariate composition of the cytokine pattern between each infection stage group with its control. It can handle multiple variables, potentially complex interactions and correlations.  
+```{r}
+# Conj Swabs
+con_pos <-
+  datascale %>% 
+  filter(IAV.Conj=="POS") %>% 
+  select(1:9) %>% 
+  data.matrix()
+  
+con_neg <- 
+  datascale %>% 
+  filter(IAV.Conj=="neg") %>% 
+  select(1:9) %>% 
+  data.matrix() 
+
+cramer.test(con_pos, con_neg)
+
+
+# Nasal Swabs
+nas_pos <-
+  datascale %>% 
+  filter(IAV.Nasal=="POS") %>% 
+  select(1:9) %>% 
+  data.matrix()
+  
+nas_neg <- 
+  datascale %>% 
+  filter(IAV.Nasal=="neg") %>% 
+  select(1:9) %>% 
+  data.matrix() 
+
+cramer.test(nas_pos, nas_neg)
+
+
+# Rectal Swabs
+rec_pos <-
+  datascale %>% 
+  filter(IAV.Rectal=="POS") %>% 
+  select(1:9) %>% 
+  data.matrix()
+  
+rec_neg <- 
+  datascale %>% 
+  filter(IAV.Rectal=="neg") %>% 
+  select(1:9) %>% 
+  data.matrix() 
+
+cramer.test(rec_pos, rec_neg)
+
+# Between positive swabs?
+cramer.test(con_pos, nas_pos) # early vs mid infection
+cramer.test(con_pos, rec_pos) # early vs late infection
+cramer.test(nas_pos, rec_pos) # mid vs late infection
+```
+
+## Cytokine Exploratory Plots ~ Swabs
+```{r}
+# Configure data
+swabs <-
+  data %>% 
+  select(!year & !IAV) %>% 
+  pivot_longer(cols=c(2:10), names_to="cytokine", values_to="concentration") %>% 
+  pivot_longer(cols=c(2:4), names_to="swab", values_to="status") 
+
+conj <- 
+  swabs %>% 
+  filter(swab=="IAV.Conj", 
+         status=="POS")
+  
+nasal <- 
+  swabs %>% 
+  filter(swab=="IAV.Nasal",
+         status=="POS") 
+
+rectal <- 
+  swabs %>% 
+  filter(swab=="IAV.Rectal", 
+         status=="POS")
+
+pos_swabs <-
+  rbind(conj, nasal, rectal)
+
+# Plots
+ifn <-
+  pos_swabs %>% 
+  filter(cytokine=="IFNg") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IFNg")
+
+# Plots
+il2 <- 
+  pos_swabs %>% 
+  filter(cytokine=="IL.2") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IL.2")
+
+il6 <- 
+  pos_swabs %>% 
+  filter(cytokine=="IL.6") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IL.6")
+
+il7 <- 
+  pos_swabs %>% 
+  filter(cytokine=="IL.7") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IL.7")
+
+il8 <- 
+  pos_swabs %>% 
+  filter(cytokine=="IL.8") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IL.8")
+
+il10 <- 
+  pos_swabs %>% 
+  filter(cytokine=="IL.10") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IL.10")
+
+il15 <- 
+  pos_swabs %>% 
+  filter(cytokine=="IL.15") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IL.15")
+
+il18 <- 
+  pos_swabs %>% 
+  filter(cytokine=="IL.18") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="IL.18")
+
+kc <- 
+  pos_swabs %>% 
+  filter(cytokine=="KC.like") %>% 
+  ggplot(., aes(x=swab, y=log(concentration))) +
+  geom_boxplot() +
+  labs(x=NULL, y="KC.like")
+
+imp <- grid.arrange(arrangeGrob(il6, il10, kc))
+nonimp1 <- grid.arrange(arrangeGrob(ifn, il2, il7))
+nonimp2 <- grid.arrange(arrangeGrob(il8, il15, il18))
+
+all <- grid.arrange(imp, nonimp1, nonimp2, ncol=3)
+
+ggsave(filename="Figures/cyto_swab.jpeg", all, width=8, height=6, units="in")
+```

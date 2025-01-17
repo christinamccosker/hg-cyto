@@ -10,6 +10,7 @@ editor_options:
 
 ## Libraries
 ```{r, warning=FALSE, message=FALSE}
+library(vegan)
 library(ggfortify)
 library(ggpubr)
 library(gridExtra)
@@ -25,283 +26,216 @@ library(tidyverse)
 library(fasano.franceschini.test)
 library(EnvStats)
 library(grid)
+library(pairwiseAdonis)
 ```
 
 ## Data
 ```{r, message=FALSE, warning=FALSE}
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
-meta <- read.csv("Output Files/metadata_cyto.csv")
-mindc <- read.csv("Input Files/mindc.csv") %>% 
-  mutate(half=value/2)
 cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
+cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
+meta <- read.csv("Output Files/metadata_cyto.csv")
 
 # Merge cytokine & metadata 
-data <- merge(cyto, meta, by="Sample")
-databin <- merge(cytobin, meta, by="Sample")
+data <- merge(cyto, meta, by="Sample") %>% 
+  filter(!is.na(iav))
 
-# Get rid of variables that are not of interest & cytokines with < 10% (11) detections
-data_tidy <-
-  data %>%
-  select(2:14) %>% 
-  select_if(function(x) sum(x>0) > 11) %>% 
-  mutate(iav=data$iav, 
-         molt.stage=data$molt.stage,
-         bc_bin=data$bc_bin,
-         location=data$location,
-         stage=factor(data$stage, levels=c("control", "acute", "peak", "late")),
-         sample=data$Sample)
+databin <- 
+  merge(cytobin, meta, by="Sample") %>% 
+  filter(!is.na(iav))
+
+datascale <- 
+  merge(cytoscale, meta, by="Sample") %>% 
+  filter(!is.na(iav))
 ```
 
-## PCA on raw cytokine data
-### Infection
+## PCA 
+```{r}
+PCA_scaled_iav <- prcomp(datascale[,2:10], 
+                         center=FALSE, 
+                         scale=FALSE)
+```
+
+### Visualize
+```{r}
+PCA_scaled_df <- data.frame(x=PCA_scaled_iav$x[,1],
+                            y=PCA_scaled_iav$x[,2],
+                            iav=datascale$iav)
+pca_labelx <-
+  paste("PC1 (", 
+                round(abs(summary(PCA_scaled_iav)$importance[2,1]*100), digits=2),
+                "%)",
+                sep="")
+pca_labely <-
+  paste("PC2 (", 
+                round(abs(summary(PCA_scaled_iav)$importance[2,2]*100), digits=2),
+                "%)",
+                sep="")
+
+PCA_scaled_ggplot <- 
+  ggplot(PCA_scaled_df, 
+         aes(x=x, 
+             y=y,
+             col=iav)) +
+  geom_point() +
+  stat_ellipse() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  scale_color_manual("IAV Status",
+                     values=c("#9d9d9d","#008ba2", "#000000")) +
+  theme_bw() +
+  theme(panel.grid=element_blank(),
+        legend.position.inside=c(0.1, 0.1))
+
+PCA_scaled_ggplot
+```
+
+
+## PERMANOVA
+
+### Cytokine Presence/Absence
+
+#### Create similarity matrix (Sorensen)
+```{r}
+databin_perm <- 
+  databin %>% 
+  select(2:10)
+
+databin_dist <- 
+  betadiver(databin_perm, method=11)
+
+plot(databin_dist)
+
+# Dissimilarity summary stats
+mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin_dist)
+```
+
+#### PERMANOVA with dissimilarity (1-Sorensen)
+R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
+```{r}
+databin_adonis <- 
+  adonis2((1-databin_dist) ~ iav, data=databin, permutations=4999)
+databin_adonis
+
+# R2
+databin_adonis$R2[1]*100
+```
+
+#### Visualizing multivariate groups
+
+##### Principal coordinates analysis 
 ```{r, warning=FALSE}
-PCA_iav <- prcomp(data_tidy[,1:9], center=FALSE, scale=FALSE)
-
-raw_iav <- autoplot(PCA_iav, data=data_tidy, shape="iav") +
-           scale_shape_manual(values=c(1,19), name="Influenza A Virus", 
-                              labels=c("Negative", "Positive")) +
-           theme_bw() +
-           theme(panel.grid=element_blank(), text=element_text(size=8),
-                legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-                 legend.position="bottom")
-
-iav_legend<-get_legend(raw_iav)
-legend<-as_ggplot(iav_legend)
-
-raw_iav <- 
-  raw_iav + 
-  theme(legend.position="none")
+# Use 1 - Sorensen's for dissimilarity 
+databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
 ```
 
-### Molt Stage
+##### Plot
 ```{r}
-data_raw_molt <- 
-  data_tidy %>% 
-  filter(!is.na(molt.stage))
+plot(databin_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
-PCA_molt <- prcomp(data_raw_molt[,1:9], center=FALSE, scale=FALSE)
-
-raw_molt <- autoplot(PCA_molt, data=data_raw_molt, shape="molt.stage") +
-          scale_shape_manual(values=c(0,16,8,2), name="Molt Stage") +
-          theme_bw() +
-          theme(panel.grid=element_blank(), text=element_text(size=8),
-                legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-                legend.position="bottom")
-
-molt_legend<-get_legend(raw_molt)
-legend<-as_ggplot(molt_legend)
-
-raw_molt <- 
-  raw_molt + 
-  theme(legend.position="none")
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$iav), show.groups="pos", 
+           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$iav), show.groups="neg", 
+           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
 ```
 
-### Body Condition
+#### Homogeneity of group dispersions
 ```{r}
-data_raw_bc <- 
-  data_tidy %>% 
-  filter(!is.na(bc_bin))
-
-PCA_bc <- prcomp(data_raw_bc[,1:9], center=FALSE, scale=FALSE)
-
-raw_bc <- autoplot(PCA_bc, data=data_raw_bc, shape="bc_bin") +
-          scale_shape_manual(values=c(0,16,8), name="Body Condition",
-                             labels=c("Low", "Mid", "High")) +
-          theme_bw() +
-          theme(panel.grid=element_blank(), text=element_text(size=8),
-                legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-                legend.position="bottom")
-
-bc_legend<-get_legend(raw_bc)
-legend<-as_ggplot(bc_legend)
-
-raw_bc <- 
-  raw_bc + 
-  theme(legend.position="none")
+disper <- 
+  betadisper(databin_dist, group=databin$iav, type="centroid")
+anova(disper)
+disper
+boxplot(disper)
 ```
 
-### Location
+
+### Cytokine Concentration
 ```{r}
-PCA_loc <- prcomp(data_tidy[,1:9], center=FALSE, scale=FALSE)
+data_perm <-
+  data %>% 
+  select(2:10)
 
-raw_loc <- autoplot(PCA_loc, data=data_tidy, shape="location") + 
-          scale_shape_manual(values=c(0,16,8), name="Location") +
-          theme_bw() +
-          theme(panel.grid=element_blank(), text=element_text(size=8),
-                legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-                legend.position="bottom")
+data_dist <- 
+  vegdist(data_perm, method="bray")
 
-loc_legend<-get_legend(raw_loc)
-legend<-as_ggplot(loc_legend)
+data_adonis <- adonis2(data_dist ~ iav, data=data, 
+                       permuations=4999)
+data_adonis
 
-raw_loc <- 
-  raw_loc + 
-  theme(legend.position="none")
+# R2
+data_adonis$R2[1]*100
 ```
 
-## PCA on log-transformed, scaled, centered cytokine data
-### Prepare data
+#### Visualizing multivariate groups
+
+##### Principal coordinates analysis 
+```{r, warning=FALSE}
+# Use Bray-Curtis dissimilarity matrix
+data_pco <- cmdscale(data_dist, eig=TRUE)
+```
+
+##### Plot
 ```{r}
-# Make all non-detects half the limit of detection
-data_half <- data_tidy
-for (i in 1:nrow(data_half)) {
-  for (j in 1:9) {
-     {if (data_half[i,j]==0) {
-       k <- which(mindc==colnames(data_half)[j])
-       data_half[i,j] <- mindc[k,3]
-     }
-       else{next}
-       }
-  }
-}
+plot(data_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
-# Log transform, scale, and center data
-data_log <- 
-  data_half %>% 
-  mutate_at(1:9, log)
-
-data_scaled <- 
-  data_half %>% 
-  mutate_at(1:9, log) %>% 
-  mutate_at(1:9, function(x) scale(x, center=TRUE, scale=TRUE))
+ordispider(jitter(data_pco$points, factor=1), factor(data$iav), show.groups="pos", 
+           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+ordispider(jitter(data_pco$points, factor=1), factor(data$iav), show.groups="neg", 
+           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
 ```
 
-### Infection Stage
+#### Homogeneity of group dispersions
 ```{r}
-PCA_scaled_iav <- prcomp(data_scaled[,1:9], center=FALSE, scale=FALSE)
-
-scaled_iav <- autoplot(PCA_scaled_iav, data=data_scaled, shape="iav") +
-              scale_shape_manual(values=c(1, 19), name="Influenza A Virus", 
-                                 labels=c("Negative", "Positive")) +
-              theme_bw() +
-              theme(panel.grid=element_blank(), text=element_text(size=8),
-                    legend.background=element_rect(size=0.5, linetype="solid", 
-                                                   colour ="black"),
-                    legend.position="none")
+disper <- 
+  betadisper(data_dist, group=data$iav, type="centroid")
+anova(disper)
+boxplot(disper)
 ```
 
-### Molt Stage
-```{r}
-data_scaled_molt <- 
-  data_scaled %>% 
-  filter(!is.na(molt.stage))
-
-PCA_scaled_molt <- prcomp(data_scaled_molt[,1:9], center=FALSE, scale=FALSE)
-
-scaled_molt <- autoplot(PCA_scaled_molt, data=data_scaled_molt, shape="molt.stage") +
-              scale_shape_manual(values=c(0,16,8,2), name="Molt Stage") +
-              theme_bw() +
-              theme(panel.grid=element_blank(), text=element_text(size=8),
-                    legend.background=element_rect(size=0.5, linetype="solid", 
-                                                   colour ="black"),
-                    legend.position="none")
-```
-
-### Body Condition
-```{r}
-data_scaled_bc <- 
-  data_scaled %>% 
-  filter(!is.na(bc_bin))
-
-PCA_scaled_bc <- prcomp(data_scaled_bc[,1:9], center=FALSE, scale=FALSE)
-
-scaled_bc <- autoplot(PCA_scaled_bc, data=data_scaled_bc, shape="bc_bin") +
-             scale_shape_manual(values=c(0,16,8), name="Body Condition") +
-             theme_bw() +
-             theme(panel.grid=element_blank(), text=element_text(size=8),
-                   legend.background=element_rect(size=0.5, linetype="solid", colour ="black"),
-                   legend.position="none")
-```
-
-#### Location
-```{r}
-PCA_scaled_loc <- prcomp(data_scaled[,1:9], center=FALSE, scale=FALSE)
-
-scaled_loc <- autoplot(PCA_scaled_loc, data=data_scaled, shape="location") +
-          scale_shape_manual(values=c(0,16,8), name="Location") +
-          theme_bw() +
-          theme(panel.grid=element_blank(), text=element_text(size=8),
-                legend.background=element_rect(size=0.5, linetype="solid", 
-                                               colour ="black"),
-                legend.position="none")
-```
-
-### Combine
-```{r}
-cyto_pca_iav <- grid.arrange(arrangeGrob(raw_iav, scaled_iav, ncol=2),
-                             arrangeGrob(iav_legend, ncol=1),
-                             heights=c(5,1))
-
-cyto_pcas <- grid.arrange(arrangeGrob(scaled_iav, scaled_molt, ncol=2), 
-                          arrangeGrob(iav_legend, molt_legend, ncol=2), 
-                          arrangeGrob(scaled_bc, scaled_loc, ncol=2),
-                          arrangeGrob(bc_legend, loc_legend, ncol=2),
-                          heights=c(5,1,5,1))
-```
-
-## Test for normality
-```{r}
-# Create dataframe for results
-norm_results <- data.frame(matrix(ncol=0, nrow=9)) %>%
-  mutate(cyto=colnames(data_scaled)[1:9],
-         W=NA, 
-         pvalue=NA)
-
-# Truncate data
-data_norm <-
-  data_scaled[,1:9]
-
-# Test!
-for (i in 1:9) {
-  test <- shapiro.test(data_norm[,i])
-  norm_results[i,2] <- round(test$statistic, digits=3)
-  norm_results[i,3] <- test$p.value
-}
-
-norm_results # all not normally distributed
-```
 
 ## Cramer Test 
 Multivariate composition of the cytokine pattern between each infection stage group with its control. It can handle multiple variables, potentially complex interactions and correlations.  
 ```{r}
 # Separate data by infection stage
 infected <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(iav=="pos") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   data.matrix()
 
 uninfected <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(iav=="neg") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   data.matrix()
 
 control <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(stage=="control") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   mutate_at(1:9, as.numeric) %>% 
   data.matrix()
 
 acute <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(stage=="acute") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   mutate_at(1:9, as.numeric) %>% 
   data.matrix()
 
 peak <-
-  data_scaled %>% 
+  datascale %>% 
   filter(stage=="peak") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   mutate_at(1:9, as.numeric) %>% 
   data.matrix()
 
 late <- 
-  data_scaled %>% 
+  datascale %>% 
   filter(stage=="late") %>% 
-  select(1:9) %>% 
+  select(2:10) %>% 
   mutate_at(1:9, as.numeric) %>% 
   data.matrix()
 
@@ -317,9 +251,8 @@ cramer.test(control, late)
 ```{r, message=FALSE}
 # Prepare data for CART
 data_cart <- 
-  lapply(data_scaled, c) %>% 
-  data.frame() %>% 
-  select(!location & !molt.stage & !bc_bin & !stage & !sample) %>% 
+  datascale %>% 
+  select(2:10, iav) %>% 
   mutate(iav=factor(iav))
 ```
 
@@ -335,7 +268,7 @@ task <- task$set_col_roles(cols="iav",
 learner <- lrn("classif.rpart",
                predict_type = "prob",
                maxdepth = to_tune(2, 5),
-               minbucket = to_tune(1, 30),
+               minbucket = to_tune(1, 40),
                minsplit = to_tune(1, 30)
                )
 
@@ -353,28 +286,28 @@ tuner <- tnr("grid_search",
              )
 
 # Trigger the tuning process
-set.seed(7)
-# tuner$optimize(instance)
+#tuner$optimize(instance)
 
 # optimal values: 
   # maxdepth = 5
-  # minbucket = 20
-  # minsplit = 20
-  # classif.ce = 0.2757576
+  # minbucket = 7
+  # minsplit = 17
+  # classif.ce = 0.2939394
+```
 
-# Model with optimized parameters
+### Run model with optimized parameters
+```{r}
 cart_model <- rpart(formula=iav ~ .,
                     data=data_cart,
                     method="class",
                     maxdepth=5,
-                    minbucket=20,
-                    minsplit=20)
+                    minbucket=7,
+                    minsplit=17)
 
 # plot optimized tree
 rpart.plot(cart_model)
-printcp(cart_model)
 cart_model$variable.importance 
-  # IL-6 and IL-10 are top two cytokines
+  # KC-like, IL-6 are top two cytokines, then IFNg, IL-18
 ```
 
 ### Manuscript Plot
@@ -425,6 +358,29 @@ data <-
 
 #### Proportions
 ```{r}
+prop.table(table(databin$iav, databin$KC.like), margin=1)*100
+prop.table(table(databin$iav, databin$IL.6), margin=1)*100
+prop.table(table(databin$iav, databin$IFNg), margin=1)*100
+
+kc_prop <- 
+  databin %>%
+  mutate(KC.like=gsub("1", "P", KC.like),
+         KC.like=gsub("0", "A", KC.like),
+         KC.like=factor(KC.like, levels=c("P", "A"))) %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(KC.like,iav), fill=KC.like)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="KC-like") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+kc_prop
+
 il6_prop <- 
   databin %>%
   mutate(IL.6=gsub("1", "P", IL.6),
@@ -433,14 +389,53 @@ il6_prop <-
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.6,iav), fill=IL.6)) +
   scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
-  labs(y="IL-6") +
+  labs(title="IL-6") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(), 
-        axis.text.x= element_blank(),
+        axis.title.y = element_blank(),
         legend.position="none",
-        text = element_text(size = 10))
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+il6_prop
+
+ifng_prop <- 
+  databin %>%
+  mutate(IFNg=gsub("1", "P", IFNg),
+         IFNg=gsub("0", "A", IFNg),
+         IFNg=factor(IFNg, levels=c("P", "A"))) %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IFNg,iav), fill=IFNg)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="IFNg") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+ifng_prop
+
+
+
+il18_prop <- 
+  databin %>%
+  mutate(IL.18=gsub("1", "P", IL.18),
+         IL.18=gsub("0", "A", IL.18),
+         IL.18=factor(IL.18, levels=c("P", "A"))) %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.18,iav), fill=IL.18)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(y="IL-18") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position="none",
+        text = element_text(size=10))
 
 il10_prop <- 
   databin %>%
@@ -455,179 +450,125 @@ il10_prop <-
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
         legend.position="none",
-        text = element_text(size = 10))
-
-kc_prop <- 
-  databin %>%
-  mutate(KC.like=gsub("1", "P", KC.like),
-         KC.like=gsub("0", "A", KC.like),
-         KC.like=factor(KC.like, levels=c("P", "A"))) %>%
-  ggplot(data=.) +
-  geom_mosaic(aes(x=product(KC.like,iav), fill=KC.like)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
-  labs(y="KC-like") +
-  theme_bw() +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        axis.title.x = element_blank(),
-        legend.position="none",
-        text = element_text(size = 10))
+        text = element_text(size=10))
 ```
 
 
-#### Concentrations - Raw
-jitter points??
-make gray dots smaller so there isn't a shadow
+#### Concentrations
 ```{r}
+kclike <- 
+  data %>% 
+  select(iav, KC.like) %>% 
+  filter(!KC.like==0) %>% 
+  ggplot(., aes(x=iav, y=log(KC.like))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL) +
+  stat_n_text(size=3) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
+kclike
+
 il6 <- 
   data %>% 
   select(iav, IL.6) %>% 
   filter(!IL.6 == 0) %>% 
   ggplot(., aes(x=iav, y=log(IL.6))) +
-  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
-#  geom_point(size=2) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
   labs(x=NULL, y=NULL) +
-  stat_n_text(size=1.5) +
+  stat_n_text(size=3) +
   theme_classic() +
-  theme(axis.text.x=element_blank(),
-        text = element_text(size = 10))
-dat <- ggplot_build(il6)$data[[1]]
-il6 <- 
-  il6 +
-  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
-                             y=middle, yend=middle), colour="lightgray")
-
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
 il6
 
+ifng <- 
+  data %>% 
+  select(iav, IFNg) %>% 
+  filter(!IFNg == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IFNg))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL) +
+  stat_n_text(size=3) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
+ifng  
+
+
+
+il18 <- 
+  data %>% 
+  select(iav, IL.18) %>% 
+  filter(!IL.18==0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.18))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outlier.size=0.75) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL) +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text=element_text(size=10),
+         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
+il18
 
 il10 <- 
   data %>% 
   select(iav, IL.10) %>% 
   filter(!IL.10 == 0) %>% 
   ggplot(., aes(x=iav, y=log(IL.10))) +
-  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
-  geom_point(size=0.5) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
   labs(x=NULL, y=NULL) +
-  stat_n_text(size=1.5) +
+  stat_n_text(size=4) +
   theme_classic() +
-  theme(axis.text.x=element_blank(),
-        text = element_text(size = 10))
-dat <- ggplot_build(il10)$data[[1]]
-il10 <-
-  il10 +
-  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
-                             y=middle, yend=middle), colour="lightgray")
-
-kclike <- 
-  data %>% 
-  select(iav, KC.like) %>% 
-  filter(!KC.like==0) %>% 
-  ggplot(., aes(x=iav, y=KC.like)) +
-  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
-  geom_point(size=0.5) +
-  labs(x=NULL, y=NULL) +
-  stat_n_text(size=1.5) +
-  theme_classic() +
-  theme(text = element_text(size = 10))
-dat <- ggplot_build(kclike)$data[[1]]
-kclike <- 
-  kclike +
-  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
-                             y=middle, yend=middle), colour="lightgray")
+  theme(text = element_text(size=10),
+         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
+il10
 ```
 
-#### Combine together - Raw
+#### Combine together
 ```{r}
-prop_grid <- grid.arrange(il6_prop, il10_prop, kc_prop, ncol=1)
-conc_grid <- grid.arrange(il6, il10, kclike, ncol=1, 
+prop_grid <- grid.arrange(kc_prop, il6_prop, ifng_prop, ncol=3,
+                          left=textGrob("Presence/Absence",
+                                        rot=90, gp=gpar(fontsize=10)))
+conc_grid <- grid.arrange(kclike, il6, ifng, ncol=3, 
                           left=textGrob("log(Concentration (pg/mL))", 
                                         rot=90, gp=gpar(fontsize=10)))
 
 cyto_grid <- grid.arrange(prop_grid, conc_grid,
-                           ncol=2, 
+                           ncol=1, 
                            bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
 
-final_grid <- grid.arrange(varimp_plot, cyto_grid, 
-                           ncol=2, widths=c(5.5, 4.5))
 
-ggsave(filename="Figures/cytoimportance_0s.jpg", final_grid, height=5, width=8, units="in")
-```
-
-
-#### Concentrations - Scaled
-```{r}
-il6_scaled <- 
-  data_cart %>% 
-  select(iav, IL.6) %>% 
-  ggplot(., aes(x=iav, y=IL.6)) +
-  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
-  geom_point(size=0.5) +
-  labs(x=NULL, y=NULL) +
-  stat_n_text(size=1.5) +
-  theme_classic() +
-  theme(axis.text.x=element_blank(),
-        text = element_text(size = 10))
-dat <- ggplot_build(il6_scaled)$data[[1]]
-il6_scaled <- 
-  il6_scaled +
-  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
-                             y=middle, yend=middle), colour="lightgray")
-
-il6_scaled
-
-il10_scaled <- 
-  data_cart %>% 
-  select(iav, IL.10) %>% 
-  ggplot(., aes(x=iav, y=IL.10)) +
-  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
-  geom_point(size=0.5) +
-  labs(x=NULL, y=NULL) +
-  stat_n_text(size=1.5) +
-  theme_classic() +
-  theme(axis.text.x=element_blank(),
-        text = element_text(size = 10))
-dat <- ggplot_build(il10_scaled)$data[[1]]
-il10_scaled <-
-  il10_scaled +
-  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
-                             y=middle, yend=middle), colour="lightgray")
-il10_scaled
-
-kclike_scaled <- 
-  data_cart %>% 
-  select(iav, KC.like) %>% 
-  ggplot(., aes(x=iav, y=KC.like)) +
-  geom_boxplot(color="gray60", fill="gray60", lwd=0.25) +
-  geom_point(size=0.5) +
-  labs(x=NULL, y=NULL) +
-  stat_n_text(size=1.5) +
-  theme_classic() +
-  theme(text = element_text(size = 10))
-dat <- ggplot_build(kclike_scaled)$data[[1]]
-kclike_scaled <- 
-  kclike_scaled +
-  geom_segment(data=dat, aes(x=xmin, xend=xmax, 
-                             y=middle, yend=middle), colour="lightgray")
-kclike_scaled
-```
-
-#### Combine together - Scaled
-```{r}
-prop_grid <- grid.arrange(il6_prop, il10_prop, kc_prop, ncol=1)
-conc_grid <- grid.arrange(il6_scaled, il10_scaled, kclike_scaled, ncol=1, 
-                          left=textGrob("Concentration", 
-                                        rot=90, gp=gpar(fontsize=10)))
-
-cyto_grid <- grid.arrange(prop_grid, conc_grid,
-                           ncol=2, 
-                           bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
-
-final_grid <- grid.arrange(varimp_plot, cyto_grid, 
-                           ncol=2, widths=c(5.5, 4.5))
-
-ggsave(filename="Figures/cytoimportance_scaled.jpg", final_grid, height=5, width=8, units="in")
+jpeg("Figures/cytoimportance.jpeg", width=8, height=8, units="in", res=300)
+final_grid <- 
+  grid.arrange(varimp_plot, cyto_grid, 
+               ncol=1, heights=c(2,4)) 
+grid.polygon(x=c(0, 0,    0.35, 0.35),
+             y=c(0, 0.67, 0.67,  0),
+             gp=gpar(fill=NA))
+grid.polygon(x=c(0.35, 0.35, 0.675, 0.675),
+             y=c(0, 0.67, 0.67, 0),
+             gp=gpar(fill=NA))
+grid.polygon(x=c(0.675, 0.675, 1, 1),
+             y=c(0, 0.67, 0.67, 0),
+             gp=gpar(fill=NA))
+grid.polygon(x=c(0, 1, 1, 0),
+             y=c(0.67, 0.67, 1, 1),
+             gp=gpar(fill=NA))
+grid.rect(x=unit(0.5, "npc"), y = unit(0.93, "npc"),
+          width=unit(0.948, "npc"), height=unit(0.1, "npc"), 
+          gp=gpar(lwd=1.5, col="gray30", fill=NA))
+dev.off()
 ```
 
 
@@ -658,16 +599,6 @@ plsda_model <- mixOmics::plsda(pls_x,
 
 #### Visualizations
 ```{r}
-plotIndiv(plsda_model,
-          ellipse=TRUE, 
-          ind.names=FALSE,
-          col.per.group=c("#9d9d9d","#008ba2"),
-          pch=16,
-          legend=TRUE, 
-          legend.title="IAV Status",
-          style="lattice",
-          title="PLS-DA Comp 1 - 2")
-
 # Set x and y axis labels based on model loadings
 labelx <- paste("X-variate 1: ", 
                 round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
@@ -698,8 +629,7 @@ iav_plsda_ggplot <-
   scale_color_manual("IAV Status",
                      values=c("#9d9d9d","#008ba2")) +
   theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position=c(0.1, 0.1))
+  theme(panel.grid=element_blank())
 
 iav_plsda_ggplot
 ```
