@@ -504,35 +504,7 @@ ifng
 
 
 
-il18 <- 
-  data %>% 
-  select(iav, IL.18) %>% 
-  filter(!IL.18==0) %>% 
-  ggplot(., aes(x=iav, y=log(IL.18))) +
-  geom_boxplot(color="black", fill="gray60", lwd=0.25,
-               outlier.size=0.75) +
-  geom_point(size=0.75, position=position_jitter(width=0.2)) +
-  labs(x=NULL, y=NULL) +
-  stat_n_text(size=4) +
-  theme_classic() +
-  theme(text=element_text(size=10),
-         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
-il18
 
-il10 <- 
-  data %>% 
-  select(iav, IL.10) %>% 
-  filter(!IL.10 == 0) %>% 
-  ggplot(., aes(x=iav, y=log(IL.10))) +
-  geom_boxplot(color="black", fill="gray60", lwd=0.25,
-               outliers=FALSE) +
-  geom_point(size=0.75, position=position_jitter(width=0.2)) +
-  labs(x=NULL, y=NULL) +
-  stat_n_text(size=4) +
-  theme_classic() +
-  theme(text = element_text(size=10),
-         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
-il10
 ```
 
 #### Combine together
@@ -648,8 +620,274 @@ biplot(plsda_model, ind.names=FALSE, legend.title="IAV Status")
 plotVar(plsda_model)
 ```
 
+## Supplemental Figures
+### Cytokine Presence/Absence
+```{r}
+databin_fig <- 
+  databin %>%
+  mutate(across(2:10, \(x) gsub("1", "P", x)),
+         across(2:10, \(x) gsub("0", "A", x)),
+         across(2:10, \(x) factor(x, levels=c("P", "A"))))
 
-### 2-D Kolmogorov-Smirnov test
+ifng_prop
+il6_prop
+kc_prop
+
+il2_prop <- 
+  databin_fig %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.2,iav), fill=IL.2)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="IL.2") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+
+il7_prop <- 
+  databin_fig %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.7,iav), fill=IL.7)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="IL.7") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+
+il8_prop <-
+  databin_fig %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.8,iav), fill=IL.8)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="IL.8") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+
+il10_prop <- 
+  databin_fig %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.10,iav), fill=IL.10)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="IL.10") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+
+il15_prop <- 
+  databin_fig %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.15,iav), fill=IL.15)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="IL.15") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+
+il18_prop <-
+  databin_fig %>%
+  ggplot(data=.) +
+  geom_mosaic(aes(x=product(IL.18,iav), fill=IL.18)) +
+  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  labs(title="IL.18") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position="none",
+        text = element_text(size=10),
+        plot.title = element_text(hjust = 0.5))
+
+cyto_prop_grid <-
+  grid.arrange(kc_prop, il6_prop, ifng_prop,
+             il2_prop, il7_prop, il8_prop, 
+             il10_prop, il15_prop, il18_prop,
+             ncol=3,
+             left=textGrob("Cytokine Presence/Absence", rot=90),
+             bottom=textGrob("Influenza A Virus Infection Status"))
+ggsave("Figures/supplemental_cyto_prop_grid.jpeg", cyto_prop_grid, 
+       width=8, height=8, units="in")
+```
+
+
+### Cytokine Concentration - Log
+```{r}
+kclike <- 
+  data %>% 
+  select(iav, KC.like) %>% 
+  filter(!KC.like == 0) %>% 
+  ggplot(., aes(x=iav, y=log(KC.like))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="KC-like") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+
+il6 <-
+  data %>% 
+  select(iav, IL.6) %>% 
+  filter(!IL.6 == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.6))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IL-6") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+ifng <-
+  data %>% 
+  select(iav, IFNg) %>% 
+  filter(!IFNg == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IFNg))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IFNg") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+il2 <-
+  data %>% 
+  select(iav, IL.2) %>% 
+  filter(!IL.2 == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.2))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IL-2") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+il7 <-
+  data %>% 
+  select(iav, IL.7) %>% 
+  filter(!IL.7 == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.7))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IL-7") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+il8 <-
+  data %>% 
+  select(iav, IL.8) %>% 
+  filter(!IL.8 == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.8))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IL-8") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+il10 <- 
+  data %>% 
+  select(iav, IL.10) %>% 
+  filter(!IL.10 == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.10))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IL-10") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+il15 <-
+  data %>% 
+  select(iav, IL.15) %>% 
+  filter(!IL.15 == 0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.15))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outliers=FALSE) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IL-15") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text = element_text(size=10),
+        panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+il18 <- 
+  data %>% 
+  select(iav, IL.18) %>% 
+  filter(!IL.18==0) %>% 
+  ggplot(., aes(x=iav, y=log(IL.18))) +
+  geom_boxplot(color="black", fill="gray60", lwd=0.25,
+               outlier.size=0.75) +
+  geom_point(size=0.75, position=position_jitter(width=0.2)) +
+  labs(x=NULL, y=NULL, title="IL-18") +
+  stat_n_text(size=4) +
+  theme_classic() +
+  theme(text=element_text(size=10),
+         panel.border=element_rect(color="black", fill=NA, linewidth=0.5),
+        plot.title = element_text(hjust=0.5))
+
+cyto_conc_grid <-
+  grid.arrange(kclike, il6, ifng, 
+               il2, il7, il8, 
+               il10, il15, il18,
+               ncol=3,
+               left=textGrob("log(Cytokine Concentration (pg/mL))", rot=90),
+               bottom=textGrob("Influenza A Virus Infection Status"))
+
+ggsave("Figures/supplemental_cyto_conc_grid.jpeg", cyto_conc_grid, 
+       width=8, height=8, units="in")
+```
+
+
+
+## 2-D Kolmogorov-Smirnov test
 ```{r}
 ks_data <- 
   data.frame(plsda_model$variates$X,

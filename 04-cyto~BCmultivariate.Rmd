@@ -22,6 +22,9 @@ library(rpart)
 library(rpart.plot)
 library(pairwiseAdonis)
 library(ggmosaic)
+library(EnvStats)
+library(gridExtra)
+library(grid)
 ```
 
 ## Data
@@ -33,15 +36,18 @@ meta <- read.csv("Output Files/metadata_cyto.csv")
 
 # Merge cytokine & metadata 
 data <- merge(cyto, meta, by="Sample") %>% 
-  filter(!is.na(bc_bin))
+  filter(!is.na(bc_bin)) %>% 
+  mutate(bc_bin = factor(bc_bin, levels=c("Poor", "Average", "Robust")))
 
 databin <- 
   merge(cytobin, meta, by="Sample") %>% 
-  filter(!is.na(bc_bin))
+  filter(!is.na(bc_bin)) %>% 
+  mutate(bc_bin = factor(bc_bin, levels=c("Poor", "Average", "Robust")))
 
 datascale <- 
   merge(cytoscale, meta, by="Sample") %>% 
-  filter(!is.na(bc_bin))
+  filter(!is.na(bc_bin)) %>% 
+  mutate(bc_bin = factor(bc_bin, levels=c("Poor", "Average", "Robust")))
 ```
 
 

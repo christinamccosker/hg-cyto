@@ -373,7 +373,7 @@ varimp_plot <-
 ```
 
 #### Proportions
-```{r}
+```{r, warning=FALSE}
 prop.table(table(databin$molt.stage, databin$IL.8), margin=1)*100
 
 il8_prop <- 
