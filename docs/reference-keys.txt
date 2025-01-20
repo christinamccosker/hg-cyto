@@ -126,6 +126,9 @@ prepare-data-2
 plsda-model-2
 visualizations-2
 cytokine-contributions-2
+supplemental-figures
+cytokine-presenceabsence-3
+cytokine-concentration---log
 d-kolmogorov-smirnov-test
 iav-swabs
 load-required-libraries
