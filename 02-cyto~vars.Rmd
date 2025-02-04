@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Test for confounding variables
+# Exploratory
 
 ## Libraries
 ```{r, warning=FALSE, message=FALSE}
@@ -55,11 +55,9 @@ data$bc_bin <- factor(data$bc_bin, levels=c("Poor", "Average", "Robust"))
 data$bmi_bin <- factor(data$bmi_bin, levels=c("Poor", "Robust"))
 ```
 
-## Exploratory 
-
-### Sample Descriptive Stats
+## Descriptive Stats 
+### Metadata Supplementary Table
 ```{r}
-# Metadata Supplementary Table
 supplmeta <- 
   data %>% 
   select(Sample, iav, iavser, location, year, sex, molt.stage, 
@@ -68,8 +66,10 @@ supplmeta <-
   mutate(bodcond=paste(round(bodcond, digits=2), " (", bc_bin, ")", sep="")) %>% 
   select(-bc_bin)
 write.csv(supplmeta, "Output Files/supplemental_metadata.csv", row.names=FALSE)
+```
 
-# Sample sizes across variables
+### Sample sizes across variables
+```{r}
 table(supplmeta$iav)
 table(supplmeta$iavser)
 table(supplmeta$location)
@@ -79,7 +79,7 @@ table(supplmeta$molt.stage)
 table(data$bc_bin)
 ```
 
-### How many samples is each cytokine detected in?
+### Cytokine detections per sample
 ```{r}
 num_samples <- apply(cyto[,2:14], 2, function(x) sum(x>0)) %>%
   data.frame() %>%
@@ -143,7 +143,7 @@ write.csv(table, "Output Files/manuscript_cytokinetable.csv", row.names=FALSE)
 ## PCA
 ```{r}
 pca <- 
-  prcomp(data[,2:10], center=TRUE, scale=TRUE)
+  prcomp(data_red[,2:10], center=TRUE, scale=TRUE)
 
 pca_df <- 
   data.frame(
@@ -216,10 +216,11 @@ data %>%
   summarize(sum = sum(concentration),
             mean = mean(concentration),
             median = median(concentration),
-            n = n()) %>% 
+            n.det = n(),
+            n.cyto = length(unique(cytokine))) %>% 
   data.frame() %>% 
   merge(., yeartab, by.x="year", by.y="Var1") %>% 
-  mutate(det.samp = n/Freq,
+  mutate(det.samp = n.det/Freq,
          sum.samp = sum/Freq)
 ```
 
