@@ -297,152 +297,155 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">7</span> IAV ~ swabs<a href="iav-swabs.html#iav-swabs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="load-required-libraries" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Load required libraries<a href="iav-swabs.html#load-required-libraries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="iav-swabs.html#cb258-1" tabindex="-1"></a><span class="fu">library</span>(mixOmics)</span>
-<span id="cb258-2"><a href="iav-swabs.html#cb258-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb258-3"><a href="iav-swabs.html#cb258-3" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
-<span id="cb258-4"><a href="iav-swabs.html#cb258-4" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb258-5"><a href="iav-swabs.html#cb258-5" tabindex="-1"></a><span class="fu">library</span>(cramer)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="iav-swabs.html#cb256-1" tabindex="-1"></a><span class="fu">library</span>(mixOmics)</span>
+<span id="cb256-2"><a href="iav-swabs.html#cb256-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb256-3"><a href="iav-swabs.html#cb256-3" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb256-4"><a href="iav-swabs.html#cb256-4" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb256-5"><a href="iav-swabs.html#cb256-5" tabindex="-1"></a><span class="fu">library</span>(cramer)</span></code></pre></div>
 </div>
 <div id="read-in-data" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Read in data<a href="iav-swabs.html#read-in-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="iav-swabs.html#cb259-1" tabindex="-1"></a><span class="co"># Cytokines</span></span>
-<span id="cb259-2"><a href="iav-swabs.html#cb259-2" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> </span>
-<span id="cb259-3"><a href="iav-swabs.html#cb259-3" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine.csv&quot;</span>)</span>
-<span id="cb259-4"><a href="iav-swabs.html#cb259-4" tabindex="-1"></a></span>
-<span id="cb259-5"><a href="iav-swabs.html#cb259-5" tabindex="-1"></a>cytobin <span class="ot">&lt;-</span> </span>
-<span id="cb259-6"><a href="iav-swabs.html#cb259-6" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_bin.csv&quot;</span>)</span>
-<span id="cb259-7"><a href="iav-swabs.html#cb259-7" tabindex="-1"></a></span>
-<span id="cb259-8"><a href="iav-swabs.html#cb259-8" tabindex="-1"></a>cytoscale <span class="ot">&lt;-</span> </span>
-<span id="cb259-9"><a href="iav-swabs.html#cb259-9" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_scaled.csv&quot;</span>)</span>
-<span id="cb259-10"><a href="iav-swabs.html#cb259-10" tabindex="-1"></a></span>
-<span id="cb259-11"><a href="iav-swabs.html#cb259-11" tabindex="-1"></a><span class="co"># Metadata</span></span>
-<span id="cb259-12"><a href="iav-swabs.html#cb259-12" tabindex="-1"></a>meta <span class="ot">&lt;-</span> </span>
-<span id="cb259-13"><a href="iav-swabs.html#cb259-13" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/metadata_cyto.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb259-14"><a href="iav-swabs.html#cb259-14" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;neg&quot;</span>, <span class="st">&quot;IAV-&quot;</span>, iav),</span>
-<span id="cb259-15"><a href="iav-swabs.html#cb259-15" tabindex="-1"></a>         <span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;IAV+&quot;</span>, iav))</span>
-<span id="cb259-16"><a href="iav-swabs.html#cb259-16" tabindex="-1"></a></span>
-<span id="cb259-17"><a href="iav-swabs.html#cb259-17" tabindex="-1"></a><span class="co"># Swab/virology data</span></span>
-<span id="cb259-18"><a href="iav-swabs.html#cb259-18" tabindex="-1"></a>viro <span class="ot">&lt;-</span> </span>
-<span id="cb259-19"><a href="iav-swabs.html#cb259-19" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Input Files/Hg_virology_2023.csv&quot;</span>, <span class="at">sep=</span><span class="st">&#39;,&#39;</span>, <span class="at">strip.white=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb259-20"><a href="iav-swabs.html#cb259-20" tabindex="-1"></a>  <span class="fu">select</span>(Tag.ID., year, IAV, IAV.Nasal, IAV.Conj, IAV.Rectal) <span class="sc">%&gt;%</span> </span>
-<span id="cb259-21"><a href="iav-swabs.html#cb259-21" tabindex="-1"></a>  <span class="fu">filter</span>(Tag.ID. <span class="sc">%in%</span> meta<span class="sc">$</span>Sample)</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="iav-swabs.html#cb257-1" tabindex="-1"></a><span class="co"># Cytokines</span></span>
+<span id="cb257-2"><a href="iav-swabs.html#cb257-2" tabindex="-1"></a>cyto <span class="ot">&lt;-</span> </span>
+<span id="cb257-3"><a href="iav-swabs.html#cb257-3" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine.csv&quot;</span>)</span>
+<span id="cb257-4"><a href="iav-swabs.html#cb257-4" tabindex="-1"></a></span>
+<span id="cb257-5"><a href="iav-swabs.html#cb257-5" tabindex="-1"></a>cytobin <span class="ot">&lt;-</span> </span>
+<span id="cb257-6"><a href="iav-swabs.html#cb257-6" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_bin.csv&quot;</span>)</span>
+<span id="cb257-7"><a href="iav-swabs.html#cb257-7" tabindex="-1"></a></span>
+<span id="cb257-8"><a href="iav-swabs.html#cb257-8" tabindex="-1"></a>cytoscale <span class="ot">&lt;-</span> </span>
+<span id="cb257-9"><a href="iav-swabs.html#cb257-9" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/cleaned_cytokine_scaled.csv&quot;</span>)</span>
+<span id="cb257-10"><a href="iav-swabs.html#cb257-10" tabindex="-1"></a></span>
+<span id="cb257-11"><a href="iav-swabs.html#cb257-11" tabindex="-1"></a><span class="co"># Metadata</span></span>
+<span id="cb257-12"><a href="iav-swabs.html#cb257-12" tabindex="-1"></a>meta <span class="ot">&lt;-</span> </span>
+<span id="cb257-13"><a href="iav-swabs.html#cb257-13" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/metadata_cyto.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb257-14"><a href="iav-swabs.html#cb257-14" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;neg&quot;</span>, <span class="st">&quot;IAV-&quot;</span>, iav),</span>
+<span id="cb257-15"><a href="iav-swabs.html#cb257-15" tabindex="-1"></a>         <span class="at">iav=</span><span class="fu">gsub</span>(<span class="st">&quot;pos&quot;</span>, <span class="st">&quot;IAV+&quot;</span>, iav))</span>
+<span id="cb257-16"><a href="iav-swabs.html#cb257-16" tabindex="-1"></a></span>
+<span id="cb257-17"><a href="iav-swabs.html#cb257-17" tabindex="-1"></a><span class="co"># Swab/virology data</span></span>
+<span id="cb257-18"><a href="iav-swabs.html#cb257-18" tabindex="-1"></a>viro <span class="ot">&lt;-</span> </span>
+<span id="cb257-19"><a href="iav-swabs.html#cb257-19" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;Input Files/Hg_virology_2023.csv&quot;</span>, <span class="at">sep=</span><span class="st">&#39;,&#39;</span>, <span class="at">strip.white=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb257-20"><a href="iav-swabs.html#cb257-20" tabindex="-1"></a>  <span class="fu">select</span>(Tag.ID., year, IAV, IAV.Nasal, IAV.Conj, IAV.Rectal) <span class="sc">%&gt;%</span> </span>
+<span id="cb257-21"><a href="iav-swabs.html#cb257-21" tabindex="-1"></a>  <span class="fu">filter</span>(Tag.ID. <span class="sc">%in%</span> meta<span class="sc">$</span>Sample)</span></code></pre></div>
 </div>
 <div id="tidy-merge-data" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Tidy &amp; Merge Data<a href="iav-swabs.html#tidy-merge-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="iav-swabs.html#cb260-1" tabindex="-1"></a><span class="co"># Clean up swab data</span></span>
-<span id="cb260-2"><a href="iav-swabs.html#cb260-2" tabindex="-1"></a>viro_tidy <span class="ot">&lt;-</span></span>
-<span id="cb260-3"><a href="iav-swabs.html#cb260-3" tabindex="-1"></a>  viro <span class="sc">%&gt;%</span> </span>
-<span id="cb260-4"><a href="iav-swabs.html#cb260-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Nasal),</span>
-<span id="cb260-5"><a href="iav-swabs.html#cb260-5" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Nasal),</span>
-<span id="cb260-6"><a href="iav-swabs.html#cb260-6" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Nasal),</span>
-<span id="cb260-7"><a href="iav-swabs.html#cb260-7" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">ifelse</span>(IAV.Nasal <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Nasal),</span>
-<span id="cb260-8"><a href="iav-swabs.html#cb260-8" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Rectal),</span>
-<span id="cb260-9"><a href="iav-swabs.html#cb260-9" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Rectal),</span>
-<span id="cb260-10"><a href="iav-swabs.html#cb260-10" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;ND|</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Rectal),</span>
-<span id="cb260-11"><a href="iav-swabs.html#cb260-11" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">ifelse</span>(IAV.Rectal <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Rectal),</span>
-<span id="cb260-12"><a href="iav-swabs.html#cb260-12" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Conj),</span>
-<span id="cb260-13"><a href="iav-swabs.html#cb260-13" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Conj),</span>
-<span id="cb260-14"><a href="iav-swabs.html#cb260-14" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Conj),</span>
-<span id="cb260-15"><a href="iav-swabs.html#cb260-15" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">ifelse</span>(IAV.Conj <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Conj))</span>
-<span id="cb260-16"><a href="iav-swabs.html#cb260-16" tabindex="-1"></a></span>
-<span id="cb260-17"><a href="iav-swabs.html#cb260-17" tabindex="-1"></a></span>
-<span id="cb260-18"><a href="iav-swabs.html#cb260-18" tabindex="-1"></a><span class="co"># Merge cytokine, meta, virology data</span></span>
-<span id="cb260-19"><a href="iav-swabs.html#cb260-19" tabindex="-1"></a>data <span class="ot">&lt;-</span></span>
-<span id="cb260-20"><a href="iav-swabs.html#cb260-20" tabindex="-1"></a>  cyto <span class="sc">%&gt;%</span> </span>
-<span id="cb260-21"><a href="iav-swabs.html#cb260-21" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb260-22"><a href="iav-swabs.html#cb260-22" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>iav)</span>
-<span id="cb260-23"><a href="iav-swabs.html#cb260-23" tabindex="-1"></a></span>
-<span id="cb260-24"><a href="iav-swabs.html#cb260-24" tabindex="-1"></a>databin <span class="ot">&lt;-</span></span>
-<span id="cb260-25"><a href="iav-swabs.html#cb260-25" tabindex="-1"></a>  cytobin <span class="sc">%&gt;%</span> </span>
-<span id="cb260-26"><a href="iav-swabs.html#cb260-26" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb260-27"><a href="iav-swabs.html#cb260-27" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>IAV)</span>
-<span id="cb260-28"><a href="iav-swabs.html#cb260-28" tabindex="-1"></a></span>
-<span id="cb260-29"><a href="iav-swabs.html#cb260-29" tabindex="-1"></a>datascale <span class="ot">&lt;-</span> </span>
-<span id="cb260-30"><a href="iav-swabs.html#cb260-30" tabindex="-1"></a>  cytoscale <span class="sc">%&gt;%</span> </span>
-<span id="cb260-31"><a href="iav-swabs.html#cb260-31" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb260-32"><a href="iav-swabs.html#cb260-32" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>iav)</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="iav-swabs.html#cb258-1" tabindex="-1"></a><span class="co"># Clean up swab data</span></span>
+<span id="cb258-2"><a href="iav-swabs.html#cb258-2" tabindex="-1"></a>viro_tidy <span class="ot">&lt;-</span></span>
+<span id="cb258-3"><a href="iav-swabs.html#cb258-3" tabindex="-1"></a>  viro <span class="sc">%&gt;%</span> </span>
+<span id="cb258-4"><a href="iav-swabs.html#cb258-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Nasal),</span>
+<span id="cb258-5"><a href="iav-swabs.html#cb258-5" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Nasal),</span>
+<span id="cb258-6"><a href="iav-swabs.html#cb258-6" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Nasal),</span>
+<span id="cb258-7"><a href="iav-swabs.html#cb258-7" tabindex="-1"></a>         <span class="at">IAV.Nasal=</span><span class="fu">ifelse</span>(IAV.Nasal <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Nasal),</span>
+<span id="cb258-8"><a href="iav-swabs.html#cb258-8" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Rectal),</span>
+<span id="cb258-9"><a href="iav-swabs.html#cb258-9" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Rectal),</span>
+<span id="cb258-10"><a href="iav-swabs.html#cb258-10" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">gsub</span>(<span class="st">&quot;ND|</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Rectal),</span>
+<span id="cb258-11"><a href="iav-swabs.html#cb258-11" tabindex="-1"></a>         <span class="at">IAV.Rectal=</span><span class="fu">ifelse</span>(IAV.Rectal <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Rectal),</span>
+<span id="cb258-12"><a href="iav-swabs.html#cb258-12" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;&gt;45|Undetermined&quot;</span>,<span class="st">&quot;neg&quot;</span>, IAV.Conj),</span>
+<span id="cb258-13"><a href="iav-swabs.html#cb258-13" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">#N</span><span class="sc">\\</span><span class="st">/A&quot;</span>, <span class="cn">NA</span>, IAV.Conj),</span>
+<span id="cb258-14"><a href="iav-swabs.html#cb258-14" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">gsub</span>(<span class="st">&quot;Pooled</span><span class="sc">\\</span><span class="st">(POS</span><span class="sc">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;POS&quot;</span>, IAV.Conj),</span>
+<span id="cb258-15"><a href="iav-swabs.html#cb258-15" tabindex="-1"></a>         <span class="at">IAV.Conj=</span><span class="fu">ifelse</span>(IAV.Conj <span class="sc">&lt;</span> <span class="dv">45</span>, <span class="st">&quot;POS&quot;</span>, IAV.Conj))</span>
+<span id="cb258-16"><a href="iav-swabs.html#cb258-16" tabindex="-1"></a></span>
+<span id="cb258-17"><a href="iav-swabs.html#cb258-17" tabindex="-1"></a></span>
+<span id="cb258-18"><a href="iav-swabs.html#cb258-18" tabindex="-1"></a><span class="co"># Merge cytokine, meta, virology data</span></span>
+<span id="cb258-19"><a href="iav-swabs.html#cb258-19" tabindex="-1"></a>data <span class="ot">&lt;-</span></span>
+<span id="cb258-20"><a href="iav-swabs.html#cb258-20" tabindex="-1"></a>  cyto <span class="sc">%&gt;%</span> </span>
+<span id="cb258-21"><a href="iav-swabs.html#cb258-21" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb258-22"><a href="iav-swabs.html#cb258-22" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>iav)</span>
+<span id="cb258-23"><a href="iav-swabs.html#cb258-23" tabindex="-1"></a></span>
+<span id="cb258-24"><a href="iav-swabs.html#cb258-24" tabindex="-1"></a>databin <span class="ot">&lt;-</span></span>
+<span id="cb258-25"><a href="iav-swabs.html#cb258-25" tabindex="-1"></a>  cytobin <span class="sc">%&gt;%</span> </span>
+<span id="cb258-26"><a href="iav-swabs.html#cb258-26" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb258-27"><a href="iav-swabs.html#cb258-27" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>IAV)</span>
+<span id="cb258-28"><a href="iav-swabs.html#cb258-28" tabindex="-1"></a></span>
+<span id="cb258-29"><a href="iav-swabs.html#cb258-29" tabindex="-1"></a>datascale <span class="ot">&lt;-</span> </span>
+<span id="cb258-30"><a href="iav-swabs.html#cb258-30" tabindex="-1"></a>  cytoscale <span class="sc">%&gt;%</span> </span>
+<span id="cb258-31"><a href="iav-swabs.html#cb258-31" tabindex="-1"></a>  <span class="fu">merge</span>(., viro_tidy, <span class="at">by.x=</span><span class="st">&quot;Sample&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Tag.ID.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb258-32"><a href="iav-swabs.html#cb258-32" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">IAV=</span>meta<span class="sc">$</span>iav)</span></code></pre></div>
 </div>
 <div id="pca-on-log-transformed-scaled-centered-cytokine-data" class="section level2 hasAnchor" number="7.4">
 <h2><span class="header-section-number">7.4</span> PCA on log-transformed, scaled, centered cytokine data<a href="iav-swabs.html#pca-on-log-transformed-scaled-centered-cytokine-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="iav-swabs.html#cb261-1" tabindex="-1"></a><span class="co"># Conj</span></span>
-<span id="cb261-2"><a href="iav-swabs.html#cb261-2" tabindex="-1"></a>data_conj <span class="ot">&lt;-</span> </span>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="iav-swabs.html#cb259-1" tabindex="-1"></a><span class="co"># Conj</span></span>
+<span id="cb259-2"><a href="iav-swabs.html#cb259-2" tabindex="-1"></a>data_conj <span class="ot">&lt;-</span> </span>
+<span id="cb259-3"><a href="iav-swabs.html#cb259-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb259-4"><a href="iav-swabs.html#cb259-4" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Conj))</span>
+<span id="cb259-5"><a href="iav-swabs.html#cb259-5" tabindex="-1"></a></span>
+<span id="cb259-6"><a href="iav-swabs.html#cb259-6" tabindex="-1"></a>pca_conj <span class="ot">&lt;-</span> </span>
+<span id="cb259-7"><a href="iav-swabs.html#cb259-7" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_conj[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb259-8"><a href="iav-swabs.html#cb259-8" tabindex="-1"></a></span>
+<span id="cb259-9"><a href="iav-swabs.html#cb259-9" tabindex="-1"></a>plot_pca_conj <span class="ot">&lt;-</span> </span>
+<span id="cb259-10"><a href="iav-swabs.html#cb259-10" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_conj, <span class="at">data=</span>data_conj, <span class="at">shape=</span><span class="st">&quot;IAV.Conj&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb259-11"><a href="iav-swabs.html#cb259-11" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
+<span id="cb259-12"><a href="iav-swabs.html#cb259-12" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Conj Swab&quot;</span>) <span class="sc">+</span></span>
+<span id="cb259-13"><a href="iav-swabs.html#cb259-13" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb259-14"><a href="iav-swabs.html#cb259-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb259-15"><a href="iav-swabs.html#cb259-15" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb259-16"><a href="iav-swabs.html#cb259-16" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: The `size` argument of `element_rect()`
+## is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument
+##   instead.
+## This warning is displayed once every 8
+## hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was generated.</code></pre>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="iav-swabs.html#cb261-1" tabindex="-1"></a><span class="co"># Nasal</span></span>
+<span id="cb261-2"><a href="iav-swabs.html#cb261-2" tabindex="-1"></a>data_nasal <span class="ot">&lt;-</span> </span>
 <span id="cb261-3"><a href="iav-swabs.html#cb261-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb261-4"><a href="iav-swabs.html#cb261-4" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Conj))</span>
+<span id="cb261-4"><a href="iav-swabs.html#cb261-4" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Nasal))</span>
 <span id="cb261-5"><a href="iav-swabs.html#cb261-5" tabindex="-1"></a></span>
-<span id="cb261-6"><a href="iav-swabs.html#cb261-6" tabindex="-1"></a>pca_conj <span class="ot">&lt;-</span> </span>
-<span id="cb261-7"><a href="iav-swabs.html#cb261-7" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_conj[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb261-6"><a href="iav-swabs.html#cb261-6" tabindex="-1"></a>pca_nasal <span class="ot">&lt;-</span> </span>
+<span id="cb261-7"><a href="iav-swabs.html#cb261-7" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_nasal[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
 <span id="cb261-8"><a href="iav-swabs.html#cb261-8" tabindex="-1"></a></span>
-<span id="cb261-9"><a href="iav-swabs.html#cb261-9" tabindex="-1"></a>plot_pca_conj <span class="ot">&lt;-</span> </span>
-<span id="cb261-10"><a href="iav-swabs.html#cb261-10" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_conj, <span class="at">data=</span>data_conj, <span class="at">shape=</span><span class="st">&quot;IAV.Conj&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb261-9"><a href="iav-swabs.html#cb261-9" tabindex="-1"></a>plot_pca_nasal <span class="ot">&lt;-</span> </span>
+<span id="cb261-10"><a href="iav-swabs.html#cb261-10" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_nasal, <span class="at">data=</span>data_nasal, <span class="at">shape=</span><span class="st">&quot;IAV.Nasal&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb261-11"><a href="iav-swabs.html#cb261-11" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
-<span id="cb261-12"><a href="iav-swabs.html#cb261-12" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Conj Swab&quot;</span>) <span class="sc">+</span></span>
+<span id="cb261-12"><a href="iav-swabs.html#cb261-12" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Nasal Swab&quot;</span>) <span class="sc">+</span></span>
 <span id="cb261-13"><a href="iav-swabs.html#cb261-13" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb261-14"><a href="iav-swabs.html#cb261-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
 <span id="cb261-15"><a href="iav-swabs.html#cb261-15" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
-<span id="cb261-16"><a href="iav-swabs.html#cb261-16" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning: The `size` argument of `element_rect()` is deprecated
-## as of ggplot2 3.4.0.
-## ℹ Please use the `linewidth` argument instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see
-## where this warning was generated.</code></pre>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="iav-swabs.html#cb263-1" tabindex="-1"></a><span class="co"># Nasal</span></span>
-<span id="cb263-2"><a href="iav-swabs.html#cb263-2" tabindex="-1"></a>data_nasal <span class="ot">&lt;-</span> </span>
-<span id="cb263-3"><a href="iav-swabs.html#cb263-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb263-4"><a href="iav-swabs.html#cb263-4" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Nasal))</span>
-<span id="cb263-5"><a href="iav-swabs.html#cb263-5" tabindex="-1"></a></span>
-<span id="cb263-6"><a href="iav-swabs.html#cb263-6" tabindex="-1"></a>pca_nasal <span class="ot">&lt;-</span> </span>
-<span id="cb263-7"><a href="iav-swabs.html#cb263-7" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_nasal[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
-<span id="cb263-8"><a href="iav-swabs.html#cb263-8" tabindex="-1"></a></span>
-<span id="cb263-9"><a href="iav-swabs.html#cb263-9" tabindex="-1"></a>plot_pca_nasal <span class="ot">&lt;-</span> </span>
-<span id="cb263-10"><a href="iav-swabs.html#cb263-10" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_nasal, <span class="at">data=</span>data_nasal, <span class="at">shape=</span><span class="st">&quot;IAV.Nasal&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb263-11"><a href="iav-swabs.html#cb263-11" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
-<span id="cb263-12"><a href="iav-swabs.html#cb263-12" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Nasal Swab&quot;</span>) <span class="sc">+</span></span>
-<span id="cb263-13"><a href="iav-swabs.html#cb263-13" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb263-14"><a href="iav-swabs.html#cb263-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
-<span id="cb263-15"><a href="iav-swabs.html#cb263-15" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
-<span id="cb263-16"><a href="iav-swabs.html#cb263-16" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
-<span id="cb263-17"><a href="iav-swabs.html#cb263-17" tabindex="-1"></a></span>
-<span id="cb263-18"><a href="iav-swabs.html#cb263-18" tabindex="-1"></a><span class="co"># Rectal</span></span>
-<span id="cb263-19"><a href="iav-swabs.html#cb263-19" tabindex="-1"></a>data_rectal <span class="ot">&lt;-</span> </span>
-<span id="cb263-20"><a href="iav-swabs.html#cb263-20" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb263-21"><a href="iav-swabs.html#cb263-21" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Rectal))</span>
-<span id="cb263-22"><a href="iav-swabs.html#cb263-22" tabindex="-1"></a></span>
-<span id="cb263-23"><a href="iav-swabs.html#cb263-23" tabindex="-1"></a>pca_rectal <span class="ot">&lt;-</span> </span>
-<span id="cb263-24"><a href="iav-swabs.html#cb263-24" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_rectal[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
-<span id="cb263-25"><a href="iav-swabs.html#cb263-25" tabindex="-1"></a></span>
-<span id="cb263-26"><a href="iav-swabs.html#cb263-26" tabindex="-1"></a>plot_pca_rectal <span class="ot">&lt;-</span> </span>
-<span id="cb263-27"><a href="iav-swabs.html#cb263-27" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_rectal, <span class="at">data=</span>data_rectal, <span class="at">shape=</span><span class="st">&quot;IAV.Rectal&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb263-28"><a href="iav-swabs.html#cb263-28" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
-<span id="cb263-29"><a href="iav-swabs.html#cb263-29" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Rectal Swab&quot;</span>) <span class="sc">+</span></span>
-<span id="cb263-30"><a href="iav-swabs.html#cb263-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb263-31"><a href="iav-swabs.html#cb263-31" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
-<span id="cb263-32"><a href="iav-swabs.html#cb263-32" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
-<span id="cb263-33"><a href="iav-swabs.html#cb263-33" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
-<span id="cb263-34"><a href="iav-swabs.html#cb263-34" tabindex="-1"></a></span>
-<span id="cb263-35"><a href="iav-swabs.html#cb263-35" tabindex="-1"></a><span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(plot_pca_conj, plot_pca_nasal, plot_pca_rectal, <span class="at">ncol=</span><span class="dv">3</span>))</span></code></pre></div>
+<span id="cb261-16"><a href="iav-swabs.html#cb261-16" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb261-17"><a href="iav-swabs.html#cb261-17" tabindex="-1"></a></span>
+<span id="cb261-18"><a href="iav-swabs.html#cb261-18" tabindex="-1"></a><span class="co"># Rectal</span></span>
+<span id="cb261-19"><a href="iav-swabs.html#cb261-19" tabindex="-1"></a>data_rectal <span class="ot">&lt;-</span> </span>
+<span id="cb261-20"><a href="iav-swabs.html#cb261-20" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb261-21"><a href="iav-swabs.html#cb261-21" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(IAV.Rectal))</span>
+<span id="cb261-22"><a href="iav-swabs.html#cb261-22" tabindex="-1"></a></span>
+<span id="cb261-23"><a href="iav-swabs.html#cb261-23" tabindex="-1"></a>pca_rectal <span class="ot">&lt;-</span> </span>
+<span id="cb261-24"><a href="iav-swabs.html#cb261-24" tabindex="-1"></a>  <span class="fu">prcomp</span>(data_rectal[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">center=</span><span class="cn">FALSE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb261-25"><a href="iav-swabs.html#cb261-25" tabindex="-1"></a></span>
+<span id="cb261-26"><a href="iav-swabs.html#cb261-26" tabindex="-1"></a>plot_pca_rectal <span class="ot">&lt;-</span> </span>
+<span id="cb261-27"><a href="iav-swabs.html#cb261-27" tabindex="-1"></a>  <span class="fu">autoplot</span>(pca_rectal, <span class="at">data=</span>data_rectal, <span class="at">shape=</span><span class="st">&quot;IAV.Rectal&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb261-28"><a href="iav-swabs.html#cb261-28" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">19</span>), </span>
+<span id="cb261-29"><a href="iav-swabs.html#cb261-29" tabindex="-1"></a>                     <span class="at">name=</span><span class="st">&quot;Rectal Swab&quot;</span>) <span class="sc">+</span></span>
+<span id="cb261-30"><a href="iav-swabs.html#cb261-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb261-31"><a href="iav-swabs.html#cb261-31" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb261-32"><a href="iav-swabs.html#cb261-32" tabindex="-1"></a>        <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">size=</span><span class="fl">0.5</span>, <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, <span class="at">colour =</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb261-33"><a href="iav-swabs.html#cb261-33" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb261-34"><a href="iav-swabs.html#cb261-34" tabindex="-1"></a></span>
+<span id="cb261-35"><a href="iav-swabs.html#cb261-35" tabindex="-1"></a><span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(plot_pca_conj, plot_pca_nasal, plot_pca_rectal, <span class="at">ncol=</span><span class="dv">3</span>))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
 </div>
 <div id="test-for-normality" class="section level2 hasAnchor" number="7.5">
 <h2><span class="header-section-number">7.5</span> Test for normality<a href="iav-swabs.html#test-for-normality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="iav-swabs.html#cb264-1" tabindex="-1"></a><span class="co"># Create dataframe for results</span></span>
-<span id="cb264-2"><a href="iav-swabs.html#cb264-2" tabindex="-1"></a>norm_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">0</span>, <span class="at">nrow=</span><span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb264-3"><a href="iav-swabs.html#cb264-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cyto=</span><span class="fu">colnames</span>(datascale)[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
-<span id="cb264-4"><a href="iav-swabs.html#cb264-4" tabindex="-1"></a>         <span class="at">W=</span><span class="cn">NA</span>, </span>
-<span id="cb264-5"><a href="iav-swabs.html#cb264-5" tabindex="-1"></a>         <span class="at">pvalue=</span><span class="cn">NA</span>)</span>
-<span id="cb264-6"><a href="iav-swabs.html#cb264-6" tabindex="-1"></a></span>
-<span id="cb264-7"><a href="iav-swabs.html#cb264-7" tabindex="-1"></a><span class="co"># Truncate data</span></span>
-<span id="cb264-8"><a href="iav-swabs.html#cb264-8" tabindex="-1"></a>data_norm <span class="ot">&lt;-</span></span>
-<span id="cb264-9"><a href="iav-swabs.html#cb264-9" tabindex="-1"></a>  datascale[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb264-10"><a href="iav-swabs.html#cb264-10" tabindex="-1"></a></span>
-<span id="cb264-11"><a href="iav-swabs.html#cb264-11" tabindex="-1"></a><span class="co"># Test!</span></span>
-<span id="cb264-12"><a href="iav-swabs.html#cb264-12" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) {</span>
-<span id="cb264-13"><a href="iav-swabs.html#cb264-13" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(data_norm[,i])</span>
-<span id="cb264-14"><a href="iav-swabs.html#cb264-14" tabindex="-1"></a>  norm_results[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">round</span>(test<span class="sc">$</span>statistic, <span class="at">digits=</span><span class="dv">3</span>)</span>
-<span id="cb264-15"><a href="iav-swabs.html#cb264-15" tabindex="-1"></a>  norm_results[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> test<span class="sc">$</span>p.value</span>
-<span id="cb264-16"><a href="iav-swabs.html#cb264-16" tabindex="-1"></a>}</span>
-<span id="cb264-17"><a href="iav-swabs.html#cb264-17" tabindex="-1"></a></span>
-<span id="cb264-18"><a href="iav-swabs.html#cb264-18" tabindex="-1"></a>norm_results <span class="co"># all not normally distributed</span></span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="iav-swabs.html#cb262-1" tabindex="-1"></a><span class="co"># Create dataframe for results</span></span>
+<span id="cb262-2"><a href="iav-swabs.html#cb262-2" tabindex="-1"></a>norm_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">0</span>, <span class="at">nrow=</span><span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb262-3"><a href="iav-swabs.html#cb262-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cyto=</span><span class="fu">colnames</span>(datascale)[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb262-4"><a href="iav-swabs.html#cb262-4" tabindex="-1"></a>         <span class="at">W=</span><span class="cn">NA</span>, </span>
+<span id="cb262-5"><a href="iav-swabs.html#cb262-5" tabindex="-1"></a>         <span class="at">pvalue=</span><span class="cn">NA</span>)</span>
+<span id="cb262-6"><a href="iav-swabs.html#cb262-6" tabindex="-1"></a></span>
+<span id="cb262-7"><a href="iav-swabs.html#cb262-7" tabindex="-1"></a><span class="co"># Truncate data</span></span>
+<span id="cb262-8"><a href="iav-swabs.html#cb262-8" tabindex="-1"></a>data_norm <span class="ot">&lt;-</span></span>
+<span id="cb262-9"><a href="iav-swabs.html#cb262-9" tabindex="-1"></a>  datascale[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb262-10"><a href="iav-swabs.html#cb262-10" tabindex="-1"></a></span>
+<span id="cb262-11"><a href="iav-swabs.html#cb262-11" tabindex="-1"></a><span class="co"># Test!</span></span>
+<span id="cb262-12"><a href="iav-swabs.html#cb262-12" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb262-13"><a href="iav-swabs.html#cb262-13" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(data_norm[,i])</span>
+<span id="cb262-14"><a href="iav-swabs.html#cb262-14" tabindex="-1"></a>  norm_results[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">round</span>(test<span class="sc">$</span>statistic, <span class="at">digits=</span><span class="dv">3</span>)</span>
+<span id="cb262-15"><a href="iav-swabs.html#cb262-15" tabindex="-1"></a>  norm_results[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> test<span class="sc">$</span>p.value</span>
+<span id="cb262-16"><a href="iav-swabs.html#cb262-16" tabindex="-1"></a>}</span>
+<span id="cb262-17"><a href="iav-swabs.html#cb262-17" tabindex="-1"></a></span>
+<span id="cb262-18"><a href="iav-swabs.html#cb262-18" tabindex="-1"></a>norm_results <span class="co"># all not normally distributed</span></span></code></pre></div>
 <pre><code>##      cyto     W       pvalue
 ## 1    IFNg 0.863 5.962382e-09
 ## 2    IL.2 0.752 1.023169e-12
@@ -457,242 +460,250 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="cramer-test-2" class="section level2 hasAnchor" number="7.6">
 <h2><span class="header-section-number">7.6</span> Cramer Test<a href="iav-swabs.html#cramer-test-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Multivariate composition of the cytokine pattern between each infection stage group with its control. It can handle multiple variables, potentially complex interactions and correlations.</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="iav-swabs.html#cb266-1" tabindex="-1"></a><span class="co"># Conj Swabs</span></span>
-<span id="cb266-2"><a href="iav-swabs.html#cb266-2" tabindex="-1"></a>con_pos <span class="ot">&lt;-</span></span>
-<span id="cb266-3"><a href="iav-swabs.html#cb266-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb266-4"><a href="iav-swabs.html#cb266-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Conj<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb266-5"><a href="iav-swabs.html#cb266-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb266-6"><a href="iav-swabs.html#cb266-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
-<span id="cb266-7"><a href="iav-swabs.html#cb266-7" tabindex="-1"></a>  </span>
-<span id="cb266-8"><a href="iav-swabs.html#cb266-8" tabindex="-1"></a>con_neg <span class="ot">&lt;-</span> </span>
-<span id="cb266-9"><a href="iav-swabs.html#cb266-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb266-10"><a href="iav-swabs.html#cb266-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Conj<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb266-11"><a href="iav-swabs.html#cb266-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb266-12"><a href="iav-swabs.html#cb266-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
-<span id="cb266-13"><a href="iav-swabs.html#cb266-13" tabindex="-1"></a></span>
-<span id="cb266-14"><a href="iav-swabs.html#cb266-14" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, con_neg)</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="iav-swabs.html#cb264-1" tabindex="-1"></a><span class="co"># Conj Swabs</span></span>
+<span id="cb264-2"><a href="iav-swabs.html#cb264-2" tabindex="-1"></a>con_pos <span class="ot">&lt;-</span></span>
+<span id="cb264-3"><a href="iav-swabs.html#cb264-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb264-4"><a href="iav-swabs.html#cb264-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Conj<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb264-5"><a href="iav-swabs.html#cb264-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb264-6"><a href="iav-swabs.html#cb264-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb264-7"><a href="iav-swabs.html#cb264-7" tabindex="-1"></a>  </span>
+<span id="cb264-8"><a href="iav-swabs.html#cb264-8" tabindex="-1"></a>con_neg <span class="ot">&lt;-</span> </span>
+<span id="cb264-9"><a href="iav-swabs.html#cb264-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb264-10"><a href="iav-swabs.html#cb264-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Conj<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb264-11"><a href="iav-swabs.html#cb264-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb264-12"><a href="iav-swabs.html#cb264-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
+<span id="cb264-13"><a href="iav-swabs.html#cb264-13" tabindex="-1"></a></span>
+<span id="cb264-14"><a href="iav-swabs.html#cb264-14" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, con_neg)</span></code></pre></div>
 <pre><code>## 
 ##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
 ## (on equality of two distributions) 
 ## 
 ##  x-sample:  22  values        y-sample:  91  values
 ## 
-## critical value for confidence level  95 % :  725.1754 
+## critical value for confidence level  95 % :  751.6814 
 ## observed statistic  617.0192 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.07792208 
+## estimated p-value =  0.08991009 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="iav-swabs.html#cb268-1" tabindex="-1"></a><span class="co"># Nasal Swabs</span></span>
-<span id="cb268-2"><a href="iav-swabs.html#cb268-2" tabindex="-1"></a>nas_pos <span class="ot">&lt;-</span></span>
-<span id="cb268-3"><a href="iav-swabs.html#cb268-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb268-4"><a href="iav-swabs.html#cb268-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Nasal<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb268-5"><a href="iav-swabs.html#cb268-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb268-6"><a href="iav-swabs.html#cb268-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
-<span id="cb268-7"><a href="iav-swabs.html#cb268-7" tabindex="-1"></a>  </span>
-<span id="cb268-8"><a href="iav-swabs.html#cb268-8" tabindex="-1"></a>nas_neg <span class="ot">&lt;-</span> </span>
-<span id="cb268-9"><a href="iav-swabs.html#cb268-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb268-10"><a href="iav-swabs.html#cb268-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Nasal<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb268-11"><a href="iav-swabs.html#cb268-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb268-12"><a href="iav-swabs.html#cb268-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
-<span id="cb268-13"><a href="iav-swabs.html#cb268-13" tabindex="-1"></a></span>
-<span id="cb268-14"><a href="iav-swabs.html#cb268-14" tabindex="-1"></a><span class="fu">cramer.test</span>(nas_pos, nas_neg)</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="iav-swabs.html#cb266-1" tabindex="-1"></a><span class="co"># Nasal Swabs</span></span>
+<span id="cb266-2"><a href="iav-swabs.html#cb266-2" tabindex="-1"></a>nas_pos <span class="ot">&lt;-</span></span>
+<span id="cb266-3"><a href="iav-swabs.html#cb266-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb266-4"><a href="iav-swabs.html#cb266-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Nasal<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb266-5"><a href="iav-swabs.html#cb266-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb266-6"><a href="iav-swabs.html#cb266-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb266-7"><a href="iav-swabs.html#cb266-7" tabindex="-1"></a>  </span>
+<span id="cb266-8"><a href="iav-swabs.html#cb266-8" tabindex="-1"></a>nas_neg <span class="ot">&lt;-</span> </span>
+<span id="cb266-9"><a href="iav-swabs.html#cb266-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb266-10"><a href="iav-swabs.html#cb266-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Nasal<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb266-11"><a href="iav-swabs.html#cb266-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb266-12"><a href="iav-swabs.html#cb266-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
+<span id="cb266-13"><a href="iav-swabs.html#cb266-13" tabindex="-1"></a></span>
+<span id="cb266-14"><a href="iav-swabs.html#cb266-14" tabindex="-1"></a><span class="fu">cramer.test</span>(nas_pos, nas_neg)</span></code></pre></div>
 <pre><code>## 
 ##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
 ## (on equality of two distributions) 
 ## 
 ##  x-sample:  9  values        y-sample:  106  values
 ## 
-## critical value for confidence level  95 % :  810.4283 
+## critical value for confidence level  95 % :  745.3052 
 ## observed statistic  304.1772 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.3336663 
+## estimated p-value =  0.3366633 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="iav-swabs.html#cb270-1" tabindex="-1"></a><span class="co"># Rectal Swabs</span></span>
-<span id="cb270-2"><a href="iav-swabs.html#cb270-2" tabindex="-1"></a>rec_pos <span class="ot">&lt;-</span></span>
-<span id="cb270-3"><a href="iav-swabs.html#cb270-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb270-4"><a href="iav-swabs.html#cb270-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Rectal<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb270-5"><a href="iav-swabs.html#cb270-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb270-6"><a href="iav-swabs.html#cb270-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
-<span id="cb270-7"><a href="iav-swabs.html#cb270-7" tabindex="-1"></a>  </span>
-<span id="cb270-8"><a href="iav-swabs.html#cb270-8" tabindex="-1"></a>rec_neg <span class="ot">&lt;-</span> </span>
-<span id="cb270-9"><a href="iav-swabs.html#cb270-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
-<span id="cb270-10"><a href="iav-swabs.html#cb270-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Rectal<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb270-11"><a href="iav-swabs.html#cb270-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb270-12"><a href="iav-swabs.html#cb270-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
-<span id="cb270-13"><a href="iav-swabs.html#cb270-13" tabindex="-1"></a></span>
-<span id="cb270-14"><a href="iav-swabs.html#cb270-14" tabindex="-1"></a><span class="fu">cramer.test</span>(rec_pos, rec_neg)</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="iav-swabs.html#cb268-1" tabindex="-1"></a><span class="co"># Rectal Swabs</span></span>
+<span id="cb268-2"><a href="iav-swabs.html#cb268-2" tabindex="-1"></a>rec_pos <span class="ot">&lt;-</span></span>
+<span id="cb268-3"><a href="iav-swabs.html#cb268-3" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb268-4"><a href="iav-swabs.html#cb268-4" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Rectal<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb268-5"><a href="iav-swabs.html#cb268-5" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb268-6"><a href="iav-swabs.html#cb268-6" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb268-7"><a href="iav-swabs.html#cb268-7" tabindex="-1"></a>  </span>
+<span id="cb268-8"><a href="iav-swabs.html#cb268-8" tabindex="-1"></a>rec_neg <span class="ot">&lt;-</span> </span>
+<span id="cb268-9"><a href="iav-swabs.html#cb268-9" tabindex="-1"></a>  datascale <span class="sc">%&gt;%</span> </span>
+<span id="cb268-10"><a href="iav-swabs.html#cb268-10" tabindex="-1"></a>  <span class="fu">filter</span>(IAV.Rectal<span class="sc">==</span><span class="st">&quot;neg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb268-11"><a href="iav-swabs.html#cb268-11" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb268-12"><a href="iav-swabs.html#cb268-12" tabindex="-1"></a>  <span class="fu">data.matrix</span>() </span>
+<span id="cb268-13"><a href="iav-swabs.html#cb268-13" tabindex="-1"></a></span>
+<span id="cb268-14"><a href="iav-swabs.html#cb268-14" tabindex="-1"></a><span class="fu">cramer.test</span>(rec_pos, rec_neg)</span></code></pre></div>
 <pre><code>## 
 ##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
 ## (on equality of two distributions) 
 ## 
 ##  x-sample:  17  values        y-sample:  97  values
 ## 
-## critical value for confidence level  95 % :  790.8654 
+## critical value for confidence level  95 % :  751.0934 
 ## observed statistic  983.8619 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  REJECTED .
 ## estimated p-value =  0.02497502 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="iav-swabs.html#cb272-1" tabindex="-1"></a><span class="co"># Between positive swabs?</span></span>
-<span id="cb272-2"><a href="iav-swabs.html#cb272-2" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, nas_pos) <span class="co"># early vs mid infection</span></span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="iav-swabs.html#cb270-1" tabindex="-1"></a><span class="co"># Between positive swabs?</span></span>
+<span id="cb270-2"><a href="iav-swabs.html#cb270-2" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, nas_pos) <span class="co"># early vs mid infection</span></span></code></pre></div>
 <pre><code>## 
 ##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
 ## (on equality of two distributions) 
 ## 
 ##  x-sample:  22  values        y-sample:  9  values
 ## 
-## critical value for confidence level  95 % :  473.4876 
+## critical value for confidence level  95 % :  465.9061 
 ## observed statistic  160.5266 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.4015984 
+## estimated p-value =  0.4455544 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="iav-swabs.html#cb274-1" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, rec_pos) <span class="co"># early vs late infection</span></span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="iav-swabs.html#cb272-1" tabindex="-1"></a><span class="fu">cramer.test</span>(con_pos, rec_pos) <span class="co"># early vs late infection</span></span></code></pre></div>
 <pre><code>## 
 ##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
 ## (on equality of two distributions) 
 ## 
 ##  x-sample:  22  values        y-sample:  17  values
 ## 
-## critical value for confidence level  95 % :  336.1869 
+## critical value for confidence level  95 % :  365.0281 
 ## observed statistic  101.7637 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.5544456 
+## estimated p-value =  0.5304695 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="iav-swabs.html#cb276-1" tabindex="-1"></a><span class="fu">cramer.test</span>(nas_pos, rec_pos) <span class="co"># mid vs late infection</span></span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="iav-swabs.html#cb274-1" tabindex="-1"></a><span class="fu">cramer.test</span>(nas_pos, rec_pos) <span class="co"># mid vs late infection</span></span></code></pre></div>
 <pre><code>## 
 ##  9 -dimensional  nonparametric Cramer-Test with kernel phiCramer 
 ## (on equality of two distributions) 
 ## 
 ##  x-sample:  9  values        y-sample:  17  values
 ## 
-## critical value for confidence level  95 % :  457.6829 
+## critical value for confidence level  95 % :  432.6282 
 ## observed statistic  244.5893 , so that
 ##   hypothesis (&quot;x is distributed as y&quot;) is  ACCEPTED .
-## estimated p-value =  0.1908092 
+## estimated p-value =  0.1788212 
 ## 
 ##  [result based on  1000   ordinary  bootstrap-replicates]</code></pre>
 </div>
 <div id="cytokine-exploratory-plots-swabs" class="section level2 hasAnchor" number="7.7">
 <h2><span class="header-section-number">7.7</span> Cytokine Exploratory Plots ~ Swabs<a href="iav-swabs.html#cytokine-exploratory-plots-swabs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="iav-swabs.html#cb278-1" tabindex="-1"></a><span class="co"># Configure data</span></span>
-<span id="cb278-2"><a href="iav-swabs.html#cb278-2" tabindex="-1"></a>swabs <span class="ot">&lt;-</span></span>
-<span id="cb278-3"><a href="iav-swabs.html#cb278-3" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
-<span id="cb278-4"><a href="iav-swabs.html#cb278-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>year <span class="sc">&amp;</span> <span class="sc">!</span>IAV) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-5"><a href="iav-swabs.html#cb278-5" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">names_to=</span><span class="st">&quot;cytokine&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;concentration&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-6"><a href="iav-swabs.html#cb278-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">names_to=</span><span class="st">&quot;swab&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;status&quot;</span>) </span>
-<span id="cb278-7"><a href="iav-swabs.html#cb278-7" tabindex="-1"></a></span>
-<span id="cb278-8"><a href="iav-swabs.html#cb278-8" tabindex="-1"></a>conj <span class="ot">&lt;-</span> </span>
-<span id="cb278-9"><a href="iav-swabs.html#cb278-9" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-10"><a href="iav-swabs.html#cb278-10" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Conj&quot;</span>, </span>
-<span id="cb278-11"><a href="iav-swabs.html#cb278-11" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>)</span>
-<span id="cb278-12"><a href="iav-swabs.html#cb278-12" tabindex="-1"></a>  </span>
-<span id="cb278-13"><a href="iav-swabs.html#cb278-13" tabindex="-1"></a>nasal <span class="ot">&lt;-</span> </span>
-<span id="cb278-14"><a href="iav-swabs.html#cb278-14" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-15"><a href="iav-swabs.html#cb278-15" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Nasal&quot;</span>,</span>
-<span id="cb278-16"><a href="iav-swabs.html#cb278-16" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) </span>
-<span id="cb278-17"><a href="iav-swabs.html#cb278-17" tabindex="-1"></a></span>
-<span id="cb278-18"><a href="iav-swabs.html#cb278-18" tabindex="-1"></a>rectal <span class="ot">&lt;-</span> </span>
-<span id="cb278-19"><a href="iav-swabs.html#cb278-19" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-20"><a href="iav-swabs.html#cb278-20" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Rectal&quot;</span>, </span>
-<span id="cb278-21"><a href="iav-swabs.html#cb278-21" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>)</span>
-<span id="cb278-22"><a href="iav-swabs.html#cb278-22" tabindex="-1"></a></span>
-<span id="cb278-23"><a href="iav-swabs.html#cb278-23" tabindex="-1"></a>pos_swabs <span class="ot">&lt;-</span></span>
-<span id="cb278-24"><a href="iav-swabs.html#cb278-24" tabindex="-1"></a>  <span class="fu">rbind</span>(conj, nasal, rectal)</span>
-<span id="cb278-25"><a href="iav-swabs.html#cb278-25" tabindex="-1"></a></span>
-<span id="cb278-26"><a href="iav-swabs.html#cb278-26" tabindex="-1"></a><span class="co"># Plots</span></span>
-<span id="cb278-27"><a href="iav-swabs.html#cb278-27" tabindex="-1"></a>ifn <span class="ot">&lt;-</span></span>
-<span id="cb278-28"><a href="iav-swabs.html#cb278-28" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-29"><a href="iav-swabs.html#cb278-29" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IFNg&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-30"><a href="iav-swabs.html#cb278-30" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-31"><a href="iav-swabs.html#cb278-31" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-32"><a href="iav-swabs.html#cb278-32" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IFNg&quot;</span>)</span>
-<span id="cb278-33"><a href="iav-swabs.html#cb278-33" tabindex="-1"></a></span>
-<span id="cb278-34"><a href="iav-swabs.html#cb278-34" tabindex="-1"></a><span class="co"># Plots</span></span>
-<span id="cb278-35"><a href="iav-swabs.html#cb278-35" tabindex="-1"></a>il2 <span class="ot">&lt;-</span> </span>
-<span id="cb278-36"><a href="iav-swabs.html#cb278-36" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-37"><a href="iav-swabs.html#cb278-37" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.2&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-38"><a href="iav-swabs.html#cb278-38" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-39"><a href="iav-swabs.html#cb278-39" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-40"><a href="iav-swabs.html#cb278-40" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.2&quot;</span>)</span>
-<span id="cb278-41"><a href="iav-swabs.html#cb278-41" tabindex="-1"></a></span>
-<span id="cb278-42"><a href="iav-swabs.html#cb278-42" tabindex="-1"></a>il6 <span class="ot">&lt;-</span> </span>
-<span id="cb278-43"><a href="iav-swabs.html#cb278-43" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-44"><a href="iav-swabs.html#cb278-44" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.6&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-45"><a href="iav-swabs.html#cb278-45" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-46"><a href="iav-swabs.html#cb278-46" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-47"><a href="iav-swabs.html#cb278-47" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.6&quot;</span>)</span>
-<span id="cb278-48"><a href="iav-swabs.html#cb278-48" tabindex="-1"></a></span>
-<span id="cb278-49"><a href="iav-swabs.html#cb278-49" tabindex="-1"></a>il7 <span class="ot">&lt;-</span> </span>
-<span id="cb278-50"><a href="iav-swabs.html#cb278-50" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-51"><a href="iav-swabs.html#cb278-51" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.7&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-52"><a href="iav-swabs.html#cb278-52" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-53"><a href="iav-swabs.html#cb278-53" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-54"><a href="iav-swabs.html#cb278-54" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.7&quot;</span>)</span>
-<span id="cb278-55"><a href="iav-swabs.html#cb278-55" tabindex="-1"></a></span>
-<span id="cb278-56"><a href="iav-swabs.html#cb278-56" tabindex="-1"></a>il8 <span class="ot">&lt;-</span> </span>
-<span id="cb278-57"><a href="iav-swabs.html#cb278-57" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-58"><a href="iav-swabs.html#cb278-58" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.8&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-59"><a href="iav-swabs.html#cb278-59" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-60"><a href="iav-swabs.html#cb278-60" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-61"><a href="iav-swabs.html#cb278-61" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.8&quot;</span>)</span>
-<span id="cb278-62"><a href="iav-swabs.html#cb278-62" tabindex="-1"></a></span>
-<span id="cb278-63"><a href="iav-swabs.html#cb278-63" tabindex="-1"></a>il10 <span class="ot">&lt;-</span> </span>
-<span id="cb278-64"><a href="iav-swabs.html#cb278-64" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-65"><a href="iav-swabs.html#cb278-65" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.10&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-66"><a href="iav-swabs.html#cb278-66" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-67"><a href="iav-swabs.html#cb278-67" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-68"><a href="iav-swabs.html#cb278-68" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.10&quot;</span>)</span>
-<span id="cb278-69"><a href="iav-swabs.html#cb278-69" tabindex="-1"></a></span>
-<span id="cb278-70"><a href="iav-swabs.html#cb278-70" tabindex="-1"></a>il15 <span class="ot">&lt;-</span> </span>
-<span id="cb278-71"><a href="iav-swabs.html#cb278-71" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-72"><a href="iav-swabs.html#cb278-72" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.15&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-73"><a href="iav-swabs.html#cb278-73" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-74"><a href="iav-swabs.html#cb278-74" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-75"><a href="iav-swabs.html#cb278-75" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.15&quot;</span>)</span>
-<span id="cb278-76"><a href="iav-swabs.html#cb278-76" tabindex="-1"></a></span>
-<span id="cb278-77"><a href="iav-swabs.html#cb278-77" tabindex="-1"></a>il18 <span class="ot">&lt;-</span> </span>
-<span id="cb278-78"><a href="iav-swabs.html#cb278-78" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-79"><a href="iav-swabs.html#cb278-79" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.18&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-80"><a href="iav-swabs.html#cb278-80" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-81"><a href="iav-swabs.html#cb278-81" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-82"><a href="iav-swabs.html#cb278-82" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.18&quot;</span>)</span>
-<span id="cb278-83"><a href="iav-swabs.html#cb278-83" tabindex="-1"></a></span>
-<span id="cb278-84"><a href="iav-swabs.html#cb278-84" tabindex="-1"></a>kc <span class="ot">&lt;-</span> </span>
-<span id="cb278-85"><a href="iav-swabs.html#cb278-85" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
-<span id="cb278-86"><a href="iav-swabs.html#cb278-86" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;KC.like&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb278-87"><a href="iav-swabs.html#cb278-87" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
-<span id="cb278-88"><a href="iav-swabs.html#cb278-88" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb278-89"><a href="iav-swabs.html#cb278-89" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;KC.like&quot;</span>)</span>
-<span id="cb278-90"><a href="iav-swabs.html#cb278-90" tabindex="-1"></a></span>
-<span id="cb278-91"><a href="iav-swabs.html#cb278-91" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(il6, il10, kc))</span></code></pre></div>
-<pre><code>## Warning: Removed 44 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
-<pre><code>## Warning: Removed 39 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
-<pre><code>## Warning: Removed 33 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="iav-swabs.html#cb276-1" tabindex="-1"></a><span class="co"># Configure data</span></span>
+<span id="cb276-2"><a href="iav-swabs.html#cb276-2" tabindex="-1"></a>swabs <span class="ot">&lt;-</span></span>
+<span id="cb276-3"><a href="iav-swabs.html#cb276-3" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb276-4"><a href="iav-swabs.html#cb276-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>year <span class="sc">&amp;</span> <span class="sc">!</span>IAV) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-5"><a href="iav-swabs.html#cb276-5" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">names_to=</span><span class="st">&quot;cytokine&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;concentration&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-6"><a href="iav-swabs.html#cb276-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>), <span class="at">names_to=</span><span class="st">&quot;swab&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;status&quot;</span>) </span>
+<span id="cb276-7"><a href="iav-swabs.html#cb276-7" tabindex="-1"></a></span>
+<span id="cb276-8"><a href="iav-swabs.html#cb276-8" tabindex="-1"></a>conj <span class="ot">&lt;-</span> </span>
+<span id="cb276-9"><a href="iav-swabs.html#cb276-9" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-10"><a href="iav-swabs.html#cb276-10" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Conj&quot;</span>, </span>
+<span id="cb276-11"><a href="iav-swabs.html#cb276-11" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>)</span>
+<span id="cb276-12"><a href="iav-swabs.html#cb276-12" tabindex="-1"></a>  </span>
+<span id="cb276-13"><a href="iav-swabs.html#cb276-13" tabindex="-1"></a>nasal <span class="ot">&lt;-</span> </span>
+<span id="cb276-14"><a href="iav-swabs.html#cb276-14" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-15"><a href="iav-swabs.html#cb276-15" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Nasal&quot;</span>,</span>
+<span id="cb276-16"><a href="iav-swabs.html#cb276-16" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>) </span>
+<span id="cb276-17"><a href="iav-swabs.html#cb276-17" tabindex="-1"></a></span>
+<span id="cb276-18"><a href="iav-swabs.html#cb276-18" tabindex="-1"></a>rectal <span class="ot">&lt;-</span> </span>
+<span id="cb276-19"><a href="iav-swabs.html#cb276-19" tabindex="-1"></a>  swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-20"><a href="iav-swabs.html#cb276-20" tabindex="-1"></a>  <span class="fu">filter</span>(swab<span class="sc">==</span><span class="st">&quot;IAV.Rectal&quot;</span>, </span>
+<span id="cb276-21"><a href="iav-swabs.html#cb276-21" tabindex="-1"></a>         status<span class="sc">==</span><span class="st">&quot;POS&quot;</span>)</span>
+<span id="cb276-22"><a href="iav-swabs.html#cb276-22" tabindex="-1"></a></span>
+<span id="cb276-23"><a href="iav-swabs.html#cb276-23" tabindex="-1"></a>pos_swabs <span class="ot">&lt;-</span></span>
+<span id="cb276-24"><a href="iav-swabs.html#cb276-24" tabindex="-1"></a>  <span class="fu">rbind</span>(conj, nasal, rectal)</span>
+<span id="cb276-25"><a href="iav-swabs.html#cb276-25" tabindex="-1"></a></span>
+<span id="cb276-26"><a href="iav-swabs.html#cb276-26" tabindex="-1"></a><span class="co"># Plots</span></span>
+<span id="cb276-27"><a href="iav-swabs.html#cb276-27" tabindex="-1"></a>ifn <span class="ot">&lt;-</span></span>
+<span id="cb276-28"><a href="iav-swabs.html#cb276-28" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-29"><a href="iav-swabs.html#cb276-29" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IFNg&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-30"><a href="iav-swabs.html#cb276-30" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-31"><a href="iav-swabs.html#cb276-31" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-32"><a href="iav-swabs.html#cb276-32" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IFNg&quot;</span>)</span>
+<span id="cb276-33"><a href="iav-swabs.html#cb276-33" tabindex="-1"></a></span>
+<span id="cb276-34"><a href="iav-swabs.html#cb276-34" tabindex="-1"></a><span class="co"># Plots</span></span>
+<span id="cb276-35"><a href="iav-swabs.html#cb276-35" tabindex="-1"></a>il2 <span class="ot">&lt;-</span> </span>
+<span id="cb276-36"><a href="iav-swabs.html#cb276-36" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-37"><a href="iav-swabs.html#cb276-37" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.2&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-38"><a href="iav-swabs.html#cb276-38" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-39"><a href="iav-swabs.html#cb276-39" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-40"><a href="iav-swabs.html#cb276-40" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.2&quot;</span>)</span>
+<span id="cb276-41"><a href="iav-swabs.html#cb276-41" tabindex="-1"></a></span>
+<span id="cb276-42"><a href="iav-swabs.html#cb276-42" tabindex="-1"></a>il6 <span class="ot">&lt;-</span> </span>
+<span id="cb276-43"><a href="iav-swabs.html#cb276-43" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-44"><a href="iav-swabs.html#cb276-44" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.6&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-45"><a href="iav-swabs.html#cb276-45" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-46"><a href="iav-swabs.html#cb276-46" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-47"><a href="iav-swabs.html#cb276-47" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.6&quot;</span>)</span>
+<span id="cb276-48"><a href="iav-swabs.html#cb276-48" tabindex="-1"></a></span>
+<span id="cb276-49"><a href="iav-swabs.html#cb276-49" tabindex="-1"></a>il7 <span class="ot">&lt;-</span> </span>
+<span id="cb276-50"><a href="iav-swabs.html#cb276-50" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-51"><a href="iav-swabs.html#cb276-51" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.7&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-52"><a href="iav-swabs.html#cb276-52" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-53"><a href="iav-swabs.html#cb276-53" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-54"><a href="iav-swabs.html#cb276-54" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.7&quot;</span>)</span>
+<span id="cb276-55"><a href="iav-swabs.html#cb276-55" tabindex="-1"></a></span>
+<span id="cb276-56"><a href="iav-swabs.html#cb276-56" tabindex="-1"></a>il8 <span class="ot">&lt;-</span> </span>
+<span id="cb276-57"><a href="iav-swabs.html#cb276-57" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-58"><a href="iav-swabs.html#cb276-58" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.8&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-59"><a href="iav-swabs.html#cb276-59" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-60"><a href="iav-swabs.html#cb276-60" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-61"><a href="iav-swabs.html#cb276-61" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.8&quot;</span>)</span>
+<span id="cb276-62"><a href="iav-swabs.html#cb276-62" tabindex="-1"></a></span>
+<span id="cb276-63"><a href="iav-swabs.html#cb276-63" tabindex="-1"></a>il10 <span class="ot">&lt;-</span> </span>
+<span id="cb276-64"><a href="iav-swabs.html#cb276-64" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-65"><a href="iav-swabs.html#cb276-65" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.10&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-66"><a href="iav-swabs.html#cb276-66" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-67"><a href="iav-swabs.html#cb276-67" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-68"><a href="iav-swabs.html#cb276-68" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.10&quot;</span>)</span>
+<span id="cb276-69"><a href="iav-swabs.html#cb276-69" tabindex="-1"></a></span>
+<span id="cb276-70"><a href="iav-swabs.html#cb276-70" tabindex="-1"></a>il15 <span class="ot">&lt;-</span> </span>
+<span id="cb276-71"><a href="iav-swabs.html#cb276-71" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-72"><a href="iav-swabs.html#cb276-72" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.15&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-73"><a href="iav-swabs.html#cb276-73" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-74"><a href="iav-swabs.html#cb276-74" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-75"><a href="iav-swabs.html#cb276-75" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.15&quot;</span>)</span>
+<span id="cb276-76"><a href="iav-swabs.html#cb276-76" tabindex="-1"></a></span>
+<span id="cb276-77"><a href="iav-swabs.html#cb276-77" tabindex="-1"></a>il18 <span class="ot">&lt;-</span> </span>
+<span id="cb276-78"><a href="iav-swabs.html#cb276-78" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-79"><a href="iav-swabs.html#cb276-79" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;IL.18&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-80"><a href="iav-swabs.html#cb276-80" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-81"><a href="iav-swabs.html#cb276-81" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-82"><a href="iav-swabs.html#cb276-82" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;IL.18&quot;</span>)</span>
+<span id="cb276-83"><a href="iav-swabs.html#cb276-83" tabindex="-1"></a></span>
+<span id="cb276-84"><a href="iav-swabs.html#cb276-84" tabindex="-1"></a>kc <span class="ot">&lt;-</span> </span>
+<span id="cb276-85"><a href="iav-swabs.html#cb276-85" tabindex="-1"></a>  pos_swabs <span class="sc">%&gt;%</span> </span>
+<span id="cb276-86"><a href="iav-swabs.html#cb276-86" tabindex="-1"></a>  <span class="fu">filter</span>(cytokine<span class="sc">==</span><span class="st">&quot;KC.like&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb276-87"><a href="iav-swabs.html#cb276-87" tabindex="-1"></a>  <span class="fu">ggplot</span>(., <span class="fu">aes</span>(<span class="at">x=</span>swab, <span class="at">y=</span><span class="fu">log</span>(concentration))) <span class="sc">+</span></span>
+<span id="cb276-88"><a href="iav-swabs.html#cb276-88" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb276-89"><a href="iav-swabs.html#cb276-89" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">&quot;KC.like&quot;</span>)</span>
+<span id="cb276-90"><a href="iav-swabs.html#cb276-90" tabindex="-1"></a></span>
+<span id="cb276-91"><a href="iav-swabs.html#cb276-91" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(il6, il10, kc))</span></code></pre></div>
+<pre><code>## Warning: Removed 44 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 39 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 33 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="iav-swabs.html#cb282-1" tabindex="-1"></a>nonimp1 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(ifn, il2, il7))</span></code></pre></div>
-<pre><code>## Warning: Removed 24 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
-<pre><code>## Warning: Removed 25 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
-<pre><code>## Warning: Removed 18 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="iav-swabs.html#cb280-1" tabindex="-1"></a>nonimp1 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(ifn, il2, il7))</span></code></pre></div>
+<pre><code>## Warning: Removed 24 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 25 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 18 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-102-2.png" width="672" /></p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="iav-swabs.html#cb286-1" tabindex="-1"></a>nonimp2 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(il8, il15, il18))</span></code></pre></div>
-<pre><code>## Warning: Removed 43 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
-<pre><code>## Warning: Removed 42 rows containing non-finite outside the
-## scale range (`stat_boxplot()`).</code></pre>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="iav-swabs.html#cb284-1" tabindex="-1"></a>nonimp2 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(<span class="fu">arrangeGrob</span>(il8, il15, il18))</span></code></pre></div>
+<pre><code>## Warning: Removed 43 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 42 rows containing non-finite
+## outside the scale range
+## (`stat_boxplot()`).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-102-3.png" width="672" /></p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="iav-swabs.html#cb289-1" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(imp, nonimp1, nonimp2, <span class="at">ncol=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="iav-swabs.html#cb287-1" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(imp, nonimp1, nonimp2, <span class="at">ncol=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-102-4.png" width="672" /></p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="iav-swabs.html#cb290-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename=</span><span class="st">&quot;Figures/cyto_swab.jpeg&quot;</span>, all, <span class="at">width=</span><span class="dv">8</span>, <span class="at">height=</span><span class="dv">6</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="iav-swabs.html#cb288-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename=</span><span class="st">&quot;Figures/cyto_swab.jpeg&quot;</span>, all, <span class="at">width=</span><span class="dv">8</span>, <span class="at">height=</span><span class="dv">6</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>

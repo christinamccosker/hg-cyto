@@ -678,17 +678,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## data:  table(data$bc_bin, data$iav)
 ## X-squared = 2.2554, df = 2, p-value = 0.3238</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="exploratory.html#cb50-1" tabindex="-1"></a><span class="co"># BMI</span></span>
-<span id="cb50-2"><a href="exploratory.html#cb50-2" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
-<span id="cb50-3"><a href="exploratory.html#cb50-3" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>bmi_bin, data<span class="sc">$</span>iav))</span>
-<span id="cb50-4"><a href="exploratory.html#cb50-4" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
-<span id="cb50-5"><a href="exploratory.html#cb50-5" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>bmi_bin, data<span class="sc">$</span>iav))</span>
-<span id="cb50-6"><a href="exploratory.html#cb50-6" tabindex="-1"></a>})</span></code></pre></div>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  table(data$bmi_bin, data$iav)
-## X-squared = 0.10075, df = 1, p-value = 0.7509</code></pre>
 
 </div>
 </div>
