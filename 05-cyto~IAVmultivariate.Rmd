@@ -31,10 +31,18 @@ library(pairwiseAdonis)
 
 ## Data
 ```{r, message=FALSE, warning=FALSE}
-cyto <- read.csv("Output Files/cleaned_cytokine.csv")
-cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
-cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
-meta <- read.csv("Output Files/metadata_cyto.csv")
+cyto <- 
+  read.csv("Output Files/cleaned_cytokine.csv")
+
+cytobin <- 
+  read.csv("Output Files/cleaned_cytokine_bin.csv")
+
+cytoscale <- 
+  read.csv("Output Files/cleaned_cytokine_scaled.csv")
+
+meta <- read.csv("Output Files/metadata_cyto.csv") %>% 
+  mutate(iav=gsub("neg", "IAV-", iav),
+         iav=gsub("pos", "IAV+", iav))
 
 # Merge cytokine & metadata 
 data <- merge(cyto, meta, by="Sample") %>% 
@@ -47,47 +55,6 @@ databin <-
 datascale <- 
   merge(cytoscale, meta, by="Sample") %>% 
   filter(!is.na(iav))
-```
-
-## PCA 
-```{r}
-PCA_scaled_iav <- prcomp(datascale[,2:10], 
-                         center=FALSE, 
-                         scale=FALSE)
-```
-
-### Visualize
-```{r}
-PCA_scaled_df <- data.frame(x=PCA_scaled_iav$x[,1],
-                            y=PCA_scaled_iav$x[,2],
-                            iav=datascale$iav)
-pca_labelx <-
-  paste("PC1 (", 
-                round(abs(summary(PCA_scaled_iav)$importance[2,1]*100), digits=2),
-                "%)",
-                sep="")
-pca_labely <-
-  paste("PC2 (", 
-                round(abs(summary(PCA_scaled_iav)$importance[2,2]*100), digits=2),
-                "%)",
-                sep="")
-
-PCA_scaled_ggplot <- 
-  ggplot(PCA_scaled_df, 
-         aes(x=x, 
-             y=y,
-             col=iav)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=pca_labelx,
-       y = pca_labely) +
-  scale_color_manual("IAV Status",
-                     values=c("#9d9d9d","#008ba2", "#000000")) +
-  theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position.inside=c(0.1, 0.1))
-
-PCA_scaled_ggplot
 ```
 
 
@@ -134,9 +101,9 @@ databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
 plot(databin_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$iav), show.groups="pos", 
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$iav), show.groups="IAV+", 
            col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$iav), show.groups="neg", 
+ordispider(jitter(databin_pco$points, factor=1), factor(databin$iav), show.groups="IAV-", 
            col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
 ```
 
@@ -180,9 +147,9 @@ data_pco <- cmdscale(data_dist, eig=TRUE)
 plot(data_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
-ordispider(jitter(data_pco$points, factor=1), factor(data$iav), show.groups="pos", 
+ordispider(jitter(data_pco$points, factor=1), factor(data$iav), show.groups="IAV+", 
            col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(data_pco$points, factor=1), factor(data$iav), show.groups="neg", 
+ordispider(jitter(data_pco$points, factor=1), factor(data$iav), show.groups="IAV-", 
            col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
 ```
 
@@ -201,13 +168,13 @@ Multivariate composition of the cytokine pattern between each infection stage gr
 # Separate data by infection stage
 infected <- 
   datascale %>% 
-  filter(iav=="pos") %>% 
+  filter(iav=="IAV+") %>% 
   select(2:10) %>% 
   data.matrix()
 
 uninfected <- 
   datascale %>% 
-  filter(iav=="neg") %>% 
+  filter(iav=="IAV-") %>% 
   select(2:10) %>% 
   data.matrix()
 
@@ -251,7 +218,7 @@ cramer.test(control, late)
 ```{r, message=FALSE}
 # Prepare data for CART
 data_cart <- 
-  datascale %>% 
+  data %>% 
   select(2:10, iav) %>% 
   mutate(iav=factor(iav))
 ```
@@ -347,13 +314,9 @@ varimp_plot <-
 ```{r}
 databin <-
   databin %>% 
-  mutate(iav=gsub("neg", "Neg", iav),
-         iav=gsub("pos", "Pos", iav))
-
-data <-
-  data %>% 
-  mutate(iav=gsub("neg", "Neg", iav),
-         iav=gsub("pos", "Pos", iav))
+  mutate(across(2:10, \(x) gsub("1", "Present", x)),
+         across(2:10, \(x) gsub("0", "Absent", x)),
+         across(2:10, \(x) factor(x, levels=c("Present", "Absent"))))
 ```
 
 #### Proportions
@@ -364,31 +327,34 @@ prop.table(table(databin$iav, databin$IFNg), margin=1)*100
 
 kc_prop <- 
   databin %>%
-  mutate(KC.like=gsub("1", "P", KC.like),
-         KC.like=gsub("0", "A", KC.like),
-         KC.like=factor(KC.like, levels=c("P", "A"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(KC.like,iav), fill=KC.like)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray"),
+                    name="Cytokine") +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="KC-like") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
-        legend.position="none",
+        legend.position="bottom",
         text = element_text(size=10),
         plot.title = element_text(hjust = 0.5))
 kc_prop
 
+cyto_leg <- get_legend(kc_prop)
+
+kc_prop <-
+  kc_prop +
+  theme(legend.position="none")
+
 il6_prop <- 
   databin %>%
-  mutate(IL.6=gsub("1", "P", IL.6),
-         IL.6=gsub("0", "A", IL.6),
-         IL.6=factor(IL.6, levels=c("P", "A"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.6,iav), fill=IL.6)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IL-6") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -402,12 +368,10 @@ il6_prop
 
 ifng_prop <- 
   databin %>%
-  mutate(IFNg=gsub("1", "P", IFNg),
-         IFNg=gsub("0", "A", IFNg),
-         IFNg=factor(IFNg, levels=c("P", "A"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IFNg,iav), fill=IFNg)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IFNg") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -418,40 +382,6 @@ ifng_prop <-
         text = element_text(size=10),
         plot.title = element_text(hjust = 0.5))
 ifng_prop
-
-
-
-il18_prop <- 
-  databin %>%
-  mutate(IL.18=gsub("1", "P", IL.18),
-         IL.18=gsub("0", "A", IL.18),
-         IL.18=factor(IL.18, levels=c("P", "A"))) %>%
-  ggplot(data=.) +
-  geom_mosaic(aes(x=product(IL.18,iav), fill=IL.18)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
-  labs(y="IL-18") +
-  theme_bw() +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        axis.title.x = element_blank(),
-        legend.position="none",
-        text = element_text(size=10))
-
-il10_prop <- 
-  databin %>%
-  mutate(IL.10=gsub("1", "P", IL.10),
-         IL.10=gsub("0", "A", IL.10),
-         IL.10=factor(IL.10, levels=c("P", "A"))) %>%
-  ggplot(data=.) +
-  geom_mosaic(aes(x=product(IL.10,iav), fill=IL.10)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
-  labs(y="IL-10") +
-  theme_bw() +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        axis.title.x = element_blank(),
-        legend.position="none",
-        text = element_text(size=10))
 ```
 
 
@@ -501,41 +431,32 @@ ifng <-
   theme(text = element_text(size=10),
         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
 ifng  
-
-
-
-
 ```
 
 #### Combine together
 ```{r}
 prop_grid <- grid.arrange(kc_prop, il6_prop, ifng_prop, ncol=3,
-                          left=textGrob("Presence/Absence",
+                          left=textGrob("Proportion of Samples",
                                         rot=90, gp=gpar(fontsize=10)))
+prop_grid <- grid.arrange(prop_grid, cyto_leg,
+                          ncol=1, 
+                          heights=c(3, 0.3))
 conc_grid <- grid.arrange(kclike, il6, ifng, ncol=3, 
                           left=textGrob("log(Concentration (pg/mL))", 
                                         rot=90, gp=gpar(fontsize=10)))
 
 cyto_grid <- grid.arrange(prop_grid, conc_grid,
-                           ncol=1, 
-                           bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
+                          ncol=1, 
+                          heights=c(4,3.5),
+                          bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
 
 
 jpeg("Figures/cytoimportance.jpeg", width=8, height=8, units="in", res=300)
 final_grid <- 
   grid.arrange(varimp_plot, cyto_grid, 
                ncol=1, heights=c(2,4)) 
-grid.polygon(x=c(0, 0,    0.35, 0.35),
-             y=c(0, 0.67, 0.67,  0),
-             gp=gpar(fill=NA))
-grid.polygon(x=c(0.35, 0.35, 0.675, 0.675),
+grid.polygon(x=c(0, 0, 1, 1),
              y=c(0, 0.67, 0.67, 0),
-             gp=gpar(fill=NA))
-grid.polygon(x=c(0.675, 0.675, 1, 1),
-             y=c(0, 0.67, 0.67, 0),
-             gp=gpar(fill=NA))
-grid.polygon(x=c(0, 1, 1, 0),
-             y=c(0.67, 0.67, 1, 1),
              gp=gpar(fill=NA))
 grid.rect(x=unit(0.5, "npc"), y = unit(0.93, "npc"),
           width=unit(0.948, "npc"), height=unit(0.1, "npc"), 
@@ -565,7 +486,7 @@ pls_y <-
 ```{r}
 plsda_model <- mixOmics::plsda(pls_x,
                                pls_y$iav,
-                               scale=FALSE,
+                               scale=TRUE,
                                ncomp=9)
 ```
 
@@ -620,24 +541,20 @@ biplot(plsda_model, ind.names=FALSE, legend.title="IAV Status")
 plotVar(plsda_model)
 ```
 
+
 ## Supplemental Figures
 ### Cytokine Presence/Absence
 ```{r}
-databin_fig <- 
-  databin %>%
-  mutate(across(2:10, \(x) gsub("1", "P", x)),
-         across(2:10, \(x) gsub("0", "A", x)),
-         across(2:10, \(x) factor(x, levels=c("P", "A"))))
-
 ifng_prop
 il6_prop
 kc_prop
 
 il2_prop <- 
-  databin_fig %>%
+  databin %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.2,iav), fill=IL.2)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IL.2") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -649,10 +566,11 @@ il2_prop <-
         plot.title = element_text(hjust = 0.5))
 
 il7_prop <- 
-  databin_fig %>%
+  databin %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.7,iav), fill=IL.7)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IL.7") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -664,10 +582,11 @@ il7_prop <-
         plot.title = element_text(hjust = 0.5))
 
 il8_prop <-
-  databin_fig %>%
+  databin %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.8,iav), fill=IL.8)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IL.8") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -679,10 +598,11 @@ il8_prop <-
         plot.title = element_text(hjust = 0.5))
 
 il10_prop <- 
-  databin_fig %>%
+  databin %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.10,iav), fill=IL.10)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IL.10") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -694,10 +614,11 @@ il10_prop <-
         plot.title = element_text(hjust = 0.5))
 
 il15_prop <- 
-  databin_fig %>%
+  databin %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.15,iav), fill=IL.15)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IL.15") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -709,10 +630,11 @@ il15_prop <-
         plot.title = element_text(hjust = 0.5))
 
 il18_prop <-
-  databin_fig %>%
+  databin %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.18,iav), fill=IL.18)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
   labs(title="IL.18") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
@@ -725,11 +647,14 @@ il18_prop <-
 
 cyto_prop_grid <-
   grid.arrange(kc_prop, il6_prop, ifng_prop,
-             il2_prop, il7_prop, il8_prop, 
-             il10_prop, il15_prop, il18_prop,
-             ncol=3,
-             left=textGrob("Cytokine Presence/Absence", rot=90),
-             bottom=textGrob("Influenza A Virus Infection Status"))
+               il2_prop, il7_prop, il8_prop, 
+               il10_prop, il15_prop, il18_prop,
+               left=textGrob("Proportion of Samples", rot=90),
+               bottom=textGrob("Influenza A Virus Infection Status"))
+cyto_prop_grid <- 
+  grid.arrange(cyto_prop_grid, cyto_leg, 
+               ncol=1, 
+               heights=c(9,0.5))
 ggsave("Figures/supplemental_cyto_prop_grid.jpeg", cyto_prop_grid, 
        width=8, height=8, units="in")
 ```

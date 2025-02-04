@@ -32,7 +32,9 @@ library(grid)
 cyto <- read.csv("Output Files/cleaned_cytokine.csv")
 cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
 cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
-meta <- read.csv("Output Files/metadata_cyto.csv")
+meta <- read.csv("Output Files/metadata_cyto.csv") %>% 
+  mutate(iav=gsub("neg", "IAV-", iav),
+         iav=gsub("pos", "IAV+", iav))
 
 # Merge cytokine & metadata 
 data <- merge(cyto, meta, by="Sample") %>% 
@@ -60,50 +62,6 @@ ggplot(meta, aes(x=bodcond)) +
   labs(x="Body Condition Index", y="Frequency") +
   geom_vline(xintercept=c(quant[2], quant[3], quant[4]), colour="red", size=1) +
   theme_classic()
-```
-
-## PCA
-```{r, warning=FALSE}
-PCA_scaled_bc <- 
-  prcomp(~IFNg+IL.2+IL.6+IL.7+IL.8+IL.10+IL.15+IL.18+KC.like, 
-         data=datascale,
-         center=FALSE, 
-         scale=FALSE)
-```
-
-### Visualize
-```{r}
-PCA_scaled_bc_df <- data.frame(x=PCA_scaled_bc$x[,1],
-                               y=PCA_scaled_bc$x[,2],
-                               bc=datascale$bc)
-pca_labelx <-
-  paste("PC1 (", 
-                round(abs(summary(PCA_scaled_bc)$importance[2,1]*100), digits=2),
-                "%)",
-                sep="")
-pca_labely <-
-  paste("PC2 (", 
-                round(abs(summary(PCA_scaled_bc)$importance[2,2]*100), digits=2),
-                "%)",
-                sep="")
-
-PCA_scaled_bc_ggplot <- 
-  ggplot(PCA_scaled_bc_df, 
-         aes(x=x, 
-             y=y,
-             col=bc)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=pca_labelx,
-       y = pca_labely,
-       name="Body Condition") +
-  scale_color_manual("Body Condition",
-                     values=c("#9d9d9d","#008ba2", "#000000")) +
-  theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position.inside=c(0.1, 0.1))
-
-PCA_scaled_bc_ggplot
 ```
 
 
@@ -356,31 +314,40 @@ prop.table(table(databin$bc_bin, databin$IFNg), margin=1)*100
 
 ifng_prop <- 
   databin %>% 
-  mutate(IFNg=gsub("1", "P", IFNg),
-         IFNg=gsub("0", "A", IFNg),
-         IFNg=factor(IFNg, levels=c("P", "A"))) %>%
+  mutate(IFNg=gsub("1", "Present", IFNg),
+         IFNg=gsub("0", "Absent", IFNg),
+         IFNg=factor(IFNg, levels=c("Present", "Absent"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IFNg, bc_bin), fill=IFNg)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
-  labs(y="Presence/Absence") +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray"),
+                    name="Cytokine") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y="Proportion of Samples", title="IFNg") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        legend.position="none",
+        legend.position="bottom",
         text = element_text(size=10),
         plot.title = element_text(hjust = 0.5))
-ifng_prop
+
+cyto_leg <- 
+  get_legend(ifng_prop)
+
+ifng_prop <-
+  ifng_prop +
+  theme(legend.position="none")
 
 il18_prop <-
   databin %>% 
-  mutate(IL.18=gsub("1", "P", IL.18),
-         IL.18=gsub("0", "A", IL.18),
-         IL.18=factor(IL.18, levels=c("P", "A"))) %>%
+  mutate(IL.18=gsub("1", "Present", IL.18),
+         IL.18=gsub("0", "Absent", IL.18),
+         IL.18=factor(IL.18, levels=c("Present", "Absent"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.18, bc_bin), fill=IL.18)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
-  labs(y="Presence/Absence") +
+  scale_fill_manual(values=c("Present"="gray60", "Present"="lightgray")) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y="Proportion of Samples", title="IL-18") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
@@ -426,15 +393,18 @@ il18
 
 #### Combine
 ```{r}
-left <- grid.arrange(ifng_prop, ifng, ncol=1,
-                     top = textGrob("IFNg", gp=gpar(fontsize=10)))
-right <- grid.arrange(il18_prop, il18, ncol=1,
-                      top = textGrob("IL-18", gp=gpar(fontsize=10)))
+top <- grid.arrange(ifng_prop, il18_prop,
+                    ncol=2)
+top2 <- grid.arrange(top, cyto_leg, ncol=1, 
+                     heights=c(3,0.5))
+
+bottom <- grid.arrange(ifng, il18, ncol=2)
+
+allbottom <- grid.arrange(top2, bottom, ncol=1, 
+                          heights=c(4,3))
 
 jpeg("Figures/cytoimportance_bodycondition.jpeg", width=7, height=8, units="in", res=300)
-all <- grid.arrange(varimp_plot, left, right, 
-                    layout_matrix=rbind(c(1, 1),
-                                        c(2, 3)),
+all <- grid.arrange(varimp_plot, allbottom, 
                     heights=c(1,2),
                     bottom=textGrob("Body Condition", gp=gpar(fontsize=10)))
 grid.polygon(x=c(0, 0, 1, 1),
@@ -464,7 +434,7 @@ pls_y <-
 ```{r}
 plsda_model <- mixOmics::plsda(pls_x,
                                pls_y$bc_bin,
-                               scale=TRUE,
+                               scale=FALSE,
                                ncomp=9)
 ```
 

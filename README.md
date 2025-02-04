@@ -1,13 +1,15 @@
-Welcome! 
+Characterization of gray seal pup cytokine response to influenza A virus
+McCosker Dissertation Chapter 2.1 Statistical Analysis
 
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). 
+Publication Information
 
-This template provides a skeleton file structure that you can edit to create your book. 
+Authors:
+Christina McCosker, School of Marine Sciences, University of Maine, Orono, ME
+Milton Levin, Department of Pathobiology and Veterinary Science, University of Connecticut, Storrs, CT
+Wendy Puryear, Cummings School of Veterinary Medicine, Tufts University, North Grafton, MA
+Jonathan Runstadler, Cummings School of Veterinary Medicine, Tufts University, North Grafton, MA
+Kimberly Murray, NOAA Northeast Fisheries Science Center, Woods Hole, MA
+Kristina Cammen, School of Marine Sciences, University of Maine, Orono, ME
 
-The contents inside the .Rmd files provide some pointers to help you get started, but feel free to also delete the content in each file and start fresh.
-
-Additional resources:
-
-The **bookdown** book: https://bookdown.org/yihui/bookdown/
-
-The **bookdown** package reference site: https://pkgs.rstudio.com/bookdown
+Abstract
+xxx

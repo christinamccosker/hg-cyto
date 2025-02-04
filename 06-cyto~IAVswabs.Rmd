@@ -22,14 +22,18 @@ library(cramer)
 # Cytokines
 cyto <- 
   read.csv("Output Files/cleaned_cytokine.csv")
+
 cytobin <- 
   read.csv("Output Files/cleaned_cytokine_bin.csv")
+
 cytoscale <- 
   read.csv("Output Files/cleaned_cytokine_scaled.csv")
 
 # Metadata
 meta <- 
-  read.csv("Output Files/metadata_cyto.csv")
+  read.csv("Output Files/metadata_cyto.csv") %>% 
+  mutate(iav=gsub("neg", "IAV-", iav),
+         iav=gsub("pos", "IAV+", iav))
 
 # Swab/virology data
 viro <- 

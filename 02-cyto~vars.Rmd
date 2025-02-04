@@ -19,13 +19,26 @@ library(rstatix)
 
 ### Import data & merge
 ```{r, warning=FALSE, message=FALSE}
-cyto <- read.csv("Output Files/cleaned_cytokine_all.csv")
-meta <- read.csv("Output Files/metadata_cyto.csv")
-cytobin <-  read.csv("Output Files/cleaned_cytokine_bin_all.csv")
+cyto <- 
+  read.csv("Output Files/cleaned_cytokine_all.csv")
+cytobin <-  
+  read.csv("Output Files/cleaned_cytokine_bin_all.csv")
+
+cyto_red <-
+  read.csv("Output Files/cleaned_cytokine.csv")
+
+meta <- 
+  read.csv("Output Files/metadata_cyto.csv") %>% 
+  mutate(iav=gsub("neg", "IAV-", iav),
+         iav=gsub("pos", "IAV+", iav))
+
 
 # Merge cytokine & meta data
 data <- 
   merge(cyto, meta)
+
+data_red <-
+  merge(cyto_red, meta)
 
 databin <- 
   merge(cytobin, meta) 
@@ -78,7 +91,7 @@ num_samples
 ```{r, warning=FALSE}
 cyto_pos <- 
   data %>% 
-  filter(iav=="pos") %>% 
+  filter(iav=="IAV+") %>% 
   select(1:14)
 
 std.error <- function(x) sd(x)/sqrt(length(x))
@@ -86,7 +99,7 @@ std.error <- function(x) sd(x)/sqrt(length(x))
 pos_range <- 
   meta %>% 
   select(Sample, iav) %>% 
-  filter(iav=="pos") %>% 
+  filter(iav=="IAV+") %>% 
   merge(., cyto, by="Sample") %>% 
   pivot_longer(!c(iav, Sample), names_to="cytokine", values_to="concentration") %>% 
   filter(!concentration==0) %>% 
@@ -106,7 +119,7 @@ pos_range <-
 neg_range <- 
   meta %>% 
   select(Sample, iav) %>% 
-  filter(iav=="neg") %>% 
+  filter(iav=="IAV-") %>% 
   merge(., cyto, by="Sample") %>% 
   pivot_longer(!c(iav, Sample), names_to="cytokine", values_to="concentration") %>% 
   filter(!concentration==0) %>% 
@@ -127,6 +140,165 @@ table <- merge(neg_range, pos_range, by="cytokine", all.x=TRUE)
 write.csv(table, "Output Files/manuscript_cytokinetable.csv", row.names=FALSE)
 ```
 
+## PCA
+```{r}
+pca <- 
+  prcomp(data[,2:10], center=TRUE, scale=TRUE)
+
+pca_df <- 
+  data.frame(
+    x=pca$x[,1],
+    y=pca$x[,2],
+    molt.stage=data$molt.stage,
+    year=factor(data$year),
+    location=data$location,
+    sex=data$sex,
+    iav=data$iav,
+    iavser=data$iavser,
+    bc_bin=data$bc_bin
+    )
+
+pca_labelx <-
+  paste("PC1 (", 
+        round(abs(summary(pca)$importance[2,1]*100), digits=0),
+        "%)",
+        sep="")
+pca_labely <-
+  paste("PC2 (", 
+        round(abs(summary(pca)$importance[2,2]*100), digits=0),
+        "%)",
+        sep="")
+```
+
+### Molt Stage
+```{r}
+pca_molt <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=molt.stage)) +
+  geom_point() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  scale_color_manual("Molt Stage",
+                     values=c("#9d9d9d","#008ba2", "#000000")) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_molt
+```
+
+### Year
+```{r}
+pca_year <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=year)) +
+  geom_point() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_year
+```
+
+#### What's up with year?
+Similar # detections per sample as in other years (det.samp), and similar total cytokine concentrations per sample as in other years (sum.samp). 
+```{r}
+yeartab <-
+  data.frame(table(data$year))
+  
+data %>% 
+  select(Sample, 2:10, year) %>% 
+  pivot_longer(!c(Sample, year), names_to="cytokine", values_to="concentration") %>%
+  filter(!concentration==0) %>% 
+  group_by(year) %>% 
+  summarize(sum = sum(concentration),
+            mean = mean(concentration),
+            median = median(concentration),
+            n = n()) %>% 
+  data.frame() %>% 
+  merge(., yeartab, by.x="year", by.y="Var1") %>% 
+  mutate(det.samp = n/Freq,
+         sum.samp = sum/Freq)
+```
+
+
+### Location
+```{r}
+pca_location <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=location)) +
+  geom_point() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_location
+```
+
+### Sex
+```{r}
+pca_sex <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=sex)) +
+  geom_point() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_sex
+```
+
+### Body Condition
+```{r}
+pca_bc <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=bc_bin)) +
+  geom_point() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_bc
+```
+
+### IAV
+```{r}
+pca_iav <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=iav)) +
+  geom_point() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_iav
+```
+
+### IAV Serology
+```{r}
+pca_iavser <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=iavser)) +
+  geom_point() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_iavser
+```
+
 ## Is proportion of IAV+/IAV- similar across variables?
 ```{r}
 # Location
@@ -145,7 +317,7 @@ tryCatch({
 
 data.frame(table(data$iav, data$molt.stage)) %>% 
   pivot_wider(names_from="Var1", values_from="Freq") %>% 
-  mutate(proppos = (pos/(pos+neg))*100)
+  mutate(proppos = (`IAV+`/(`IAV+` + `IAV-`))*100)
 
 # Pairwise post-hoc
 pairwise_fisher_test(table(data$molt.stage, data$iav), p.adjust.method="holm")

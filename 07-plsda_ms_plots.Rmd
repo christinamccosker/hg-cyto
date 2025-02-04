@@ -18,9 +18,16 @@ library(reshape2)
 
 ## Data 
 ```{r, message=FALSE, warning=FALSE}
-cyto <- read.csv("Output Files/cleaned_cytokine.csv")
-cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
-meta <- read.csv("Output Files/metadata_cyto.csv")
+cyto <- 
+  read.csv("Output Files/cleaned_cytokine.csv")
+
+cytoscale <- 
+  read.csv("Output Files/cleaned_cytokine_scaled.csv")
+
+meta <- 
+  read.csv("Output Files/metadata_cyto.csv") %>% 
+  mutate(iav=gsub("neg", "IAV-", iav),
+         iav=gsub("pos", "IAV+", iav))
 
 # Merge cytokine & metadata 
 data <- merge(cyto, meta, by="Sample")
@@ -46,11 +53,11 @@ datascale_bc <-
 
 data_iavneg <-
   data %>% 
-  filter(iav=="neg")
+  filter(iav=="IAV-")
 
 datascale_iavneg <-
   datascale %>% 
-  filter(iav=="neg")
+  filter(iav=="IAV-")
 ```
 
 ## Plot!
@@ -138,8 +145,7 @@ iav_plsda <- mixOmics::plsda(datascale[,2:10],
 iav_plsda_data <- 
   data.frame(x = iav_plsda$variates$X[,1], 
              y = iav_plsda$variates$X[,2],
-             iav = iav_plsda$Y) %>% 
-  mutate(iav=ifelse(iav=="neg", "Neg", "Pos"))
+             iav = iav_plsda$Y)
 
 # Set x and y axis labels based on prop of variation explained
 labelx_iav <- paste("LV1 (", 

@@ -14,7 +14,6 @@ library(vegan)
 library(mixOmics)
 library(tidyverse)
 library(ggfortify)
-library(cramer)
 library(mlr3)
 library(paradox)
 library(mlr3tuning)
@@ -25,68 +24,29 @@ library(ggmosaic)
 library(EnvStats)
 library(gridExtra)
 library(grid)
+library(ggpubr)
 ```
 
 ## Data
 ```{r, message=FALSE, warning=FALSE}
-cyto <- read.csv("Output Files/cleaned_cytokine.csv")
-cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
-cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
-meta <- read.csv("Output Files/metadata_cyto.csv")
+cyto <- 
+  read.csv("Output Files/cleaned_cytokine.csv")
+cytobin <- 
+  read.csv("Output Files/cleaned_cytokine_bin.csv")
+
+meta <- 
+  read.csv("Output Files/metadata_cyto.csv") %>% 
+  mutate(iav=gsub("neg", "IAV-", iav),
+         iav=gsub("pos", "IAV+", iav))
 
 # Merge cytokine & metadata 
-data <- merge(cyto, meta, by="Sample") %>% 
+data <- 
+  merge(cyto, meta, by="Sample") %>% 
   filter(!is.na(molt.stage))
 
 databin <- 
   merge(cytobin, meta, by="Sample") %>% 
   filter(!is.na(molt.stage))
-
-datascale <- 
-  merge(cytoscale, meta, by="Sample") %>% 
-  filter(!is.na(molt.stage))
-```
-
-
-## PCA
-```{r}
-PCA_scaled_molt <- prcomp(datascale[,2:10], center=FALSE, scale=FALSE)
-```
-
-### Visualize
-```{r}
-PCA_scaled_molt_df <- data.frame(x=PCA_scaled_molt$x[,1],
-                                 y=PCA_scaled_molt$x[,2],
-                                 molt.stage=datascale$molt.stage)
-
-pca_labelx <-
-  paste("PC1 (", 
-                round(abs(summary(PCA_scaled_molt)$importance[2,1]*100), digits=2),
-                "%)",
-                sep="")
-pca_labely <-
-  paste("PC2 (", 
-                round(abs(summary(PCA_scaled_molt)$importance[2,2]*100), digits=2),
-                "%)",
-                sep="")
-
-PCA_scaled_molt_ggplot <- 
-  ggplot(PCA_scaled_molt_df, 
-         aes(x=x, 
-             y=y,
-             col=molt.stage)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=pca_labelx,
-       y = pca_labely,
-       name="Molt Stage") +
-  scale_color_manual("Molt Stage",
-                     values=c("#9d9d9d","#008ba2", "#000000")) +
-  theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position.inside=c(0.1, 0.1))
-
-PCA_scaled_molt_ggplot
 ```
 
 ## PERMANOVA
@@ -95,8 +55,9 @@ PCA_scaled_molt_ggplot
 From McCosker et al. 2024:  
 
 - A dissimilarity matrix was then created using betadiver from package vegan (v. 2.5-4; Oksanen et al.
-2018) with dissimilarity deﬁned as 1 – Sørensen’s index (Sørensen 1948).
+2018) with dissimilarity deﬁned as 1 – Sørensen’s index (Sørensen 1948).  
 
+R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
 #### Create similarity matrix (Sorensen)
 ```{r}
 databin_perm <- 
@@ -112,8 +73,7 @@ plot(databin_dist)
 mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin_dist)
 ```
 
-#### PERMANOVA with dissimilarity (1-Sorensen)
-R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
+#### Run PERMANOVA
 ```{r}
 databin_adonis <- 
   adonis2((1-databin_dist) ~ molt.stage, data=databin, permutations=4999)
@@ -123,17 +83,13 @@ databin_adonis
 databin_adonis$R2[1]*100
 ```
 
-#### Visualizing multivariate groups
+#### Visualization
+Principal Coordinates Analysis  
 Spider plot illustrating group dissimilarity and group centroid locations (molt stage) using presence/absence data to compare cytokine detections across molt stages.
-
-##### Principal coordinates analysis 
 ```{r, warning=FALSE}
 # Use 1 - Sorensen's for dissimilarity 
 databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
-```
 
-##### Plot
-```{r}
 plot(databin_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
@@ -164,7 +120,9 @@ From McCosker et al. 2024:
 
 - The adonis function was used to conduct a permutational multivariate analysis of variance (PERMANOVA) on group (method) dissimilarity. Group dispersions weremodeled with betadisper to determine whether the assumption of equal dispersions had been met under adonis and principal coordinate analysis was used relative to PERMANOVA results to visualize group dispersions around the centroid.  
 - Bray-Curtis dissimilarity used  
-  - well-suited to species abundance because it ignores variables that have zeros for both objects (joint absences)
+  - well-suited to species abundance because it ignores variables that have zeros for both objects (joint absences)  
+  
+#### Run PERMANOVA
 ```{r}
 data_perm <-
   data %>% 
@@ -181,16 +139,11 @@ data_adonis
 data_adonis$R2[1]*100
 ```
 
-#### Visualizing multivariate groups
-
-##### Principal coordinates analysis 
+#### Visualization
 ```{r, warning=FALSE}
 # Use Bray-Curtis dissimilarity matrix
 data_pco <- cmdscale(data_dist, eig=TRUE)
-```
 
-##### Plot
-```{r}
 plot(data_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
@@ -215,34 +168,6 @@ boxplot(disper)
 pairwise.adonis(data_dist, data$molt.stage)
 ```
 
-
-## Cramer Test 
-Multivariate composition of the cytokine pattern between each molt stage pairwise comparison It can handle multiple variables, potentially complex interactions and correlations.  
-```{r}
-# Separate data by molt stage
-three <- 
-  datascale %>% 
-  filter(molt.stage=="III") %>% 
-  select(2:10) %>% 
-  data.matrix()
-
-four <- 
-  datascale %>% 
-  filter(molt.stage=="IV") %>% 
-  select(2:10) %>% 
-  data.matrix()
-
-five <- 
-  datascale %>% 
-  filter(molt.stage=="V") %>% 
-  select(2:10) %>% 
-  data.matrix()
-
-# Run Cramer Tests!
-cramer.test(three, four)
-cramer.test(four, five)
-cramer.test(three, five) ###
-```
 
 ## Cytokine Importance
 The default splitting method for classification is gini index. Optional parameters:  
@@ -277,7 +202,7 @@ Classification Ability
 ```{r, message=FALSE}
 # Prepare data for CART
 data_cart <- 
-  datascale %>% 
+  data %>% 
   select(2:10, molt.stage) %>% 
   mutate(molt.stage=factor(molt.stage, levels=c("III", "IV", "V")))
 ```
@@ -378,22 +303,28 @@ prop.table(table(databin$molt.stage, databin$IL.8), margin=1)*100
 
 il8_prop <- 
   databin %>% 
-  mutate(IL.8=gsub("1", "P", IL.8),
-         IL.8=gsub("0", "A", IL.8),
-         IL.8=factor(IL.8, levels=c("P", "A"))) %>%
+  mutate(IL.8=gsub("1", "Present", IL.8),
+         IL.8=gsub("0", "Absent", IL.8),
+         IL.8=factor(IL.8, levels=c("Present", "Absent"))) %>%
   ggplot(data=.) +
   geom_mosaic(aes(x=product(IL.8,molt.stage), fill=IL.8)) +
-  scale_fill_manual(values=c("P"="gray60", "A"="lightgray")) +
+  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray"),
+                    name="Cytokine") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y="Proportion of Samples") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        legend.position="none",
+        legend.position="bottom",
         text = element_text(size=10),
         plot.title = element_text(hjust = 0.5))
+cyto_leg <- 
+  get_legend(il8_prop)
 
-il8_prop
+il8_prop <-
+  il8_prop +
+  theme(legend.position="none")
 ```
 
 #### Concentration
@@ -406,31 +337,28 @@ il8 <-
   geom_boxplot(color="black", fill="gray60", lwd=0.25,
                outliers=FALSE) +
   geom_point(size=0.75, position=position_jitter(width=0.2)) +
-  labs(x=NULL, y=NULL) +
+  labs(x=NULL, y="log(Concentration (pg/mL))") +
   stat_n_text(size=3) +
   theme_classic() +
   theme(text = element_text(size=10),
          panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
 il8
-
-data %>% 
-  select(molt.stage, IL.8) %>% 
-  filter(!IL.8==0) %>% 
-  group_by(molt.stage) %>% 
-  summarize(median=median(IL.8))
 ```
 
 #### Combine
 ```{r}
-bottom <- grid.arrange(il8_prop, il8, ncol=2,
-                       left=textGrob("IL-8", rot=90, gp=gpar(fontsize=10)))
+bottom1 <- grid.arrange(il8_prop, il8, ncol=2,
+                       left=textGrob("IL-8", rot=90, gp=gpar(fontsize=10)),
+                        bottom=textGrob("Molt Stage", gp=gpar(fontsize=10)))
+bottom2 <- grid.arrange(bottom1, cyto_leg, 
+                        ncol=1, 
+                        heights=c(3,0.5))
 
 jpeg("Figures/cytoimportance_molt.jpeg", width=7, height=6, units="in", res=300)
-all <- grid.arrange(varimp_plot, bottom, 
-                    ncol=1, heights=c(1,1.5),
-                    bottom=textGrob("Molt Stage", gp=gpar(fontsize=10)))
+all <- grid.arrange(varimp_plot, bottom2, 
+                    ncol=1, heights=c(1,1.5))
 grid.polygon(x=c(0, 0, 1, 1),
-             y=c(0, 0.62, 0.62, 0),
+             y=c(0, 0.6, 0.6, 0),
              gp=gpar(fill=NA))
 grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
              y=c(0.92, 0.97, 0.97, 0.92),
@@ -439,19 +367,12 @@ dev.off()
 ```
 
 
-## How different groups are
-Methods: 
-
-- Partial least squares regression (PLSR) figures  
-- 2-dimensional Kolmogorov-Smirnov test  
-  - not sure this one makes sense!
-
-### PLSDA 
+## PLSDA
 PLSDA is a supervised dimensionality reduction method that is similar to PCA but incorporates class labels to maximize the separation between groups.  
 One advantage of PLS is that it has fewer assumptions and hence it can use predictor variables that are collinear and not independent.  
 The aim of PLS-DA is to discriminate the sample groups, rather than maximizing the variance. When the maximization of the variance corresponds to a discrimination of the classes, then this is awesome, but otherwise, it means that the major source of variation is probably not mainly due to the sample group differences.
 
-#### Prepare data
+### Run model
 ```{r}
 pls_x <-
  data_cart[,1:9] 
@@ -459,17 +380,14 @@ pls_x <-
 pls_y <- 
   data_cart %>% 
   select(molt.stage)
-```
 
-#### PLSDA Model
-```{r}
 plsda_model <- mixOmics::plsda(pls_x,
                                pls_y$molt.stage,
                                scale=TRUE,
                                ncomp=9)
 ```
 
-#### Visualizations
+### Visualization
 ```{r}
 # Set x and y axis labels based on model loadings
 labelx <- paste("X-variate 1: ", 
@@ -505,7 +423,7 @@ molt_plsda_ggplot <-
 molt_plsda_ggplot
 ```
 
-#### Cytokine Contributions
+### Cytokine Contributions
 ```{r}
 plsda_loadings <- 
   plsda_model$loadings$X %>% 
