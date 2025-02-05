@@ -13,15 +13,13 @@ editor_options:
 library(vegan)
 library(mixOmics)
 library(tidyverse)
-library(ggfortify)
-library(cramer)
+library(pairwiseAdonis)
 library(mlr3)
-library(paradox)
 library(mlr3tuning)
 library(rpart)
 library(rpart.plot)
-library(pairwiseAdonis)
 library(ggmosaic)
+library(ggpubr)
 library(EnvStats)
 library(gridExtra)
 library(grid)
@@ -29,25 +27,24 @@ library(grid)
 
 ## Data
 ```{r, message=FALSE, warning=FALSE}
-cyto <- read.csv("Output Files/cleaned_cytokine.csv")
-cytobin <- read.csv("Output Files/cleaned_cytokine_bin.csv")
-cytoscale <- read.csv("Output Files/cleaned_cytokine_scaled.csv")
-meta <- read.csv("Output Files/metadata_cyto.csv") %>% 
+cyto <- 
+  read.csv("Output Files/cleaned_cytokine.csv")
+cytobin <- 
+  read.csv("Output Files/cleaned_cytokine_bin.csv")
+
+meta <- 
+  read.csv("Output Files/metadata_cyto.csv") %>% 
   mutate(iav=gsub("neg", "IAV-", iav),
          iav=gsub("pos", "IAV+", iav))
 
 # Merge cytokine & metadata 
-data <- merge(cyto, meta, by="Sample") %>% 
+data <- 
+  merge(cyto, meta, by="Sample") %>% 
   filter(!is.na(bc_bin)) %>% 
   mutate(bc_bin = factor(bc_bin, levels=c("Poor", "Average", "Robust")))
 
 databin <- 
   merge(cytobin, meta, by="Sample") %>% 
-  filter(!is.na(bc_bin)) %>% 
-  mutate(bc_bin = factor(bc_bin, levels=c("Poor", "Average", "Robust")))
-
-datascale <- 
-  merge(cytoscale, meta, by="Sample") %>% 
   filter(!is.na(bc_bin)) %>% 
   mutate(bc_bin = factor(bc_bin, levels=c("Poor", "Average", "Robust")))
 ```
@@ -84,8 +81,7 @@ plot(databin_dist)
 mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin_dist)
 ```
 
-#### PERMANOVA with dissimilarity (1-Sorensen)
-R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
+#### Run PERMANOVA
 ```{r}
 databin_adonis <- 
   adonis2((1-databin_dist) ~ bc_bin, data=databin, permutations=4999)
@@ -95,16 +91,12 @@ databin_adonis
 databin_adonis$R2[1]*100
 ```
 
-#### Visualizing multivariate groups
-
-##### Principal coordinates analysis 
+#### Visualization
+Principal Coordinates Analysis
 ```{r, warning=FALSE}
 # Use 1 - Sorensen's for dissimilarity 
 databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
-```
 
-##### Plot
-```{r}
 plot(databin_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
@@ -131,6 +123,7 @@ None - no sig difference in multivariate distributions
 
 
 ### Cytokine Concentration
+#### Run PERMANOVA
 ```{r}
 data_perm <-
   data %>% 
@@ -147,16 +140,11 @@ data_adonis
 data_adonis$R2[1]*100
 ```
 
-#### Visualizing multivariate groups
-
-##### Principal coordinates analysis 
+#### Visualization
 ```{r, warning=FALSE}
 # Use Bray-Curtis dissimilarity matrix
 data_pco <- cmdscale(data_dist, eig=TRUE)
-```
 
-##### Plot
-```{r}
 plot(data_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 
@@ -183,40 +171,11 @@ boxplot(disper)
 None - no sig difference in multivariate distributions
 
 
-## Cramer Test 
-Multivariate composition of the cytokine pattern between each molt stage pairwise comparison It can handle multiple variables, potentially complex interactions and correlations.  
-```{r}
-# Separate data by body condition
-poor <- 
-  datascale %>% 
-  filter(bc_bin=="Poor") %>% 
-  select(2:10) %>% 
-  data.matrix()
-
-average <- 
-  datascale %>% 
-  filter(bc_bin=="Average") %>% 
-  select(2:10) %>% 
-  data.matrix()
-
-robust <- 
-  datascale %>% 
-  filter(bc_bin=="Robust") %>% 
-  select(2:10) %>% 
-  data.matrix()
-
-# Run Cramer Tests!
-cramer.test(poor, average)
-cramer.test(average, robust)
-cramer.test(poor, robust) 
-```
-
 ## Cytokine Importance
-
-### Prepare data for CART
+### Prepare data
 ```{r, message=FALSE}
 data_cart <- 
-  datascale %>% 
+  data %>% 
   select(2:10, bc_bin) %>% 
   mutate(bc_bin=factor(bc_bin, levels=c("Poor", "Average", "Robust")))
 ```
@@ -257,18 +216,18 @@ tuner <- tnr("grid_search",
 # optimal values: 
   # maxdepth = 5
   # minbucket = 6
-  # minsplit = 10
-  # classif.ce = 0.5360839
+  # minsplit = 4
+  # classif.ce = 0.5468415
 ```
 
-### Run model with optimized parameters
+### Run CART 
 ```{r}
 cart_model <- rpart(formula=bc_bin ~ .,
                     data=data_cart,
                     method="class",
                     maxdepth=5,
                     minbucket=6,
-                    minsplit=10)
+                    minsplit=4)
 
 # plot optimized tree
 rpart.plot(cart_model)
@@ -276,7 +235,7 @@ cart_model$variable.importance
   # IFNg, IL-18 are two most important cytokines
 ```
 
-### Plot important cytokines
+### Plot 
 #### Variable Importance
 ```{r}
 varimp <- 
@@ -417,10 +376,8 @@ dev.off()
 ```
 
 
-## How different groups are
-
-### PLSDA - Body Condition
-#### Prepare data
+## PLS-DA
+### Run model
 ```{r, warning=FALSE}
 pls_x <-
   data_cart[,1:9]
@@ -428,28 +385,28 @@ pls_x <-
 pls_y <- 
   data_cart %>% 
   select(bc_bin) 
+
+plsda_model <- 
+  mixOmics::plsda(pls_x,
+                  pls_y$bc_bin,
+                  scale=TRUE,
+                  ncomp=9)
 ```
 
-#### PLSDA Model
-```{r}
-plsda_model <- mixOmics::plsda(pls_x,
-                               pls_y$bc_bin,
-                               scale=FALSE,
-                               ncomp=9)
-```
-
-#### Visualizations
+### Visualizations
 ```{r}
 # Set x and y axis labels based on model loadings
-labelx <- paste("X-variate 1: ", 
-                round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
-                "% expl. var",
-                sep="")
+labelx <- 
+  paste("X-variate 1: ", 
+        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+        "% expl. var",
+        sep="")
 
-labely <- paste("X-variate 2: ", 
-                round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
-                "% expl. var",
-                sep="")
+labely <- 
+  paste("X-variate 2: ", 
+        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+        "% expl. var",
+        sep="")
 
 # ggplot2
 plsda_ggplot <- 

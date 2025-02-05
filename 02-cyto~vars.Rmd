@@ -53,6 +53,8 @@ data$sex <- as.factor(data$sex)
 data$molt.stage <- factor(data$molt.stage, levels=c("III", "IV", "V"), ordered=TRUE)
 data$bc_bin <- factor(data$bc_bin, levels=c("Poor", "Average", "Robust"))
 data$bmi_bin <- factor(data$bmi_bin, levels=c("Poor", "Robust"))
+data$analysis.year <- factor(data$analysis.year)
+data$batch <- factor(data$batch, levels=c("1", "2", "3", "4"))
 ```
 
 ## Descriptive Stats 
@@ -77,6 +79,7 @@ table(supplmeta$year)
 table(supplmeta$sex)
 table(supplmeta$molt.stage)
 table(data$bc_bin)
+table(data$analysis.year)
 ```
 
 ### Cytokine detections per sample
@@ -155,7 +158,9 @@ pca_df <-
     sex=data$sex,
     iav=data$iav,
     iavser=data$iavser,
-    bc_bin=data$bc_bin
+    bc_bin=data$bc_bin,
+    analysis.year=data$analysis.year,
+    batch=data$batch
     )
 
 pca_labelx <-
@@ -195,11 +200,14 @@ pca_year <-
              y=y,
              col=year)) +
   geom_point() +
+  stat_ellipse() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
 pca_year
+
+table(data$year, data$iav)
 ```
 
 #### What's up with year?
@@ -224,6 +232,39 @@ data %>%
          sum.samp = sum/Freq)
 ```
 
+### Analysis Year
+Year that samples were analyzed, "batches"
+```{r}
+pca_analysisyear <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=analysis.year)) +
+  geom_point() +
+  stat_ellipse() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_analysisyear
+```
+
+### Batch
+Batches that samples were analyzed in
+```{r}
+pca_batch <- 
+  ggplot(pca_df, 
+         aes(x=x, 
+             y=y,
+             col=batch)) +
+  geom_point() +
+  stat_ellipse() +
+  labs(x=pca_labelx,
+       y = pca_labely) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+pca_batch
+```
 
 ### Location
 ```{r}

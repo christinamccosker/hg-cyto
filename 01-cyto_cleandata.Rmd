@@ -15,37 +15,63 @@ library(tidyverse)
 
 ## Raw file import & cleaning
 ```{r, message=FALSE, warning=FALSE}
-cyto1 <- read.csv("Input Files/Grey seal cytokine 200_300_800_900.csv")
-cyto1 <- cyto1[-c(1:6, 8:18, 37:56),-c(1:2)]
-colnames(cyto1) <- cyto1[1,]
-colnames(cyto1)[1] <- "Sample"
-cyto1 <- cyto1[-1,]
+cyto1 <- 
+  read.csv("Input Files/Grey seal cytokine 200_300_800_900.csv") %>% 
+  select(-c(1:2)) %>% 
+  slice(-c(1:6, 8:18, 37:56)) %>% 
+  setNames(c("Sample", .[1,2:14])) %>% 
+  slice(-c(1)) %>% 
+  mutate(analysis.year="2016",
+         batch="1")
 
-cyto2 <- read.csv("Input Files/Results #1349 plate 1 grey seal millipore canine kit.csv")
-cyto2 <- cyto2[, -c(2:3, 5:6, 8:10)]
-cyto2 <- reshape(cyto2, idvar="Description", timevar="Analyte", direction="wide")
-colnames(cyto2) <- colnames(cyto1)
-cyto2 <- cyto2[-c(1:3),]
-# these samples quantified twice. kept samples from first run (ML - cyto1)
-cyto2 <- filter(cyto2, !Sample=="853" 
-                     & !Sample=="869"
-                     & !Sample=="896"
-                     & !Sample=="900") 
+cyto_names <-
+  gsub("\\s*\\([^\\)]+\\)","", colnames(cyto1)[2:14])
 
-cyto3 <- read.csv("Input Files/Results #1350 plate 2 grey seal millipore canine kit.csv")
-cyto3 <- cyto3[-1,-c(2:3, 5:6, 8:10)]
-cyto3 <- reshape(cyto3, idvar="Description", timevar="Analyte", direction="wide")
-colnames(cyto3) <- colnames(cyto1)
-cyto3 <- cyto3[-c(1:3),]
+cyto1 <- 
+  cyto1 %>% 
+  setNames(c("Sample", cyto_names, "analysis.year", "batch"))
 
-cyto4 <- read.csv("Input Files/Results #1359 4-13-23 2023 Monomoy_Muskeget_GP cytokines.csv")
-cyto4 <- cyto4[-c(1:12), -c(1:2,17)]
-colnames(cyto4) <- colnames(cyto1)
-for (i in 1:nrow(cyto4)) {
-  str <- cyto4[i,1]
-  new_str <- gsub('Hg ','',str)
-  cyto4[i,1] <- new_str
-}
+cyto2 <- 
+  read.csv("Input Files/Results #1349 plate 1 grey seal millipore canine kit.csv") %>% 
+  select(-c(2:3, 5:6, 8:10)) %>%
+  filter(!Description=="" &
+         !Description=="QC1" &
+         !Description=="QC2") %>% 
+  pivot_wider(id_cols="Description", names_from="Analyte", values_from="Obs.Conc") %>% 
+  filter(!Description=="853" &
+         !Description=="869" &
+         !Description=="896" &
+         !Description=="900") %>% 
+  mutate(analysis.year="2022",
+         batch="2") %>% 
+  setNames(c("Sample", cyto_names, "analysis.year", "batch"))
+
+cyto3 <- 
+  read.csv("Input Files/Results #1350 plate 2 grey seal millipore canine kit.csv") %>% 
+  select(-c(2:3, 5:6, 8:10)) %>%
+  filter(!Description=="" &
+         !Description=="QC1" &
+         !Description=="QC2") %>% 
+  pivot_wider(id_cols="Description", names_from="Analyte", values_from="Obs.Conc") %>% 
+  mutate(analysis.year="2022",
+         batch="3") %>% 
+  setNames(c("Sample", cyto_names, "analysis.year", "batch"))
+
+# human error while typing in sample names to computer 1505 -> 1507
+cyto3$Sample[22] <- "1507" 
+
+cyto4 <- 
+  read.csv("Input Files/Results #1359 4-13-23 2023 Monomoy_Muskeget_GP cytokines.csv") %>% 
+  select(-c(1:2,17)) %>% 
+  rename("Sample"="X.2") %>% 
+  filter(!Sample=="" &
+         !Sample=="QC1" &
+         !Sample=="QC2" &
+         !Sample=="Description") %>% 
+  mutate(Sample=gsub("Hg ", "", Sample),
+         analysis.year="2023",
+         batch="4") %>% 
+  setNames(c("Sample", cyto_names, "analysis.year", "batch"))
 ```
 
 ## Merge cytokine data & tidy
@@ -53,17 +79,6 @@ for (i in 1:nrow(cyto4)) {
 cyto <- 
   bind_rows(cyto1, cyto2, cyto3, cyto4) 
 
-# human error while typing in sample names to computer 1505 -> 1507
-cyto$Sample[74] <- "1507" 
-
-# Remove () from cytokine names
-cytokines <- as.data.frame(colnames(cyto[-1]))
-for (i in 1:13) {
-  str <- cytokines[i,]
-  new_str <- gsub("\\s*\\([^\\)]+\\)","",str)
-  cytokines[i,] <- new_str
-}
-colnames(cyto)[2:14] <- cytokines$`colnames(cyto[-1])`
 
 # Change OOR < to 0 & remove *
 for (i in 1:nrow(cyto)) {
@@ -79,15 +94,6 @@ for (i in 1:nrow(cyto)) {
   }
 }
 
-# Set cyto conc to as numeric 
-cyto[,2:14] <- sapply(cyto[,2:14], as.numeric)
-
-# Order cytokines alphabetically 
-cyto <- 
-  cyto %>% 
-  select(Sample, `GM-CSF`, IFNg, `IL-2`, `IL-6`, `IL-7`, `IL-8`, `IL-10`, 
-          `IL-15`, `IL-18`, `IP-10`, `KC-like`, `MCP-1`, TNFa)
-
 # Write out data for all cytokines
 write.csv(cyto, "Output Files/cleaned_cytokine_all.csv", row.names=FALSE)
 
@@ -97,7 +103,6 @@ cyto_10 <-
   select_if(function(x) sum(x>0) > 11) %>% 
   mutate(Sample = cyto$Sample)
   
-
 # Write out reduced cytokine data
 write.csv(cyto_10, file="Output Files/cleaned_cytokine.csv", row.names=FALSE)
 ```

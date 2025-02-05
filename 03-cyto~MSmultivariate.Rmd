@@ -13,18 +13,16 @@ editor_options:
 library(vegan)
 library(mixOmics)
 library(tidyverse)
-library(ggfortify)
+library(pairwiseAdonis)
 library(mlr3)
-library(paradox)
 library(mlr3tuning)
 library(rpart)
 library(rpart.plot)
-library(pairwiseAdonis)
 library(ggmosaic)
+library(ggpubr)
 library(EnvStats)
 library(gridExtra)
 library(grid)
-library(ggpubr)
 ```
 
 ## Data
@@ -198,15 +196,14 @@ Classification Ability
 - Resources:  
   - https://mlr3book.mlr-org.com/chapters/chapter4/hyperparameter_optimization.html#sec-tuning-instance  
   - https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-resampling  
-
+  
+### Prepare data
 ```{r, message=FALSE}
-# Prepare data for CART
 data_cart <- 
   data %>% 
   select(2:10, molt.stage) %>% 
   mutate(molt.stage=factor(molt.stage, levels=c("III", "IV", "V")))
 ```
-
 
 ### Cross Validation
 ```{r}
@@ -242,21 +239,21 @@ tuner <- tnr("grid_search",
  
 
 # optimal values: 
-  # maxdepth = 2
-  # minbucket = 6
-  # minsplit = 30
-  # classif.ce = 0.3170455
+  # maxdepth = 3
+  # minbucket = 4
+  # minsplit = 10
+  # classif.ce = 0.2681818
 ```
 
-### Run model with optimized parameteres
+### Run CART 
 Leaves out molt stage III - too few samples for CART alogrithm
 ```{r}
 cart_model <- rpart(formula=molt.stage ~ .,
                     data=data_cart,
                     method="class",
-                    maxdepth=2,
-                    minbucket=6,
-                    minsplit=30)
+                    maxdepth=3,
+                    minbucket=4,
+                    minsplit=10)
 
 
 # plot optimized tree
@@ -266,7 +263,7 @@ cart_model$variable.importance
 # IL-8 most important cytokine
 ```
 
-### Plot important cytokines
+### Plot 
 #### Variable Importance
 ```{r}
 varimp <- 
@@ -367,7 +364,7 @@ dev.off()
 ```
 
 
-## PLSDA
+## PLS-DA
 PLSDA is a supervised dimensionality reduction method that is similar to PCA but incorporates class labels to maximize the separation between groups.  
 One advantage of PLS is that it has fewer assumptions and hence it can use predictor variables that are collinear and not independent.  
 The aim of PLS-DA is to discriminate the sample groups, rather than maximizing the variance. When the maximization of the variance corresponds to a discrimination of the classes, then this is awesome, but otherwise, it means that the major source of variation is probably not mainly due to the sample group differences.
@@ -381,24 +378,27 @@ pls_y <-
   data_cart %>% 
   select(molt.stage)
 
-plsda_model <- mixOmics::plsda(pls_x,
-                               pls_y$molt.stage,
-                               scale=TRUE,
-                               ncomp=9)
+plsda_model <- 
+  mixOmics::plsda(pls_x,
+                  pls_y$molt.stage,
+                  scale=TRUE,
+                  ncomp=9)
 ```
 
 ### Visualization
 ```{r}
 # Set x and y axis labels based on model loadings
-labelx <- paste("X-variate 1: ", 
-                round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
-                "% expl. var",
-                sep="")
+labelx <- 
+  paste("X-variate 1: ", 
+        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+        "% expl. var",
+        sep="")
 
-labely <- paste("X-variate 2: ", 
-                round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
-                "% expl. var",
-                sep="")
+labely <- 
+  paste("X-variate 2: ", 
+        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+        "% expl. var",
+        sep="")
 
 # ggplot2
 plsda_ggplot <- 

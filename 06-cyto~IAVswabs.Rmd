@@ -218,7 +218,7 @@ cramer.test(nas_pos, rec_pos) # mid vs late infection
 # Configure data
 swabs <-
   data %>% 
-  select(!year & !IAV) %>% 
+  select(!year & !IAV & !analysis.year & !batch) %>% 
   pivot_longer(cols=c(2:10), names_to="cytokine", values_to="concentration") %>% 
   pivot_longer(cols=c(2:4), names_to="swab", values_to="status") 
 
