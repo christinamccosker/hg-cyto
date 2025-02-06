@@ -94,11 +94,13 @@ permanova-2
 cytokine-presenceabsence-2
 create-similarity-matrix-sorensen-1
 run-permanova-4
+incorporating-analysis-year-batch
 visualization-5
 visualization---presentation
 homogeneity-of-group-dispersions-4
 cytokine-concentration-2
 run-permanova-5
+incorporating-analysis-year-batch-1
 visualization-6
 visualization---presentation-1
 homogeneity-of-group-dispersions-5
@@ -188,8 +190,7 @@ prepare-data-7
 plsda-model-2
 visualizations-3
 cytokine-contributions-4
-iav-cytokines-3-1
-libraries-7
+iav-cytokines-4
 data-5
 pca-3
 analysis-year-3
@@ -229,7 +230,7 @@ test-for-normality
 cramer-test
 cytokine-exploratory-plots-swabs
 create-panel-figure-for-pls-da-plots
-libraries-8
+libraries-7
 data-6
 plot-5
 molt-stage-1

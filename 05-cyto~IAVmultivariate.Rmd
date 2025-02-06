@@ -38,11 +38,13 @@ meta <- read.csv("Output Files/metadata_cyto.csv") %>%
 
 # Merge cytokine & metadata 
 data <- merge(cyto, meta, by="Sample") %>% 
-  filter(!is.na(iav))
+  filter(!is.na(iav)) %>% 
+  mutate(analysis.year=factor(analysis.year))
 
 databin <- 
   merge(cytobin, meta, by="Sample") %>% 
-  filter(!is.na(iav))
+  filter(!is.na(iav)) %>% 
+  mutate(analysis.year=factor(analysis.year))
 ```
 
 
@@ -74,6 +76,42 @@ databin_adonis
 # R2
 databin_adonis$R2[1]*100
 ```
+
+#### Incorporating analysis year (batch)
+
+As Strata:   
+https://stats.stackexchange.com/questions/188519/adonis-in-vegan-order-of-variables-or-use-of-strata 
+```{r}
+adonis2((1-databin_dist) ~ analysis.year/iav, 
+        data = databin, 
+        strata = databin$analysis.year, 
+        permutations=4999)
+
+adonis2((1-databin_dist) ~ iav, 
+        data = databin, 
+        strata = databin$analysis.year, 
+        permutations=4999)
+```
+
+Function adonis2 can evaluate terms sequentially. In a model with right-hand-side ~ A + B the effects of A are evaluated first, and the effects of B after removing the effects of A, but the variance may still stratify by patient:  
+https://www.biostars.org/p/9592707/ 
+```{r}
+adonis2((1-databin_dist) ~ analysis.year + iav,
+        data=databin,
+        permutations=4999)
+```
+
+Using restricted permutation test, data are not exchangeable between [analysis year], so permute within groups defined by strata:  
+https://stats.stackexchange.com/questions/590510/repeated-measures-permanova-nowhere-to-find
+```{r}
+permute_databin <- how(plots=Plots(strata=databin$analysis.year, type="none"),
+               nperm=4999)
+
+adonis2((1-databin_dist) ~ iav, 
+        data=databin,
+        permutations=permute_databin)
+```
+
 
 #### Visualization
 Principal Coordinates Analysis
@@ -136,6 +174,37 @@ data_adonis
 # R2
 data_adonis$R2[1]*100
 ```
+
+#### Incorporating analysis year (batch)
+As Strata:   
+https://stats.stackexchange.com/questions/188519/adonis-in-vegan-order-of-variables-or-use-of-strata 
+```{r}
+adonis2(data_dist ~ analysis.year/iav, 
+        data = data, 
+        strata = data$analysis.year, 
+        permutations=4999)
+```
+
+
+Function adonis2 can evaluate terms sequentially. In a model with right-hand-side ~ A + B the effects of A are evaluated first, and the effects of B after removing the effects of A, but the variance may still stratify by patient:  
+https://www.biostars.org/p/9592707/ 
+```{r}
+adonis2(data_dist ~ analysis.year + iav,
+        data = data,
+        permutations=4999)
+```
+
+Using restricted permutation test, data are not exchangeable between [analysis year], so permute within groups defined by strata:  
+https://stats.stackexchange.com/questions/590510/repeated-measures-permanova-nowhere-to-find
+```{r}
+permute_data <- how(plots=Plots(strata=data$analysis.year, type="none"),
+               nperm=4999)
+
+adonis2(data_dist ~ iav, 
+        data=data,
+        permutations=permute_data)
+```
+
 
 #### Visualization
 ```{r, warning=FALSE}
@@ -217,7 +286,7 @@ tuner <- tnr("grid_search",
              )
 
 # Trigger the tuning process
-tuner$optimize(instance)
+#tuner$optimize(instance)
 
 # optimal values: 
   # maxdepth = 5
@@ -238,12 +307,8 @@ cart_model <- rpart(formula=iav ~ .,
 # plot optimized tree
 rpart.plot(cart_model)
 cart_model$variable.importance 
-  # KC-like, IL-6 are top two cytokines, then IL-18, IFNg
+  # KC-like, IL-6 are top two cytokines
 ```
-
-
-
-left off here - fix figs below if tomorrow tuning is still showing parameters that yield IL18
 
 
 ### Manuscript Plot
@@ -292,7 +357,6 @@ databin <-
 ```{r}
 prop.table(table(databin$iav, databin$KC.like), margin=1)*100
 prop.table(table(databin$iav, databin$IL.6), margin=1)*100
-prop.table(table(databin$iav, databin$IFNg), margin=1)*100
 
 kc_prop <- 
   databin %>%
@@ -335,22 +399,6 @@ il6_prop <-
         plot.title = element_text(hjust = 0.5))
 il6_prop
 
-ifng_prop <- 
-  databin %>%
-  ggplot(data=.) +
-  geom_mosaic(aes(x=product(IFNg,iav), fill=IFNg)) +
-  scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray")) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title="IFNg") +
-  theme_bw() +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        axis.title.x = element_blank(), 
-        axis.title.y = element_blank(),
-        legend.position="none",
-        text = element_text(size=10),
-        plot.title = element_text(hjust = 0.5))
-ifng_prop
 ```
 
 
@@ -385,32 +433,17 @@ il6 <-
   theme(text = element_text(size=10),
         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
 il6
-
-ifng <- 
-  data %>% 
-  select(iav, IFNg) %>% 
-  filter(!IFNg == 0) %>% 
-  ggplot(., aes(x=iav, y=log(IFNg))) +
-  geom_boxplot(color="black", fill="gray60", lwd=0.25,
-               outliers=FALSE) +
-  geom_point(size=0.75, position=position_jitter(width=0.2)) +
-  labs(x=NULL, y=NULL) +
-  stat_n_text(size=3) +
-  theme_classic() +
-  theme(text = element_text(size=10),
-        panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
-ifng  
 ```
 
 #### Combine together
 ```{r}
-prop_grid <- grid.arrange(kc_prop, il6_prop, ifng_prop, ncol=3,
+prop_grid <- grid.arrange(kc_prop, il6_prop, ncol=2,
                           left=textGrob("Proportion of Samples",
                                         rot=90, gp=gpar(fontsize=10)))
 prop_grid <- grid.arrange(prop_grid, cyto_leg,
                           ncol=1, 
                           heights=c(3, 0.3))
-conc_grid <- grid.arrange(kclike, il6, ifng, ncol=3, 
+conc_grid <- grid.arrange(kclike, il6, ncol=2, 
                           left=textGrob("log(Concentration (pg/mL))", 
                                         rot=90, gp=gpar(fontsize=10)))
 
@@ -420,15 +453,15 @@ cyto_grid <- grid.arrange(prop_grid, conc_grid,
                           bottom=textGrob("IAV Status", gp=gpar(fontsize=10)))
 
 
-jpeg("Figures/cytoimportance.jpeg", width=8, height=8, units="in", res=300)
+jpeg("Figures/cytoimportance.jpeg", width=7, height=8, units="in", res=300)
 final_grid <- 
   grid.arrange(varimp_plot, cyto_grid, 
                ncol=1, heights=c(2,4)) 
 grid.polygon(x=c(0, 0, 1, 1),
              y=c(0, 0.67, 0.67, 0),
              gp=gpar(fill=NA))
-grid.rect(x=unit(0.5, "npc"), y = unit(0.93, "npc"),
-          width=unit(0.948, "npc"), height=unit(0.1, "npc"), 
+grid.rect(x=unit(0.49, "npc"), y = unit(0.95, "npc"),
+          width=unit(0.94, "npc"), height=unit(0.06, "npc"), 
           gp=gpar(lwd=1.5, col="gray30", fill=NA))
 dev.off()
 ```
@@ -478,7 +511,8 @@ labely <-
 plsda_ggplot <- 
   data.frame(x = plsda_model$variates$X[,1], 
              y = plsda_model$variates$X[,2],
-             iav = plsda_model$Y)
+             iav = plsda_model$Y,
+             analysis.year=factor(data$analysis.year))
 
 iav_plsda_ggplot <- 
   ggplot(plsda_ggplot, 

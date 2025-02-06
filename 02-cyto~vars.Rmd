@@ -249,6 +249,39 @@ pca_analysisyear <-
 pca_analysisyear
 ```
 
+#### What's up with analysis year?
+Similar # detections per sample as in other years (det.samp), and similar total cytokine concentrations per sample as in other years (sum.samp). 
+```{r}
+analysisyeartab <-
+  data.frame(table(data$analysis.year))
+  
+batchsummary <-
+  data %>% 
+  select(Sample, 2:10, analysis.year) %>% 
+  pivot_longer(!c(Sample, analysis.year), names_to="cytokine", values_to="concentration") %>%
+  filter(!concentration==0) %>% 
+  group_by(analysis.year, cytokine) %>% 
+  summarize(sum = sum(concentration),
+            mean = mean(concentration),
+            median = median(concentration),
+            n.det = n(),
+            n.cyto = length(unique(cytokine))) %>% 
+  data.frame() %>% 
+  merge(., analysisyeartab, by.x="analysis.year", by.y="Var1") %>% 
+  mutate(det.samp = n.det/Freq,
+         sum.samp = sum/Freq)
+
+ggplot(batchsummary, aes(x=cytokine, y=mean, fill=analysis.year)) +
+  geom_col(position="dodge") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+ggplot(batchsummary, aes(x=cytokine, y=median, fill=analysis.year)) +
+  geom_col(position="dodge") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+```
+
+
 ### Batch
 Batches that samples were analyzed in
 ```{r}
