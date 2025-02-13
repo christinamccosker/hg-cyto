@@ -32,7 +32,6 @@ meta <-
   mutate(iav=gsub("neg", "IAV-", iav),
          iav=gsub("pos", "IAV+", iav))
 
-
 # Merge cytokine & meta data
 data <- 
   merge(cyto, meta)
@@ -52,7 +51,6 @@ data$year <- as.factor(data$year)
 data$sex <- as.factor(data$sex)
 data$molt.stage <- factor(data$molt.stage, levels=c("III", "IV", "V"), ordered=TRUE)
 data$bc_bin <- factor(data$bc_bin, levels=c("Poor", "Average", "Robust"))
-data$bmi_bin <- factor(data$bmi_bin, levels=c("Poor", "Robust"))
 data$analysis.year <- factor(data$analysis.year)
 data$batch <- factor(data$batch, levels=c("1", "2", "3", "4"))
 ```
@@ -63,7 +61,7 @@ data$batch <- factor(data$batch, levels=c("1", "2", "3", "4"))
 supplmeta <- 
   data %>% 
   select(Sample, iav, iavser, location, year, sex, molt.stage, 
-         bodcond, bc_bin, bmi, bmi_bin) %>% 
+         bodcond, bc_bin) %>% 
   arrange(., year) %>% 
   mutate(bodcond=paste(round(bodcond, digits=2), " (", bc_bin, ")", sep="")) %>% 
   select(-bc_bin)
@@ -177,11 +175,10 @@ pca_labely <-
 
 ### Molt Stage
 ```{r}
-pca_molt <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=molt.stage)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=molt.stage)) +
   geom_point() +
   labs(x=pca_labelx,
        y = pca_labely) +
@@ -189,23 +186,20 @@ pca_molt <-
                      values=c("#9d9d9d","#008ba2", "#000000")) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_molt
 ```
 
 ### Year
 ```{r}
-pca_year <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=year)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=year)) +
   geom_point() +
   stat_ellipse() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_year
 
 table(data$year, data$iav)
 ```
@@ -235,18 +229,18 @@ data %>%
 ### Analysis Year
 Year that samples were analyzed, "batches"
 ```{r}
-pca_analysisyear <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=analysis.year)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=analysis.year)) +
   geom_point() +
   stat_ellipse() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_analysisyear
+
+biplot(pca)
 ```
 
 #### What's up with analysis year?
@@ -257,7 +251,7 @@ analysisyeartab <-
   
 batchsummary <-
   data %>% 
-  select(Sample, 2:10, analysis.year) %>% 
+  select(Sample, 2:14, analysis.year) %>% 
   pivot_longer(!c(Sample, analysis.year), names_to="cytokine", values_to="concentration") %>%
   filter(!concentration==0) %>% 
   group_by(analysis.year, cytokine) %>% 
@@ -265,125 +259,170 @@ batchsummary <-
             mean = mean(concentration),
             median = median(concentration),
             n.det = n(),
-            n.cyto = length(unique(cytokine))) %>% 
+            n.cyto = length(unique(cytokine)),
+            max = max(concentration)) %>% 
   data.frame() %>% 
   merge(., analysisyeartab, by.x="analysis.year", by.y="Var1") %>% 
   mutate(det.samp = n.det/Freq,
          sum.samp = sum/Freq)
 
+# Mean cytokine concentration
 ggplot(batchsummary, aes(x=cytokine, y=mean, fill=analysis.year)) +
   geom_col(position="dodge") +
+  labs(y = "Mean Concentration") +
   scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
 
+ggplot(batchsummary, aes(x=cytokine, y=log(mean), fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Log Tranformed Mean Concentration") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+
+# Median cytokine concentration
 ggplot(batchsummary, aes(x=cytokine, y=median, fill=analysis.year)) +
   geom_col(position="dodge") +
+  labs(y = "Median Concentration") +
   scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
 
+ggplot(batchsummary, aes(x=cytokine, y=log(median), fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Log Transformed Median Concentration") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+
+# Sum of cytokine concentrations, sum/sample
+ggplot(batchsummary, aes(x=cytokine, y=log(sum), fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Log Transformed Sum Concentration") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+ 
+ggplot(batchsummary, aes(x=cytokine, y=log(sum.samp), fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Log Transformed (Sum Concentration/Samples Analyzed)") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+
+# Detections and proportion of samples with detections
+ggplot(batchsummary, aes(x=cytokine, y=n.det, fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Number of detections") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+ggplot(batchsummary, aes(x=cytokine, y=det.samp, fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Number of detections per Sample") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+
+# Max detection of each cytokine
+ggplot(batchsummary, aes(x=cytokine, y=max, fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Max Detection") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
+
+ggplot(batchsummary, aes(x=cytokine, y=log(max), fill=analysis.year)) +
+  geom_col(position="dodge") +
+  labs(y = "Log Transformed Max Detection") +
+  scale_fill_manual(values=c("slategray", "slategray3", "slategray2"))
 ```
 
 
 ### Batch
 Batches that samples were analyzed in
 ```{r}
-pca_batch <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=batch)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=batch)) +
   geom_point() +
   stat_ellipse() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_batch
 ```
 
 ### Location
 ```{r}
-pca_location <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=location)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=location)) +
   geom_point() +
+  stat_ellipse() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_location
 ```
 
 ### Sex
 ```{r}
-pca_sex <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=sex)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=sex)) +
   geom_point() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_sex
 ```
 
 ### Body Condition
 ```{r}
-pca_bc <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=bc_bin)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=bc_bin)) +
   geom_point() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_bc
 ```
 
 ### IAV
 ```{r}
-pca_iav <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=iav)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=iav)) +
   geom_point() +
+  stat_ellipse() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_iav
 ```
 
 ### IAV Serology
 ```{r}
-pca_iavser <- 
-  ggplot(pca_df, 
-         aes(x=x, 
-             y=y,
-             col=iavser)) +
+ggplot(pca_df, 
+       aes(x=x, 
+           y=y,
+           col=iavser)) +
   geom_point() +
+  stat_ellipse() +
   labs(x=pca_labelx,
        y = pca_labely) +
   theme_bw() +
   theme(panel.grid=element_blank())
-pca_iavser
 ```
 
 ## Is proportion of IAV+/IAV- similar across variables?
+
+### Location
 ```{r}
-# Location
 tryCatch({
   chisq.test(table(data$location, data$iav))
 }, warning = function(w) {
   fisher.test(table(data$location, data$iav))
 })
+```
 
-# Molt Stage
+### Molt Stage
+```{r}
 tryCatch({
   chisq.test(table(data$molt.stage, data$iav))
 }, warning = function(w) {
@@ -394,13 +433,29 @@ data.frame(table(data$iav, data$molt.stage)) %>%
   pivot_wider(names_from="Var1", values_from="Freq") %>% 
   mutate(proppos = (`IAV+`/(`IAV+` + `IAV-`))*100)
 
+
 # Pairwise post-hoc
 pairwise_fisher_test(table(data$molt.stage, data$iav), p.adjust.method="holm")
+```
 
-# Body Condition
+### Body Condition
+```{r}
 tryCatch({
   chisq.test(table(data$bc_bin, data$iav))
 }, warning = function(w) {
   fisher.test(table(data$bc_bin, data$iav))
 })
 ```
+
+### Analysis Year
+```{r}
+tryCatch({
+  chisq.test(table(data$analysis.year, data$iav))
+}, warning = function(w) {
+  fisher.test(table(data$analysis.year, data$iav))
+})
+
+# Pairwise post-hoc
+pairwise_fisher_test(table(data$analysis.year, data$iav), p.adjust.method="holm")
+```
+

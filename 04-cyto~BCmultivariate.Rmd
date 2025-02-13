@@ -23,6 +23,7 @@ library(ggpubr)
 library(EnvStats)
 library(gridExtra)
 library(grid)
+library(PLSDAbatch)
 ```
 
 ## Data
@@ -57,7 +58,7 @@ quant <- quantile(meta$bodcond, na.rm=TRUE)
 ggplot(meta, aes(x=bodcond)) +
   geom_histogram(bins=10, color="black", fill="gray80") +
   labs(x="Body Condition Index", y="Frequency") +
-  geom_vline(xintercept=c(quant[2], quant[3], quant[4]), colour="red", size=1) +
+  geom_vline(xintercept=c(quant[2], quant[3], quant[4]), colour="red", linewidth=1) +
   theme_classic()
 ```
 
@@ -67,77 +68,99 @@ ggplot(meta, aes(x=bodcond)) +
 ### Cytokine Presence/Absence
 
 #### Create similarity matrix (Sorensen)
+Dissimilarity = 1-Sorensen
 ```{r}
-databin_perm <- 
-  databin %>% 
-  select(2:10)
-
 databin_dist <- 
-  betadiver(databin_perm, method=11)
+  databin %>% 
+  select(2:10) %>% 
+  betadiver(., method=11)
 
-plot(databin_dist)
+plot((1-databin_dist))
 
 # Dissimilarity summary stats
 mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin_dist)
 ```
 
 #### Run PERMANOVA
+Use restricted permutation test - data are not exchangeable between analysis years so permute within groups defined by strata.  
+** Not sig
 ```{r}
-databin_adonis <- 
-  adonis2((1-databin_dist) ~ bc_bin, data=databin, permutations=4999)
-databin_adonis
+# define permutations & strata
+permute_databin <- 
+  how(plots=Plots(strata=databin$analysis.year, type="none"), nperm=4999)
 
-# R2
-databin_adonis$R2[1]*100
+# run permanova
+adonis2((1-databin_dist) ~ bc_bin, 
+        data=databin,
+        permutations=permute_databin)
+```
+
+#### Homogeneity of group dispersions
+** Robust vs Poor & Robust vs Average
+```{r}
+disper <- 
+  betadisper((1-databin_dist), group=databin$bc_bin, type="centroid")
+
+anova(disper)
+TukeyHSD(disper)
+boxplot(disper)
 ```
 
 #### Visualization
 Principal Coordinates Analysis
 ```{r, warning=FALSE}
 # Use 1 - Sorensen's for dissimilarity 
-databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
+databin_pco <- cmdscale((1-databin_dist), eig=TRUE)
 
 plot(databin_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+ordiellipse(ord = databin_pco, 
+            groups = factor(data$bc_bin), 
+            display = "sites", 
+            col = c("deepskyblue", "grey", "darkseagreen"),
+            lwd = 2,
+            label = TRUE)
 
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$bc_bin), show.groups="Poor", 
-           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$bc_bin), show.groups="Average", 
-           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$bc_bin), show.groups="Robust", 
-           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+plot(databin_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+ordispider(ord = databin_pco,
+           groups = factor(data$bc_bin),
+           display = "sites",
+           col = c("deepskyblue", "grey", "darkseagreen"),
+           lwd=2,
+           label=TRUE)
 ```
-
-#### Homogeneity of group dispersions
-```{r}
-disper <- 
-  betadisper(databin_dist, group=databin$bc_bin, type="centroid")
-anova(disper)
-TukeyHSD(disper)
-disper
-boxplot(disper)
-```
-
-#### Posthoc pairwise tests
-None - no sig difference in multivariate distributions
 
 
 ### Cytokine Concentration
-#### Run PERMANOVA
+#### Dissimilarity matrix
 ```{r}
-data_perm <-
+data_dist <-
   data %>% 
-  select(2:10)
+  select(2:10) %>% 
+  vegdist(., method="bray")
+```
 
-data_dist <- 
-  vegdist(data_perm, method="bray")
+#### Run PERMANOVA
+** Not sig
+```{r}
+# define permutations & strata
+permute_data <- how(plots=Plots(strata=data$analysis.year, type="none"), nperm=4999)
 
-data_adonis <- adonis2(data_dist ~ bc_bin, data=data, 
-                       permuations=4999)
-data_adonis
+# run permanova
+adonis2(data_dist ~ bc_bin, 
+        data=data,
+        permutations=permute_data)
+```
 
-# R2
-data_adonis$R2[1]*100
+#### Homogeneity of group dispersions
+** Not sig
+```{r}
+disper <- 
+  betadisper(data_dist, group=data$bc_bin, type="centroid")
+
+anova(disper)
+boxplot(disper)
 ```
 
 #### Visualization
@@ -147,28 +170,22 @@ data_pco <- cmdscale(data_dist, eig=TRUE)
 
 plot(data_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+ordiellipse(ord = data_pco, 
+            groups = factor(data$bc_bin), 
+            display = "sites", 
+            col = c("deepskyblue", "grey", "darkseagreen"),
+            lwd = 2,
+            label = TRUE)
 
-ordispider(jitter(data_pco$points, factor=1), factor(data$bc_bin), show.groups="Poor", 
-           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(data_pco$points, factor=1), factor(data$bc_bin), show.groups="Average", 
-           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(data_pco$points, factor=1), factor(data$bc_bin), show.groups="Robust", 
-           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
+plot(data_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+ordispider(ord = data_pco,
+           groups = factor(data$bc_bin),
+           display = "sites",
+           col = c("deepskyblue", "grey", "darkseagreen"),
+           lwd=2,
+           label=TRUE)
 ```
-
-#### Homogeneity of group dispersions
-```{r}
-betadisper(data_dist, group=data$bc, type="centroid")
-
-disper <- 
-  betadisper(data_dist, group=data$bc_bin, type="centroid")
-anova(disper)
-disper
-boxplot(disper)
-```
-
-#### Posthoc pairwise tests
-None - no sig difference in multivariate distributions
 
 
 ## Cytokine Importance
@@ -190,6 +207,7 @@ task <- as_task_classif(bc_bin ~ .,
 task <- task$set_col_roles(cols="bc_bin",
                            add_to="stratum")
 
+# Minimum body condition group size = 25
 learner <- lrn("classif.rpart",
                predict_type = "prob",
                maxdepth = to_tune(2, 5),
@@ -214,10 +232,10 @@ tuner <- tnr("grid_search",
 #tuner$optimize(instance)
  
 # optimal values: 
-  # maxdepth = 5
-  # minbucket = 6
-  # minsplit = 4
-  # classif.ce = 0.5468415
+  # maxdepth = 4
+  # minbucket = 3
+  # minsplit = 20
+  # classif.ce = 0.5058159
 ```
 
 ### Run CART 
@@ -225,14 +243,14 @@ tuner <- tnr("grid_search",
 cart_model <- rpart(formula=bc_bin ~ .,
                     data=data_cart,
                     method="class",
-                    maxdepth=5,
-                    minbucket=6,
-                    minsplit=4)
+                    maxdepth=4,
+                    minbucket=3,
+                    minsplit=20)
 
 # plot optimized tree
 rpart.plot(cart_model)
 cart_model$variable.importance 
-  # IFNg, IL-18 are two most important cytokines
+  # IFNg is most important cytokine
 ```
 
 ### Plot 
@@ -269,8 +287,6 @@ varimp_plot
 
 #### Proportions
 ```{r}
-prop.table(table(databin$bc_bin, databin$IFNg), margin=1)*100
-
 ifng_prop <- 
   databin %>% 
   mutate(IFNg=gsub("1", "Present", IFNg),
@@ -281,7 +297,7 @@ ifng_prop <-
   scale_fill_manual(values=c("Present"="gray60", "Absent"="lightgray"),
                     name="Cytokine") +
   scale_y_continuous(labels = scales::percent) +
-  labs(y="Proportion of Samples", title="IFNg") +
+  labs(y="Proportion of Samples") +
   theme_bw() +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
@@ -296,25 +312,6 @@ cyto_leg <-
 ifng_prop <-
   ifng_prop +
   theme(legend.position="none")
-
-il18_prop <-
-  databin %>% 
-  mutate(IL.18=gsub("1", "Present", IL.18),
-         IL.18=gsub("0", "Absent", IL.18),
-         IL.18=factor(IL.18, levels=c("Present", "Absent"))) %>%
-  ggplot(data=.) +
-  geom_mosaic(aes(x=product(IL.18, bc_bin), fill=IL.18)) +
-  scale_fill_manual(values=c("Present"="gray60", "Present"="lightgray")) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(y="Proportion of Samples", title="IL-18") +
-  theme_bw() +
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        axis.title.x = element_blank(),
-        legend.position="none",
-        text = element_text(size=10),
-        plot.title = element_text(hjust = 0.5))
-il18_prop
 ```
 
 #### Concentration
@@ -332,70 +329,147 @@ ifng <-
   theme_classic() +
   theme(text = element_text(size=10),
          panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
-ifng  
-
-il18 <-
-  data %>% 
-  select(bc_bin, IL.18) %>% 
-  filter(!IL.18==0) %>% 
-  ggplot(., aes(x=bc_bin, y=log(IL.18))) +
-  geom_boxplot(color="black", fill="gray60", lwd=0.25,
-               outliers=FALSE) +
-  geom_point(size=0.75, position=position_jitter(width=0.2)) +
-  labs(x=NULL, y="log(Concentration pg/mL)") +
-  stat_n_text(size=3) +
-  theme_classic() +
-  theme(text = element_text(size=10),
-         panel.border=element_rect(color="black", fill=NA, linewidth=0.5))
-il18
 ```
 
 #### Combine
 ```{r}
-top <- grid.arrange(ifng_prop, il18_prop,
-                    ncol=2)
-top2 <- grid.arrange(top, cyto_leg, ncol=1, 
+cyto <- grid.arrange(ifng_prop,ifng,
+                    ncol=2, 
+                    top = textGrob(label="IFNg"))
+
+bottom <- grid.arrange(cyto, cyto_leg, ncol=1, 
                      heights=c(3,0.5))
 
-bottom <- grid.arrange(ifng, il18, ncol=2)
-
-allbottom <- grid.arrange(top2, bottom, ncol=1, 
-                          heights=c(4,3))
-
-jpeg("Figures/cytoimportance_bodycondition.jpeg", width=7, height=8, units="in", res=300)
-all <- grid.arrange(varimp_plot, allbottom, 
-                    heights=c(1,2),
+jpeg("Figures/cytoimportance_bodycondition.jpeg", width=8, height=6, units="in", res=300)
+all <- grid.arrange(varimp_plot, bottom, 
+                    heights=c(1.25,2),
                     bottom=textGrob("Body Condition", gp=gpar(fontsize=10)))
 grid.polygon(x=c(0, 0, 1, 1),
              y=c(0, 0.68, 0.68, 0),
              gp=gpar(fill=NA))
 grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
-             y=c(0.93, 0.99, 0.99, 0.93),
+             y=c(0.955, 0.99, 0.99, 0.955),
              gp=gpar(fill=NA))
 dev.off()
 ```
 
 
 ## PLS-DA
-### Run model
-```{r, warning=FALSE}
+
+### Data 
+```{r}
 pls_x <-
-  data_cart[,1:9]
+  data[,2:10]
 
 pls_y <- 
-  data_cart %>% 
-  select(bc_bin) 
-
-plsda_model <- 
-  mixOmics::plsda(pls_x,
-                  pls_y$bc_bin,
-                  scale=TRUE,
-                  ncomp=9)
+  data %>% 
+  select(bc_bin, analysis.year) %>% 
+  mutate_all(as.factor)
 ```
 
-### Visualizations
+### Transform data 
+CLR = Centered log-ratio transformation
 ```{r}
-# Set x and y axis labels based on model loadings
+pls_x_clr <- 
+  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
+
+class(pls_x_clr) = 'matrix'
+```
+
+### Detect batch effects
+Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
+```{r}
+pca_before <- 
+  mixOmics::pca(pls_x_clr, scale=TRUE)
+
+plotIndiv(pca_before, 
+          group=data$analysis.year,
+          pch=20,
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "Before Batch Correction",
+          ellipse = TRUE, ellipse.level=0.95)
+
+Scatter_Density(object = pca_before,
+                batch = pls_y$analysis.year,
+                trt = pls_y$bc_bin,
+                trt.legend.title = "Body Condition",
+                color.set = c("#9d9d9d","#008ba2","black"))
+```
+
+#### Estimate # variable components
+Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
+Number = that explains 100% of variance in outcome matrix Y.
+```{r}
+trt_comp <- 
+  plsda(X = pls_x_clr,
+        Y = pls_y$bc_bin, 
+        ncomp=9)
+
+trt_comp$prop_expl_var
+sum(trt_comp$prop_expl_var$Y[seq_len(3)]) # preserve 3 comp
+```
+
+#### Estimate # batch components
+Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
+For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
+Choose # that explains 100% variance in outcome matrix Y. 
+```{r}
+batch_comp <- 
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$bc_bin,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 3, ncomp.bat = 9)
+
+batch_comp$explained_variance.bat
+sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
+```
+
+#### Correct for batch effects
+Use optimal number of components determined above.  
+Treatment = 3, Batch = 3
+```{r}
+plsda_batch <-
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$bc_bin,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 3, ncomp.bat = 3)
+
+data_batch <-
+  plsda_batch$X.nobatch
+```
+
+#### Assessing batch correction
+```{r}
+after_batch <- 
+  mixOmics::pca(data_batch, scale=TRUE)
+
+plotIndiv(after_batch, 
+          group=pls_y$analysis.year,
+          pch=20, 
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "After Batch Correction",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+### PLSDA on Batch-Corrected Data
+```{r}
+plsda_model <- 
+  plsda(data_batch,
+        pls_y$bc_bin,
+        scale=TRUE)
+
+plotIndiv(plsda_model,
+          group=pls_y$bc_bin,
+          pch=20, 
+          legend = TRUE, legend.title = "Body Condition",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+### Visualization
+#### Set x and y axis labels 
+```{r}
 labelx <- 
   paste("X-variate 1: ", 
         round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
@@ -407,13 +481,18 @@ labely <-
         round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
         "% expl. var",
         sep="")
+```
 
-# ggplot2
+#### Create plot data frame
+```{r}
 plsda_ggplot <- 
   data.frame(x = plsda_model$variates$X[,1], 
              y = plsda_model$variates$X[,2],
              bc_bin = plsda_model$Y)
+```
 
+#### Plot
+```{r}
 bc_plsda_ggplot <- 
   ggplot(plsda_ggplot, 
          aes(x=x, 
@@ -427,13 +506,12 @@ bc_plsda_ggplot <-
   scale_color_manual("Body Condition",
                      values=c("#9d9d9d","#008ba2", "black")) +
   theme_bw() +
-  theme(panel.grid=element_blank(),
-        legend.position=c(0.1, 0.1))
+  theme(panel.grid = element_blank())
 
 bc_plsda_ggplot
 ```
 
-#### Cytokine Contributions
+### Cytokine Contributions
 ```{r}
 plsda_loadings <- 
   plsda_model$loadings$X %>% 

@@ -143,38 +143,7 @@ metadata <-
                         ifelse(iav=="pos" & iavser=="neg", "acute",
                                ifelse(iav=="pos" & iavser=="pos", "peak", "late")))) %>% 
   filter(Sample %in% cyto$Sample)
+
+write.csv(x=metadata, file="Output Files/metadata_cyto.csv", row.names=FALSE)
 ```
 
-## Body Mass Index 
-Grecian et al. 2022: estimated body condition by calculating a volume index using the residuals of a linear regression of weight as a function of length × girth^2 (Hammill et al. 1995)  
-
-- Code: 
-  - vi_m <- lm(weight_kg ~ length_cm * I(girth_cm^2), dat = dat)
-  - summary(vi_m) # adj R squared = 0.487
-  - dat$bmi = residuals(vi_m)
-
-Hammill et al. 1995: weight = length X axil1ary girth squared  
-
-```{r}
-bmi_model <- lm(weight ~ I(st.length * I(ax.girth^2)), data = metadata)
-summary(bmi_model)  # adj R sq = 0.69
-
-bmi <- 
-  metadata %>% 
-  filter(!weight=="NA" &
-         !st.length=="NA" & 
-         !ax.girth=="NA") %>% 
-  select(Sample) %>% 
-  mutate(bmi = bmi_model$residuals)
-
-meta <- 
-  metadata %>% 
-  left_join(., bmi, by="Sample") %>% 
-  mutate(bmi_bin = ifelse(bmi>0, "Robust", "Poor"),
-         bmi_bin2 = ifelse(bmi < quantile(bmi, probs=0.25, na.rm=TRUE), "Poor",
-                       ifelse(bmi > quantile(bmi, probs=0.25, na.rm=TRUE) & 
-                              bmi < quantile(bmi, probs=0.75, na.rm=TRUE),"Average",
-                          ifelse(bmi > quantile(bmi, probs=0.75, na.rm=TRUE), "Robust", NA))))
-
-write.csv(x=meta, file="Output Files/metadata_cyto.csv", row.names=FALSE)
-```

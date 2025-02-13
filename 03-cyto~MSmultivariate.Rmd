@@ -23,6 +23,7 @@ library(ggpubr)
 library(EnvStats)
 library(gridExtra)
 library(grid)
+library(PLSDAbatch)
 ```
 
 ## Data
@@ -37,7 +38,7 @@ meta <-
   mutate(iav=gsub("neg", "IAV-", iav),
          iav=gsub("pos", "IAV+", iav))
 
-# Merge cytokine & metadata 
+# Merge cytokine & metadata, filter NAs 
 data <- 
   merge(cyto, meta, by="Sample") %>% 
   filter(!is.na(molt.stage))
@@ -57,28 +58,42 @@ From McCosker et al. 2024:
 
 R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
 #### Create similarity matrix (Sorensen)
+Dissimilarity = 1-Sorensen
 ```{r}
-databin_perm <- 
-  databin %>% 
-  select(2:10)
-
 databin_dist <- 
-  betadiver(databin_perm, method=11)
+  databin %>% 
+  select(2:10) %>% 
+  betadiver(., method=11)
 
-plot(databin_dist)
+plot((1-databin_dist))
 
 # Dissimilarity summary stats
 mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin_dist)
 ```
 
 #### Run PERMANOVA
+Use restricted permutation test - data are not exchangeable between analysis years so permute within groups defined by strata.  
+Ref: https://stats.stackexchange.com/questions/590510/repeated-measures-permanova-nowhere-to-find  
+** Not sig
 ```{r}
-databin_adonis <- 
-  adonis2((1-databin_dist) ~ molt.stage, data=databin, permutations=4999)
-databin_adonis
+# define permutations & strata
+permute_databin <- 
+  how(plots=Plots(strata=databin$analysis.year, type="none"), nperm=4999)
 
-# R2
-databin_adonis$R2[1]*100
+# run permanova
+adonis2((1-databin_dist) ~ molt.stage, 
+        data=databin,
+        permutations=permute_databin)
+```
+
+#### Homogeneity of group dispersions
+** Not sig
+```{r}
+disper <- 
+  betadisper((1-databin_dist), group=databin$molt.stage, type="centroid")
+
+anova(disper)
+boxplot(disper)
 ```
 
 #### Visualization
@@ -90,26 +105,18 @@ databin_pco <- cmdscale(1-databin_dist, eig=TRUE)
 
 plot(databin_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
-
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$molt.stage), show.groups="III", 
-           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$molt.stage), show.groups="IV", 
-           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(databin_pco$points, factor=1), factor(databin$molt.stage), show.groups="V", 
-           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-```
-
-#### Homogeneity of group dispersions
-```{r}
-disper <- 
-  betadisper(databin_dist, group=databin$molt.stage, type="centroid")
-anova(disper)
-boxplot(disper)
-```
-
-#### Posthoc pairwise tests
-```{r}
-pairwise.adonis(databin_dist, databin$molt.stage)
+ordiellipse(ord = databin_pco, 
+            groups = factor(data$molt.stage), 
+            display = "sites", 
+            col = c("deepskyblue", "grey", "darkseagreen"),
+            lwd = 2,
+            label = TRUE)
+ordispider(ord = databin_pco,
+           groups = factor(data$molt.stage),
+           display = "sites",
+           col = c("deepskyblue", "grey", "darkseagreen"),
+           lwd=2,
+           label=TRUE)
 ```
 
 
@@ -119,22 +126,36 @@ From McCosker et al. 2024:
 - The adonis function was used to conduct a permutational multivariate analysis of variance (PERMANOVA) on group (method) dissimilarity. Group dispersions weremodeled with betadisper to determine whether the assumption of equal dispersions had been met under adonis and principal coordinate analysis was used relative to PERMANOVA results to visualize group dispersions around the centroid.  
 - Bray-Curtis dissimilarity used  
   - well-suited to species abundance because it ignores variables that have zeros for both objects (joint absences)  
+
+#### Dissimilarity matrix
+```{r}
+data_dist <- 
+  data %>% 
+  select(2:10) %>% 
+  vegdist(., method="bray")
+```
   
 #### Run PERMANOVA
+** Not sig
 ```{r}
-data_perm <-
-  data %>% 
-  select(2:10)
+# define permutations & strata
+permute_data <- 
+  how(plots=Plots(strata=data$analysis.year, type="none"), nperm=4999)
 
-data_dist <- 
-  vegdist(data_perm, method="bray")
+# run permanova
+adonis2(data_dist ~ molt.stage, 
+        data=data,
+        permutations=permute_data)
+```
 
-data_adonis <- adonis2(data_dist ~ molt.stage, data=data, 
-                       permuations=4999)
-data_adonis
+#### Homogeneity of group dispersions
+** Not sig
+```{r}
+disper <- 
+  betadisper(data_dist, group=data$molt.stage, type="centroid")
 
-# R2
-data_adonis$R2[1]*100
+anova(disper)
+boxplot(disper)
 ```
 
 #### Visualization
@@ -144,26 +165,19 @@ data_pco <- cmdscale(data_dist, eig=TRUE)
 
 plot(data_pco$points, type="n", 
      cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
+ordiellipse(ord = data_pco, 
+            groups = factor(data$molt.stage), 
+            display = "sites", 
+            col = c("deepskyblue", "grey", "darkseagreen"),
+            lwd = 2,
+            label = TRUE)
+ordispider(ord = data_pco,
+           groups = factor(data$molt.stage),
+           display = "sites",
+           col = c("deepskyblue", "grey", "darkseagreen"),
+           lwd=2,
+           label=TRUE)
 
-ordispider(jitter(data_pco$points, factor=1), factor(data$molt.stage), show.groups="III", 
-           col="deepskyblue", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(data_pco$points, factor=1), factor(data$molt.stage), show.groups="IV", 
-           col="firebrick", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-ordispider(jitter(data_pco$points, factor=1), factor(data$molt.stage), show.groups="V", 
-           col="darkmagenta", label = TRUE, display="sites", lwd=1.5, cex=1.2)
-```
-
-#### Homogeneity of group dispersions
-```{r}
-disper <- 
-  betadisper(data_dist, group=data$molt.stage, type="centroid")
-anova(disper)
-boxplot(disper)
-```
-
-#### Posthoc pairwise tests
-```{r}
-pairwise.adonis(data_dist, data$molt.stage)
 ```
 
 
@@ -214,6 +228,7 @@ task <- as_task_classif(molt.stage ~ .,
 task <- task$set_col_roles(cols="molt.stage",
                            add_to="stratum")
 
+# min molt stage group = 7
 learner <- lrn("classif.rpart",
                predict_type = "prob",
                maxdepth = to_tune(2, 5),
@@ -239,10 +254,10 @@ tuner <- tnr("grid_search",
  
 
 # optimal values: 
-  # maxdepth = 3
-  # minbucket = 4
-  # minsplit = 10
-  # classif.ce = 0.2681818
+  # maxdepth = 2
+  # minbucket = 5
+  # minsplit = 1
+  # classif.ce = 0.2954545
 ```
 
 ### Run CART 
@@ -251,9 +266,9 @@ Leaves out molt stage III - too few samples for CART alogrithm
 cart_model <- rpart(formula=molt.stage ~ .,
                     data=data_cart,
                     method="class",
-                    maxdepth=3,
-                    minbucket=4,
-                    minsplit=10)
+                    maxdepth=2,
+                    minbucket=5,
+                    minsplit=1)
 
 
 # plot optimized tree
@@ -351,14 +366,14 @@ bottom2 <- grid.arrange(bottom1, cyto_leg,
                         ncol=1, 
                         heights=c(3,0.5))
 
-jpeg("Figures/cytoimportance_molt.jpeg", width=7, height=6, units="in", res=300)
+jpeg("Figures/cytoimportance_molt.jpeg", width=6, height=6, units="in", res=300)
 all <- grid.arrange(varimp_plot, bottom2, 
                     ncol=1, heights=c(1,1.5))
 grid.polygon(x=c(0, 0, 1, 1),
              y=c(0, 0.6, 0.6, 0),
              gp=gpar(fill=NA))
 grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
-             y=c(0.92, 0.97, 0.97, 0.92),
+             y=c(0.94, 0.98, 0.98, 0.94),
              gp=gpar(fill=NA))
 dev.off()
 ```
@@ -367,27 +382,124 @@ dev.off()
 ## PLS-DA
 PLSDA is a supervised dimensionality reduction method that is similar to PCA but incorporates class labels to maximize the separation between groups.  
 One advantage of PLS is that it has fewer assumptions and hence it can use predictor variables that are collinear and not independent.  
-The aim of PLS-DA is to discriminate the sample groups, rather than maximizing the variance. When the maximization of the variance corresponds to a discrimination of the classes, then this is awesome, but otherwise, it means that the major source of variation is probably not mainly due to the sample group differences.
+The aim of PLS-DA is to discriminate the sample groups, rather than maximizing the variance. When the maximization of the variance corresponds to a discrimination of the classes, then this is awesome, but otherwise, it means that the major source of variation is probably not mainly due to the sample group differences.  
 
-### Run model
+### Data
 ```{r}
 pls_x <-
- data_cart[,1:9] 
+  data[,2:10]
 
 pls_y <- 
-  data_cart %>% 
-  select(molt.stage)
-
-plsda_model <- 
-  mixOmics::plsda(pls_x,
-                  pls_y$molt.stage,
-                  scale=TRUE,
-                  ncomp=9)
+  data %>% 
+  select(molt.stage, analysis.year) %>% 
+  mutate_all(as.factor)
 ```
 
-### Visualization
+### Transform data
+CLR = Centered log-ratio transformation. Recommended to offset by 0.01 for not count data.
 ```{r}
-# Set x and y axis labels based on model loadings
+pls_x_clr <- 
+  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
+
+class(pls_x_clr) = 'matrix'
+```
+
+### Detect batch effects
+Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
+```{r}
+# Data is already centered and scaled
+pca_before <- 
+  mixOmics::pca(pls_x_clr, scale = TRUE)
+
+plotIndiv(pca_before, 
+          group=data$analysis.year,
+          pch=20,
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "Before Batch Correction",
+          ellipse = TRUE, ellipse.level=0.95)
+
+Scatter_Density(object = pca_before,
+                batch = pls_y$analysis.year,
+                trt = pls_y$molt.stage,
+                trt.legend.title = "Molt Stage",
+                color.set = c("#9d9d9d","#008ba2","black"))
+```
+
+#### Estimate # variable components
+Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
+Number = that explains 100% of variance in outcome matrix Y.
+```{r}
+trt_comp <- 
+  plsda(X = pls_x_clr,
+        Y = pls_y$molt.stage, 
+        ncomp=9)
+
+trt_comp$prop_expl_var
+sum(trt_comp$prop_expl_var$Y[seq_len(2)]) # preserve 2 comp
+```
+
+#### Estimate # batch components
+Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
+For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
+Choose # that explains 100% variance in outcome matrix Y. 
+```{r}
+batch_comp <- 
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$molt.stage,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 2, ncomp.bat = 9)
+
+batch_comp$explained_variance.bat
+sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
+```
+
+#### Correct for batch effects
+Use optimal number of components determined above.  
+Treatment = 2, Batch = 3
+```{r}
+plsda_batch <-
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$molt.stage,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 2, ncomp.bat = 3)
+
+data_batch <-
+  plsda_batch$X.nobatch
+```
+
+#### Assessing batch correction
+```{r}
+after_batch <- 
+  mixOmics::pca(data_batch, scale = TRUE)
+
+plotIndiv(after_batch, 
+          group=pls_y$analysis.year,
+          pch=20, 
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "After Batch Correction",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+### PLSDA on Batch-Corrected Data
+```{r}
+plsda_model <- 
+  plsda(data_batch,
+        pls_y$molt.stage,
+        scale=TRUE)
+
+plotIndiv(plsda_model,
+          group=pls_y$molt.stage,
+          pch=20, 
+          legend = TRUE, legend.title = "Molt Stage",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+
+### Visualization
+#### Set x and y axis labels
+```{r}
 labelx <- 
   paste("X-variate 1: ", 
         round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
@@ -399,13 +511,18 @@ labely <-
         round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
         "% expl. var",
         sep="")
+```
 
-# ggplot2
+#### Create plot data frame
+```{r}
 plsda_ggplot <- 
   data.frame(x = plsda_model$variates$X[,1], 
              y = plsda_model$variates$X[,2],
              molt.stage = plsda_model$Y)
+```
 
+#### Plot
+```{r}
 molt_plsda_ggplot <- 
   ggplot(plsda_ggplot, 
          aes(x=x, 
@@ -436,4 +553,3 @@ biplot(plsda_model, ind.names=FALSE, legend.title="Molt Stage")
 
 plotVar(plsda_model)
 ```
-
