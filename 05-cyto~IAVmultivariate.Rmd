@@ -175,7 +175,191 @@ ordispider(ord = data_pco,
 ```
 
 
-## Cytokine Importance
+## PLS-DA 
+
+### Data
+```{r}
+pls_x <-
+ data[,2:10] 
+
+pls_y <- 
+  data %>% 
+  mutate(iav=gsub("neg", "IAV-", iav),
+         iav=gsub("pos", "IAV+", iav),
+         iav=as.factor(iav)) %>% 
+  select(iav, analysis.year)
+```
+
+### Transform data 
+CLR = Centered log-ratio transformation
+```{r}
+pls_x_clr <- 
+  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
+
+class(pls_x_clr) = 'matrix'
+```
+
+### Detect batch effect
+Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
+```{r}
+pca_before <- 
+  mixOmics::pca(pls_x_clr, scale=TRUE)
+
+plotIndiv(pca_before, 
+          group=data$analysis.year,
+          pch=20,
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "Before Batch Correction",
+          ellipse = TRUE, ellipse.level=0.95)
+
+Scatter_Density(object = pca_before,
+                batch = pls_y$analysis.year,
+                trt = pls_y$bc_bin,
+                trt.legend.title = "Body Condition",
+                color.set = c("#9d9d9d","#008ba2","black"))
+```
+
+#### Estimate # variable components
+Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
+Number = that explains 100% of variance in outcome matrix Y.
+```{r}
+trt_comp <- 
+  plsda(X = pls_x_clr,
+        Y = pls_y$iav, 
+        ncomp=9)
+
+trt_comp$prop_expl_var
+sum(trt_comp$prop_expl_var$Y[seq_len(1)]) # preserve 1 comp
+```
+
+#### Estimate # batch components
+Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
+For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
+Choose # that explains 100% variance in outcome matrix Y. 
+```{r}
+batch_comp <- 
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$iav,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 1, ncomp.bat = 9)
+
+batch_comp$explained_variance.bat
+sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
+```
+
+#### Correct for batch effects
+Use optimal number of components determined above.  
+Treatment = 1, Batch = 3
+```{r}
+plsda_batch <-
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$iav,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 1, ncomp.bat = 3)
+
+data_batch <-
+  plsda_batch$X.nobatch
+
+data_batch_write <- 
+  data_batch %>% 
+  data.frame() %>% 
+  mutate(iav = pls_y$iav)
+
+write.csv(data_batch_write, "Output Files/batchcorrected_iav.csv")
+```
+
+#### Assessing batch correction
+```{r}
+after_batch <- 
+  mixOmics::pca(data_batch, scale=TRUE)
+
+plotIndiv(after_batch, 
+          group=pls_y$analysis.year,
+          pch=20, 
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "After Batch Correction",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+### PLSDA on Batch-Corrected Data
+```{r}
+plsda_model <- 
+  plsda(data_batch,
+        pls_y$iav,
+        scale=TRUE)
+
+plotIndiv(plsda_model,
+          group=pls_y$iav,
+          pch=20, 
+          legend = TRUE, legend.title = "IAV Status",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+
+### Visualizations
+#### Set x and y axis labels
+```{r}
+labelx <- 
+  paste("X-variate 1: ", 
+        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+        "% expl. var",
+        sep="")
+
+labely <- 
+  paste("X-variate 2: ", 
+        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+        "% expl. var",
+        sep="")
+```
+
+#### Create plot data frame
+```{r}
+plsda_ggplot <- 
+  data.frame(x = plsda_model$variates$X[,1], 
+             y = plsda_model$variates$X[,2],
+             iav = plsda_model$Y,
+             analysis.year=factor(pls_y$analysis.year))
+```
+
+#### Plot
+```{r}
+iav_plsda_ggplot <- 
+  ggplot(plsda_ggplot, 
+         aes(x=x, 
+             y=y,
+             col=iav)) +
+  geom_point() +
+  stat_ellipse() +
+  labs(x=labelx,
+       y = labely,
+       name="IAV Status") +
+  scale_color_manual("IAV Status",
+                     values=c("#9d9d9d","#008ba2")) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+
+iav_plsda_ggplot
+```
+
+### Cytokine Contributions
+```{r}
+plsda_loadings <- 
+  plsda_model$loadings$X %>% 
+  data.frame() %>% 
+  select(1:2) %>% 
+  arrange(comp1)
+plsda_loadings
+
+biplot(plsda_model, ind.names=FALSE, legend.title="IAV Status")
+
+plotVar(plsda_model)
+```
+
+
+## CART
+Cytokine Importance
 ### Prepare data
 ```{r, message=FALSE}
 data_cart <- 
@@ -214,7 +398,7 @@ tuner <- tnr("grid_search",
              )
 
 # Trigger the tuning process
-tuner$optimize(instance)
+#tuner$optimize(instance)
 
 # optimal values: 
   # maxdepth = 5
@@ -283,6 +467,9 @@ databin <-
 
 #### Proportions
 ```{r}
+prop.table(table(databin$iav, databin$KC.like), margin=1)*100
+prop.table(table(databin$iav, databin$IL.6), margin=1)*100
+
 kc_prop <- 
   databin %>%
   ggplot(data=.) +
@@ -387,183 +574,6 @@ grid.rect(x=unit(0.49, "npc"), y = unit(0.95, "npc"),
           width=unit(0.94, "npc"), height=unit(0.06, "npc"), 
           gp=gpar(lwd=1.5, col="gray30", fill=NA))
 dev.off()
-```
-
-
-## PLSDA 
-
-### Data
-```{r}
-pls_x <-
- data[,2:10] 
-
-pls_y <- 
-  data %>% 
-  mutate(iav=gsub("neg", "IAV-", iav),
-         iav=gsub("pos", "IAV+", iav),
-         iav=as.factor(iav)) %>% 
-  select(iav, analysis.year)
-```
-
-### Transform data 
-CLR = Centered log-ratio transformation
-```{r}
-pls_x_clr <- 
-  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
-
-class(pls_x_clr) = 'matrix'
-```
-
-### Detect batch effect
-Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
-```{r}
-pca_before <- 
-  mixOmics::pca(pls_x_clr, scale=TRUE)
-
-plotIndiv(pca_before, 
-          group=data$analysis.year,
-          pch=20,
-          legend = TRUE, legend.title = "Analysis Year",
-          title = "Before Batch Correction",
-          ellipse = TRUE, ellipse.level=0.95)
-
-Scatter_Density(object = pca_before,
-                batch = pls_y$analysis.year,
-                trt = pls_y$bc_bin,
-                trt.legend.title = "Body Condition",
-                color.set = c("#9d9d9d","#008ba2","black"))
-```
-
-#### Estimate # variable components
-Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
-Number = that explains 100% of variance in outcome matrix Y.
-```{r}
-trt_comp <- 
-  plsda(X = pls_x_clr,
-        Y = pls_y$iav, 
-        ncomp=9)
-
-trt_comp$prop_expl_var
-sum(trt_comp$prop_expl_var$Y[seq_len(1)]) # preserve 1 comp
-```
-
-#### Estimate # batch components
-Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
-For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
-Choose # that explains 100% variance in outcome matrix Y. 
-```{r}
-batch_comp <- 
-  PLSDA_batch(X = pls_x_clr,
-              Y = pls_y$iav,
-              Y.bat = pls_y$analysis.year,
-              balance = FALSE,
-              ncomp.trt = 1, ncomp.bat = 9)
-
-batch_comp$explained_variance.bat
-sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
-```
-
-#### Correct for batch effects
-Use optimal number of components determined above.  
-Treatment = 1, Batch = 3
-```{r}
-plsda_batch <-
-  PLSDA_batch(X = pls_x_clr,
-              Y = pls_y$iav,
-              Y.bat = pls_y$analysis.year,
-              balance = FALSE,
-              ncomp.trt = 1, ncomp.bat = 3)
-
-data_batch <-
-  plsda_batch$X.nobatch
-```
-
-#### Assessing batch correction
-```{r}
-after_batch <- 
-  mixOmics::pca(data_batch, scale=TRUE)
-
-plotIndiv(after_batch, 
-          group=pls_y$analysis.year,
-          pch=20, 
-          legend = TRUE, legend.title = "Analysis Year",
-          title = "After Batch Correction",
-          ellipse = TRUE, ellipse.level = 0.95)
-```
-
-### PLSDA on Batch-Corrected Data
-```{r}
-plsda_model <- 
-  plsda(data_batch,
-        pls_y$iav,
-        scale=TRUE)
-
-plotIndiv(plsda_model,
-          group=pls_y$iav,
-          pch=20, 
-          legend = TRUE, legend.title = "IAV Status",
-          ellipse = TRUE, ellipse.level = 0.95)
-```
-
-
-### Visualizations
-#### Set x and y axis labels
-```{r}
-
-labelx <- 
-  paste("X-variate 1: ", 
-        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
-        "% expl. var",
-        sep="")
-
-labely <- 
-  paste("X-variate 2: ", 
-        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
-        "% expl. var",
-        sep="")
-```
-
-#### Create plot data frame
-```{r}
-plsda_ggplot <- 
-  data.frame(x = plsda_model$variates$X[,1], 
-             y = plsda_model$variates$X[,2],
-             iav = plsda_model$Y,
-             analysis.year=factor(pls_y$analysis.year))
-```
-
-#### Plot
-```{r}
-iav_plsda_ggplot <- 
-  ggplot(plsda_ggplot, 
-         aes(x=x, 
-             y=y,
-             col=iav)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=labelx,
-       y = labely,
-       name="IAV Status") +
-  scale_color_manual("IAV Status",
-                     values=c("#9d9d9d","#008ba2")) +
-  theme_bw() +
-  theme(panel.grid=element_blank())
-
-iav_plsda_ggplot
-```
-
-### Cytokine Contributions
-```{r}
-plsda_loadings <- 
-  plsda_model$loadings$X %>% 
-  data.frame() %>% 
-  select(1:2) %>% 
-  arrange(comp1)
-plsda_loadings
-
-biplot(plsda_model, ind.names=FALSE, legend.title="IAV Status")
-
-plotVar(plsda_model)
 ```
 
 

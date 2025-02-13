@@ -314,75 +314,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="iav-negative-animals" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">9</span> IAV Negative Animals<a href="iav-negative-animals.html#iav-negative-animals" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="iav-negative-animals.html#cb303-1" tabindex="-1"></a>iavneg_plsda <span class="ot">&lt;-</span> mixOmics<span class="sc">::</span><span class="fu">plsda</span>(datascale_iavneg[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
-<span id="cb303-2"><a href="iav-negative-animals.html#cb303-2" tabindex="-1"></a>                                datascale_iavneg<span class="sc">$</span>iavser,</span>
-<span id="cb303-3"><a href="iav-negative-animals.html#cb303-3" tabindex="-1"></a>                                <span class="at">scale=</span><span class="cn">FALSE</span>,</span>
-<span id="cb303-4"><a href="iav-negative-animals.html#cb303-4" tabindex="-1"></a>                                <span class="at">ncomp=</span><span class="dv">9</span>)</span>
-<span id="cb303-5"><a href="iav-negative-animals.html#cb303-5" tabindex="-1"></a></span>
-<span id="cb303-6"><a href="iav-negative-animals.html#cb303-6" tabindex="-1"></a>iavneg_plsda_data <span class="ot">&lt;-</span> </span>
-<span id="cb303-7"><a href="iav-negative-animals.html#cb303-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> iavneg_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
-<span id="cb303-8"><a href="iav-negative-animals.html#cb303-8" tabindex="-1"></a>             <span class="at">y =</span> iavneg_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
-<span id="cb303-9"><a href="iav-negative-animals.html#cb303-9" tabindex="-1"></a>             <span class="at">iav =</span> iavneg_plsda<span class="sc">$</span>Y)</span>
-<span id="cb303-10"><a href="iav-negative-animals.html#cb303-10" tabindex="-1"></a></span>
-<span id="cb303-11"><a href="iav-negative-animals.html#cb303-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
-<span id="cb303-12"><a href="iav-negative-animals.html#cb303-12" tabindex="-1"></a>labelx_iavneg <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
-<span id="cb303-13"><a href="iav-negative-animals.html#cb303-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iavneg_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb303-14"><a href="iav-negative-animals.html#cb303-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb303-15"><a href="iav-negative-animals.html#cb303-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb303-16"><a href="iav-negative-animals.html#cb303-16" tabindex="-1"></a></span>
-<span id="cb303-17"><a href="iav-negative-animals.html#cb303-17" tabindex="-1"></a>labely_iavneg <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
-<span id="cb303-18"><a href="iav-negative-animals.html#cb303-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iavneg_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb303-19"><a href="iav-negative-animals.html#cb303-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb303-20"><a href="iav-negative-animals.html#cb303-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb303-21"><a href="iav-negative-animals.html#cb303-21" tabindex="-1"></a></span>
-<span id="cb303-22"><a href="iav-negative-animals.html#cb303-22" tabindex="-1"></a>iavneg_plsda_ggplot <span class="ot">&lt;-</span> </span>
-<span id="cb303-23"><a href="iav-negative-animals.html#cb303-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(iavneg_plsda_data, </span>
-<span id="cb303-24"><a href="iav-negative-animals.html#cb303-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>iav)) <span class="sc">+</span></span>
-<span id="cb303-25"><a href="iav-negative-animals.html#cb303-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb303-26"><a href="iav-negative-animals.html#cb303-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
-<span id="cb303-27"><a href="iav-negative-animals.html#cb303-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_iavneg,</span>
-<span id="cb303-28"><a href="iav-negative-animals.html#cb303-28" tabindex="-1"></a>       <span class="at">y =</span>labely_iavneg) <span class="sc">+</span></span>
-<span id="cb303-29"><a href="iav-negative-animals.html#cb303-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;C. IAV Serology Status&quot;</span>, </span>
-<span id="cb303-30"><a href="iav-negative-animals.html#cb303-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb303-31"><a href="iav-negative-animals.html#cb303-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb303-32"><a href="iav-negative-animals.html#cb303-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb303-33"><a href="iav-negative-animals.html#cb303-33" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.14</span>, <span class="fl">0.13</span>))</span>
-<span id="cb303-34"><a href="iav-negative-animals.html#cb303-34" tabindex="-1"></a>iavneg_plsda_ggplot</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="iav-negative-animals.html#cb310-1" tabindex="-1"></a>iavneg_plsda <span class="ot">&lt;-</span> mixOmics<span class="sc">::</span><span class="fu">plsda</span>(datascale_iavneg[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb310-2"><a href="iav-negative-animals.html#cb310-2" tabindex="-1"></a>                                datascale_iavneg<span class="sc">$</span>iavser,</span>
+<span id="cb310-3"><a href="iav-negative-animals.html#cb310-3" tabindex="-1"></a>                                <span class="at">scale=</span><span class="cn">FALSE</span>,</span>
+<span id="cb310-4"><a href="iav-negative-animals.html#cb310-4" tabindex="-1"></a>                                <span class="at">ncomp=</span><span class="dv">9</span>)</span>
+<span id="cb310-5"><a href="iav-negative-animals.html#cb310-5" tabindex="-1"></a></span>
+<span id="cb310-6"><a href="iav-negative-animals.html#cb310-6" tabindex="-1"></a>iavneg_plsda_data <span class="ot">&lt;-</span> </span>
+<span id="cb310-7"><a href="iav-negative-animals.html#cb310-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> iavneg_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
+<span id="cb310-8"><a href="iav-negative-animals.html#cb310-8" tabindex="-1"></a>             <span class="at">y =</span> iavneg_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
+<span id="cb310-9"><a href="iav-negative-animals.html#cb310-9" tabindex="-1"></a>             <span class="at">iav =</span> iavneg_plsda<span class="sc">$</span>Y)</span>
+<span id="cb310-10"><a href="iav-negative-animals.html#cb310-10" tabindex="-1"></a></span>
+<span id="cb310-11"><a href="iav-negative-animals.html#cb310-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
+<span id="cb310-12"><a href="iav-negative-animals.html#cb310-12" tabindex="-1"></a>labelx_iavneg <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
+<span id="cb310-13"><a href="iav-negative-animals.html#cb310-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iavneg_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb310-14"><a href="iav-negative-animals.html#cb310-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb310-15"><a href="iav-negative-animals.html#cb310-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb310-16"><a href="iav-negative-animals.html#cb310-16" tabindex="-1"></a></span>
+<span id="cb310-17"><a href="iav-negative-animals.html#cb310-17" tabindex="-1"></a>labely_iavneg <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
+<span id="cb310-18"><a href="iav-negative-animals.html#cb310-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iavneg_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb310-19"><a href="iav-negative-animals.html#cb310-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb310-20"><a href="iav-negative-animals.html#cb310-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb310-21"><a href="iav-negative-animals.html#cb310-21" tabindex="-1"></a></span>
+<span id="cb310-22"><a href="iav-negative-animals.html#cb310-22" tabindex="-1"></a>iavneg_plsda_ggplot <span class="ot">&lt;-</span> </span>
+<span id="cb310-23"><a href="iav-negative-animals.html#cb310-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(iavneg_plsda_data, </span>
+<span id="cb310-24"><a href="iav-negative-animals.html#cb310-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>iav)) <span class="sc">+</span></span>
+<span id="cb310-25"><a href="iav-negative-animals.html#cb310-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb310-26"><a href="iav-negative-animals.html#cb310-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
+<span id="cb310-27"><a href="iav-negative-animals.html#cb310-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_iavneg,</span>
+<span id="cb310-28"><a href="iav-negative-animals.html#cb310-28" tabindex="-1"></a>       <span class="at">y =</span>labely_iavneg) <span class="sc">+</span></span>
+<span id="cb310-29"><a href="iav-negative-animals.html#cb310-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;C. IAV Serology Status&quot;</span>, </span>
+<span id="cb310-30"><a href="iav-negative-animals.html#cb310-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb310-31"><a href="iav-negative-animals.html#cb310-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb310-32"><a href="iav-negative-animals.html#cb310-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb310-33"><a href="iav-negative-animals.html#cb310-33" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.14</span>, <span class="fl">0.13</span>))</span>
+<span id="cb310-34"><a href="iav-negative-animals.html#cb310-34" tabindex="-1"></a>iavneg_plsda_ggplot</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="iav-negative-animals.html#cb304-1" tabindex="-1"></a><span class="co"># Location</span></span>
-<span id="cb304-2"><a href="iav-negative-animals.html#cb304-2" tabindex="-1"></a>loc_plsda <span class="ot">&lt;-</span> mixOmics<span class="sc">::</span><span class="fu">plsda</span>(datascale[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
-<span id="cb304-3"><a href="iav-negative-animals.html#cb304-3" tabindex="-1"></a>                            datascale<span class="sc">$</span>location,</span>
-<span id="cb304-4"><a href="iav-negative-animals.html#cb304-4" tabindex="-1"></a>                            <span class="at">scale=</span><span class="cn">FALSE</span>,</span>
-<span id="cb304-5"><a href="iav-negative-animals.html#cb304-5" tabindex="-1"></a>                            <span class="at">ncomp=</span><span class="dv">9</span>)</span>
-<span id="cb304-6"><a href="iav-negative-animals.html#cb304-6" tabindex="-1"></a>loc_plsda_data <span class="ot">&lt;-</span> </span>
-<span id="cb304-7"><a href="iav-negative-animals.html#cb304-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> loc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
-<span id="cb304-8"><a href="iav-negative-animals.html#cb304-8" tabindex="-1"></a>             <span class="at">y =</span> loc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
-<span id="cb304-9"><a href="iav-negative-animals.html#cb304-9" tabindex="-1"></a>             <span class="at">location =</span> loc_plsda<span class="sc">$</span>Y)</span>
-<span id="cb304-10"><a href="iav-negative-animals.html#cb304-10" tabindex="-1"></a></span>
-<span id="cb304-11"><a href="iav-negative-animals.html#cb304-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
-<span id="cb304-12"><a href="iav-negative-animals.html#cb304-12" tabindex="-1"></a>labelx_loc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
-<span id="cb304-13"><a href="iav-negative-animals.html#cb304-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(loc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb304-14"><a href="iav-negative-animals.html#cb304-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb304-15"><a href="iav-negative-animals.html#cb304-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb304-16"><a href="iav-negative-animals.html#cb304-16" tabindex="-1"></a></span>
-<span id="cb304-17"><a href="iav-negative-animals.html#cb304-17" tabindex="-1"></a>labely_loc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
-<span id="cb304-18"><a href="iav-negative-animals.html#cb304-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(loc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb304-19"><a href="iav-negative-animals.html#cb304-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb304-20"><a href="iav-negative-animals.html#cb304-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb304-21"><a href="iav-negative-animals.html#cb304-21" tabindex="-1"></a></span>
-<span id="cb304-22"><a href="iav-negative-animals.html#cb304-22" tabindex="-1"></a>loc_plsda_ggplot <span class="ot">&lt;-</span> </span>
-<span id="cb304-23"><a href="iav-negative-animals.html#cb304-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(loc_plsda_data, </span>
-<span id="cb304-24"><a href="iav-negative-animals.html#cb304-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>location)) <span class="sc">+</span></span>
-<span id="cb304-25"><a href="iav-negative-animals.html#cb304-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb304-26"><a href="iav-negative-animals.html#cb304-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
-<span id="cb304-27"><a href="iav-negative-animals.html#cb304-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_loc,</span>
-<span id="cb304-28"><a href="iav-negative-animals.html#cb304-28" tabindex="-1"></a>       <span class="at">y =</span>labelx_loc) <span class="sc">+</span></span>
-<span id="cb304-29"><a href="iav-negative-animals.html#cb304-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;Location&quot;</span>, </span>
-<span id="cb304-30"><a href="iav-negative-animals.html#cb304-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb304-31"><a href="iav-negative-animals.html#cb304-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb304-32"><a href="iav-negative-animals.html#cb304-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb304-33"><a href="iav-negative-animals.html#cb304-33" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.12</span>, <span class="fl">0.17</span>))</span>
-<span id="cb304-34"><a href="iav-negative-animals.html#cb304-34" tabindex="-1"></a>loc_plsda_ggplot</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="iav-negative-animals.html#cb311-1" tabindex="-1"></a><span class="co"># Location</span></span>
+<span id="cb311-2"><a href="iav-negative-animals.html#cb311-2" tabindex="-1"></a>loc_plsda <span class="ot">&lt;-</span> mixOmics<span class="sc">::</span><span class="fu">plsda</span>(datascale[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb311-3"><a href="iav-negative-animals.html#cb311-3" tabindex="-1"></a>                            datascale<span class="sc">$</span>location,</span>
+<span id="cb311-4"><a href="iav-negative-animals.html#cb311-4" tabindex="-1"></a>                            <span class="at">scale=</span><span class="cn">FALSE</span>,</span>
+<span id="cb311-5"><a href="iav-negative-animals.html#cb311-5" tabindex="-1"></a>                            <span class="at">ncomp=</span><span class="dv">9</span>)</span>
+<span id="cb311-6"><a href="iav-negative-animals.html#cb311-6" tabindex="-1"></a>loc_plsda_data <span class="ot">&lt;-</span> </span>
+<span id="cb311-7"><a href="iav-negative-animals.html#cb311-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> loc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
+<span id="cb311-8"><a href="iav-negative-animals.html#cb311-8" tabindex="-1"></a>             <span class="at">y =</span> loc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
+<span id="cb311-9"><a href="iav-negative-animals.html#cb311-9" tabindex="-1"></a>             <span class="at">location =</span> loc_plsda<span class="sc">$</span>Y)</span>
+<span id="cb311-10"><a href="iav-negative-animals.html#cb311-10" tabindex="-1"></a></span>
+<span id="cb311-11"><a href="iav-negative-animals.html#cb311-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
+<span id="cb311-12"><a href="iav-negative-animals.html#cb311-12" tabindex="-1"></a>labelx_loc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
+<span id="cb311-13"><a href="iav-negative-animals.html#cb311-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(loc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb311-14"><a href="iav-negative-animals.html#cb311-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb311-15"><a href="iav-negative-animals.html#cb311-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb311-16"><a href="iav-negative-animals.html#cb311-16" tabindex="-1"></a></span>
+<span id="cb311-17"><a href="iav-negative-animals.html#cb311-17" tabindex="-1"></a>labely_loc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
+<span id="cb311-18"><a href="iav-negative-animals.html#cb311-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(loc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb311-19"><a href="iav-negative-animals.html#cb311-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb311-20"><a href="iav-negative-animals.html#cb311-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb311-21"><a href="iav-negative-animals.html#cb311-21" tabindex="-1"></a></span>
+<span id="cb311-22"><a href="iav-negative-animals.html#cb311-22" tabindex="-1"></a>loc_plsda_ggplot <span class="ot">&lt;-</span> </span>
+<span id="cb311-23"><a href="iav-negative-animals.html#cb311-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(loc_plsda_data, </span>
+<span id="cb311-24"><a href="iav-negative-animals.html#cb311-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>location)) <span class="sc">+</span></span>
+<span id="cb311-25"><a href="iav-negative-animals.html#cb311-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb311-26"><a href="iav-negative-animals.html#cb311-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
+<span id="cb311-27"><a href="iav-negative-animals.html#cb311-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_loc,</span>
+<span id="cb311-28"><a href="iav-negative-animals.html#cb311-28" tabindex="-1"></a>       <span class="at">y =</span>labelx_loc) <span class="sc">+</span></span>
+<span id="cb311-29"><a href="iav-negative-animals.html#cb311-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;Location&quot;</span>, </span>
+<span id="cb311-30"><a href="iav-negative-animals.html#cb311-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb311-31"><a href="iav-negative-animals.html#cb311-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb311-32"><a href="iav-negative-animals.html#cb311-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb311-33"><a href="iav-negative-animals.html#cb311-33" tabindex="-1"></a>        <span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.12</span>, <span class="fl">0.17</span>))</span>
+<span id="cb311-34"><a href="iav-negative-animals.html#cb311-34" tabindex="-1"></a>loc_plsda_ggplot</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-133-2.png" width="672" /></p>
 
 </div>

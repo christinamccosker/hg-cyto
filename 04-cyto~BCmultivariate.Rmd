@@ -101,6 +101,8 @@ adonis2((1-databin_dist) ~ bc_bin,
 disper <- 
   betadisper((1-databin_dist), group=databin$bc_bin, type="centroid")
 
+disper
+
 anova(disper)
 TukeyHSD(disper)
 boxplot(disper)
@@ -188,7 +190,187 @@ ordispider(ord = data_pco,
 ```
 
 
-## Cytokine Importance
+## PLS-DA
+
+### Data 
+```{r}
+pls_x <-
+  data[,2:10]
+
+pls_y <- 
+  data %>% 
+  select(bc_bin, analysis.year) %>% 
+  mutate_all(as.factor)
+```
+
+### Transform data 
+CLR = Centered log-ratio transformation
+```{r}
+pls_x_clr <- 
+  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
+
+class(pls_x_clr) = 'matrix'
+```
+
+### Detect batch effects
+Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
+```{r}
+pca_before <- 
+  mixOmics::pca(pls_x_clr, scale=TRUE)
+
+plotIndiv(pca_before, 
+          group=data$analysis.year,
+          pch=20,
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "Before Batch Correction",
+          ellipse = TRUE, ellipse.level=0.95)
+
+Scatter_Density(object = pca_before,
+                batch = pls_y$analysis.year,
+                trt = pls_y$bc_bin,
+                trt.legend.title = "Body Condition",
+                color.set = c("#9d9d9d","#008ba2","black"))
+```
+
+#### Estimate # variable components
+Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
+Number = that explains 100% of variance in outcome matrix Y.
+```{r}
+trt_comp <- 
+  plsda(X = pls_x_clr,
+        Y = pls_y$bc_bin, 
+        ncomp=9)
+
+trt_comp$prop_expl_var
+sum(trt_comp$prop_expl_var$Y[seq_len(3)]) # preserve 3 comp
+```
+
+#### Estimate # batch components
+Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
+For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
+Choose # that explains 100% variance in outcome matrix Y. 
+```{r}
+batch_comp <- 
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$bc_bin,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 3, ncomp.bat = 9)
+
+batch_comp$explained_variance.bat
+sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
+```
+
+#### Correct for batch effects
+Use optimal number of components determined above.  
+Treatment = 3, Batch = 3
+```{r}
+plsda_batch <-
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$bc_bin,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 3, ncomp.bat = 3)
+
+data_batch <-
+  plsda_batch$X.nobatch
+
+data_batch_write <- 
+  data_batch %>% 
+  data.frame() %>% 
+  mutate(bc_bin = pls_y$bc_bin)
+
+write.csv(data_batch_write, "Output Files/batchcorrected_bodycondition.csv")
+```
+
+#### Assessing batch correction
+```{r}
+after_batch <- 
+  mixOmics::pca(data_batch, scale=TRUE)
+
+plotIndiv(after_batch, 
+          group=pls_y$analysis.year,
+          pch=20, 
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "After Batch Correction",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+### PLSDA on Batch-Corrected Data
+```{r}
+plsda_model <- 
+  plsda(data_batch,
+        pls_y$bc_bin,
+        scale=TRUE)
+
+plotIndiv(plsda_model,
+          group=pls_y$bc_bin,
+          pch=20, 
+          legend = TRUE, legend.title = "Body Condition",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+### Visualization
+#### Set x and y axis labels 
+```{r}
+labelx <- 
+  paste("X-variate 1: ", 
+        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+        "% expl. var",
+        sep="")
+
+labely <- 
+  paste("X-variate 2: ", 
+        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+        "% expl. var",
+        sep="")
+```
+
+#### Create plot data frame
+```{r}
+plsda_ggplot <- 
+  data.frame(x = plsda_model$variates$X[,1], 
+             y = plsda_model$variates$X[,2],
+             bc_bin = plsda_model$Y)
+```
+
+#### Plot
+```{r}
+bc_plsda_ggplot <- 
+  ggplot(plsda_ggplot, 
+         aes(x=x, 
+             y=y,
+             col=bc_bin)) +
+  geom_point() +
+  stat_ellipse() +
+  labs(x=labelx,
+       y = labely,
+       name="Body Condition") +
+  scale_color_manual("Body Condition",
+                     values=c("#9d9d9d","#008ba2", "black")) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+
+bc_plsda_ggplot
+```
+
+### Cytokine Contributions
+```{r}
+plsda_loadings <- 
+  plsda_model$loadings$X %>% 
+  data.frame() %>% 
+  select(1:2) %>% 
+  arrange(comp1)
+plsda_loadings
+
+biplot(plsda_model, ind.names=FALSE, legend.title="Body Condition")
+
+plotVar(plsda_model)
+```
+
+
+## CART
+Cytokine Importance
 ### Prepare data
 ```{r, message=FALSE}
 data_cart <- 
@@ -287,6 +469,8 @@ varimp_plot
 
 #### Proportions
 ```{r}
+prop.table(table(databin$bc_bin, databin$IFNg), margin=1)*100
+
 ifng_prop <- 
   databin %>% 
   mutate(IFNg=gsub("1", "Present", IFNg),
@@ -353,174 +537,3 @@ grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
 dev.off()
 ```
 
-
-## PLS-DA
-
-### Data 
-```{r}
-pls_x <-
-  data[,2:10]
-
-pls_y <- 
-  data %>% 
-  select(bc_bin, analysis.year) %>% 
-  mutate_all(as.factor)
-```
-
-### Transform data 
-CLR = Centered log-ratio transformation
-```{r}
-pls_x_clr <- 
-  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
-
-class(pls_x_clr) = 'matrix'
-```
-
-### Detect batch effects
-Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
-```{r}
-pca_before <- 
-  mixOmics::pca(pls_x_clr, scale=TRUE)
-
-plotIndiv(pca_before, 
-          group=data$analysis.year,
-          pch=20,
-          legend = TRUE, legend.title = "Analysis Year",
-          title = "Before Batch Correction",
-          ellipse = TRUE, ellipse.level=0.95)
-
-Scatter_Density(object = pca_before,
-                batch = pls_y$analysis.year,
-                trt = pls_y$bc_bin,
-                trt.legend.title = "Body Condition",
-                color.set = c("#9d9d9d","#008ba2","black"))
-```
-
-#### Estimate # variable components
-Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
-Number = that explains 100% of variance in outcome matrix Y.
-```{r}
-trt_comp <- 
-  plsda(X = pls_x_clr,
-        Y = pls_y$bc_bin, 
-        ncomp=9)
-
-trt_comp$prop_expl_var
-sum(trt_comp$prop_expl_var$Y[seq_len(3)]) # preserve 3 comp
-```
-
-#### Estimate # batch components
-Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
-For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
-Choose # that explains 100% variance in outcome matrix Y. 
-```{r}
-batch_comp <- 
-  PLSDA_batch(X = pls_x_clr,
-              Y = pls_y$bc_bin,
-              Y.bat = pls_y$analysis.year,
-              balance = FALSE,
-              ncomp.trt = 3, ncomp.bat = 9)
-
-batch_comp$explained_variance.bat
-sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
-```
-
-#### Correct for batch effects
-Use optimal number of components determined above.  
-Treatment = 3, Batch = 3
-```{r}
-plsda_batch <-
-  PLSDA_batch(X = pls_x_clr,
-              Y = pls_y$bc_bin,
-              Y.bat = pls_y$analysis.year,
-              balance = FALSE,
-              ncomp.trt = 3, ncomp.bat = 3)
-
-data_batch <-
-  plsda_batch$X.nobatch
-```
-
-#### Assessing batch correction
-```{r}
-after_batch <- 
-  mixOmics::pca(data_batch, scale=TRUE)
-
-plotIndiv(after_batch, 
-          group=pls_y$analysis.year,
-          pch=20, 
-          legend = TRUE, legend.title = "Analysis Year",
-          title = "After Batch Correction",
-          ellipse = TRUE, ellipse.level = 0.95)
-```
-
-### PLSDA on Batch-Corrected Data
-```{r}
-plsda_model <- 
-  plsda(data_batch,
-        pls_y$bc_bin,
-        scale=TRUE)
-
-plotIndiv(plsda_model,
-          group=pls_y$bc_bin,
-          pch=20, 
-          legend = TRUE, legend.title = "Body Condition",
-          ellipse = TRUE, ellipse.level = 0.95)
-```
-
-### Visualization
-#### Set x and y axis labels 
-```{r}
-labelx <- 
-  paste("X-variate 1: ", 
-        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
-        "% expl. var",
-        sep="")
-
-labely <- 
-  paste("X-variate 2: ", 
-        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
-        "% expl. var",
-        sep="")
-```
-
-#### Create plot data frame
-```{r}
-plsda_ggplot <- 
-  data.frame(x = plsda_model$variates$X[,1], 
-             y = plsda_model$variates$X[,2],
-             bc_bin = plsda_model$Y)
-```
-
-#### Plot
-```{r}
-bc_plsda_ggplot <- 
-  ggplot(plsda_ggplot, 
-         aes(x=x, 
-             y=y,
-             col=bc_bin)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=labelx,
-       y = labely,
-       name="Body Condition") +
-  scale_color_manual("Body Condition",
-                     values=c("#9d9d9d","#008ba2", "black")) +
-  theme_bw() +
-  theme(panel.grid = element_blank())
-
-bc_plsda_ggplot
-```
-
-### Cytokine Contributions
-```{r}
-plsda_loadings <- 
-  plsda_model$loadings$X %>% 
-  data.frame() %>% 
-  select(1:2) %>% 
-  arrange(comp1)
-plsda_loadings
-
-biplot(plsda_model, ind.names=FALSE, legend.title="Body Condition")
-
-plotVar(plsda_model)
-```

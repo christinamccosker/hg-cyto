@@ -48,15 +48,14 @@ databin <-
   filter(!is.na(molt.stage))
 ```
 
+
 ## PERMANOVA
 
 ### Cytokine Presence/Absence
-From McCosker et al. 2024:  
+From McCosker et al. 2024: A dissimilarity matrix was then created using betadiver from package vegan (v. 2.5-4; Oksanen et al. 2018) with dissimilarity deﬁned as 1 – Sørensen’s index (Sørensen 1948).  
 
-- A dissimilarity matrix was then created using betadiver from package vegan (v. 2.5-4; Oksanen et al.
-2018) with dissimilarity deﬁned as 1 – Sørensen’s index (Sørensen 1948).  
+R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines).  
 
-R2 = partial R2 = factor (molt stage) is explaining at least R2 * 100% of variation in variables (cytokines)
 #### Create similarity matrix (Sorensen)
 Dissimilarity = 1-Sorensen
 ```{r}
@@ -73,7 +72,9 @@ mean(1-databin_dist); min(1-databin_dist); max(1-databin_dist); median(1-databin
 
 #### Run PERMANOVA
 Use restricted permutation test - data are not exchangeable between analysis years so permute within groups defined by strata.  
+
 Ref: https://stats.stackexchange.com/questions/590510/repeated-measures-permanova-nowhere-to-find  
+
 ** Not sig
 ```{r}
 # define permutations & strata
@@ -111,6 +112,9 @@ ordiellipse(ord = databin_pco,
             col = c("deepskyblue", "grey", "darkseagreen"),
             lwd = 2,
             label = TRUE)
+
+plot(databin_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 ordispider(ord = databin_pco,
            groups = factor(data$molt.stage),
            display = "sites",
@@ -124,8 +128,9 @@ ordispider(ord = databin_pco,
 From McCosker et al. 2024:  
 
 - The adonis function was used to conduct a permutational multivariate analysis of variance (PERMANOVA) on group (method) dissimilarity. Group dispersions weremodeled with betadisper to determine whether the assumption of equal dispersions had been met under adonis and principal coordinate analysis was used relative to PERMANOVA results to visualize group dispersions around the centroid.  
-- Bray-Curtis dissimilarity used  
-  - well-suited to species abundance because it ignores variables that have zeros for both objects (joint absences)  
+
+Bray-Curtis dissimilarity used  
+- well-suited to species abundance because it ignores variables that have zeros for both objects (joint absences)  
 
 #### Dissimilarity matrix
 ```{r}
@@ -171,6 +176,9 @@ ordiellipse(ord = data_pco,
             col = c("deepskyblue", "grey", "darkseagreen"),
             lwd = 2,
             label = TRUE)
+
+plot(databin_pco$points, type="n", 
+     cex.lab=1.5, cex.axis=1.1, cex.sub=1.1)
 ordispider(ord = data_pco,
            groups = factor(data$molt.stage),
            display = "sites",
@@ -181,7 +189,191 @@ ordispider(ord = data_pco,
 ```
 
 
-## Cytokine Importance
+## PLS-DA
+PLSDA is a supervised dimensionality reduction method that is similar to PCA but incorporates class labels to maximize the separation between groups.  
+One advantage of PLS is that it has fewer assumptions and hence it can use predictor variables that are collinear and not independent.  
+The aim of PLS-DA is to discriminate the sample groups, rather than maximizing the variance. When the maximization of the variance corresponds to a discrimination of the classes, then this is awesome, but otherwise, it means that the major source of variation is probably not mainly due to the sample group differences.  
+
+### Data
+```{r}
+pls_x <-
+  data[,2:10]
+
+pls_y <- 
+  data %>% 
+  select(molt.stage, analysis.year) %>% 
+  mutate_all(as.factor)
+```
+
+### Transform data
+CLR = Centered log-ratio transformation. Recommended to offset by 0.01 for not count data.
+```{r}
+pls_x_clr <- 
+  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
+
+class(pls_x_clr) = 'matrix'
+```
+
+### Detect batch effects
+Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
+```{r}
+# Data is already centered and scaled
+pca_before <- 
+  mixOmics::pca(pls_x_clr, scale = TRUE)
+
+plotIndiv(pca_before, 
+          group=data$analysis.year,
+          pch=20,
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "Before Batch Correction",
+          ellipse = TRUE, ellipse.level=0.95)
+
+Scatter_Density(object = pca_before,
+                batch = pls_y$analysis.year,
+                trt = pls_y$molt.stage,
+                trt.legend.title = "Molt Stage",
+                color.set = c("#9d9d9d","#008ba2","black"))
+```
+
+#### Estimate # variable components
+Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
+Number = that explains 100% of variance in outcome matrix Y.
+```{r}
+trt_comp <- 
+  plsda(X = pls_x_clr,
+        Y = pls_y$molt.stage, 
+        ncomp=9)
+
+trt_comp$prop_expl_var
+sum(trt_comp$prop_expl_var$Y[seq_len(2)]) # preserve 2 comp
+```
+
+#### Estimate # batch components
+Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
+For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
+Choose # that explains 100% variance in outcome matrix Y. 
+```{r}
+batch_comp <- 
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$molt.stage,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 2, ncomp.bat = 9)
+
+batch_comp$explained_variance.bat
+sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
+```
+
+#### Correct for batch effects
+Use optimal number of components determined above.  
+Treatment = 2, Batch = 3
+```{r}
+plsda_batch <-
+  PLSDA_batch(X = pls_x_clr,
+              Y = pls_y$molt.stage,
+              Y.bat = pls_y$analysis.year,
+              balance = FALSE,
+              ncomp.trt = 2, ncomp.bat = 3)
+
+data_batch <-
+  plsda_batch$X.nobatch
+
+data_batch_write <- 
+  data_batch %>% 
+  data.frame() %>% 
+  mutate(molt.stage = pls_y$molt.stage)
+
+write.csv(data_batch_write, "Output Files/batchcorrected_moltstage.csv")
+```
+
+#### Assessing batch correction
+```{r}
+after_batch <- 
+  mixOmics::pca(data_batch, scale = TRUE)
+
+plotIndiv(after_batch, 
+          group=pls_y$analysis.year,
+          pch=20, 
+          legend = TRUE, legend.title = "Analysis Year",
+          title = "After Batch Correction",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+### PLSDA on Batch-Corrected Data
+```{r}
+plsda_model <- 
+  plsda(data_batch,
+        pls_y$molt.stage,
+        scale=TRUE)
+
+plotIndiv(plsda_model,
+          group=pls_y$molt.stage,
+          pch=20, 
+          legend = TRUE, legend.title = "Molt Stage",
+          ellipse = TRUE, ellipse.level = 0.95)
+```
+
+
+### Visualization
+#### Set x and y axis labels
+```{r}
+labelx <- 
+  paste("X-variate 1: ", 
+        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
+        "% expl. var",
+        sep="")
+
+labely <- 
+  paste("X-variate 2: ", 
+        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
+        "% expl. var",
+        sep="")
+```
+
+#### Create plot data frame
+```{r}
+plsda_ggplot <- 
+  data.frame(x = plsda_model$variates$X[,1], 
+             y = plsda_model$variates$X[,2],
+             molt.stage = plsda_model$Y)
+```
+
+#### Plot
+```{r}
+molt_plsda_ggplot <- 
+  ggplot(plsda_ggplot, 
+         aes(x=x, 
+             y=y,
+             col=molt.stage)) +
+  geom_point() +
+  stat_ellipse() +
+  labs(x=labelx,
+       y = labely,
+       name="Molt Stage") +
+  scale_color_manual("Molt Stage",
+                     values=c("#9d9d9d","#008ba2","black")) +
+  theme_bw() +
+  theme(panel.grid=element_blank())
+molt_plsda_ggplot
+```
+
+### Cytokine Contributions
+```{r}
+plsda_loadings <- 
+  plsda_model$loadings$X %>% 
+  data.frame() %>% 
+  select(1:2) %>% 
+  arrange(comp1)
+plsda_loadings
+
+biplot(plsda_model, ind.names=FALSE, legend.title="Molt Stage")
+
+plotVar(plsda_model)
+```
+
+
+## CART
+Cytokine Importance  
 The default splitting method for classification is gini index. Optional parameters:  
 
 - minbucket: smallest # observations allowed in terminal node. Small terminal nodes likely to be biased by single outlier.  
@@ -200,12 +392,14 @@ Classification Ability
 - ROC AUC (range 0-1)  
   - 0.5 = random guessing  
   - 1 = indicates perfect performance  
-  - A score slightly above 0.5 shows that a model has at least "some" (albeit small) predictive power. This is generally inadequate for any real applications.  
+  - A score slightly above 0.5 shows that a model has at least "some" (albeit small) predictive power. This is generally inadequate for any real applications. 
+  
 
 - Classification Error  
 
   - compares observed to predicted classifications  
   - range from 0-1, with smaller numbers = less error, better model  
+  
 
 - Resources:  
   - https://mlr3book.mlr-org.com/chapters/chapter4/hyperparameter_optimization.html#sec-tuning-instance  
@@ -378,178 +572,3 @@ grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
 dev.off()
 ```
 
-
-## PLS-DA
-PLSDA is a supervised dimensionality reduction method that is similar to PCA but incorporates class labels to maximize the separation between groups.  
-One advantage of PLS is that it has fewer assumptions and hence it can use predictor variables that are collinear and not independent.  
-The aim of PLS-DA is to discriminate the sample groups, rather than maximizing the variance. When the maximization of the variance corresponds to a discrimination of the classes, then this is awesome, but otherwise, it means that the major source of variation is probably not mainly due to the sample group differences.  
-
-### Data
-```{r}
-pls_x <-
-  data[,2:10]
-
-pls_y <- 
-  data %>% 
-  select(molt.stage, analysis.year) %>% 
-  mutate_all(as.factor)
-```
-
-### Transform data
-CLR = Centered log-ratio transformation. Recommended to offset by 0.01 for not count data.
-```{r}
-pls_x_clr <- 
-  logratio.transfo(X = pls_x, logratio = 'CLR', offset = 0.01)
-
-class(pls_x_clr) = 'matrix'
-```
-
-### Detect batch effects
-Reference: https://evayiwenwang.github.io/PLSDAbatch_workflow/ 
-```{r}
-# Data is already centered and scaled
-pca_before <- 
-  mixOmics::pca(pls_x_clr, scale = TRUE)
-
-plotIndiv(pca_before, 
-          group=data$analysis.year,
-          pch=20,
-          legend = TRUE, legend.title = "Analysis Year",
-          title = "Before Batch Correction",
-          ellipse = TRUE, ellipse.level=0.95)
-
-Scatter_Density(object = pca_before,
-                batch = pls_y$analysis.year,
-                trt = pls_y$molt.stage,
-                trt.legend.title = "Molt Stage",
-                color.set = c("#9d9d9d","#008ba2","black"))
-```
-
-#### Estimate # variable components
-Use PLSDA from mixOmics with only treatment to choose number of treatment components to preserve.  
-Number = that explains 100% of variance in outcome matrix Y.
-```{r}
-trt_comp <- 
-  plsda(X = pls_x_clr,
-        Y = pls_y$molt.stage, 
-        ncomp=9)
-
-trt_comp$prop_expl_var
-sum(trt_comp$prop_expl_var$Y[seq_len(2)]) # preserve 2 comp
-```
-
-#### Estimate # batch components
-Use PLSDA_batch with both treatment and batch to estimate optimal number of batch components to remove.  
-For ncomp.trt, use # components found above. Samples are not balanced across batches x treatment, using balance = FALSE.  
-Choose # that explains 100% variance in outcome matrix Y. 
-```{r}
-batch_comp <- 
-  PLSDA_batch(X = pls_x_clr,
-              Y = pls_y$molt.stage,
-              Y.bat = pls_y$analysis.year,
-              balance = FALSE,
-              ncomp.trt = 2, ncomp.bat = 9)
-
-batch_comp$explained_variance.bat
-sum(batch_comp$explained_variance.bat$Y[seq_len(3)]) # preserve 3 comp
-```
-
-#### Correct for batch effects
-Use optimal number of components determined above.  
-Treatment = 2, Batch = 3
-```{r}
-plsda_batch <-
-  PLSDA_batch(X = pls_x_clr,
-              Y = pls_y$molt.stage,
-              Y.bat = pls_y$analysis.year,
-              balance = FALSE,
-              ncomp.trt = 2, ncomp.bat = 3)
-
-data_batch <-
-  plsda_batch$X.nobatch
-```
-
-#### Assessing batch correction
-```{r}
-after_batch <- 
-  mixOmics::pca(data_batch, scale = TRUE)
-
-plotIndiv(after_batch, 
-          group=pls_y$analysis.year,
-          pch=20, 
-          legend = TRUE, legend.title = "Analysis Year",
-          title = "After Batch Correction",
-          ellipse = TRUE, ellipse.level = 0.95)
-```
-
-### PLSDA on Batch-Corrected Data
-```{r}
-plsda_model <- 
-  plsda(data_batch,
-        pls_y$molt.stage,
-        scale=TRUE)
-
-plotIndiv(plsda_model,
-          group=pls_y$molt.stage,
-          pch=20, 
-          legend = TRUE, legend.title = "Molt Stage",
-          ellipse = TRUE, ellipse.level = 0.95)
-```
-
-
-### Visualization
-#### Set x and y axis labels
-```{r}
-labelx <- 
-  paste("X-variate 1: ", 
-        round(abs(plsda_model$prop_expl_var$X[1]*100), digits=0),
-        "% expl. var",
-        sep="")
-
-labely <- 
-  paste("X-variate 2: ", 
-        round(abs(plsda_model$prop_expl_var$X[2]*100), digits=0),
-        "% expl. var",
-        sep="")
-```
-
-#### Create plot data frame
-```{r}
-plsda_ggplot <- 
-  data.frame(x = plsda_model$variates$X[,1], 
-             y = plsda_model$variates$X[,2],
-             molt.stage = plsda_model$Y)
-```
-
-#### Plot
-```{r}
-molt_plsda_ggplot <- 
-  ggplot(plsda_ggplot, 
-         aes(x=x, 
-             y=y,
-             col=molt.stage)) +
-  geom_point() +
-  stat_ellipse() +
-  labs(x=labelx,
-       y = labely,
-       name="Molt Stage") +
-  scale_color_manual("Molt Stage",
-                     values=c("#9d9d9d","#008ba2","black")) +
-  theme_bw() +
-  theme(panel.grid=element_blank())
-molt_plsda_ggplot
-```
-
-### Cytokine Contributions
-```{r}
-plsda_loadings <- 
-  plsda_model$loadings$X %>% 
-  data.frame() %>% 
-  select(1:2) %>% 
-  arrange(comp1)
-plsda_loadings
-
-biplot(plsda_model, ind.names=FALSE, legend.title="Molt Stage")
-
-plotVar(plsda_model)
-```
