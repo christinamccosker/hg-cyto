@@ -553,18 +553,20 @@ il8
 
 #### Combine
 ```{r}
-bottom1 <- grid.arrange(il8_prop, il8, ncol=2,
-                       left=textGrob("IL-8", rot=90, gp=gpar(fontsize=10)),
+bottom1 <- grid.arrange(il8_prop, il8, 
+                        ncol=2,
+                        top = textGrob("IL-8", gp=gpar(fontsize=10)),
                         bottom=textGrob("Molt Stage", gp=gpar(fontsize=10)))
+
 bottom2 <- grid.arrange(bottom1, cyto_leg, 
-                        ncol=1, 
+                        ncol = 1, 
                         heights=c(3,0.5))
 
-jpeg("Figures/cytoimportance_molt.jpeg", width=6, height=6, units="in", res=300)
+jpeg("Figures/cytoimportance_molt.jpeg", width=7, height=6, units="in", res=300)
 all <- grid.arrange(varimp_plot, bottom2, 
-                    ncol=1, heights=c(1,1.5))
+                    ncol=1, heights=c(1.25,2))
 grid.polygon(x=c(0, 0, 1, 1),
-             y=c(0, 0.6, 0.6, 0),
+             y=c(0, 0.62, 0.62, 0),
              gp=gpar(fill=NA))
 grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
              y=c(0.94, 0.98, 0.98, 0.94),

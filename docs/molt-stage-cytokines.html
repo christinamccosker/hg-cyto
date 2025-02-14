@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2025-02-13" />
+<meta name="date" content="2025-02-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -382,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## adonis2(formula = (1 - databin_dist) ~ molt.stage, data = databin, permutations = permute_databin)
 ##           Df SumOfSqs      R2      F Pr(&gt;F)
-## Model      2   0.5670 0.05584 2.8981  0.195
+## Model      2   0.5670 0.05584 2.8981 0.1926
 ## Residual  98   9.5871 0.94416              
 ## Total    100  10.1542 1.00000</code></pre>
 </div>
@@ -462,7 +462,7 @@ Spider plot illustrating group dissimilarity and group centroid locations (molt 
 ## 
 ## adonis2(formula = data_dist ~ molt.stage, data = data, permutations = permute_data)
 ##           Df SumOfSqs      R2      F Pr(&gt;F)
-## Model      2   0.8057 0.04864 2.5052 0.1716
+## Model      2   0.8057 0.04864 2.5052 0.1608
 ## Residual  98  15.7595 0.95136              
 ## Total    100  16.5653 1.00000</code></pre>
 </div>
@@ -914,19 +914,20 @@ The default splitting method for classification is gini index. Optional paramete
 </div>
 <div id="combine" class="section level4 hasAnchor" number="4.5.4.4">
 <h4><span class="header-section-number">4.5.4.4</span> Combine<a href="molt-stage-cytokines.html#combine" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="molt-stage-cytokines.html#cb126-1" tabindex="-1"></a>bottom1 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(il8_prop, il8, <span class="at">ncol=</span><span class="dv">2</span>,</span>
-<span id="cb126-2"><a href="molt-stage-cytokines.html#cb126-2" tabindex="-1"></a>                       <span class="at">left=</span><span class="fu">textGrob</span>(<span class="st">&quot;IL-8&quot;</span>, <span class="at">rot=</span><span class="dv">90</span>, <span class="at">gp=</span><span class="fu">gpar</span>(<span class="at">fontsize=</span><span class="dv">10</span>)),</span>
-<span id="cb126-3"><a href="molt-stage-cytokines.html#cb126-3" tabindex="-1"></a>                        <span class="at">bottom=</span><span class="fu">textGrob</span>(<span class="st">&quot;Molt Stage&quot;</span>, <span class="at">gp=</span><span class="fu">gpar</span>(<span class="at">fontsize=</span><span class="dv">10</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="molt-stage-cytokines.html#cb126-1" tabindex="-1"></a>bottom1 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(il8_prop, il8, </span>
+<span id="cb126-2"><a href="molt-stage-cytokines.html#cb126-2" tabindex="-1"></a>                        <span class="at">ncol=</span><span class="dv">2</span>,</span>
+<span id="cb126-3"><a href="molt-stage-cytokines.html#cb126-3" tabindex="-1"></a>                        <span class="at">top =</span> <span class="fu">textGrob</span>(<span class="st">&quot;IL-8&quot;</span>, <span class="at">gp=</span><span class="fu">gpar</span>(<span class="at">fontsize=</span><span class="dv">10</span>)),</span>
+<span id="cb126-4"><a href="molt-stage-cytokines.html#cb126-4" tabindex="-1"></a>                        <span class="at">bottom=</span><span class="fu">textGrob</span>(<span class="st">&quot;Molt Stage&quot;</span>, <span class="at">gp=</span><span class="fu">gpar</span>(<span class="at">fontsize=</span><span class="dv">10</span>)))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="molt-stage-cytokines.html#cb127-1" tabindex="-1"></a>bottom2 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(bottom1, cyto_leg, </span>
-<span id="cb127-2"><a href="molt-stage-cytokines.html#cb127-2" tabindex="-1"></a>                        <span class="at">ncol=</span><span class="dv">1</span>, </span>
+<span id="cb127-2"><a href="molt-stage-cytokines.html#cb127-2" tabindex="-1"></a>                        <span class="at">ncol =</span> <span class="dv">1</span>, </span>
 <span id="cb127-3"><a href="molt-stage-cytokines.html#cb127-3" tabindex="-1"></a>                        <span class="at">heights=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">0.5</span>))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-57-2.png" width="672" /></p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="molt-stage-cytokines.html#cb128-1" tabindex="-1"></a><span class="fu">jpeg</span>(<span class="st">&quot;Figures/cytoimportance_molt.jpeg&quot;</span>, <span class="at">width=</span><span class="dv">6</span>, <span class="at">height=</span><span class="dv">6</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>, <span class="at">res=</span><span class="dv">300</span>)</span>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="molt-stage-cytokines.html#cb128-1" tabindex="-1"></a><span class="fu">jpeg</span>(<span class="st">&quot;Figures/cytoimportance_molt.jpeg&quot;</span>, <span class="at">width=</span><span class="dv">7</span>, <span class="at">height=</span><span class="dv">6</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>, <span class="at">res=</span><span class="dv">300</span>)</span>
 <span id="cb128-2"><a href="molt-stage-cytokines.html#cb128-2" tabindex="-1"></a>all <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(varimp_plot, bottom2, </span>
-<span id="cb128-3"><a href="molt-stage-cytokines.html#cb128-3" tabindex="-1"></a>                    <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">heights=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">1.5</span>))</span>
+<span id="cb128-3"><a href="molt-stage-cytokines.html#cb128-3" tabindex="-1"></a>                    <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">heights=</span><span class="fu">c</span>(<span class="fl">1.25</span>,<span class="dv">2</span>))</span>
 <span id="cb128-4"><a href="molt-stage-cytokines.html#cb128-4" tabindex="-1"></a><span class="fu">grid.polygon</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
-<span id="cb128-5"><a href="molt-stage-cytokines.html#cb128-5" tabindex="-1"></a>             <span class="at">y=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="fl">0.6</span>, <span class="dv">0</span>),</span>
+<span id="cb128-5"><a href="molt-stage-cytokines.html#cb128-5" tabindex="-1"></a>             <span class="at">y=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.62</span>, <span class="fl">0.62</span>, <span class="dv">0</span>),</span>
 <span id="cb128-6"><a href="molt-stage-cytokines.html#cb128-6" tabindex="-1"></a>             <span class="at">gp=</span><span class="fu">gpar</span>(<span class="at">fill=</span><span class="cn">NA</span>))</span>
 <span id="cb128-7"><a href="molt-stage-cytokines.html#cb128-7" tabindex="-1"></a><span class="fu">grid.polygon</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.02</span>, <span class="fl">0.97</span>, <span class="fl">0.97</span>),</span>
 <span id="cb128-8"><a href="molt-stage-cytokines.html#cb128-8" tabindex="-1"></a>             <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.94</span>, <span class="fl">0.98</span>, <span class="fl">0.98</span>, <span class="fl">0.94</span>),</span>

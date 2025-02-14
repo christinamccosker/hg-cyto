@@ -518,18 +518,19 @@ ifng <-
 #### Combine
 ```{r}
 cyto <- grid.arrange(ifng_prop,ifng,
-                    ncol=2, 
-                    top = textGrob(label="IFNg"))
+                     ncol = 2, 
+                     top = textGrob(label="IFNg"),
+                     bottom=textGrob("Body Condition", gp=gpar(fontsize=10)))
 
-bottom <- grid.arrange(cyto, cyto_leg, ncol=1, 
-                     heights=c(3,0.5))
+bottom <- grid.arrange(cyto, cyto_leg, 
+                       ncol=1, 
+                       heights=c(3,0.5))
 
-jpeg("Figures/cytoimportance_bodycondition.jpeg", width=8, height=6, units="in", res=300)
+jpeg("Figures/cytoimportance_bodycondition.jpeg", width=7, height=6, units="in", res=300)
 all <- grid.arrange(varimp_plot, bottom, 
-                    heights=c(1.25,2),
-                    bottom=textGrob("Body Condition", gp=gpar(fontsize=10)))
+                    heights=c(1.25,2))
 grid.polygon(x=c(0, 0, 1, 1),
-             y=c(0, 0.68, 0.68, 0),
+             y=c(0, 0.62, 0.62, 0),
              gp=gpar(fill=NA))
 grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
              y=c(0.955, 0.99, 0.99, 0.955),
