@@ -30,10 +30,10 @@ body-condition
 iav
 iav-serology
 is-proportion-of-iaviav--similar-across-variables
+analysis-year-1
 location-1
 molt-stage-1
 body-condition-1
-analysis-year-1
 molt-stage-cytokines
 libraries-2
 data
@@ -145,7 +145,7 @@ data-prep
 proportions-2
 concentrations
 combine-together
-supplemental-figures
+figures---all-cytokines
 cytokine-presenceabsence-3
 cytokine-concentration---log
 create-panel-figure-for-pls-da-plots

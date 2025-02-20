@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2025-02-14" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -182,10 +182,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="exploratory.html"><a href="exploratory.html#is-proportion-of-iaviav--similar-across-variables"><i class="fa fa-check"></i><b>3.5</b> Is proportion of IAV+/IAV- similar across variables?</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="exploratory.html"><a href="exploratory.html#location-1"><i class="fa fa-check"></i><b>3.5.1</b> Location</a></li>
-<li class="chapter" data-level="3.5.2" data-path="exploratory.html"><a href="exploratory.html#molt-stage-1"><i class="fa fa-check"></i><b>3.5.2</b> Molt Stage</a></li>
-<li class="chapter" data-level="3.5.3" data-path="exploratory.html"><a href="exploratory.html#body-condition-1"><i class="fa fa-check"></i><b>3.5.3</b> Body Condition</a></li>
-<li class="chapter" data-level="3.5.4" data-path="exploratory.html"><a href="exploratory.html#analysis-year-1"><i class="fa fa-check"></i><b>3.5.4</b> Analysis Year</a></li>
+<li class="chapter" data-level="3.5.1" data-path="exploratory.html"><a href="exploratory.html#analysis-year-1"><i class="fa fa-check"></i><b>3.5.1</b> Analysis Year</a></li>
+<li class="chapter" data-level="3.5.2" data-path="exploratory.html"><a href="exploratory.html#location-1"><i class="fa fa-check"></i><b>3.5.2</b> Location</a></li>
+<li class="chapter" data-level="3.5.3" data-path="exploratory.html"><a href="exploratory.html#molt-stage-1"><i class="fa fa-check"></i><b>3.5.3</b> Molt Stage</a></li>
+<li class="chapter" data-level="3.5.4" data-path="exploratory.html"><a href="exploratory.html#body-condition-1"><i class="fa fa-check"></i><b>3.5.4</b> Body Condition</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html"><i class="fa fa-check"></i><b>4</b> Molt stage ~ cytokines</a>
@@ -264,7 +264,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#run-model-with-optimized-parameters"><i class="fa fa-check"></i><b>6.5.2</b> Run model with optimized parameters</a></li>
 <li class="chapter" data-level="6.5.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#plot-5"><i class="fa fa-check"></i><b>6.5.3</b> Plot</a></li>
 </ul></li>
-<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#supplemental-figures"><i class="fa fa-check"></i><b>6.6</b> Supplemental Figures</a>
+<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#figures---all-cytokines"><i class="fa fa-check"></i><b>6.6</b> Figures - All Cytokines</a>
 <ul>
 <li class="chapter" data-level="6.6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-presenceabsence-3"><i class="fa fa-check"></i><b>6.6.1</b> Cytokine Presence/Absence</a></li>
 <li class="chapter" data-level="6.6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-concentration---log"><i class="fa fa-check"></i><b>6.6.2</b> Cytokine Concentration - Log</a></li>
@@ -342,8 +342,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-4"><a href="exploratory.html#cb8-4" tabindex="-1"></a>data<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>sex)</span>
 <span id="cb8-5"><a href="exploratory.html#cb8-5" tabindex="-1"></a>data<span class="sc">$</span>molt.stage <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>molt.stage, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;III&quot;</span>, <span class="st">&quot;IV&quot;</span>, <span class="st">&quot;V&quot;</span>), <span class="at">ordered=</span><span class="cn">TRUE</span>)</span>
 <span id="cb8-6"><a href="exploratory.html#cb8-6" tabindex="-1"></a>data<span class="sc">$</span>bc_bin <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>bc_bin, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Poor&quot;</span>, <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;Robust&quot;</span>))</span>
-<span id="cb8-7"><a href="exploratory.html#cb8-7" tabindex="-1"></a>data<span class="sc">$</span>analysis.year <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>analysis.year)</span>
-<span id="cb8-8"><a href="exploratory.html#cb8-8" tabindex="-1"></a>data<span class="sc">$</span>batch <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>batch, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>))</span></code></pre></div>
+<span id="cb8-7"><a href="exploratory.html#cb8-7" tabindex="-1"></a>data<span class="sc">$</span>analysis.year <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span>analysis.year<span class="sc">==</span><span class="st">&quot;2016&quot;</span>, <span class="st">&quot;1&quot;</span>, </span>
+<span id="cb8-8"><a href="exploratory.html#cb8-8" tabindex="-1"></a>                             <span class="fu">ifelse</span>(data<span class="sc">$</span>analysis.year<span class="sc">==</span><span class="st">&quot;2022&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>))</span>
+<span id="cb8-9"><a href="exploratory.html#cb8-9" tabindex="-1"></a>data<span class="sc">$</span>batch <span class="ot">&lt;-</span> <span class="fu">factor</span>(data<span class="sc">$</span>batch, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>))</span></code></pre></div>
 </div>
 </div>
 <div id="descriptive-stats" class="section level2 hasAnchor" number="3.3">
@@ -353,11 +354,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="exploratory.html#cb9-1" tabindex="-1"></a>supplmeta <span class="ot">&lt;-</span> </span>
 <span id="cb9-2"><a href="exploratory.html#cb9-2" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
 <span id="cb9-3"><a href="exploratory.html#cb9-3" tabindex="-1"></a>  <span class="fu">select</span>(Sample, iav, iavser, location, year, sex, molt.stage, </span>
-<span id="cb9-4"><a href="exploratory.html#cb9-4" tabindex="-1"></a>         bodcond, bc_bin) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="exploratory.html#cb9-4" tabindex="-1"></a>         bodcond, bc_bin, analysis.year) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-5"><a href="exploratory.html#cb9-5" tabindex="-1"></a>  <span class="fu">arrange</span>(., year) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-6"><a href="exploratory.html#cb9-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bodcond=</span><span class="fu">paste</span>(<span class="fu">round</span>(bodcond, <span class="at">digits=</span><span class="dv">2</span>), <span class="st">&quot; (&quot;</span>, bc_bin, <span class="st">&quot;)&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-7"><a href="exploratory.html#cb9-7" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>bc_bin)</span>
-<span id="cb9-8"><a href="exploratory.html#cb9-8" tabindex="-1"></a><span class="fu">write.csv</span>(supplmeta, <span class="st">&quot;Output Files/supplemental_metadata.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb9-6"><a href="exploratory.html#cb9-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bodcond=</span><span class="fu">paste</span>(<span class="fu">round</span>(bodcond, <span class="at">digits=</span><span class="dv">2</span>), <span class="st">&quot; (&quot;</span>, bc_bin, <span class="st">&quot;)&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>),</span>
+<span id="cb9-7"><a href="exploratory.html#cb9-7" tabindex="-1"></a>         <span class="at">batch=</span>analysis.year) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-8"><a href="exploratory.html#cb9-8" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>bc_bin, <span class="sc">-</span>analysis.year)</span>
+<span id="cb9-9"><a href="exploratory.html#cb9-9" tabindex="-1"></a>  </span>
+<span id="cb9-10"><a href="exploratory.html#cb9-10" tabindex="-1"></a><span class="fu">write.csv</span>(supplmeta, <span class="st">&quot;Output Files/supplemental_metadata.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 <div id="sample-sizes-across-variables" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Sample sizes across variables<a href="exploratory.html#sample-sizes-across-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -391,8 +394,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##      31      52      25</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="exploratory.html#cb24-1" tabindex="-1"></a><span class="fu">table</span>(data<span class="sc">$</span>analysis.year)</span></code></pre></div>
 <pre><code>## 
-## 2016 2022 2023 
-##   18   72   26</code></pre>
+##  1  2  3 
+## 18 72 26</code></pre>
 </div>
 <div id="cytokine-detections-per-sample" class="section level3 hasAnchor" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Cytokine detections per sample<a href="exploratory.html#cytokine-detections-per-sample" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -579,7 +582,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb36-6"><a href="exploratory.html#cb36-6" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb36-7"><a href="exploratory.html#cb36-7" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
 <span id="cb36-8"><a href="exploratory.html#cb36-8" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;slategray3&quot;</span>, <span class="st">&quot;grey60&quot;</span>), </span>
-<span id="cb36-9"><a href="exploratory.html#cb36-9" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Analysis Year&quot;</span>) <span class="sc">+</span></span>
+<span id="cb36-9"><a href="exploratory.html#cb36-9" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Batch&quot;</span>) <span class="sc">+</span></span>
 <span id="cb36-10"><a href="exploratory.html#cb36-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> pca_labelx,</span>
 <span id="cb36-11"><a href="exploratory.html#cb36-11" tabindex="-1"></a>       <span class="at">y =</span> pca_labely) <span class="sc">+</span></span>
 <span id="cb36-12"><a href="exploratory.html#cb36-12" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
@@ -614,8 +617,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb38-17"><a href="exploratory.html#cb38-17" tabindex="-1"></a>  <span class="fu">merge</span>(., analysisyeartab, <span class="at">by.x=</span><span class="st">&quot;analysis.year&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Var1&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb38-18"><a href="exploratory.html#cb38-18" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">det.samp =</span> n.det<span class="sc">/</span>Freq,</span>
 <span id="cb38-19"><a href="exploratory.html#cb38-19" tabindex="-1"></a>         <span class="at">sum.samp =</span> sum<span class="sc">/</span>Freq)</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;analysis.year&#39;. You
-## can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;analysis.year&#39;.
+## You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="exploratory.html#cb40-1" tabindex="-1"></a><span class="co"># Mean cytokine concentration</span></span>
 <span id="cb40-2"><a href="exploratory.html#cb40-2" tabindex="-1"></a><span class="fu">ggplot</span>(batchsummary, <span class="fu">aes</span>(<span class="at">x=</span>cytokine, <span class="at">y=</span>mean, <span class="at">fill=</span>analysis.year)) <span class="sc">+</span></span>
 <span id="cb40-3"><a href="exploratory.html#cb40-3" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
@@ -759,13 +762,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="is-proportion-of-iaviav--similar-across-variables" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Is proportion of IAV+/IAV- similar across variables?<a href="exploratory.html#is-proportion-of-iaviav--similar-across-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="location-1" class="section level3 hasAnchor" number="3.5.1">
-<h3><span class="header-section-number">3.5.1</span> Location<a href="exploratory.html#location-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="analysis-year-1" class="section level3 hasAnchor" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Analysis Year<a href="exploratory.html#analysis-year-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="exploratory.html#cb56-1" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
-<span id="cb56-2"><a href="exploratory.html#cb56-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>location, data<span class="sc">$</span>iav))</span>
+<span id="cb56-2"><a href="exploratory.html#cb56-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>analysis.year, data<span class="sc">$</span>iav))</span>
 <span id="cb56-3"><a href="exploratory.html#cb56-3" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
-<span id="cb56-4"><a href="exploratory.html#cb56-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>location, data<span class="sc">$</span>iav))</span>
+<span id="cb56-4"><a href="exploratory.html#cb56-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>analysis.year, data<span class="sc">$</span>iav))</span>
 <span id="cb56-5"><a href="exploratory.html#cb56-5" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  table(data$analysis.year, data$iav)
+## X-squared = 18.361, df = 2, p-value = 0.000103</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="exploratory.html#cb58-1" tabindex="-1"></a><span class="co"># Pairwise post-hoc</span></span>
+<span id="cb58-2"><a href="exploratory.html#cb58-2" tabindex="-1"></a><span class="fu">pairwise_fisher_test</span>(<span class="fu">table</span>(data<span class="sc">$</span>analysis.year, data<span class="sc">$</span>iav), <span class="at">p.adjust.method=</span><span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 6
+##   group1 group2     n         p     p.adj p.adj.signif
+## * &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       
+## 1 1      2         90 0.0621    0.124     ns          
+## 2 1      3         44 0.142     0.142     ns          
+## 3 2      3         98 0.0000268 0.0000804 ****</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="exploratory.html#cb60-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="fu">table</span>(data<span class="sc">$</span>iav, data<span class="sc">$</span>analysis.year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="exploratory.html#cb60-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="st">&quot;Var1&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Freq&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-3"><a href="exploratory.html#cb60-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proppos =</span> (<span class="st">`</span><span class="at">IAV+</span><span class="st">`</span><span class="sc">/</span>(<span class="st">`</span><span class="at">IAV+</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">IAV-</span><span class="st">`</span>))<span class="sc">*</span><span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 4
+##   Var2  `IAV-` `IAV+` proppos
+##   &lt;fct&gt;  &lt;int&gt;  &lt;int&gt;   &lt;dbl&gt;
+## 1 1         14      4   22.2 
+## 2 2         37     35   48.6 
+## 3 3         25      1    3.85</code></pre>
+</div>
+<div id="location-1" class="section level3 hasAnchor" number="3.5.2">
+<h3><span class="header-section-number">3.5.2</span> Location<a href="exploratory.html#location-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="exploratory.html#cb62-1" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
+<span id="cb62-2"><a href="exploratory.html#cb62-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>location, data<span class="sc">$</span>iav))</span>
+<span id="cb62-3"><a href="exploratory.html#cb62-3" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
+<span id="cb62-4"><a href="exploratory.html#cb62-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>location, data<span class="sc">$</span>iav))</span>
+<span id="cb62-5"><a href="exploratory.html#cb62-5" tabindex="-1"></a>})</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -773,70 +806,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## p-value = 0.6994
 ## alternative hypothesis: two.sided</code></pre>
 </div>
-<div id="molt-stage-1" class="section level3 hasAnchor" number="3.5.2">
-<h3><span class="header-section-number">3.5.2</span> Molt Stage<a href="exploratory.html#molt-stage-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="exploratory.html#cb58-1" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
-<span id="cb58-2"><a href="exploratory.html#cb58-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
-<span id="cb58-3"><a href="exploratory.html#cb58-3" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
-<span id="cb58-4"><a href="exploratory.html#cb58-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
-<span id="cb58-5"><a href="exploratory.html#cb58-5" tabindex="-1"></a>})</span></code></pre></div>
+<div id="molt-stage-1" class="section level3 hasAnchor" number="3.5.3">
+<h3><span class="header-section-number">3.5.3</span> Molt Stage<a href="exploratory.html#molt-stage-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="exploratory.html#cb64-1" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
+<span id="cb64-2"><a href="exploratory.html#cb64-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
+<span id="cb64-3"><a href="exploratory.html#cb64-3" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
+<span id="cb64-4"><a href="exploratory.html#cb64-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav))</span>
+<span id="cb64-5"><a href="exploratory.html#cb64-5" tabindex="-1"></a>})</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
 ## data:  table(data$molt.stage, data$iav)
 ## p-value = 0.04071
 ## alternative hypothesis: two.sided</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="exploratory.html#cb60-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="fu">table</span>(data<span class="sc">$</span>iav, data<span class="sc">$</span>molt.stage)) <span class="sc">%&gt;%</span> </span>
-<span id="cb60-2"><a href="exploratory.html#cb60-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="st">&quot;Var1&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Freq&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb60-3"><a href="exploratory.html#cb60-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proppos =</span> (<span class="st">`</span><span class="at">IAV+</span><span class="st">`</span><span class="sc">/</span>(<span class="st">`</span><span class="at">IAV+</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">IAV-</span><span class="st">`</span>))<span class="sc">*</span><span class="dv">100</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 4
-##   Var2  `IAV-` `IAV+` proppos
-##   &lt;fct&gt;  &lt;int&gt;  &lt;int&gt;   &lt;dbl&gt;
-## 1 III        3      4    57.1
-## 2 IV        15     12    44.4
-## 3 V         51     16    23.9</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="exploratory.html#cb62-1" tabindex="-1"></a><span class="co"># Pairwise post-hoc</span></span>
-<span id="cb62-2"><a href="exploratory.html#cb62-2" tabindex="-1"></a><span class="fu">pairwise_fisher_test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav), <span class="at">p.adjust.method=</span><span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="exploratory.html#cb66-1" tabindex="-1"></a><span class="co"># Pairwise post-hoc</span></span>
+<span id="cb66-2"><a href="exploratory.html#cb66-2" tabindex="-1"></a><span class="fu">pairwise_fisher_test</span>(<span class="fu">table</span>(data<span class="sc">$</span>molt.stage, data<span class="sc">$</span>iav), <span class="at">p.adjust.method=</span><span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 6
 ##   group1 group2     n      p p.adj p.adj.signif
 ## * &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
 ## 1 III    IV        34 0.681  0.681 ns          
 ## 2 III    V         74 0.0803 0.238 ns          
 ## 3 IV     V         94 0.0794 0.238 ns</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="exploratory.html#cb68-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="fu">table</span>(data<span class="sc">$</span>iav, data<span class="sc">$</span>molt.stage)) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-2"><a href="exploratory.html#cb68-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="st">&quot;Var1&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Freq&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-3"><a href="exploratory.html#cb68-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proppos =</span> (<span class="st">`</span><span class="at">IAV+</span><span class="st">`</span><span class="sc">/</span>(<span class="st">`</span><span class="at">IAV+</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">IAV-</span><span class="st">`</span>))<span class="sc">*</span><span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 4
+##   Var2  `IAV-` `IAV+` proppos
+##   &lt;fct&gt;  &lt;int&gt;  &lt;int&gt;   &lt;dbl&gt;
+## 1 III        3      4    57.1
+## 2 IV        15     12    44.4
+## 3 V         51     16    23.9</code></pre>
 </div>
-<div id="body-condition-1" class="section level3 hasAnchor" number="3.5.3">
-<h3><span class="header-section-number">3.5.3</span> Body Condition<a href="exploratory.html#body-condition-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="exploratory.html#cb64-1" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
-<span id="cb64-2"><a href="exploratory.html#cb64-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>bc_bin, data<span class="sc">$</span>iav))</span>
-<span id="cb64-3"><a href="exploratory.html#cb64-3" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
-<span id="cb64-4"><a href="exploratory.html#cb64-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>bc_bin, data<span class="sc">$</span>iav))</span>
-<span id="cb64-5"><a href="exploratory.html#cb64-5" tabindex="-1"></a>})</span></code></pre></div>
+<div id="body-condition-1" class="section level3 hasAnchor" number="3.5.4">
+<h3><span class="header-section-number">3.5.4</span> Body Condition<a href="exploratory.html#body-condition-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="exploratory.html#cb70-1" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
+<span id="cb70-2"><a href="exploratory.html#cb70-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>bc_bin, data<span class="sc">$</span>iav))</span>
+<span id="cb70-3"><a href="exploratory.html#cb70-3" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
+<span id="cb70-4"><a href="exploratory.html#cb70-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>bc_bin, data<span class="sc">$</span>iav))</span>
+<span id="cb70-5"><a href="exploratory.html#cb70-5" tabindex="-1"></a>})</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  table(data$bc_bin, data$iav)
 ## X-squared = 2.2554, df = 2, p-value = 0.3238</code></pre>
-</div>
-<div id="analysis-year-1" class="section level3 hasAnchor" number="3.5.4">
-<h3><span class="header-section-number">3.5.4</span> Analysis Year<a href="exploratory.html#analysis-year-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="exploratory.html#cb66-1" tabindex="-1"></a><span class="fu">tryCatch</span>({</span>
-<span id="cb66-2"><a href="exploratory.html#cb66-2" tabindex="-1"></a>  <span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>analysis.year, data<span class="sc">$</span>iav))</span>
-<span id="cb66-3"><a href="exploratory.html#cb66-3" tabindex="-1"></a>}, <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
-<span id="cb66-4"><a href="exploratory.html#cb66-4" tabindex="-1"></a>  <span class="fu">fisher.test</span>(<span class="fu">table</span>(data<span class="sc">$</span>analysis.year, data<span class="sc">$</span>iav))</span>
-<span id="cb66-5"><a href="exploratory.html#cb66-5" tabindex="-1"></a>})</span></code></pre></div>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test
-## 
-## data:  table(data$analysis.year, data$iav)
-## X-squared = 18.361, df = 2, p-value = 0.000103</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="exploratory.html#cb68-1" tabindex="-1"></a><span class="co"># Pairwise post-hoc</span></span>
-<span id="cb68-2"><a href="exploratory.html#cb68-2" tabindex="-1"></a><span class="fu">pairwise_fisher_test</span>(<span class="fu">table</span>(data<span class="sc">$</span>analysis.year, data<span class="sc">$</span>iav), <span class="at">p.adjust.method=</span><span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3 × 6
-##   group1 group2     n         p     p.adj p.adj.signif
-## * &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       
-## 1 2016   2022      90 0.0621    0.124     ns          
-## 2 2016   2023      44 0.142     0.142     ns          
-## 3 2022   2023      98 0.0000268 0.0000804 ****</code></pre>
 
 </div>
 </div>

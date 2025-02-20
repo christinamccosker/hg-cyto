@@ -180,14 +180,16 @@ ordispider(ord = data_pco,
 ### Data
 ```{r}
 pls_x <-
- data[,2:10] 
+ data[,1:10] %>% 
+  column_to_rownames(var = "Sample")
 
 pls_y <- 
   data %>% 
   mutate(iav=gsub("neg", "IAV-", iav),
          iav=gsub("pos", "IAV+", iav),
          iav=as.factor(iav)) %>% 
-  select(iav, analysis.year)
+  select(Sample, iav, analysis.year)  %>% 
+  column_to_rownames(var = "Sample")
 ```
 
 ### Transform data 
@@ -259,21 +261,21 @@ plsda_batch <-
               balance = FALSE,
               ncomp.trt = 1, ncomp.bat = 3)
 
-data_batch <-
+data_batch_matrix <-
   plsda_batch$X.nobatch
 
-data_batch_write <- 
-  data_batch %>% 
+data_batch_df <- 
+  data_batch_matrix %>% 
   data.frame() %>% 
   mutate(iav = pls_y$iav)
 
-write.csv(data_batch_write, "Output Files/batchcorrected_iav.csv")
+write.csv(data_batch_df, "Output Files/batchcorrected_iav.csv")
 ```
 
 #### Assessing batch correction
 ```{r}
 after_batch <- 
-  mixOmics::pca(data_batch, scale=TRUE)
+  mixOmics::pca(data_batch_matrix, scale=TRUE)
 
 plotIndiv(after_batch, 
           group=pls_y$analysis.year,
@@ -286,7 +288,7 @@ plotIndiv(after_batch,
 ### PLSDA on Batch-Corrected Data
 ```{r}
 plsda_model <- 
-  plsda(data_batch,
+  plsda(data_batch_matrix,
         pls_y$iav,
         scale=TRUE)
 
@@ -577,7 +579,7 @@ dev.off()
 ```
 
 
-## Supplemental Figures
+## Figures - All Cytokines
 ### Cytokine Presence/Absence
 ```{r}
 kc_prop <-
@@ -728,16 +730,16 @@ il18_prop <-
         plot.title = element_text(hjust = 0.5))
 
 cyto_prop_grid <-
-  grid.arrange(kc_prop, il6_prop, ifng_prop,
-               il2_prop, il7_prop, il8_prop, 
-               il10_prop, il15_prop, il18_prop,
+  grid.arrange(ifng_prop, il2_prop, il6_prop, 
+               il7_prop, il8_prop, il15_prop, 
+               kc_prop, il10_prop, il18_prop,
                left=textGrob("Proportion of Samples", rot=90),
-               bottom=textGrob("Influenza A Virus Infection Status"))
+               bottom=textGrob("IAV Infection Status"))
 cyto_prop_grid <- 
   grid.arrange(cyto_prop_grid, cyto_leg, 
                ncol=1, 
                heights=c(9,0.5))
-ggsave("Figures/supplemental_cyto_prop_grid.jpeg", cyto_prop_grid, 
+ggsave("Figures/cyto_prop_grid.jpeg", cyto_prop_grid, 
        width=8, height=8, units="in")
 ```
 
@@ -879,13 +881,14 @@ il18 <-
         plot.title = element_text(hjust=0.5))
 
 cyto_conc_grid <-
-  grid.arrange(kclike, il6, ifng, 
-               il2, il7, il8, 
-               il10, il15, il18,
+  grid.arrange(ifng, il2, il6, 
+               il7, il8, il15, 
+               kclike, il10, il18, 
                ncol=3,
                left=textGrob("log(Cytokine Concentration (pg/mL))", rot=90),
-               bottom=textGrob("Influenza A Virus Infection Status"))
+               bottom=textGrob("IAV Infection Status"))
 
 ggsave("Figures/supplemental_cyto_conc_grid.jpeg", cyto_conc_grid, 
        width=8, height=8, units="in")
 ```
+

@@ -197,11 +197,13 @@ The aim of PLS-DA is to discriminate the sample groups, rather than maximizing t
 ### Data
 ```{r}
 pls_x <-
-  data[,2:10]
+  data[,1:10] %>% 
+  column_to_rownames(var = "Sample")
 
 pls_y <- 
   data %>% 
-  select(molt.stage, analysis.year) %>% 
+  select(Sample, molt.stage, analysis.year) %>% 
+  column_to_rownames(var = "Sample") %>% 
   mutate_all(as.factor)
 ```
 
@@ -222,7 +224,7 @@ pca_before <-
   mixOmics::pca(pls_x_clr, scale = TRUE)
 
 plotIndiv(pca_before, 
-          group=data$analysis.year,
+          group=pls_y$analysis.year,
           pch=20,
           legend = TRUE, legend.title = "Analysis Year",
           title = "Before Batch Correction",
@@ -275,21 +277,22 @@ plsda_batch <-
               balance = FALSE,
               ncomp.trt = 2, ncomp.bat = 3)
 
-data_batch <-
+data_batch_matrix <-
   plsda_batch$X.nobatch
+  
 
-data_batch_write <- 
-  data_batch %>% 
+data_batch_df <- 
+  data_batch_matrix %>% 
   data.frame() %>% 
   mutate(molt.stage = pls_y$molt.stage)
 
-write.csv(data_batch_write, "Output Files/batchcorrected_moltstage.csv")
+write.csv(data_batch_df, "Output Files/batchcorrected_moltstage.csv")
 ```
 
 #### Assessing batch correction
 ```{r}
 after_batch <- 
-  mixOmics::pca(data_batch, scale = TRUE)
+  mixOmics::pca(data_batch_matrix, scale = TRUE)
 
 plotIndiv(after_batch, 
           group=pls_y$analysis.year,
@@ -302,7 +305,7 @@ plotIndiv(after_batch,
 ### PLSDA on Batch-Corrected Data
 ```{r}
 plsda_model <- 
-  plsda(data_batch,
+  plsda(data_batch_matrix,
         pls_y$molt.stage,
         scale=TRUE)
 
@@ -420,7 +423,7 @@ task <- as_task_classif(molt.stage ~ .,
                         data = data_cart)
         
 task <- task$set_col_roles(cols="molt.stage",
-                           add_to="stratum")
+                           add_to="target")
 
 # min molt stage group = 7
 learner <- lrn("classif.rpart",
@@ -457,12 +460,12 @@ tuner <- tnr("grid_search",
 ### Run CART 
 Leaves out molt stage III - too few samples for CART alogrithm
 ```{r}
-cart_model <- rpart(formula=molt.stage ~ .,
-                    data=data_cart,
-                    method="class",
-                    maxdepth=2,
-                    minbucket=5,
-                    minsplit=1)
+cart_model <- rpart(formula = molt.stage ~ .,
+                    data = data_cart,
+                    method = "class",
+                    maxdepth = 2,
+                    minbucket = 5,
+                    minsplit = 1)
 
 
 # plot optimized tree
@@ -573,4 +576,3 @@ grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
              gp=gpar(fill=NA))
 dev.off()
 ```
-

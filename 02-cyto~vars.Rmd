@@ -51,7 +51,8 @@ data$year <- as.factor(data$year)
 data$sex <- as.factor(data$sex)
 data$molt.stage <- factor(data$molt.stage, levels=c("III", "IV", "V"), ordered=TRUE)
 data$bc_bin <- factor(data$bc_bin, levels=c("Poor", "Average", "Robust"))
-data$analysis.year <- factor(data$analysis.year)
+data$analysis.year <- ifelse(data$analysis.year=="2016", "1", 
+                             ifelse(data$analysis.year=="2022", "2", "3"))
 data$batch <- factor(data$batch, levels=c("1", "2", "3", "4"))
 ```
 
@@ -61,10 +62,12 @@ data$batch <- factor(data$batch, levels=c("1", "2", "3", "4"))
 supplmeta <- 
   data %>% 
   select(Sample, iav, iavser, location, year, sex, molt.stage, 
-         bodcond, bc_bin) %>% 
+         bodcond, bc_bin, analysis.year) %>% 
   arrange(., year) %>% 
-  mutate(bodcond=paste(round(bodcond, digits=2), " (", bc_bin, ")", sep="")) %>% 
-  select(-bc_bin)
+  mutate(bodcond=paste(round(bodcond, digits=2), " (", bc_bin, ")", sep=""),
+         batch=analysis.year) %>% 
+  select(-bc_bin, -analysis.year)
+  
 write.csv(supplmeta, "Output Files/supplemental_metadata.csv", row.names=FALSE)
 ```
 
@@ -237,7 +240,7 @@ analysisyear_plot <-
   geom_point() +
   stat_ellipse() +
   scale_color_manual(values=c("black", "slategray3", "grey60"), 
-                     name = "Analysis Year") +
+                     name = "Batch") +
   labs(x = pca_labelx,
        y = pca_labely) +
   theme_bw() +
@@ -420,6 +423,22 @@ ggplot(pca_df,
 
 ## Is proportion of IAV+/IAV- similar across variables?
 
+### Analysis Year
+```{r}
+tryCatch({
+  chisq.test(table(data$analysis.year, data$iav))
+}, warning = function(w) {
+  fisher.test(table(data$analysis.year, data$iav))
+})
+
+# Pairwise post-hoc
+pairwise_fisher_test(table(data$analysis.year, data$iav), p.adjust.method="holm")
+
+data.frame(table(data$iav, data$analysis.year)) %>% 
+  pivot_wider(names_from="Var1", values_from="Freq") %>% 
+  mutate(proppos = (`IAV+`/(`IAV+` + `IAV-`))*100)
+```
+
 ### Location
 ```{r}
 tryCatch({
@@ -437,13 +456,12 @@ tryCatch({
   fisher.test(table(data$molt.stage, data$iav))
 })
 
+# Pairwise post-hoc
+pairwise_fisher_test(table(data$molt.stage, data$iav), p.adjust.method="holm")
+
 data.frame(table(data$iav, data$molt.stage)) %>% 
   pivot_wider(names_from="Var1", values_from="Freq") %>% 
   mutate(proppos = (`IAV+`/(`IAV+` + `IAV-`))*100)
-
-
-# Pairwise post-hoc
-pairwise_fisher_test(table(data$molt.stage, data$iav), p.adjust.method="holm")
 ```
 
 ### Body Condition
@@ -453,17 +471,5 @@ tryCatch({
 }, warning = function(w) {
   fisher.test(table(data$bc_bin, data$iav))
 })
-```
-
-### Analysis Year
-```{r}
-tryCatch({
-  chisq.test(table(data$analysis.year, data$iav))
-}, warning = function(w) {
-  fisher.test(table(data$analysis.year, data$iav))
-})
-
-# Pairwise post-hoc
-pairwise_fisher_test(table(data$analysis.year, data$iav), p.adjust.method="holm")
 ```
 

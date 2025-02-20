@@ -195,11 +195,13 @@ ordispider(ord = data_pco,
 ### Data 
 ```{r}
 pls_x <-
-  data[,2:10]
+  data[,1:10]  %>% 
+  column_to_rownames(var = "Sample")
 
 pls_y <- 
   data %>% 
-  select(bc_bin, analysis.year) %>% 
+  select(Sample, bc_bin, analysis.year) %>% 
+  column_to_rownames(var = "Sample") %>% 
   mutate_all(as.factor)
 ```
 
@@ -272,21 +274,22 @@ plsda_batch <-
               balance = FALSE,
               ncomp.trt = 3, ncomp.bat = 3)
 
-data_batch <-
+data_batch_matrix <-
   plsda_batch$X.nobatch
+  
 
-data_batch_write <- 
-  data_batch %>% 
+data_batch_df <- 
+  data_batch_matrix %>% 
   data.frame() %>% 
   mutate(bc_bin = pls_y$bc_bin)
 
-write.csv(data_batch_write, "Output Files/batchcorrected_bodycondition.csv")
+write.csv(data_batch_df, "Output Files/batchcorrected_bodycondition.csv")
 ```
 
 #### Assessing batch correction
 ```{r}
 after_batch <- 
-  mixOmics::pca(data_batch, scale=TRUE)
+  mixOmics::pca(data_batch_matrix, scale=TRUE)
 
 plotIndiv(after_batch, 
           group=pls_y$analysis.year,
@@ -299,7 +302,7 @@ plotIndiv(after_batch,
 ### PLSDA on Batch-Corrected Data
 ```{r}
 plsda_model <- 
-  plsda(data_batch,
+  plsda(data_batch_matrix,
         pls_y$bc_bin,
         scale=TRUE)
 
@@ -422,17 +425,17 @@ tuner <- tnr("grid_search",
 
 ### Run CART 
 ```{r}
-cart_model <- rpart(formula=bc_bin ~ .,
-                    data=data_cart,
-                    method="class",
-                    maxdepth=4,
-                    minbucket=3,
-                    minsplit=20)
+cart_model <- rpart(formula = bc_bin ~ .,
+                    data = data_cart,
+                    method = "class",
+                    maxdepth = 4,
+                    minbucket = 3,
+                    minsplit = 20)
 
 # plot optimized tree
 rpart.plot(cart_model)
 cart_model$variable.importance 
-  # IFNg is most important cytokine
+# IFNg is most important cytokine
 ```
 
 ### Plot 
@@ -537,4 +540,3 @@ grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
              gp=gpar(fill=NA))
 dev.off()
 ```
-

@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2025-02-14" />
+<meta name="date" content="2025-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -182,10 +182,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="exploratory.html"><a href="exploratory.html#is-proportion-of-iaviav--similar-across-variables"><i class="fa fa-check"></i><b>3.5</b> Is proportion of IAV+/IAV- similar across variables?</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="exploratory.html"><a href="exploratory.html#location-1"><i class="fa fa-check"></i><b>3.5.1</b> Location</a></li>
-<li class="chapter" data-level="3.5.2" data-path="exploratory.html"><a href="exploratory.html#molt-stage-1"><i class="fa fa-check"></i><b>3.5.2</b> Molt Stage</a></li>
-<li class="chapter" data-level="3.5.3" data-path="exploratory.html"><a href="exploratory.html#body-condition-1"><i class="fa fa-check"></i><b>3.5.3</b> Body Condition</a></li>
-<li class="chapter" data-level="3.5.4" data-path="exploratory.html"><a href="exploratory.html#analysis-year-1"><i class="fa fa-check"></i><b>3.5.4</b> Analysis Year</a></li>
+<li class="chapter" data-level="3.5.1" data-path="exploratory.html"><a href="exploratory.html#analysis-year-1"><i class="fa fa-check"></i><b>3.5.1</b> Analysis Year</a></li>
+<li class="chapter" data-level="3.5.2" data-path="exploratory.html"><a href="exploratory.html#location-1"><i class="fa fa-check"></i><b>3.5.2</b> Location</a></li>
+<li class="chapter" data-level="3.5.3" data-path="exploratory.html"><a href="exploratory.html#molt-stage-1"><i class="fa fa-check"></i><b>3.5.3</b> Molt Stage</a></li>
+<li class="chapter" data-level="3.5.4" data-path="exploratory.html"><a href="exploratory.html#body-condition-1"><i class="fa fa-check"></i><b>3.5.4</b> Body Condition</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html"><i class="fa fa-check"></i><b>4</b> Molt stage ~ cytokines</a>
@@ -264,7 +264,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#run-model-with-optimized-parameters"><i class="fa fa-check"></i><b>6.5.2</b> Run model with optimized parameters</a></li>
 <li class="chapter" data-level="6.5.3" data-path="iav-cytokines.html"><a href="iav-cytokines.html#plot-5"><i class="fa fa-check"></i><b>6.5.3</b> Plot</a></li>
 </ul></li>
-<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#supplemental-figures"><i class="fa fa-check"></i><b>6.6</b> Supplemental Figures</a>
+<li class="chapter" data-level="6.6" data-path="iav-cytokines.html"><a href="iav-cytokines.html#figures---all-cytokines"><i class="fa fa-check"></i><b>6.6</b> Figures - All Cytokines</a>
 <ul>
 <li class="chapter" data-level="6.6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-presenceabsence-3"><i class="fa fa-check"></i><b>6.6.1</b> Cytokine Presence/Absence</a></li>
 <li class="chapter" data-level="6.6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-concentration---log"><i class="fa fa-check"></i><b>6.6.2</b> Cytokine Concentration - Log</a></li>
@@ -303,141 +303,141 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">7</span> Create panel figure for PLS-DA plots<a href="create-panel-figure-for-pls-da-plots.html#create-panel-figure-for-pls-da-plots" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="libraries-5" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Libraries<a href="create-panel-figure-for-pls-da-plots.html#libraries-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="create-panel-figure-for-pls-da-plots.html#cb270-1" tabindex="-1"></a><span class="fu">library</span>(mixOmics)</span>
-<span id="cb270-2"><a href="create-panel-figure-for-pls-da-plots.html#cb270-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb270-3"><a href="create-panel-figure-for-pls-da-plots.html#cb270-3" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb270-4"><a href="create-panel-figure-for-pls-da-plots.html#cb270-4" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="create-panel-figure-for-pls-da-plots.html#cb272-1" tabindex="-1"></a><span class="fu">library</span>(mixOmics)</span>
+<span id="cb272-2"><a href="create-panel-figure-for-pls-da-plots.html#cb272-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb272-3"><a href="create-panel-figure-for-pls-da-plots.html#cb272-3" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb272-4"><a href="create-panel-figure-for-pls-da-plots.html#cb272-4" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code></pre></div>
 </div>
 <div id="data-6" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Data<a href="create-panel-figure-for-pls-da-plots.html#data-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="create-panel-figure-for-pls-da-plots.html#cb271-1" tabindex="-1"></a>data_molt <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/batchcorrected_moltstage.csv&quot;</span>)</span>
-<span id="cb271-2"><a href="create-panel-figure-for-pls-da-plots.html#cb271-2" tabindex="-1"></a></span>
-<span id="cb271-3"><a href="create-panel-figure-for-pls-da-plots.html#cb271-3" tabindex="-1"></a>data_bc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/batchcorrected_bodycondition.csv&quot;</span>)</span>
-<span id="cb271-4"><a href="create-panel-figure-for-pls-da-plots.html#cb271-4" tabindex="-1"></a></span>
-<span id="cb271-5"><a href="create-panel-figure-for-pls-da-plots.html#cb271-5" tabindex="-1"></a>data_iav <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/batchcorrected_iav.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="create-panel-figure-for-pls-da-plots.html#cb273-1" tabindex="-1"></a>data_molt <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/batchcorrected_moltstage.csv&quot;</span>)</span>
+<span id="cb273-2"><a href="create-panel-figure-for-pls-da-plots.html#cb273-2" tabindex="-1"></a></span>
+<span id="cb273-3"><a href="create-panel-figure-for-pls-da-plots.html#cb273-3" tabindex="-1"></a>data_bc <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/batchcorrected_bodycondition.csv&quot;</span>)</span>
+<span id="cb273-4"><a href="create-panel-figure-for-pls-da-plots.html#cb273-4" tabindex="-1"></a></span>
+<span id="cb273-5"><a href="create-panel-figure-for-pls-da-plots.html#cb273-5" tabindex="-1"></a>data_iav <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Output Files/batchcorrected_iav.csv&quot;</span>)</span></code></pre></div>
 </div>
 <div id="plot-6" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Plot!<a href="create-panel-figure-for-pls-da-plots.html#plot-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="molt-stage-2" class="section level3 hasAnchor" number="7.3.1">
 <h3><span class="header-section-number">7.3.1</span> Molt Stage<a href="create-panel-figure-for-pls-da-plots.html#molt-stage-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="create-panel-figure-for-pls-da-plots.html#cb272-1" tabindex="-1"></a>molt_plsda <span class="ot">&lt;-</span> </span>
-<span id="cb272-2"><a href="create-panel-figure-for-pls-da-plots.html#cb272-2" tabindex="-1"></a>  mixOmics<span class="sc">::</span><span class="fu">plsda</span>(data_molt[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
-<span id="cb272-3"><a href="create-panel-figure-for-pls-da-plots.html#cb272-3" tabindex="-1"></a>                  data_molt<span class="sc">$</span>molt.stage,</span>
-<span id="cb272-4"><a href="create-panel-figure-for-pls-da-plots.html#cb272-4" tabindex="-1"></a>                  <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
-<span id="cb272-5"><a href="create-panel-figure-for-pls-da-plots.html#cb272-5" tabindex="-1"></a>molt_plsda_data <span class="ot">&lt;-</span> </span>
-<span id="cb272-6"><a href="create-panel-figure-for-pls-da-plots.html#cb272-6" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> molt_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
-<span id="cb272-7"><a href="create-panel-figure-for-pls-da-plots.html#cb272-7" tabindex="-1"></a>             <span class="at">y =</span> molt_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
-<span id="cb272-8"><a href="create-panel-figure-for-pls-da-plots.html#cb272-8" tabindex="-1"></a>             <span class="at">molt.stage =</span> molt_plsda<span class="sc">$</span>Y)</span>
-<span id="cb272-9"><a href="create-panel-figure-for-pls-da-plots.html#cb272-9" tabindex="-1"></a></span>
-<span id="cb272-10"><a href="create-panel-figure-for-pls-da-plots.html#cb272-10" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
-<span id="cb272-11"><a href="create-panel-figure-for-pls-da-plots.html#cb272-11" tabindex="-1"></a>labelx_molt <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
-<span id="cb272-12"><a href="create-panel-figure-for-pls-da-plots.html#cb272-12" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(molt_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb272-13"><a href="create-panel-figure-for-pls-da-plots.html#cb272-13" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb272-14"><a href="create-panel-figure-for-pls-da-plots.html#cb272-14" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb272-15"><a href="create-panel-figure-for-pls-da-plots.html#cb272-15" tabindex="-1"></a></span>
-<span id="cb272-16"><a href="create-panel-figure-for-pls-da-plots.html#cb272-16" tabindex="-1"></a>labely_molt <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
-<span id="cb272-17"><a href="create-panel-figure-for-pls-da-plots.html#cb272-17" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(molt_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb272-18"><a href="create-panel-figure-for-pls-da-plots.html#cb272-18" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb272-19"><a href="create-panel-figure-for-pls-da-plots.html#cb272-19" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb272-20"><a href="create-panel-figure-for-pls-da-plots.html#cb272-20" tabindex="-1"></a></span>
-<span id="cb272-21"><a href="create-panel-figure-for-pls-da-plots.html#cb272-21" tabindex="-1"></a>molt_plsda_ggplot <span class="ot">&lt;-</span> </span>
-<span id="cb272-22"><a href="create-panel-figure-for-pls-da-plots.html#cb272-22" tabindex="-1"></a>  <span class="fu">ggplot</span>(molt_plsda_data, </span>
-<span id="cb272-23"><a href="create-panel-figure-for-pls-da-plots.html#cb272-23" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>molt.stage)) <span class="sc">+</span></span>
-<span id="cb272-24"><a href="create-panel-figure-for-pls-da-plots.html#cb272-24" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb272-25"><a href="create-panel-figure-for-pls-da-plots.html#cb272-25" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
-<span id="cb272-26"><a href="create-panel-figure-for-pls-da-plots.html#cb272-26" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_molt,</span>
-<span id="cb272-27"><a href="create-panel-figure-for-pls-da-plots.html#cb272-27" tabindex="-1"></a>       <span class="at">y =</span>labely_molt) <span class="sc">+</span></span>
-<span id="cb272-28"><a href="create-panel-figure-for-pls-da-plots.html#cb272-28" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;A. Molt Stage&quot;</span>, </span>
-<span id="cb272-29"><a href="create-panel-figure-for-pls-da-plots.html#cb272-29" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb272-30"><a href="create-panel-figure-for-pls-da-plots.html#cb272-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb272-31"><a href="create-panel-figure-for-pls-da-plots.html#cb272-31" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb272-32"><a href="create-panel-figure-for-pls-da-plots.html#cb272-32" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span>, </span>
-<span id="cb272-33"><a href="create-panel-figure-for-pls-da-plots.html#cb272-33" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>),</span>
-<span id="cb272-34"><a href="create-panel-figure-for-pls-da-plots.html#cb272-34" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="create-panel-figure-for-pls-da-plots.html#cb274-1" tabindex="-1"></a>molt_plsda <span class="ot">&lt;-</span> </span>
+<span id="cb274-2"><a href="create-panel-figure-for-pls-da-plots.html#cb274-2" tabindex="-1"></a>  mixOmics<span class="sc">::</span><span class="fu">plsda</span>(data_molt[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb274-3"><a href="create-panel-figure-for-pls-da-plots.html#cb274-3" tabindex="-1"></a>                  data_molt<span class="sc">$</span>molt.stage,</span>
+<span id="cb274-4"><a href="create-panel-figure-for-pls-da-plots.html#cb274-4" tabindex="-1"></a>                  <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb274-5"><a href="create-panel-figure-for-pls-da-plots.html#cb274-5" tabindex="-1"></a>molt_plsda_data <span class="ot">&lt;-</span> </span>
+<span id="cb274-6"><a href="create-panel-figure-for-pls-da-plots.html#cb274-6" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> molt_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
+<span id="cb274-7"><a href="create-panel-figure-for-pls-da-plots.html#cb274-7" tabindex="-1"></a>             <span class="at">y =</span> molt_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
+<span id="cb274-8"><a href="create-panel-figure-for-pls-da-plots.html#cb274-8" tabindex="-1"></a>             <span class="at">molt.stage =</span> molt_plsda<span class="sc">$</span>Y)</span>
+<span id="cb274-9"><a href="create-panel-figure-for-pls-da-plots.html#cb274-9" tabindex="-1"></a></span>
+<span id="cb274-10"><a href="create-panel-figure-for-pls-da-plots.html#cb274-10" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
+<span id="cb274-11"><a href="create-panel-figure-for-pls-da-plots.html#cb274-11" tabindex="-1"></a>labelx_molt <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
+<span id="cb274-12"><a href="create-panel-figure-for-pls-da-plots.html#cb274-12" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(molt_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb274-13"><a href="create-panel-figure-for-pls-da-plots.html#cb274-13" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb274-14"><a href="create-panel-figure-for-pls-da-plots.html#cb274-14" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb274-15"><a href="create-panel-figure-for-pls-da-plots.html#cb274-15" tabindex="-1"></a></span>
+<span id="cb274-16"><a href="create-panel-figure-for-pls-da-plots.html#cb274-16" tabindex="-1"></a>labely_molt <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
+<span id="cb274-17"><a href="create-panel-figure-for-pls-da-plots.html#cb274-17" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(molt_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb274-18"><a href="create-panel-figure-for-pls-da-plots.html#cb274-18" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb274-19"><a href="create-panel-figure-for-pls-da-plots.html#cb274-19" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb274-20"><a href="create-panel-figure-for-pls-da-plots.html#cb274-20" tabindex="-1"></a></span>
+<span id="cb274-21"><a href="create-panel-figure-for-pls-da-plots.html#cb274-21" tabindex="-1"></a>molt_plsda_ggplot <span class="ot">&lt;-</span> </span>
+<span id="cb274-22"><a href="create-panel-figure-for-pls-da-plots.html#cb274-22" tabindex="-1"></a>  <span class="fu">ggplot</span>(molt_plsda_data, </span>
+<span id="cb274-23"><a href="create-panel-figure-for-pls-da-plots.html#cb274-23" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>molt.stage)) <span class="sc">+</span></span>
+<span id="cb274-24"><a href="create-panel-figure-for-pls-da-plots.html#cb274-24" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb274-25"><a href="create-panel-figure-for-pls-da-plots.html#cb274-25" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
+<span id="cb274-26"><a href="create-panel-figure-for-pls-da-plots.html#cb274-26" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_molt,</span>
+<span id="cb274-27"><a href="create-panel-figure-for-pls-da-plots.html#cb274-27" tabindex="-1"></a>       <span class="at">y =</span>labely_molt) <span class="sc">+</span></span>
+<span id="cb274-28"><a href="create-panel-figure-for-pls-da-plots.html#cb274-28" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;A. Molt Stage&quot;</span>, </span>
+<span id="cb274-29"><a href="create-panel-figure-for-pls-da-plots.html#cb274-29" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb274-30"><a href="create-panel-figure-for-pls-da-plots.html#cb274-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb274-31"><a href="create-panel-figure-for-pls-da-plots.html#cb274-31" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb274-32"><a href="create-panel-figure-for-pls-da-plots.html#cb274-32" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span>, </span>
+<span id="cb274-33"><a href="create-panel-figure-for-pls-da-plots.html#cb274-33" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>),</span>
+<span id="cb274-34"><a href="create-panel-figure-for-pls-da-plots.html#cb274-34" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>))</span></code></pre></div>
 </div>
 <div id="body-condition-2" class="section level3 hasAnchor" number="7.3.2">
 <h3><span class="header-section-number">7.3.2</span> Body Condition<a href="create-panel-figure-for-pls-da-plots.html#body-condition-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="create-panel-figure-for-pls-da-plots.html#cb273-1" tabindex="-1"></a>bc_plsda <span class="ot">&lt;-</span> </span>
-<span id="cb273-2"><a href="create-panel-figure-for-pls-da-plots.html#cb273-2" tabindex="-1"></a>  mixOmics<span class="sc">::</span><span class="fu">plsda</span>(data_bc[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
-<span id="cb273-3"><a href="create-panel-figure-for-pls-da-plots.html#cb273-3" tabindex="-1"></a>                  data_bc<span class="sc">$</span>bc_bin,</span>
-<span id="cb273-4"><a href="create-panel-figure-for-pls-da-plots.html#cb273-4" tabindex="-1"></a>                  <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
-<span id="cb273-5"><a href="create-panel-figure-for-pls-da-plots.html#cb273-5" tabindex="-1"></a></span>
-<span id="cb273-6"><a href="create-panel-figure-for-pls-da-plots.html#cb273-6" tabindex="-1"></a>bc_plsda_data <span class="ot">&lt;-</span> </span>
-<span id="cb273-7"><a href="create-panel-figure-for-pls-da-plots.html#cb273-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> bc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
-<span id="cb273-8"><a href="create-panel-figure-for-pls-da-plots.html#cb273-8" tabindex="-1"></a>             <span class="at">y =</span> bc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
-<span id="cb273-9"><a href="create-panel-figure-for-pls-da-plots.html#cb273-9" tabindex="-1"></a>             <span class="at">bc =</span> bc_plsda<span class="sc">$</span>Y)</span>
-<span id="cb273-10"><a href="create-panel-figure-for-pls-da-plots.html#cb273-10" tabindex="-1"></a></span>
-<span id="cb273-11"><a href="create-panel-figure-for-pls-da-plots.html#cb273-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
-<span id="cb273-12"><a href="create-panel-figure-for-pls-da-plots.html#cb273-12" tabindex="-1"></a>labelx_bc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
-<span id="cb273-13"><a href="create-panel-figure-for-pls-da-plots.html#cb273-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(bc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb273-14"><a href="create-panel-figure-for-pls-da-plots.html#cb273-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb273-15"><a href="create-panel-figure-for-pls-da-plots.html#cb273-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb273-16"><a href="create-panel-figure-for-pls-da-plots.html#cb273-16" tabindex="-1"></a></span>
-<span id="cb273-17"><a href="create-panel-figure-for-pls-da-plots.html#cb273-17" tabindex="-1"></a>labely_bc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
-<span id="cb273-18"><a href="create-panel-figure-for-pls-da-plots.html#cb273-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(bc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb273-19"><a href="create-panel-figure-for-pls-da-plots.html#cb273-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb273-20"><a href="create-panel-figure-for-pls-da-plots.html#cb273-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb273-21"><a href="create-panel-figure-for-pls-da-plots.html#cb273-21" tabindex="-1"></a></span>
-<span id="cb273-22"><a href="create-panel-figure-for-pls-da-plots.html#cb273-22" tabindex="-1"></a>bc_plsda_ggplot <span class="ot">&lt;-</span> </span>
-<span id="cb273-23"><a href="create-panel-figure-for-pls-da-plots.html#cb273-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(bc_plsda_data, </span>
-<span id="cb273-24"><a href="create-panel-figure-for-pls-da-plots.html#cb273-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>bc)) <span class="sc">+</span></span>
-<span id="cb273-25"><a href="create-panel-figure-for-pls-da-plots.html#cb273-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb273-26"><a href="create-panel-figure-for-pls-da-plots.html#cb273-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
-<span id="cb273-27"><a href="create-panel-figure-for-pls-da-plots.html#cb273-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_bc,</span>
-<span id="cb273-28"><a href="create-panel-figure-for-pls-da-plots.html#cb273-28" tabindex="-1"></a>       <span class="at">y =</span> labely_bc) <span class="sc">+</span></span>
-<span id="cb273-29"><a href="create-panel-figure-for-pls-da-plots.html#cb273-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;B. Body Condition&quot;</span>, </span>
-<span id="cb273-30"><a href="create-panel-figure-for-pls-da-plots.html#cb273-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb273-31"><a href="create-panel-figure-for-pls-da-plots.html#cb273-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb273-32"><a href="create-panel-figure-for-pls-da-plots.html#cb273-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb273-33"><a href="create-panel-figure-for-pls-da-plots.html#cb273-33" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span>, </span>
-<span id="cb273-34"><a href="create-panel-figure-for-pls-da-plots.html#cb273-34" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.85</span>, <span class="fl">0.17</span>),</span>
-<span id="cb273-35"><a href="create-panel-figure-for-pls-da-plots.html#cb273-35" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="create-panel-figure-for-pls-da-plots.html#cb275-1" tabindex="-1"></a>bc_plsda <span class="ot">&lt;-</span> </span>
+<span id="cb275-2"><a href="create-panel-figure-for-pls-da-plots.html#cb275-2" tabindex="-1"></a>  mixOmics<span class="sc">::</span><span class="fu">plsda</span>(data_bc[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb275-3"><a href="create-panel-figure-for-pls-da-plots.html#cb275-3" tabindex="-1"></a>                  data_bc<span class="sc">$</span>bc_bin,</span>
+<span id="cb275-4"><a href="create-panel-figure-for-pls-da-plots.html#cb275-4" tabindex="-1"></a>                  <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb275-5"><a href="create-panel-figure-for-pls-da-plots.html#cb275-5" tabindex="-1"></a></span>
+<span id="cb275-6"><a href="create-panel-figure-for-pls-da-plots.html#cb275-6" tabindex="-1"></a>bc_plsda_data <span class="ot">&lt;-</span> </span>
+<span id="cb275-7"><a href="create-panel-figure-for-pls-da-plots.html#cb275-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> bc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
+<span id="cb275-8"><a href="create-panel-figure-for-pls-da-plots.html#cb275-8" tabindex="-1"></a>             <span class="at">y =</span> bc_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
+<span id="cb275-9"><a href="create-panel-figure-for-pls-da-plots.html#cb275-9" tabindex="-1"></a>             <span class="at">bc =</span> bc_plsda<span class="sc">$</span>Y)</span>
+<span id="cb275-10"><a href="create-panel-figure-for-pls-da-plots.html#cb275-10" tabindex="-1"></a></span>
+<span id="cb275-11"><a href="create-panel-figure-for-pls-da-plots.html#cb275-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
+<span id="cb275-12"><a href="create-panel-figure-for-pls-da-plots.html#cb275-12" tabindex="-1"></a>labelx_bc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
+<span id="cb275-13"><a href="create-panel-figure-for-pls-da-plots.html#cb275-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(bc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb275-14"><a href="create-panel-figure-for-pls-da-plots.html#cb275-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb275-15"><a href="create-panel-figure-for-pls-da-plots.html#cb275-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb275-16"><a href="create-panel-figure-for-pls-da-plots.html#cb275-16" tabindex="-1"></a></span>
+<span id="cb275-17"><a href="create-panel-figure-for-pls-da-plots.html#cb275-17" tabindex="-1"></a>labely_bc <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
+<span id="cb275-18"><a href="create-panel-figure-for-pls-da-plots.html#cb275-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(bc_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb275-19"><a href="create-panel-figure-for-pls-da-plots.html#cb275-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb275-20"><a href="create-panel-figure-for-pls-da-plots.html#cb275-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb275-21"><a href="create-panel-figure-for-pls-da-plots.html#cb275-21" tabindex="-1"></a></span>
+<span id="cb275-22"><a href="create-panel-figure-for-pls-da-plots.html#cb275-22" tabindex="-1"></a>bc_plsda_ggplot <span class="ot">&lt;-</span> </span>
+<span id="cb275-23"><a href="create-panel-figure-for-pls-da-plots.html#cb275-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(bc_plsda_data, </span>
+<span id="cb275-24"><a href="create-panel-figure-for-pls-da-plots.html#cb275-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>bc)) <span class="sc">+</span></span>
+<span id="cb275-25"><a href="create-panel-figure-for-pls-da-plots.html#cb275-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb275-26"><a href="create-panel-figure-for-pls-da-plots.html#cb275-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
+<span id="cb275-27"><a href="create-panel-figure-for-pls-da-plots.html#cb275-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_bc,</span>
+<span id="cb275-28"><a href="create-panel-figure-for-pls-da-plots.html#cb275-28" tabindex="-1"></a>       <span class="at">y =</span> labely_bc) <span class="sc">+</span></span>
+<span id="cb275-29"><a href="create-panel-figure-for-pls-da-plots.html#cb275-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;B. Body Condition&quot;</span>, </span>
+<span id="cb275-30"><a href="create-panel-figure-for-pls-da-plots.html#cb275-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>,<span class="st">&quot;#008ba2&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb275-31"><a href="create-panel-figure-for-pls-da-plots.html#cb275-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb275-32"><a href="create-panel-figure-for-pls-da-plots.html#cb275-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb275-33"><a href="create-panel-figure-for-pls-da-plots.html#cb275-33" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span>, </span>
+<span id="cb275-34"><a href="create-panel-figure-for-pls-da-plots.html#cb275-34" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.85</span>, <span class="fl">0.17</span>),</span>
+<span id="cb275-35"><a href="create-panel-figure-for-pls-da-plots.html#cb275-35" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>))</span></code></pre></div>
 </div>
 <div id="iav-1" class="section level3 hasAnchor" number="7.3.3">
 <h3><span class="header-section-number">7.3.3</span> IAV<a href="create-panel-figure-for-pls-da-plots.html#iav-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="create-panel-figure-for-pls-da-plots.html#cb274-1" tabindex="-1"></a>iav_plsda <span class="ot">&lt;-</span> </span>
-<span id="cb274-2"><a href="create-panel-figure-for-pls-da-plots.html#cb274-2" tabindex="-1"></a>  mixOmics<span class="sc">::</span><span class="fu">plsda</span>(data_iav[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
-<span id="cb274-3"><a href="create-panel-figure-for-pls-da-plots.html#cb274-3" tabindex="-1"></a>                  data_iav<span class="sc">$</span>iav,</span>
-<span id="cb274-4"><a href="create-panel-figure-for-pls-da-plots.html#cb274-4" tabindex="-1"></a>                  <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
-<span id="cb274-5"><a href="create-panel-figure-for-pls-da-plots.html#cb274-5" tabindex="-1"></a></span>
-<span id="cb274-6"><a href="create-panel-figure-for-pls-da-plots.html#cb274-6" tabindex="-1"></a>iav_plsda_data <span class="ot">&lt;-</span> </span>
-<span id="cb274-7"><a href="create-panel-figure-for-pls-da-plots.html#cb274-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> iav_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
-<span id="cb274-8"><a href="create-panel-figure-for-pls-da-plots.html#cb274-8" tabindex="-1"></a>             <span class="at">y =</span> iav_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
-<span id="cb274-9"><a href="create-panel-figure-for-pls-da-plots.html#cb274-9" tabindex="-1"></a>             <span class="at">iav =</span> iav_plsda<span class="sc">$</span>Y)</span>
-<span id="cb274-10"><a href="create-panel-figure-for-pls-da-plots.html#cb274-10" tabindex="-1"></a></span>
-<span id="cb274-11"><a href="create-panel-figure-for-pls-da-plots.html#cb274-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
-<span id="cb274-12"><a href="create-panel-figure-for-pls-da-plots.html#cb274-12" tabindex="-1"></a>labelx_iav <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
-<span id="cb274-13"><a href="create-panel-figure-for-pls-da-plots.html#cb274-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iav_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb274-14"><a href="create-panel-figure-for-pls-da-plots.html#cb274-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb274-15"><a href="create-panel-figure-for-pls-da-plots.html#cb274-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb274-16"><a href="create-panel-figure-for-pls-da-plots.html#cb274-16" tabindex="-1"></a></span>
-<span id="cb274-17"><a href="create-panel-figure-for-pls-da-plots.html#cb274-17" tabindex="-1"></a>labely_iav <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
-<span id="cb274-18"><a href="create-panel-figure-for-pls-da-plots.html#cb274-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iav_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
-<span id="cb274-19"><a href="create-panel-figure-for-pls-da-plots.html#cb274-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
-<span id="cb274-20"><a href="create-panel-figure-for-pls-da-plots.html#cb274-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb274-21"><a href="create-panel-figure-for-pls-da-plots.html#cb274-21" tabindex="-1"></a></span>
-<span id="cb274-22"><a href="create-panel-figure-for-pls-da-plots.html#cb274-22" tabindex="-1"></a>iav_plsda_ggplot <span class="ot">&lt;-</span> </span>
-<span id="cb274-23"><a href="create-panel-figure-for-pls-da-plots.html#cb274-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(iav_plsda_data, </span>
-<span id="cb274-24"><a href="create-panel-figure-for-pls-da-plots.html#cb274-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>iav)) <span class="sc">+</span></span>
-<span id="cb274-25"><a href="create-panel-figure-for-pls-da-plots.html#cb274-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb274-26"><a href="create-panel-figure-for-pls-da-plots.html#cb274-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
-<span id="cb274-27"><a href="create-panel-figure-for-pls-da-plots.html#cb274-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_iav,</span>
-<span id="cb274-28"><a href="create-panel-figure-for-pls-da-plots.html#cb274-28" tabindex="-1"></a>       <span class="at">y =</span>labely_iav) <span class="sc">+</span></span>
-<span id="cb274-29"><a href="create-panel-figure-for-pls-da-plots.html#cb274-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;C. IAV Status&quot;</span>, </span>
-<span id="cb274-30"><a href="create-panel-figure-for-pls-da-plots.html#cb274-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb274-31"><a href="create-panel-figure-for-pls-da-plots.html#cb274-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb274-32"><a href="create-panel-figure-for-pls-da-plots.html#cb274-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb274-33"><a href="create-panel-figure-for-pls-da-plots.html#cb274-33" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span>, </span>
-<span id="cb274-34"><a href="create-panel-figure-for-pls-da-plots.html#cb274-34" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.13</span>), </span>
-<span id="cb274-35"><a href="create-panel-figure-for-pls-da-plots.html#cb274-35" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="create-panel-figure-for-pls-da-plots.html#cb276-1" tabindex="-1"></a>iav_plsda <span class="ot">&lt;-</span> </span>
+<span id="cb276-2"><a href="create-panel-figure-for-pls-da-plots.html#cb276-2" tabindex="-1"></a>  mixOmics<span class="sc">::</span><span class="fu">plsda</span>(data_iav[,<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb276-3"><a href="create-panel-figure-for-pls-da-plots.html#cb276-3" tabindex="-1"></a>                  data_iav<span class="sc">$</span>iav,</span>
+<span id="cb276-4"><a href="create-panel-figure-for-pls-da-plots.html#cb276-4" tabindex="-1"></a>                  <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb276-5"><a href="create-panel-figure-for-pls-da-plots.html#cb276-5" tabindex="-1"></a></span>
+<span id="cb276-6"><a href="create-panel-figure-for-pls-da-plots.html#cb276-6" tabindex="-1"></a>iav_plsda_data <span class="ot">&lt;-</span> </span>
+<span id="cb276-7"><a href="create-panel-figure-for-pls-da-plots.html#cb276-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> iav_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">1</span>], </span>
+<span id="cb276-8"><a href="create-panel-figure-for-pls-da-plots.html#cb276-8" tabindex="-1"></a>             <span class="at">y =</span> iav_plsda<span class="sc">$</span>variates<span class="sc">$</span>X[,<span class="dv">2</span>],</span>
+<span id="cb276-9"><a href="create-panel-figure-for-pls-da-plots.html#cb276-9" tabindex="-1"></a>             <span class="at">iav =</span> iav_plsda<span class="sc">$</span>Y)</span>
+<span id="cb276-10"><a href="create-panel-figure-for-pls-da-plots.html#cb276-10" tabindex="-1"></a></span>
+<span id="cb276-11"><a href="create-panel-figure-for-pls-da-plots.html#cb276-11" tabindex="-1"></a><span class="co"># Set x and y axis labels based on prop of variation explained</span></span>
+<span id="cb276-12"><a href="create-panel-figure-for-pls-da-plots.html#cb276-12" tabindex="-1"></a>labelx_iav <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV1 (&quot;</span>, </span>
+<span id="cb276-13"><a href="create-panel-figure-for-pls-da-plots.html#cb276-13" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iav_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb276-14"><a href="create-panel-figure-for-pls-da-plots.html#cb276-14" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb276-15"><a href="create-panel-figure-for-pls-da-plots.html#cb276-15" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb276-16"><a href="create-panel-figure-for-pls-da-plots.html#cb276-16" tabindex="-1"></a></span>
+<span id="cb276-17"><a href="create-panel-figure-for-pls-da-plots.html#cb276-17" tabindex="-1"></a>labely_iav <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;LV2 (&quot;</span>, </span>
+<span id="cb276-18"><a href="create-panel-figure-for-pls-da-plots.html#cb276-18" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">abs</span>(iav_plsda<span class="sc">$</span>prop_expl_var<span class="sc">$</span>X[<span class="dv">2</span>]<span class="sc">*</span><span class="dv">100</span>), <span class="at">digits=</span><span class="dv">0</span>),</span>
+<span id="cb276-19"><a href="create-panel-figure-for-pls-da-plots.html#cb276-19" tabindex="-1"></a>                <span class="st">&quot;%)&quot;</span>,</span>
+<span id="cb276-20"><a href="create-panel-figure-for-pls-da-plots.html#cb276-20" tabindex="-1"></a>                <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb276-21"><a href="create-panel-figure-for-pls-da-plots.html#cb276-21" tabindex="-1"></a></span>
+<span id="cb276-22"><a href="create-panel-figure-for-pls-da-plots.html#cb276-22" tabindex="-1"></a>iav_plsda_ggplot <span class="ot">&lt;-</span> </span>
+<span id="cb276-23"><a href="create-panel-figure-for-pls-da-plots.html#cb276-23" tabindex="-1"></a>  <span class="fu">ggplot</span>(iav_plsda_data, </span>
+<span id="cb276-24"><a href="create-panel-figure-for-pls-da-plots.html#cb276-24" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">col=</span>iav)) <span class="sc">+</span></span>
+<span id="cb276-25"><a href="create-panel-figure-for-pls-da-plots.html#cb276-25" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb276-26"><a href="create-panel-figure-for-pls-da-plots.html#cb276-26" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span></span>
+<span id="cb276-27"><a href="create-panel-figure-for-pls-da-plots.html#cb276-27" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span>labelx_iav,</span>
+<span id="cb276-28"><a href="create-panel-figure-for-pls-da-plots.html#cb276-28" tabindex="-1"></a>       <span class="at">y =</span>labely_iav) <span class="sc">+</span></span>
+<span id="cb276-29"><a href="create-panel-figure-for-pls-da-plots.html#cb276-29" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">&quot;C. IAV Status&quot;</span>, </span>
+<span id="cb276-30"><a href="create-panel-figure-for-pls-da-plots.html#cb276-30" tabindex="-1"></a>                     <span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#9d9d9d&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb276-31"><a href="create-panel-figure-for-pls-da-plots.html#cb276-31" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb276-32"><a href="create-panel-figure-for-pls-da-plots.html#cb276-32" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb276-33"><a href="create-panel-figure-for-pls-da-plots.html#cb276-33" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;inside&quot;</span>, </span>
+<span id="cb276-34"><a href="create-panel-figure-for-pls-da-plots.html#cb276-34" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.13</span>), </span>
+<span id="cb276-35"><a href="create-panel-figure-for-pls-da-plots.html#cb276-35" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>))</span></code></pre></div>
 </div>
 <div id="combine-all-plots" class="section level3 hasAnchor" number="7.3.4">
 <h3><span class="header-section-number">7.3.4</span> Combine all plots<a href="create-panel-figure-for-pls-da-plots.html#combine-all-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="create-panel-figure-for-pls-da-plots.html#cb275-1" tabindex="-1"></a>plsda_plots <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(molt_plsda_ggplot, bc_plsda_ggplot, iav_plsda_ggplot,</span>
-<span id="cb275-2"><a href="create-panel-figure-for-pls-da-plots.html#cb275-2" tabindex="-1"></a>                            <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>, </span>
-<span id="cb275-3"><a href="create-panel-figure-for-pls-da-plots.html#cb275-3" tabindex="-1"></a>                            <span class="at">layout_matrix=</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="cn">NA</span>))))</span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="create-panel-figure-for-pls-da-plots.html#cb277-1" tabindex="-1"></a>plsda_plots <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(molt_plsda_ggplot, bc_plsda_ggplot, iav_plsda_ggplot,</span>
+<span id="cb277-2"><a href="create-panel-figure-for-pls-da-plots.html#cb277-2" tabindex="-1"></a>                            <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>, </span>
+<span id="cb277-3"><a href="create-panel-figure-for-pls-da-plots.html#cb277-3" tabindex="-1"></a>                            <span class="at">layout_matrix=</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="cn">NA</span>))))</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="create-panel-figure-for-pls-da-plots.html#cb276-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;Figures/plsda_manuscript.jpeg&quot;</span>, plsda_plots, <span class="at">width=</span><span class="dv">10</span>, <span class="at">height=</span><span class="dv">8</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="create-panel-figure-for-pls-da-plots.html#cb278-1" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;Figures/plsda_manuscript.jpeg&quot;</span>, plsda_plots, <span class="at">width=</span><span class="dv">10</span>, <span class="at">height=</span><span class="dv">8</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>
