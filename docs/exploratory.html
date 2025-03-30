@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2025-02-20" />
+<meta name="date" content="2025-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -212,6 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5.2" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#cross-validation"><i class="fa fa-check"></i><b>4.5.2</b> Cross Validation</a></li>
 <li class="chapter" data-level="4.5.3" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#run-cart"><i class="fa fa-check"></i><b>4.5.3</b> Run CART</a></li>
 <li class="chapter" data-level="4.5.4" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#plot-1"><i class="fa fa-check"></i><b>4.5.4</b> Plot</a></li>
+<li class="chapter" data-level="4.5.5" data-path="molt-stage-cytokines.html"><a href="molt-stage-cytokines.html#all-cytokines"><i class="fa fa-check"></i><b>4.5.5</b> All cytokines</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="body-condition-cytokines.html"><a href="body-condition-cytokines.html"><i class="fa fa-check"></i><b>5</b> Body condition ~ cytokines</a>
@@ -617,8 +618,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb38-17"><a href="exploratory.html#cb38-17" tabindex="-1"></a>  <span class="fu">merge</span>(., analysisyeartab, <span class="at">by.x=</span><span class="st">&quot;analysis.year&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Var1&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb38-18"><a href="exploratory.html#cb38-18" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">det.samp =</span> n.det<span class="sc">/</span>Freq,</span>
 <span id="cb38-19"><a href="exploratory.html#cb38-19" tabindex="-1"></a>         <span class="at">sum.samp =</span> sum<span class="sc">/</span>Freq)</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;analysis.year&#39;.
-## You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;analysis.year&#39;. You can
+## override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="exploratory.html#cb40-1" tabindex="-1"></a><span class="co"># Mean cytokine concentration</span></span>
 <span id="cb40-2"><a href="exploratory.html#cb40-2" tabindex="-1"></a><span class="fu">ggplot</span>(batchsummary, <span class="fu">aes</span>(<span class="at">x=</span>cytokine, <span class="at">y=</span>mean, <span class="at">fill=</span>analysis.year)) <span class="sc">+</span></span>
 <span id="cb40-3"><a href="exploratory.html#cb40-3" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
@@ -873,44 +874,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section",
-"scroll_highlight": true
-},
-"info": false
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section",
+    "scroll_highlight": true
+  },
+  "info": false
 });
 });
 </script>

@@ -358,6 +358,15 @@ molt_plsda_ggplot <-
   theme_bw() +
   theme(panel.grid=element_blank())
 molt_plsda_ggplot
+
+# Presentation
+molt_plsda_pres <- 
+  molt_plsda_ggplot + 
+  labs(title = "Molt Stage") +
+  theme(legend.position = "right",
+        text = element_text(size = 18))
+ggsave("Figures/moltstage_presentation.jpeg", molt_plsda_pres,
+       width = 8, height = 6, units = "in")
 ```
 
 ### Cytokine Contributions
@@ -576,3 +585,9 @@ grid.polygon(x=c(0.02, 0.02, 0.97, 0.97),
              gp=gpar(fill=NA))
 dev.off()
 ```
+
+### All cytokines
+```{r}
+
+```
+

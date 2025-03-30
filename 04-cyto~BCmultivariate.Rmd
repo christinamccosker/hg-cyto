@@ -355,6 +355,15 @@ bc_plsda_ggplot <-
   theme(panel.grid = element_blank())
 
 bc_plsda_ggplot
+
+# Presentation
+bc_plsda_pres <- 
+  bc_plsda_ggplot + 
+  labs(title = "Body Condition") +
+  theme(legend.position = "right",
+        text = element_text(size = 18))
+ggsave("Figures/bodycondition_presentation.jpeg", bc_plsda_pres,
+       width = 8, height = 6, units = "in")
 ```
 
 ### Cytokine Contributions

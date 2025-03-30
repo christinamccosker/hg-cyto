@@ -343,6 +343,15 @@ iav_plsda_ggplot <-
   theme(panel.grid=element_blank())
 
 iav_plsda_ggplot
+
+# Presentation
+iav_plsda_pres <- 
+  iav_plsda_ggplot + 
+  labs(title = "IAV Status") +
+  theme(legend.position = "right",
+        text = element_text(size = 18))
+ggsave("Figures/IAV_presentation.jpeg", iav_plsda_pres,
+       width = 8, height = 6, units = "in")
 ```
 
 ### Cytokine Contributions
