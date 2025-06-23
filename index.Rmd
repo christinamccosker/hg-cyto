@@ -1,13 +1,14 @@
 ---
 title: "Characterization of gray seal pup cytokine response to influenza A virus"
-date: 'Last Updated: `r Sys.Date()`'
-description: McCosker Dissertation Chapter 2.1 Statistical Analyses
+author: "Christina M. McCosker"
+date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 suppresss-bibliography: true
 ---
 
 # Publication Information
+McCosker et al. (2025). Journal of Widllife Diseases
 
 ## Authors
 Christina McCosker^1^, Milton Levin^2^, Wendy Puryear^3^, Jonathan Runstadler^3^, Kimberly Murray^4^, Kristina M. Cammen^1^  

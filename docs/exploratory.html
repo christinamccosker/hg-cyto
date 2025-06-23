@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Exploratory | Characterization of gray seal pup cytokine response to influenza A virus</title>
   <meta name="description" content="McCosker Dissertation Chapter 2.1 Statistical Analyses" />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Exploratory | Characterization of gray seal pup cytokine response to influenza A virus" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2025-03-30" />
+<meta name="date" content="2025-06-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -269,6 +269,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="6.6.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-presenceabsence-3"><i class="fa fa-check"></i><b>6.6.1</b> Cytokine Presence/Absence</a></li>
 <li class="chapter" data-level="6.6.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#cytokine-concentration---log"><i class="fa fa-check"></i><b>6.6.2</b> Cytokine Concentration - Log</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="iav-cytokines.html"><a href="iav-cytokines.html#figures---presentation"><i class="fa fa-check"></i><b>6.7</b> Figures - Presentation</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="iav-cytokines.html"><a href="iav-cytokines.html#presenceabsence"><i class="fa fa-check"></i><b>6.7.1</b> Presence/Absence</a></li>
+<li class="chapter" data-level="6.7.2" data-path="iav-cytokines.html"><a href="iav-cytokines.html#concentration-2"><i class="fa fa-check"></i><b>6.7.2</b> Concentration</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="create-panel-figure-for-pls-da-plots.html"><a href="create-panel-figure-for-pls-da-plots.html"><i class="fa fa-check"></i><b>7</b> Create panel figure for PLS-DA plots</a>
@@ -618,8 +623,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb38-17"><a href="exploratory.html#cb38-17" tabindex="-1"></a>  <span class="fu">merge</span>(., analysisyeartab, <span class="at">by.x=</span><span class="st">&quot;analysis.year&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Var1&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb38-18"><a href="exploratory.html#cb38-18" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">det.samp =</span> n.det<span class="sc">/</span>Freq,</span>
 <span id="cb38-19"><a href="exploratory.html#cb38-19" tabindex="-1"></a>         <span class="at">sum.samp =</span> sum<span class="sc">/</span>Freq)</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;analysis.year&#39;. You can
-## override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;analysis.year&#39;. You
+## can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="exploratory.html#cb40-1" tabindex="-1"></a><span class="co"># Mean cytokine concentration</span></span>
 <span id="cb40-2"><a href="exploratory.html#cb40-2" tabindex="-1"></a><span class="fu">ggplot</span>(batchsummary, <span class="fu">aes</span>(<span class="at">x=</span>cytokine, <span class="at">y=</span>mean, <span class="at">fill=</span>analysis.year)) <span class="sc">+</span></span>
 <span id="cb40-3"><a href="exploratory.html#cb40-3" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
