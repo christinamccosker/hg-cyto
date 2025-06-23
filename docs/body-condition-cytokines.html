@@ -356,7 +356,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb135-5"><a href="body-condition-cytokines.html#cb135-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Body Condition Index&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frequency&quot;</span>) <span class="sc">+</span></span>
 <span id="cb135-6"><a href="body-condition-cytokines.html#cb135-6" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span><span class="fu">c</span>(quant[<span class="dv">2</span>], quant[<span class="dv">3</span>], quant[<span class="dv">4</span>]), <span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb135-7"><a href="body-condition-cytokines.html#cb135-7" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
-<pre><code>## Warning: Removed 8 rows containing non-finite outside the scale
+<pre><code>## Warning: Removed 8 rows containing
+## non-finite outside the scale
 ## range (`stat_bin()`).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
 </div>
@@ -400,7 +401,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## adonis2(formula = (1 - databin_dist) ~ bc_bin, data = databin, permutations = permute_databin)
 ##           Df SumOfSqs      R2      F Pr(&gt;F)
-## Model      2   0.3617 0.03498 1.9032  0.218
+## Model      2   0.3617 0.03498 1.9032  0.211
 ## Residual 105   9.9764 0.96502              
 ## Total    107  10.3381 1.00000</code></pre>
 </div>
@@ -504,7 +505,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## adonis2(formula = data_dist ~ bc_bin, data = data, permutations = permute_data)
 ##           Df SumOfSqs      R2      F Pr(&gt;F)
-## Model      2   0.3491 0.01973 1.0565 0.5352
+## Model      2   0.3491 0.01973 1.0565 0.5336
 ## Residual 105  17.3505 0.98027              
 ## Total    107  17.6997 1.00000</code></pre>
 </div>

@@ -623,8 +623,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb38-17"><a href="exploratory.html#cb38-17" tabindex="-1"></a>  <span class="fu">merge</span>(., analysisyeartab, <span class="at">by.x=</span><span class="st">&quot;analysis.year&quot;</span>, <span class="at">by.y=</span><span class="st">&quot;Var1&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb38-18"><a href="exploratory.html#cb38-18" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">det.samp =</span> n.det<span class="sc">/</span>Freq,</span>
 <span id="cb38-19"><a href="exploratory.html#cb38-19" tabindex="-1"></a>         <span class="at">sum.samp =</span> sum<span class="sc">/</span>Freq)</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;analysis.year&#39;. You
-## can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped
+## output by &#39;analysis.year&#39;.
+## You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="exploratory.html#cb40-1" tabindex="-1"></a><span class="co"># Mean cytokine concentration</span></span>
 <span id="cb40-2"><a href="exploratory.html#cb40-2" tabindex="-1"></a><span class="fu">ggplot</span>(batchsummary, <span class="fu">aes</span>(<span class="at">x=</span>cytokine, <span class="at">y=</span>mean, <span class="at">fill=</span>analysis.year)) <span class="sc">+</span></span>
 <span id="cb40-3"><a href="exploratory.html#cb40-3" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
