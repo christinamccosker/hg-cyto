@@ -8,7 +8,7 @@ suppresss-bibliography: true
 ---
 
 # Publication Information
-McCosker et al. (2025). Journal of Widllife Diseases
+McCosker, C. M., Levin, M., Puryear, W. B., Runstadler, J. A., Murray, K. T., & Cammen, K. M. (2025). Gray Seal (*Halichoerus grypus*) Pups Fail to Mount an Inflammatory Cytokine Response to Influenza A Virus. Journal of Wildlife Diseases, 61(3), 628–641. https://doi.org/10.7589/JWD-D-24-00166
 
 ## Authors
 Christina McCosker^1^, Milton Levin^2^, Wendy Puryear^3^, Jonathan Runstadler^3^, Kimberly Murray^4^, Kristina M. Cammen^1^  

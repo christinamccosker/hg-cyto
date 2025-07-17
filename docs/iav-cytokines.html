@@ -23,7 +23,7 @@
 <meta name="author" content="Christina McCosker" />
 
 
-<meta name="date" content="2025-06-23" />
+<meta name="date" content="2025-07-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -385,7 +385,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## adonis2(formula = (1 - databin_dist) ~ iav, data = databin, permutations = permute_databin)
 ##           Df SumOfSqs      R2      F Pr(&gt;F)
-## Model      1   0.3814 0.03362 3.9657 0.1798
+## Model      1   0.3814 0.03362 3.9657 0.1828
 ## Residual 114  10.9638 0.96638              
 ## Total    115  11.3452 1.00000</code></pre>
 </div>
@@ -459,7 +459,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## adonis2(formula = data_dist ~ iav, data = data, permutations = permute_data)
 ##           Df SumOfSqs      R2      F Pr(&gt;F)
-## Model      1   0.2609 0.01366 1.5784 0.4786
+## Model      1   0.2609 0.01366 1.5784  0.477
 ## Residual 114  18.8403 0.98634              
 ## Total    115  19.1011 1.00000</code></pre>
 </div>
@@ -1297,10 +1297,8 @@ Treatment = 1, Batch = 3</p>
 <span id="cb276-6"><a href="iav-cytokines.html#cb276-6" tabindex="-1"></a>  <span class="fu">group_by</span>(cytokine, iav) <span class="sc">%&gt;%</span> </span>
 <span id="cb276-7"><a href="iav-cytokines.html#cb276-7" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sum =</span> <span class="fu">sum</span>(presence)) <span class="sc">%&gt;%</span> </span>
 <span id="cb276-8"><a href="iav-cytokines.html#cb276-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> <span class="fu">ifelse</span>(iav <span class="sc">==</span> <span class="st">&quot;IAV+&quot;</span>, sum<span class="sc">/</span><span class="dv">40</span>, sum<span class="sc">/</span><span class="dv">76</span>))</span></code></pre></div>
-<pre><code>## `summarise()` has grouped
-## output by &#39;cytokine&#39;. You can
-## override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;cytokine&#39;. You
+## can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="iav-cytokines.html#cb278-1" tabindex="-1"></a>prop_pres <span class="ot">&lt;-</span></span>
 <span id="cb278-2"><a href="iav-cytokines.html#cb278-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(propdata, <span class="fu">aes</span>(<span class="at">x =</span> iav, <span class="at">y =</span> prop, <span class="at">fill =</span> iav)) <span class="sc">+</span></span>
 <span id="cb278-3"><a href="iav-cytokines.html#cb278-3" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
@@ -1338,9 +1336,8 @@ Treatment = 1, Batch = 3</p>
 <span id="cb279-18"><a href="iav-cytokines.html#cb279-18" tabindex="-1"></a></span>
 <span id="cb279-19"><a href="iav-cytokines.html#cb279-19" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;Figures/supplemental_cyto_conc_grid_pres.jpeg&quot;</span>, conc_pres, </span>
 <span id="cb279-20"><a href="iav-cytokines.html#cb279-20" tabindex="-1"></a>       <span class="at">width=</span><span class="dv">8</span>, <span class="at">height=</span><span class="dv">7</span>, <span class="at">units=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning: Removed 582 rows containing
-## non-finite outside the scale
-## range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 582 rows containing non-finite outside the
+## scale range (`stat_boxplot()`).</code></pre>
 
 </div>
 </div>
